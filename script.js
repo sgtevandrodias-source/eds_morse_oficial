@@ -2538,6 +2538,7 @@ function salvarNomeOperador() {
 
 function entrarCampanha() {
   salvarNomeOperador();
+  document.body.classList.remove("visualizando-mapa-modo");
   renderizarCampanha();
   mostrarTela(telaCampanha);
 }
@@ -2575,31 +2576,58 @@ function rolarParaMapaCampanha() {
 function abrirModoIniciante() {
   salvarNomeOperador();
   modoAtual = MODO_INICIANTE;
-  renderizarCampanha();
-  setTimeout(rolarParaMapaCampanha, 100);
+  abrirTelaMapaModo();
 }
 
 function abrirModoIntermediario() {
   salvarNomeOperador();
 
   if (!modoInicianteConcluido()) {
-    alert("Conclua o modo Iniciante para liberar o Intermediário.");
+    mostrarAvisoRapido(
+      "Modo bloqueado",
+      "Conclua o modo Iniciante para liberar o Intermediário."
+    );
     return;
   }
 
   modoAtual = MODO_INTERMEDIARIO;
-  renderizarCampanha();
-  setTimeout(rolarParaMapaCampanha, 100);
+  abrirTelaMapaModo();
 }
+
 function abrirModoAvancado() {
   salvarNomeOperador();
 
-  modoAtual = MODO_AVANCADO;
-  renderizarCampanha();
+  if (!modoIntermediarioConcluido()) {
+    mostrarAvisoRapido(
+      "Modo bloqueado",
+      "Conclua o modo Intermediário para liberar o Avançado."
+    );
+    return;
+  }
 
-  setTimeout(rolarParaMapaCampanha, 100);
+  modoAtual = MODO_AVANCADO;
+  abrirTelaMapaModo();
 }
 
+function abrirTelaMapaModo() {
+  document.body.classList.add("visualizando-mapa-modo");
+  renderizarCampanha();
+
+  const telaAtiva = document.querySelector(".tela.ativa");
+  if (telaAtiva) {
+    telaAtiva.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant"
+    });
+  }
+
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "instant"
+  });
+}
 function atualizarCardModo(idCard, liberado, textoBadge, textoStatus) {
   const card = document.getElementById(idCard);
   if (!card) return;
@@ -2679,6 +2707,38 @@ function renderizarCampanha() {
   if (labelModoAtual) {
     labelModoAtual.textContent = `Modo ${getNomeModo(modoAtual)}`;
   }
+  const tituloSecao = document.querySelector(".titulo-secao");
+
+if (tituloSecao) {
+  const botaoVoltarModosExistente = document.getElementById("btnVoltarModos");
+
+  if (botaoVoltarModosExistente) {
+    botaoVoltarModosExistente.remove();
+  }
+
+  if (document.body.classList.contains("visualizando-mapa-modo")) {
+    const botaoVoltarModos = document.createElement("button");
+    botaoVoltarModos.id = "btnVoltarModos";
+    botaoVoltarModos.className = "btn secundario compacto";
+    botaoVoltarModos.textContent = "← Modos";
+
+    botaoVoltarModos.addEventListener("click", () => {
+      document.body.classList.remove("visualizando-mapa-modo");
+      renderizarCampanha();
+
+      const telaAtiva = document.querySelector(".tela.ativa");
+      if (telaAtiva) {
+        telaAtiva.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: "instant"
+        });
+      }
+    });
+
+    tituloSecao.appendChild(botaoVoltarModos);
+  }
+}
 
   atualizarCardModo(
     "cardModoIntermediario",

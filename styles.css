@@ -2274,3 +2274,40 @@ body.modo-avancado .barra-rodape-jogo .btn {
   padding: 12px;
   font-size: 0.9rem;
 }
+/* =========================
+   CAMPANHA COMO TELAS MOBILE
+========================= */
+
+body.visualizando-mapa-modo .grid-modos {
+  display: none;
+}
+
+body.visualizando-mapa-modo .mapa-campanha {
+  margin-top: 0;
+}
+
+body.visualizando-mapa-modo .cabecalho-app {
+  margin-bottom: 12px;
+}
+
+body.visualizando-mapa-modo .titulo-secao {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+}
+
+@media (max-width: 720px) {
+  body.visualizando-mapa-modo .titulo-secao {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  body.visualizando-mapa-modo #btnVoltarModos,
+  body.visualizando-mapa-modo #btnContinuarNivel {
+    width: 100%;
+  }
+
+  body.visualizando-mapa-modo .mapa-campanha {
+    padding: 14px;
+  }
+}
