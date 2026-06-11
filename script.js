@@ -182,7 +182,7 @@ function getDicaFonico(alvo) {
   const texto = String(alvo).toUpperCase();
 
   if (/^[A-Z0-9]$/.test(texto)) {
-    return DICAS_FONICAS[texto] || "Mnemônico em cadastro";
+    return DICAS_FONICAS[texto] || "Dica em cadastro";
   }
 
   return "Transmita no ritmo correto, usando as pausas naturais.";
@@ -871,7 +871,15 @@ document.addEventListener("keyup", (evento) => {
 carregarPreferencias();
 recalcularTemposPorWpm();
 atualizarPainelRitmo();
-
+history.replaceState(
+  {
+    telaId: "telaInicial",
+    modo: MODO_INICIANTE,
+    visualizandoMapaModo: false
+  },
+  "",
+  ""
+);
 function carregarPreferencias() {
   const nomeSalvo = localStorage.getItem("operadorMorseNome");
 
@@ -884,7 +892,7 @@ function carregarPreferencias() {
   nivelAtualIndex = obterNivelLiberado(MODO_INICIANTE);
 }
 
-function mostrarTela(tela) {
+function mostrarTela(tela, registrarHistorico = true) {
   telaInicial.classList.remove("ativa");
   telaMissao.classList.remove("ativa");
   telaBiblioteca.classList.remove("ativa");
@@ -908,7 +916,65 @@ function mostrarTela(tela) {
     left: 0,
     behavior: "instant"
   });
+
+  if (registrarHistorico) {
+    registrarEstadoNavegacao();
+  }
 }
+const MAPA_TELAS_APP = {
+  telaInicial,
+  telaMissao,
+  telaBiblioteca,
+  telaCampanha,
+  telaLicao,
+  telaJogo,
+  telaFinal,
+  telaRanking,
+  telaManipulador
+};
+
+function getIdTelaAtual() {
+  const telaAtiva = document.querySelector(".tela.ativa");
+  return telaAtiva ? telaAtiva.id : "telaInicial";
+}
+
+function registrarEstadoNavegacao() {
+  const estado = {
+    telaId: getIdTelaAtual(),
+    modo: modoAtual,
+    visualizandoMapaModo: document.body.classList.contains("visualizando-mapa-modo")
+  };
+
+  history.pushState(estado, "", "");
+}
+
+function aplicarEstadoNavegacao(estado) {
+  if (!estado || !estado.telaId) {
+    mostrarTela(telaInicial, false);
+    return;
+  }
+
+  if (estado.modo) {
+    modoAtual = estado.modo;
+  }
+
+  document.body.classList.toggle(
+    "visualizando-mapa-modo",
+    !!estado.visualizandoMapaModo
+  );
+
+  const tela = MAPA_TELAS_APP[estado.telaId] || telaInicial;
+
+  if (tela === telaCampanha) {
+    renderizarCampanha();
+  }
+
+  mostrarTela(tela, false);
+}
+
+window.addEventListener("popstate", (evento) => {
+  aplicarEstadoNavegacao(evento.state);
+});
 function voltarInicio() {
   mostrarTela(telaInicial);
 }
@@ -932,7 +998,7 @@ function montarCardsBiblioteca(itens) {
   gridBibliotecaMorse.innerHTML = itens
     .map((item) => {
       const morse = TABELA_MORSE[item];
-      const fonico = DICAS_FONICAS[item] || "Mnemônico em cadastro";
+      const fonico = DICAS_FONICAS[item] || "Dica em cadastro";
 
       return `
         <button class="cartao-caractere cartao-clicavel" data-morse="${escaparHtml(morse)}">
@@ -2627,6 +2693,8 @@ function abrirTelaMapaModo() {
     left: 0,
     behavior: "instant"
   });
+
+  registrarEstadoNavegacao();
 }
 function atualizarCardModo(idCard, liberado, textoBadge, textoStatus) {
   const card = document.getElementById(idCard);
@@ -2924,7 +2992,7 @@ badgeNivel.textContent =
   if (/^[A-Z0-9]$/.test(String(missao.alvo).toUpperCase())) {
     dicaMissaoEl.innerHTML = `
       <span>Código: ${missao.codigo}</span><br>
-      <span>Mnemônico: ${dicaFonico}</span>
+      <span>Dica: ${dicaFonico}</span>
     `;
   } else {
     dicaMissaoEl.textContent = `Código: ${missao.codigo}`;

@@ -2311,3 +2311,60 @@ body.visualizando-mapa-modo .titulo-secao {
     padding: 14px;
   }
 }
+/* =========================
+   CORREÇÃO MOBILE - BOTÕES DO MAPA
+========================= */
+
+@media (max-width: 720px) {
+  body.visualizando-mapa-modo .titulo-secao {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  body.visualizando-mapa-modo .titulo-secao > div {
+    width: 100%;
+  }
+
+  body.visualizando-mapa-modo .titulo-secao h2 {
+    font-size: 2rem;
+    line-height: 1.05;
+    margin-bottom: 10px;
+  }
+
+  body.visualizando-mapa-modo #btnContinuarNivel,
+  body.visualizando-mapa-modo #btnVoltarModos {
+    width: 100%;
+    min-height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    font-size: 1rem;
+  }
+
+  body.visualizando-mapa-modo #btnVoltarModos {
+    order: 3;
+  }
+
+  body.visualizando-mapa-modo #btnContinuarNivel {
+    order: 2;
+  }
+
+  body.visualizando-mapa-modo .mapa-campanha::before {
+    top: 235px;
+  }
+
+  body.visualizando-mapa-modo .grid-niveis {
+    margin-top: 8px;
+  }
+}
+/* =========================
+   REMOVER CARDS REPETIDOS DA TELA DO JOGO
+========================= */
+
+#telaJogo .card.progresso {
+  display: none !important;
+}
