@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>EDS Morse Game</title>
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- TELA DE ABERTURA / BOOT DA ESTAÇÃO -->
+<div id="telaBoot" class="tela-boot">
+  <div class="boot-scanlines"></div>
+
+  <div class="boot-console">
+    <div class="boot-logo">⌁</div>
+
+    <div class="boot-textos">
+      <p class="boot-linha linha1">INICIANDO ESTAÇÃO...</p>
+      <p class="boot-linha linha2">CARREGANDO FREQUÊNCIAS...</p>
+      <p class="boot-linha linha3">VERIFICANDO CANAL...</p>
+      <p class="boot-linha linha4">QAP?</p>
+      <p class="boot-linha linha5">QSL</p>
+    </div>
+
+    <h1 class="boot-titulo">EDS MORSE</h1>
+    <p class="boot-subtitulo">ACADEMIA DE TELEGRAFIA</p>
+    <p class="boot-status">MISSÃO AUTORIZADA</p>
+  </div>
+</div>
+  <main class="app">
+    <!-- TELA INICIAL -->
+<section id="telaInicial" class="tela ativa">
+  <div class="hero-game">
+    <div class="marca-jogo">
+      <div class="icone-radio">⌁</div>
+      <div>
+        <span>Game de concentração e código Morse</span>
+        <h1>EDS MORSE</h1>
+      </div>
+    </div>
+
+    <p class="subtitulo-hero">
+      Quando o complexo falha, o simples prevalece.
+    </p>
+
+    <div class="botoes-inicio">
+      <button id="btnAbrirMissao" class="btn secundario">
+        📡 Missão
+      </button>
+    
+      <button id="btnEntrarCampanha" class="btn principal">
+        🚀 Iniciar Missão
+      </button>
+    
+      <button id="btnAbrirBiblioteca" class="btn secundario">
+        📖 Biblioteca
+      </button>
+    
+      <button id="btnAbrirManipulador" class="btn secundario">
+        🎙️ Manipulador Livre
+      </button>
+    
+      <button id="btnAbrirRanking" class="btn secundario">
+        🏆 Ranking
+      </button>
+    </div>
+
+    <div class="card painel-inicial">
+      <div class="campo-operador">
+        <label for="inputNomeOperador">Nome do operador</label>
+        <input
+          id="inputNomeOperador"
+          type="text"
+          maxlength="24"
+          placeholder="Ex: Evandro"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+<!-- TELA MISSÃO / HISTÓRIA -->
+<section id="telaMissao" class="tela">
+  <div class="card historia-jogo">
+    <div class="badge">📡 O COLAPSO</div>
+
+    <h1>Missão EDS MORSE</h1>
+
+    <p>
+      Após um grande bug nos sistemas de telecomunicações, a única forma de se comunicar é por meio de equipamentos simples de rádio usando código Morse.
+    </p>
+
+    <p>
+      Para sobreviver ao caos, você precisa dominar o código, transmitir mensagens e manter contato com outros operadores.
+    </p>
+
+    <p>
+      Avance pelas missões mantendo rendimento acima de 80% e alcance a meta operacional de 12 palavras por minuto.
+    </p>
+
+    <div class="botoes-resultado">
+      <button id="btnVoltarInicioMissao" class="btn secundario">
+        Voltar ao início
+      </button>
+
+      <button id="btnIniciarPelaMissao" class="btn principal">
+        Iniciar Missão
+      </button>
+    </div>
+  </div>
+</section>
+<!-- TELA BIBLIOTECA MORSE -->
+<section id="telaBiblioteca" class="tela">
+  <div class="card licao-card">
+    <h1 id="tituloBiblioteca">📚 Biblioteca Morse</h1>
+    <p id="descricaoBiblioteca" style="display:none;"></p>
+    <div class="menu-biblioteca">
+      <button id="btnBibAlfabeto" class="btn secundario">
+        🔤 Alfabeto
+      </button>
+
+      <button id="btnBibNumeros" class="btn secundario">
+        🔢 Números
+      </button>
+
+      <button id="btnBibCodigoQ" class="btn secundario">
+        📡 Código Q
+      </button>
+
+      <button id="btnBibSinaisServico" class="btn secundario">
+        ⚡ Sinais de Serviço
+      </button>
+
+      <button id="btnBibAbreviacoes" class="btn secundario">
+        📚 Abreviações
+      </button>
+
+      <button id="btnBibCaracteresEspeciais" class="btn secundario">
+        🔣 Caracteres Especiais
+      </button>
+
+      <button id="btnBibTreinoAuditivo" class="btn secundario">
+        🎧 Treino Auditivo
+      </button>
+    </div>
+
+    <div id="gridBibliotecaMorse" class="grid-cartoes-licao"></div>
+    <div class="botoes-resultado">
+      <button id="btnVoltarMenuBiblioteca" class="btn secundario" style="display:none;">
+        Voltar à Biblioteca
+      </button>
+      <button id="btnVoltarCodigoQ" class="btn secundario" style="display:none;">
+        Voltar ao Código Q
+      </button>
+    </div>
+
+    <div class="botoes-resultado">
+      <button id="btnVoltarInicioBiblioteca" class="btn principal">
+        Voltar ao início
+      </button>
+    </div>
+  </div>
+</section>
+    <!-- TELA CAMPANHA -->
+    <section id="telaCampanha" class="tela">
+      <header class="cabecalho-app">
+        <div>
+          <span class="label">Campanha</span>
+          <strong>Formação do Operador Morse</strong>
+        </div>
+
+        <button id="btnVoltarInicioCampanha" class="btn compacto secundario">
+          Início
+        </button>
+      </header>
+
+      <section class="grid-modos">
+        <article id="cardModoIniciante" class="card modo-card ativo">
+          <div class="modo-topo">
+            <span class="badge sucesso">Liberado</span>
+            <span class="modo-numero">01</span>
+          </div>
+
+          <h2>Iniciante</h2>
+
+          <p>
+            Aprenda letras, números, palavras e frases usando botões de apoio para separar letras e palavras.
+          </p>
+
+          <div class="modo-status">
+            <span id="statusIniciante">Nível atual: 1</span>
+          </div>
+        </article>
+
+        <article id="cardModoIntermediario" class="card modo-card bloqueado">
+          <div class="modo-topo">
+            <span class="badge alerta">Bloqueado</span>
+            <span class="modo-numero">02</span>
+          </div>
+
+          <h2>Intermediário</h2>
+
+          <p>
+            Sem botões de espaço. O sistema interpretará a pausa entre sinais, letras e palavras.
+          </p>
+
+          <div class="modo-status">
+            <span>Conclua o Iniciante para liberar</span>
+          </div>
+        </article>
+
+        <article id="cardModoAvancado" class="card modo-card bloqueado">
+          <div class="modo-topo">
+            <span class="badge alerta">Bloqueado</span>
+            <span class="modo-numero">03</span>
+          </div>
+
+          <h2>Avançado</h2>
+
+          <p>
+            Mensagens operacionais, menos dicas, ritmo rígido, tempo limite e cobrança real de transmissão.
+          </p>
+
+          <div class="modo-status">
+            <span>Conclua o Intermediário para liberar</span>
+          </div>
+        </article>
+      </section>
+
+      <section class="card mapa-campanha">
+        <div class="titulo-secao">
+          <div>
+            <span class="label" id="labelModoAtual">Modo Iniciante</span>
+            <h2>Mapa de progressão</h2>
+          </div>
+
+          <button id="btnContinuarNivel" class="btn principal compacto">
+            Continuar
+          </button>
+        </div>
+
+        <div id="gridNiveis" class="grid-niveis"></div>
+      </section>
+    </section>
+    <!-- TELA CARTÃO DA LIÇÃO -->
+<section id="telaLicao" class="tela">
+  <div class="card licao-card">
+    <div class="badge">Estudo da lição</div>
+
+    <h1 id="tituloLicao">Lição 1</h1>
+
+    <p id="descricaoLicao">
+      Estude os caracteres antes de iniciar o treino.
+    </p>
+
+    <div id="gridCartoesLicao" class="grid-cartoes-licao"></div>
+    <div class="painel-config-licao">
+
+      <div class="config-grupo">
+        <span>🎵 Tom</span>
+    
+        <div class="config-botoes">
+          <button class="btnTom" data-hz="500">500 Hz</button>
+          <button class="btnTom ativo" data-hz="650">650 Hz</button>
+          <button class="btnTom" data-hz="800">800 Hz</button>
+        </div>
+      </div>
+    
+      <div class="config-grupo">
+        <span>⚡ WPM</span>
+    
+        <div class="config-botoes">
+          <button class="btnWpm" data-wpm="8">8</button>
+          <button class="btnWpm" data-wpm="10">10</button>
+          <button class="btnWpm ativo" data-wpm="12">12</button>
+          <button class="btnWpm" data-wpm="15">15</button>
+          <button class="btnWpm" data-wpm="18">18</button>
+        </div>
+      </div>
+    
+    </div>
+
+    <div class="botoes-resultado">
+      <button id="btnIniciarTreinoLicao" class="btn principal">
+        Iniciar Missão
+      </button>
+
+      <button id="btnVoltarMapaLicao" class="btn secundario">
+        Voltar ao mapa
+      </button>
+    </div>
+  </div>
+</section>
+
+    <!-- TELA DO JOGO -->
+    <section id="telaJogo" class="tela">
+      <header class="topo-jogo">
+        <div class="status-card">
+          <span class="label">Nível</span>
+          <strong id="nomeOperador">Bisonho</strong>
+        </div>
+
+        <div class="status-card">
+          <span class="label">Pontuação</span>
+          <strong id="pontuacao">0</strong>
+        </div>
+      </header>
+
+      <section class="card missao">
+        <div class="linha-nivel">
+          <span id="badgeNivel" class="badge">Nível 1</span>
+        
+          <span id="badgePatente" class="badge patente">
+            Acertos 0/10
+          </span>
+        
+          <span id="timerMissao" class="badge">
+            ⏱ 00s
+          </span>
+        </div>
+
+        <h2 id="textoMissao">Envie: E</h2>
+
+        <p id="dicaMissao">Pressione: .</p>
+
+        <div class="painel-codigo">
+          <span>Código enviado</span>
+          <strong id="codigoDigitado">—</strong>
+        </div>
+
+        <button id="btnMorse" class="botao-morse">
+          TRANSMITIR
+        </button>
+
+        <div class="acoes">
+          <button id="btnEspacoLetra" class="btn secundario">
+            Espaço letra
+          </button>
+
+          <button id="btnEspacoPalavra" class="btn secundario">
+            Espaço palavra
+          </button>
+
+          <button id="btnLimpar" class="btn secundario">
+            Limpar
+          </button>
+
+          <button id="btnEnviar" class="btn principal">
+            Confirmar
+          </button>
+        </div>
+
+        <div id="feedback" class="feedback"></div>
+
+        <!-- PAINEL DE RITMO - APARECE NO MODO INTERMEDIÁRIO -->
+        <div id="painelRitmo" class="painel-ritmo">
+          <div class="painel-wpm">
+            <span>Velocidade</span>
+            <strong id="valorWpm">12 WPM</strong>
+
+            <div class="controle-wpm">
+              <button class="btn secundario btn-wpm" data-wpm="8">8</button>
+              <button class="btn secundario btn-wpm" data-wpm="10">10</button>
+              <button class="btn secundario btn-wpm ativo" data-wpm="12">12</button>
+              <button class="btn secundario btn-wpm" data-wpm="15">15</button>
+              <button class="btn secundario btn-wpm" data-wpm="18">18</button>
+            </div>
+          </div>
+
+          <div>
+            <span>Entre letras</span>
+            <strong id="valorPausaLetra">300 ms</strong>
+
+            <div class="controle-ritmo">
+              <button id="btnMenosLetra" class="btn secundario">−</button>
+              <button id="btnMaisLetra" class="btn secundario">+</button>
+            </div>
+          </div>
+
+          <div>
+            <span>Entre palavras</span>
+            <strong id="valorPausaPalavra">700 ms</strong>
+
+            <div class="controle-ritmo">
+              <button id="btnMenosPalavra" class="btn secundario">−</button>
+              <button id="btnMaisPalavra" class="btn secundario">+</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card progresso">
+        <div>
+          <span class="label">Fase</span>
+          <strong id="faseAtual">Instrução</strong>
+        </div>
+
+        <div>
+          <span class="label">Missão</span>
+          <strong id="contadorMissao">1/5</strong>
+        </div>
+
+        <div>
+          <span class="label">Acertos</span>
+          <strong id="acertos">0</strong>
+        </div>
+      </section>
+
+      <div class="barra-rodape-jogo">
+        <button id="btnReiniciar" class="btn discreto">
+          Reiniciar nível
+        </button>
+
+        <button id="btnVoltarCampanha" class="btn discreto">
+          Mapa do jogo
+        </button>
+      </div>
+    </section>
+
+    <!-- TELA FINAL DO NÍVEL -->
+<section id="telaFinal" class="tela">
+  <div class="card resultado-card">
+    <div id="resultadoBadge" class="badge">Resultado</div>
+
+    <h1 id="tituloResultado">Nível concluído</h1>
+
+    <p id="resultadoFinal"></p>
+
+    <div class="quadro-resultado">
+      <div>
+        <span class="label">Aproveitamento</span>
+        <strong id="resultadoAproveitamento">0%</strong>
+      </div>
+
+      <div>
+        <span class="label">Tempo</span>
+        <strong id="resultadoTempo">0s</strong>
+      </div>
+
+      <div>
+        <span class="label">WPM aprox.</span>
+        <strong id="resultadoWpm">0.0</strong>
+      </div>
+
+      <div>
+        <span class="label">Pontuação</span>
+        <strong id="resultadoPontos">0</strong>
+      </div>
+    </div>
+
+    <div id="relatorioOperacionalResultado" class="relatorio-operacional"></div>
+
+    <div class="botoes-resultado">
+      <button id="btnProximoNivel" class="btn principal">
+        Próximo nível
+      </button>
+
+      <button id="btnJogarNovamente" class="btn secundario">
+        Repetir nível
+      </button>
+
+      <button id="btnMapaResultado" class="btn secundario">
+        Mapa do jogo
+      </button>
+
+      <button id="btnRankingFinal" class="btn discreto">
+        Ver ranking local
+      </button>
+    </div>
+  </div>
+</section>
+<!-- TELA MANIPULADOR LIVRE -->
+<section id="telaManipulador" class="tela">
+  <div class="card licao-card manipulador-card">
+    <div class="badge">Treino Livre</div>
+
+    <h1>🎙️ Manipulador Livre</h1>
+
+    <p>
+      Pratique ponto, traço e pausas sem missão, sem erro e sem pressão.
+    </p>
+
+    <div class="painel-codigo painel-manipulador">
+      <span>Código transmitido</span>
+      <strong id="codigoManipulador">—</strong>
+    </div>
+
+    <div class="painel-decodificado">
+      <span class="label">Decodificação aproximada</span>
+      <strong id="textoManipulador">—</strong>
+    </div>
+
+    <button id="btnMorseManipulador" class="botao-morse">
+      TRANSMITIR
+    </button>
+
+    <div class="acoes acoes-manipulador">
+    
+      <button id="btnLimparManipulador" class="btn secundario">
+        Limpar
+      </button>
+
+      <button id="btnVoltarInicioManipulador" class="btn principal">
+        Início
+      </button>
+    </div>
+
+    <div id="feedbackManipulador" class="feedback"></div>
+  </div>
+</section>
+    <!-- TELA RANKING -->
+        <section id="telaRanking" class="tela">
+      <div class="card resultado-card">
+        <div class="badge">Competição local</div>
+
+        <h1>Ranking Local</h1>
+
+        <p>
+          Este ranking fica salvo apenas neste aparelho/navegador.
+        </p>
+
+        <div id="listaRanking" class="ranking-lista"></div>
+
+        <div class="botoes-resultado">
+          <button id="btnVoltarCampanhaRanking" class="btn principal">
+            Mapa do jogo
+          </button>
+
+          <button id="btnVoltarInicio" class="btn secundario">
+            Início
+          </button>
+
+          <button id="btnLimparRanking" class="btn discreto">
+            Limpar ranking
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="rodape-app">
+      Desenvolvido por Op Evandro (ADR) - Versão 1.0
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
