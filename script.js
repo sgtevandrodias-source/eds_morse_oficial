@@ -896,6 +896,18 @@ function mostrarTela(tela) {
   telaManipulador.classList.remove("ativa");
 
   tela.classList.add("ativa");
+
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "instant"
+  });
+
+  tela.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "instant"
+  });
 }
 function voltarInicio() {
   mostrarTela(telaInicial);
