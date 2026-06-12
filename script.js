@@ -4880,6 +4880,7 @@ function limparManipuladorLivre() {
 
   codigoLivre = codigoLivre.trimEnd();
 
+  // Se o último elemento for uma separação de palavra, remove a barra inteira
   if (codigoLivre.endsWith("/")) {
     codigoLivre = codigoLivre.slice(0, -1).trimEnd();
 
@@ -4889,45 +4890,22 @@ function limparManipuladorLivre() {
     return;
   }
 
-  const partes = codigoLivre.split(" / ");
-  const ultimaPalavra = partes.pop() || "";
-  const letras = ultimaPalavra.trim().split(/\s+/).filter(Boolean);
+  const palavras = codigoLivre.split(" / ");
+  const ultimaPalavra = palavras.pop() || "";
 
-  if (letras.length > 1) {
-    letras.pop();
-    partes.push(letras.join(" "));
-    codigoLivre = partes.join(" / ") + " ";
+  const caracteresMorse = ultimaPalavra
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
 
-    feedbackManipulador.textContent = "Última letra removida.";
-    feedbackManipulador.className = "feedback";
-    atualizarManipuladorLivre();
-    return;
+  // Remove o último caractere Morse completo
+  caracteresMorse.pop();
+
+  if (caracteresMorse.length > 0) {
+    palavras.push(caracteresMorse.join(" "));
   }
 
-  if (letras.length === 1) {
-    const ultimaLetra = letras[0];
-
-    if (ultimaLetra.length > 1) {
-      letras[0] = ultimaLetra.slice(0, -1);
-      partes.push(letras[0]);
-      codigoLivre = partes.join(" / ");
-
-      feedbackManipulador.textContent = "Último sinal removido.";
-      feedbackManipulador.className = "feedback";
-      atualizarManipuladorLivre();
-      return;
-    }
-
-    partes.push("");
-    codigoLivre = partes.join(" / ").trim();
-
-    feedbackManipulador.textContent = "Último sinal removido.";
-    feedbackManipulador.className = "feedback";
-    atualizarManipuladorLivre();
-    return;
-  }
-
-  codigoLivre = partes.join(" / ").trim();
+  codigoLivre = palavras.join(" / ").trim();
 
   feedbackManipulador.textContent = "Último caractere removido.";
   feedbackManipulador.className = "feedback";
