@@ -1641,6 +1641,7 @@ function pararAnimacaoMissao() {
 
 function pararTodosOsSons() {
   pararAnimacaoMissao();
+  pararSequenciaMorse();
 
   if (typeof pararTomMorse === "function") {
     pararTomMorse();
@@ -2254,20 +2255,26 @@ function renderizarOuvirDigitar(mostrarResposta = false, mensagem = "") {
         </button>
       </div>
 
-      <div class="campo-resposta-auditiva campo-clean">
-        <label for="inputOuvirDigitar">Digite a mensagem recebida</label>
+      ${
+        mostrarResposta
+          ? ""
+          : `
+            <div class="campo-resposta-auditiva campo-clean">
+              <label for="inputOuvirDigitar">Digite a mensagem recebida</label>
 
-        <input
-          id="inputOuvirDigitar"
-          type="text"
-          autocomplete="off"
-          placeholder="Ex: QSL RECEBIDO"
-        />
+              <input
+                id="inputOuvirDigitar"
+                type="text"
+                autocomplete="off"
+                placeholder="Ex: QSL RECEBIDO"
+              />
 
-        <button id="btnConfirmarOuvirDigitar" class="btn principal">
-          Confirmar
-        </button>
-      </div>
+              <button id="btnConfirmarOuvirDigitar" class="btn principal">
+                Confirmar
+              </button>
+            </div>
+          `
+      }
 
       <div id="areaRespostaOuvirDigitar" class="resposta-treino resposta-clean">
         ${
@@ -2287,22 +2294,6 @@ function renderizarOuvirDigitar(mostrarResposta = false, mensagem = "") {
       <div id="feedbackOuvirDigitar" class="feedback ${mensagem ? "alerta" : ""}">
         ${escaparHtml(mensagem)}
       </div>
-
-      <div class="botoes-resultado">
-        ${
-          mostrarResposta
-            ? `
-              <button id="btnProximaOuvirDigitar" class="btn principal">
-                Próxima
-              </button>
-            `
-            : ""
-        }
-
-        <button id="btnVoltarMenuOuvirDigitar" class="btn secundario">
-          Voltar ao Treino Auditivo
-        </button>
-      </div>
     </div>
   `;
 
@@ -2312,13 +2303,13 @@ function renderizarOuvirDigitar(mostrarResposta = false, mensagem = "") {
       tocarSequenciaMorse(textoParaMorse(mensagemCorreta));
     });
 
-  document
-    .getElementById("btnConfirmarOuvirDigitar")
-    .addEventListener("click", confirmarOuvirDigitar);
-
+  const btnConfirmar = document.getElementById("btnConfirmarOuvirDigitar");
   const input = document.getElementById("inputOuvirDigitar");
-  if (input) {
+
+  if (btnConfirmar && input) {
     input.focus();
+
+    btnConfirmar.addEventListener("click", confirmarOuvirDigitar);
 
     input.addEventListener("keydown", (evento) => {
       if (evento.code === "Enter") {
@@ -2327,17 +2318,7 @@ function renderizarOuvirDigitar(mostrarResposta = false, mensagem = "") {
       }
     });
   }
-
-  const btnProxima = document.getElementById("btnProximaOuvirDigitar");
-  if (btnProxima) {
-    btnProxima.addEventListener("click", proximaOuvirDigitar);
-  }
-
-  document
-    .getElementById("btnVoltarMenuOuvirDigitar")
-    .addEventListener("click", montarMenuTreinoAuditivo);
 }
-
 function confirmarOuvirDigitar() {
   const input = document.getElementById("inputOuvirDigitar");
   if (!input) return;
@@ -2358,14 +2339,29 @@ function confirmarOuvirDigitar() {
     ouvirDigitar.pontos += 25;
 
     tocarAcerto();
-    renderizarOuvirDigitar(true, "Correto! Mensagem recebida com precisão.");
+
+    setTimeout(() => {
+      renderizarOuvirDigitar(true, "Correto!");
+
+      setTimeout(() => {
+        proximaOuvirDigitar();
+      }, 1000);
+    }, 250);
+
     return;
   }
 
   ouvirDigitar.erros += 1;
 
   tocarErro();
-  renderizarOuvirDigitar(true, "Incorreto. Confira a mensagem correta.");
+
+  setTimeout(() => {
+    renderizarOuvirDigitar(true, "Incorreto.");
+
+    setTimeout(() => {
+      proximaOuvirDigitar();
+    }, 1000);
+  }, 250);
 }
 
 function proximaOuvirDigitar() {
@@ -2500,13 +2496,9 @@ function renderizarEscutaOperacional() {
           .join("")}
       </div>
 
-      <div id="feedbackEscutaOperacional" class="feedback"></div>
+      <div id="areaRespostaEscutaOperacional" class="resposta-treino resposta-clean" style="display:none;"></div>
 
-      <div class="botoes-resultado">
-        <button id="btnVoltarMenuEscutaOperacional" class="btn discreto">
-          Voltar ao Treino Auditivo
-        </button>
-      </div>
+      <div id="feedbackEscutaOperacional" class="feedback"></div>
     </div>
   `;
 
@@ -2521,15 +2513,11 @@ function renderizarEscutaOperacional() {
       responderEscutaOperacional(botao.dataset.resposta);
     });
   });
-
-  document
-    .getElementById("btnVoltarMenuEscutaOperacional")
-    .addEventListener("click", montarMenuTreinoAuditivo);
 }
-
 function responderEscutaOperacional(respostaSelecionada) {
   const mensagemCorreta = escutaOperacional.missoes[escutaOperacional.indice];
   const feedback = document.getElementById("feedbackEscutaOperacional");
+  const areaResposta = document.getElementById("areaRespostaEscutaOperacional");
 
   if (!mensagemCorreta || !feedback) return;
 
@@ -2537,29 +2525,37 @@ function responderEscutaOperacional(respostaSelecionada) {
     normalizarRespostaAuditiva(respostaSelecionada) ===
     normalizarRespostaAuditiva(mensagemCorreta);
 
-  if (acertou) {
-    escutaOperacional.acertos += 1;
-    escutaOperacional.pontos += 20;
-    tocarAcerto();
-    feedback.textContent = "Correto! Mensagem identificada.";
-    feedback.className = "feedback sucesso";
-  } else {
-    escutaOperacional.erros += 1;
-    tocarErro();
-    feedback.textContent = `Incorreto. A mensagem era: ${mensagemCorreta}`;
-    feedback.className = "feedback erro";
-  }
-
   document.querySelectorAll(".btn-opcao-escuta").forEach((botao) => {
     botao.disabled = true;
   });
 
+  if (acertou) {
+    escutaOperacional.acertos += 1;
+    escutaOperacional.pontos += 20;
+    tocarAcerto();
+    feedback.textContent = "Correto!";
+    feedback.className = "feedback sucesso";
+  } else {
+    escutaOperacional.erros += 1;
+    tocarErro();
+    feedback.textContent = "Incorreto.";
+    feedback.className = "feedback erro";
+  }
+
+  if (areaResposta) {
+    areaResposta.style.display = "block";
+    areaResposta.innerHTML = `
+      <span class="label">Mensagem correta</span>
+      <strong>${escaparHtml(mensagemCorreta)}</strong>
+      <div class="morse-resposta">${escaparHtml(textoParaMorse(mensagemCorreta))}</div>
+    `;
+  }
+
   setTimeout(() => {
     escutaOperacional.indice += 1;
     renderizarEscutaOperacional();
-  }, 1200);
+  }, 1000);
 }
-
 function finalizarEscutaOperacional() {
   const aproveitamento = Math.round(
     (escutaOperacional.acertos / escutaOperacional.missoes.length) * 100
@@ -2872,7 +2868,6 @@ function renderizarTelaTreinoAuditivo(mostrarResposta = false, mensagem = "") {
   const ehDesafio = treinoAuditivo.modo === "desafio";
 
   const tituloTela = ehDesafio ? "Desafio" : "Escuta Livre";
-  const textoBotaoVoltar = "Voltar ao Treino";
 
   gridBibliotecaMorse.innerHTML = `
     <div class="painel-treino-auditivo tela-escuta-clean">
@@ -2936,48 +2931,24 @@ function renderizarTelaTreinoAuditivo(mostrarResposta = false, mensagem = "") {
       <div id="feedbackTreinoAuditivo" class="feedback ${mensagem ? "alerta" : ""}">
         ${escaparHtml(mensagem)}
       </div>
-
-      <div class="botoes-resultado botoes-final-clean">
-        ${
-          ehDesafio && mostrarResposta
-            ? `
-              <button id="btnProximoTreinoAuditivo" class="btn principal">
-                Próxima
-              </button>
-            `
-            : !ehDesafio
-              ? `
-                <button id="btnProximoTreinoAuditivo" class="btn principal">
-                  Próxima
-                </button>
-              `
-              : ""
-        }
-
-        <button id="btnVoltarMenuTreinoAuditivo" class="btn secundario">
-          ${textoBotaoVoltar}
-        </button>
-      </div>
     </div>
   `;
 
-  document.getElementById("btnOuvirTreino").addEventListener("click", ouvirItemTreinoAuditivo);
+  document
+    .getElementById("btnOuvirTreino")
+    .addEventListener("click", ouvirItemTreinoAuditivo);
 
   const btnMostrarResposta = document.getElementById("btnMostrarRespostaTreino");
+
   if (btnMostrarResposta) {
     btnMostrarResposta.addEventListener("click", () => {
       renderizarTelaTreinoAuditivo(true);
+
+      setTimeout(() => {
+        proximoItemTreinoAuditivo();
+      }, 1000);
     });
   }
-
-  const btnProximo = document.getElementById("btnProximoTreinoAuditivo");
-  if (btnProximo) {
-    btnProximo.addEventListener("click", proximoItemTreinoAuditivo);
-  }
-
-  document
-    .getElementById("btnVoltarMenuTreinoAuditivo")
-    .addEventListener("click", montarMenuTreinoAuditivo);
 
   const inputResposta = document.getElementById("inputRespostaAuditiva");
   const btnConfirmar = document.getElementById("btnConfirmarRespostaAuditiva");
@@ -3002,7 +2973,6 @@ function ouvirItemTreinoAuditivo() {
   treinoAuditivo.repeticoesItem += 1;
   tocarSequenciaMorse(treinoAuditivo.itemAtual.morse);
 }
-
 function confirmarRespostaAuditiva() {
   const input = document.getElementById("inputRespostaAuditiva");
   if (!input) return;
@@ -3040,15 +3010,9 @@ function confirmarRespostaAuditiva() {
       renderizarTelaTreinoAuditivo(true, "Correto!");
 
       setTimeout(() => {
-        const areaResposta = document.getElementById("areaRespostaTreino");
-        if (areaResposta) {
-          areaResposta.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-          });
-        }
-      }, 150);
-    }, 350);
+        proximoItemTreinoAuditivo();
+      }, 1000);
+    }, 250);
 
     return;
   }
@@ -3062,17 +3026,10 @@ function confirmarRespostaAuditiva() {
     renderizarTelaTreinoAuditivo(true, "Incorreto.");
 
     setTimeout(() => {
-      const areaResposta = document.getElementById("areaRespostaTreino");
-      if (areaResposta) {
-        areaResposta.scrollIntoView({
-          behavior: "smooth",
-          block: "center"
-        });
-      }
-    }, 150);
-  }, 350);
+      proximoItemTreinoAuditivo();
+    }, 1000);
+  }, 250);
 }
-
 function proximoItemTreinoAuditivo() {
   if (treinoAuditivo.modo === "desafio" && treinoAuditivo.rodada >= treinoAuditivo.totalRodadas) {
     finalizarDesafioAuditivo();
@@ -4678,21 +4635,40 @@ function tocarErro() {
   setTimeout(() => tocarTomCurto(180, 160, 0.1, "sawtooth"), 120);
 }
 
+let temporizadoresSequenciaMorse = [];
+
+function pararSequenciaMorse() {
+  temporizadoresSequenciaMorse.forEach((temporizador) => {
+    clearTimeout(temporizador);
+  });
+
+  temporizadoresSequenciaMorse = [];
+
+  if (typeof pararTomMorse === "function") {
+    pararTomMorse();
+  }
+}
+
 function tocarSequenciaMorse(codigoMorse) {
   prepararAudio();
+  pararSequenciaMorse();
 
   const unidade = 1100 / wpmAtual;
   const fatorTraco = 3.6;
   let atraso = 0;
 
   function tocarElementoComSomDaChave(duracaoMs, atrasoMs) {
-    setTimeout(() => {
+    const temporizadorInicio = setTimeout(() => {
       iniciarTomMorse();
 
-      setTimeout(() => {
+      const temporizadorFim = setTimeout(() => {
         pararTomMorse();
       }, duracaoMs);
+
+      temporizadoresSequenciaMorse.push(temporizadorFim);
     }, atrasoMs);
+
+    temporizadoresSequenciaMorse.push(temporizadorInicio);
   }
 
   String(codigoMorse).split("").forEach((simbolo) => {
