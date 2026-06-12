@@ -896,6 +896,9 @@ function carregarPreferencias() {
 }
 
 function mostrarTela(tela, registrarHistorico = true) {
+  if (telaMissao.classList.contains("ativa") && tela !== telaMissao) {
+    pararAnimacaoMissao();
+  }
   telaInicial.classList.remove("ativa");
   telaMissao.classList.remove("ativa");
   telaBiblioteca.classList.remove("ativa");
@@ -987,6 +990,7 @@ function abrirMissao() {
   animarTextoMissao();
 }
 let temporizadorDigitacaoMissao = null;
+let osciladoresMissaoAnimada = [];
 
 const TEXTO_MISSAO_COLAPSO = [
   "Após um grande bug nos sistemas de telecomunicações, a única forma de se comunicar é por meio de equipamentos simples de rádio usando código Morse.",
@@ -1110,8 +1114,30 @@ function tocarTomCurtoMissao(inicioAudio, duracaoSegundos) {
   oscilador.connect(ganho);
   ganho.connect(audioContext.destination);
 
+  osciladoresMissaoAnimada.push(oscilador);
+
+  oscilador.onended = () => {
+    osciladoresMissaoAnimada = osciladoresMissaoAnimada.filter((item) => item !== oscilador);
+  };
+
   oscilador.start(inicioAudio);
   oscilador.stop(inicioAudio + duracaoSegundos + 0.02);
+}
+function pararAnimacaoMissao() {
+  if (temporizadorDigitacaoMissao) {
+    clearTimeout(temporizadorDigitacaoMissao);
+    temporizadorDigitacaoMissao = null;
+  }
+
+  osciladoresMissaoAnimada.forEach((oscilador) => {
+    try {
+      oscilador.stop();
+    } catch (erro) {
+      // o som já pode ter parado sozinho
+    }
+  });
+
+  osciladoresMissaoAnimada = [];
 }
 function abrirBiblioteca() {
   tituloBiblioteca.textContent = "📚 Biblioteca Morse";
