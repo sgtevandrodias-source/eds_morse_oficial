@@ -140,9 +140,9 @@ function textoParaMorse(texto) {
 
 const DICAS_FONICAS = {
   A: "mi DÁ",
-  B: "GOL de bi bi",
+  B: "GOL di bi bi",
   C: "BÁ ti BÁ ti",
-  D: "GOL de di",
+  D: "GOL di di",
   E: "bi",
   F: "fi ti PAL di",
   G: "PAI DÉ gua",
