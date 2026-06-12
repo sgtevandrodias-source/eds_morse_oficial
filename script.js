@@ -3897,9 +3897,67 @@ function inserirEspacoPalavraManipulador() {
 }
 
 function limparManipuladorLivre() {
-  codigoLivre = "";
+  limparTemporizadoresManipulador();
 
-  feedbackManipulador.textContent = "Manipulador limpo.";
+  if (!codigoLivre.trim()) {
+    feedbackManipulador.textContent = "Nada para apagar.";
+    feedbackManipulador.className = "feedback";
+    atualizarManipuladorLivre();
+    return;
+  }
+
+  codigoLivre = codigoLivre.trimEnd();
+
+  if (codigoLivre.endsWith("/")) {
+    codigoLivre = codigoLivre.slice(0, -1).trimEnd();
+
+    feedbackManipulador.textContent = "Separação de palavra removida.";
+    feedbackManipulador.className = "feedback";
+    atualizarManipuladorLivre();
+    return;
+  }
+
+  const partes = codigoLivre.split(" / ");
+  const ultimaPalavra = partes.pop() || "";
+  const letras = ultimaPalavra.trim().split(/\s+/).filter(Boolean);
+
+  if (letras.length > 1) {
+    letras.pop();
+    partes.push(letras.join(" "));
+    codigoLivre = partes.join(" / ") + " ";
+
+    feedbackManipulador.textContent = "Última letra removida.";
+    feedbackManipulador.className = "feedback";
+    atualizarManipuladorLivre();
+    return;
+  }
+
+  if (letras.length === 1) {
+    const ultimaLetra = letras[0];
+
+    if (ultimaLetra.length > 1) {
+      letras[0] = ultimaLetra.slice(0, -1);
+      partes.push(letras[0]);
+      codigoLivre = partes.join(" / ");
+
+      feedbackManipulador.textContent = "Último sinal removido.";
+      feedbackManipulador.className = "feedback";
+      atualizarManipuladorLivre();
+      return;
+    }
+
+    partes.push("");
+    codigoLivre = partes.join(" / ").trim();
+
+    feedbackManipulador.textContent = "Último sinal removido.";
+    feedbackManipulador.className = "feedback";
+    atualizarManipuladorLivre();
+    return;
+  }
+
+  codigoLivre = partes.join(" / ").trim();
+
+  feedbackManipulador.textContent = "Último caractere removido.";
   feedbackManipulador.className = "feedback";
 
   atualizarManipuladorLivre();

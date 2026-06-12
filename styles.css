@@ -2368,3 +2368,453 @@ body.visualizando-mapa-modo .titulo-secao {
 #telaJogo .card.progresso {
   display: none !important;
 }
+/* =========================================
+   TELA INICIAL COM A CARA DA TELA DE ABERTURA
+========================================= */
+
+#telaInicial {
+  --abertura-borda: rgba(43, 255, 173, 0.22);
+  --abertura-brilho: rgba(43, 255, 173, 0.12);
+  --abertura-fundo: linear-gradient(
+    180deg,
+    rgba(2, 10, 28, 0.96) 0%,
+    rgba(1, 6, 18, 0.98) 100%
+  );
+  --abertura-azul: #35cfff;
+  --abertura-verde: #2ee06a;
+  --abertura-amarelo: #ffd42d;
+  --abertura-texto: #f3f7fb;
+}
+
+#telaInicial .hero-game.hero-abertura-estilo {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto 18px;
+  padding: 24px 20px 20px;
+  border-radius: 28px;
+  border: 1px solid var(--abertura-borda);
+  background: var(--abertura-fundo);
+  box-shadow:
+    0 0 0 1px rgba(43, 255, 173, 0.04),
+    0 0 28px var(--abertura-brilho),
+    inset 0 0 32px rgba(43, 255, 173, 0.04);
+  text-align: center;
+}
+
+#telaInicial .hero-abertura-estilo .marca-jogo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+#telaInicial .hero-abertura-estilo .icone-radio {
+  width: 78px;
+  height: 78px;
+  border-radius: 22px;
+  flex-shrink: 0;
+  box-shadow:
+    0 10px 28px rgba(255, 212, 45, 0.16),
+    0 0 18px rgba(46, 224, 106, 0.14);
+    background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M16 38 L29 31 L29 39 L46 31' fill='none' stroke='%2307121d' stroke-width='5.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / 42px 42px no-repeat,
+    linear-gradient(135deg, var(--abertura-verde), var(--abertura-amarelo));
+}
+
+#telaInicial .hero-abertura-estilo .icone-radio::before,
+#telaInicial .hero-abertura-estilo .icone-radio::after {
+  content: none;
+}
+
+#telaInicial .hero-abertura-estilo .marca-jogo span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--abertura-azul);
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+#telaInicial .hero-abertura-estilo .marca-jogo h1 {
+  margin: 0;
+  color: var(--abertura-texto);
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+}
+
+#telaInicial .hero-abertura-estilo .subtitulo-hero {
+  margin-top: 14px;
+  margin-bottom: 16px;
+  color: #d8e7f5;
+  font-size: 1.1rem;
+}
+
+#telaInicial .selo-autorizado {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--abertura-verde), #1fd36f);
+  color: #06141d;
+  font-size: 0.95rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  box-shadow: 0 6px 18px rgba(46, 224, 106, 0.18);
+}
+
+#telaInicial .botoes-inicio .btn.secundario {
+  background: linear-gradient(
+    180deg,
+    rgba(18, 28, 46, 0.96) 0%,
+    rgba(11, 20, 35, 0.98) 100%
+  );
+  border: 1px solid rgba(43, 255, 173, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+#telaInicial .botoes-inicio .btn.principal {
+  background: linear-gradient(135deg, var(--abertura-verde), var(--abertura-amarelo));
+  color: #07161f;
+  border: 1px solid rgba(255, 212, 45, 0.3);
+  box-shadow:
+    0 10px 24px rgba(46, 224, 106, 0.16),
+    0 6px 18px rgba(255, 212, 45, 0.1);
+}
+
+#telaInicial .botoes-inicio .btn.principal:hover,
+#telaInicial .botoes-inicio .btn.principal:active {
+  transform: translateY(-1px);
+}
+
+#telaInicial .card-operador {
+  border: 1px solid rgba(43, 255, 173, 0.16);
+  background: linear-gradient(
+    180deg,
+    rgba(14, 24, 40, 0.95) 0%,
+    rgba(9, 17, 30, 0.98) 100%
+  );
+  box-shadow:
+    0 0 24px rgba(43, 255, 173, 0.05),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+#telaInicial .card-operador label,
+#telaInicial .card-operador .label-operador {
+  color: #aebccd;
+}
+
+#telaInicial .card-operador input {
+  background: rgba(1, 6, 18, 0.95);
+  border: 1px solid rgba(43, 255, 173, 0.12);
+  color: #f3f7fb;
+}
+
+@media (max-width: 720px) {
+  #telaInicial .hero-game.hero-abertura-estilo {
+    padding: 20px 16px 18px;
+    border-radius: 24px;
+  }
+
+  #telaInicial .hero-abertura-estilo .marca-jogo {
+    gap: 12px;
+  }
+
+  #telaInicial .hero-abertura-estilo .icone-radio {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background:
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M16 38 L29 31 L29 39 L46 31' fill='none' stroke='%2307121d' stroke-width='5.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+  center / 36px 36px no-repeat,
+  linear-gradient(135deg, var(--abertura-verde), var(--abertura-amarelo));
+  }
+
+  #telaInicial .hero-abertura-estilo .marca-jogo span {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+  }
+
+  #telaInicial .hero-abertura-estilo .marca-jogo h1 {
+    font-size: clamp(2.2rem, 10vw, 3.3rem);
+  }
+
+  #telaInicial .hero-abertura-estilo .subtitulo-hero {
+    font-size: 1rem;
+  }
+
+  #telaInicial .selo-autorizado {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    font-size: 0.88rem;
+  }
+}
+/* =========================================
+   MANIPULADOR LIVRE - AJUSTES VISUAIS
+========================================= */
+
+#telaManipulador .badge-treino-livre {
+  font-size: 1.15rem;
+  padding: 14px 26px;
+  letter-spacing: 0.12em;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #35cfff, #1ea7ff);
+  color: #eaf7ff;
+  border: 1px solid rgba(53, 207, 255, 0.24);
+  box-shadow: 0 8px 20px rgba(53, 207, 255, 0.14);
+}
+
+/* aumenta a tradução: LARA, CASA, QSL etc */
+#telaManipulador #textoManipulador {
+  display: block;
+  font-size: clamp(2.4rem, 8vw, 3.6rem);
+  line-height: 1.05;
+  font-weight: 1000;
+  color: #ffffff;
+  letter-spacing: 0.06em;
+  min-height: 58px;
+  word-break: break-word;
+}
+
+/* melhora o painel onde aparece a tradução */
+#telaManipulador .painel-decodificado {
+  margin: 10px auto 8px;
+}
+
+/* deixa o card mais próximo da identidade da abertura */
+#telaManipulador .manipulador-card {
+  border: 1px solid rgba(43, 255, 173, 0.18);
+  background: linear-gradient(
+    180deg,
+    rgba(8, 18, 34, 0.96) 0%,
+    rgba(6, 14, 28, 0.98) 100%
+  );
+  box-shadow:
+    0 0 28px rgba(43, 255, 173, 0.06),
+    inset 0 0 0 1px rgba(255,255,255,0.02);
+}
+
+@media (max-width: 720px) {
+  #telaManipulador .badge-treino-livre {
+    font-size: 1.1rem;
+    padding: 13px 22px;
+  }
+
+  #telaManipulador #textoManipulador {
+    font-size: clamp(2.5rem, 9vw, 3.4rem);
+  }
+}
+/* =========================================
+   MANIPULADOR LIVRE - IDENTIDADE DAS TELAS INICIAIS
+========================================= */
+
+#telaManipulador {
+  padding-top: 8px;
+}
+
+#telaManipulador .manipulador-card {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 22px 18px 24px;
+  border-radius: 28px;
+  border: 1px solid rgba(43, 255, 173, 0.20);
+  background: linear-gradient(
+    180deg,
+    rgba(4, 14, 32, 0.97) 0%,
+    rgba(3, 10, 24, 0.99) 100%
+  );
+  box-shadow:
+    0 0 0 1px rgba(43, 255, 173, 0.04),
+    0 0 28px rgba(43, 255, 173, 0.08),
+    inset 0 0 32px rgba(43, 255, 173, 0.03);
+  text-align: center;
+}
+
+/* TREINO LIVRE no mesmo estilo premium do app */
+#telaManipulador .badge-treino-livre {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 210px;
+  padding: 16px 30px;
+  margin-bottom: 18px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #35cfff, #58a8ff);
+  color: #eef9ff;
+  border: 1px solid rgba(53, 207, 255, 0.24);
+  box-shadow:
+    0 8px 22px rgba(53, 207, 255, 0.16),
+    inset 0 0 0 1px rgba(255,255,255,0.04);
+  font-size: 1.14rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* painéis internos */
+#telaManipulador .painel-manipulador,
+#telaManipulador .painel-decodificado {
+  width: min(460px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 22px;
+}
+
+#telaManipulador .painel-manipulador {
+  background: rgba(1, 7, 22, 0.86);
+  border: 1px solid rgba(43, 255, 173, 0.10);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+}
+
+#telaManipulador .painel-manipulador span,
+#telaManipulador .painel-decodificado .label {
+  color: #b9c8d9;
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+#telaManipulador #codigoManipulador {
+  color: #f5f8fc;
+  font-weight: 900;
+}
+
+/* leitura/decodificação */
+#telaManipulador .painel-decodificado {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+#telaManipulador #textoManipulador {
+  color: #f5f8fc;
+  text-shadow: 0 0 10px rgba(255,255,255,0.04);
+}
+
+/* botão principal dourado */
+#telaManipulador .botao-morse {
+  background: radial-gradient(circle at 35% 30%, #ffe760 0%, #f3cd27 48%, #d5a100 100%);
+  border: 6px solid rgba(255, 214, 42, 0.8);
+  box-shadow:
+    0 0 34px rgba(255, 214, 42, 0.18),
+    inset 0 -12px 20px rgba(117, 81, 0, 0.20),
+    inset 0 8px 16px rgba(255, 255, 255, 0.12);
+  color: #101010;
+}
+
+#telaManipulador .botao-morse:hover,
+#telaManipulador .botao-morse:active {
+  transform: translateY(-1px) scale(1.01);
+}
+
+/* botões inferiores no estilo do app */
+#telaManipulador .acoes-manipulador {
+  gap: 12px;
+}
+
+#telaManipulador .acoes-manipulador .btn.secundario {
+  background: linear-gradient(
+    180deg,
+    rgba(20, 30, 48, 0.96) 0%,
+    rgba(11, 20, 35, 0.98) 100%
+  );
+  border: 1px solid rgba(43, 255, 173, 0.14);
+  color: #f2f6fb;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+}
+
+#telaManipulador .acoes-manipulador .btn.principal {
+  background: linear-gradient(135deg, #35cfff, #68a9ff);
+  color: #07161f;
+  border: 1px solid rgba(104, 169, 255, 0.18);
+  box-shadow: 0 10px 24px rgba(53, 207, 255, 0.12);
+}
+
+#telaManipulador .acoes-manipulador .btn {
+  min-height: 52px;
+  border-radius: 16px;
+  font-weight: 900;
+}
+
+/* feedback */
+#telaManipulador #feedbackManipulador {
+  margin-top: 14px;
+  font-weight: 800;
+}
+
+/* mobile */
+@media (max-width: 720px) {
+  #telaManipulador .manipulador-card {
+    padding: 18px 14px 22px;
+    border-radius: 24px;
+  }
+
+  #telaManipulador .badge-treino-livre {
+    min-width: 190px;
+    padding: 15px 24px;
+    font-size: 1.06rem;
+  }
+
+  #telaManipulador .painel-manipulador {
+    width: 100%;
+  }
+
+  #telaManipulador .acoes-manipulador .btn {
+    min-height: 50px;
+  }
+}
+/* =========================================
+   MANIPULADOR LIVRE - PALETA VERDE/AMARELA
+========================================= */
+
+#telaManipulador .badge-treino-livre {
+  background: linear-gradient(135deg, #39e06d, #b8df2c);
+  color: #07161f;
+  border: 1px solid rgba(184, 223, 44, 0.28);
+  box-shadow:
+    0 8px 22px rgba(57, 224, 109, 0.16),
+    inset 0 0 0 1px rgba(255,255,255,0.04);
+}
+
+/* painel geral com brilho mais esverdeado */
+#telaManipulador .manipulador-card {
+  border: 1px solid rgba(57, 224, 109, 0.20);
+  box-shadow:
+    0 0 0 1px rgba(57, 224, 109, 0.04),
+    0 0 28px rgba(57, 224, 109, 0.08),
+    inset 0 0 32px rgba(57, 224, 109, 0.03);
+}
+
+/* painel do código com borda mais verde */
+#telaManipulador .painel-manipulador {
+  border: 1px solid rgba(57, 224, 109, 0.12);
+}
+
+/* botão Início em verde/amarelo, no lugar do azul */
+#telaManipulador .acoes-manipulador .btn.principal {
+  background: linear-gradient(135deg, #39e06d, #e7d52c);
+  color: #07161f;
+  border: 1px solid rgba(231, 213, 44, 0.22);
+  box-shadow:
+    0 10px 24px rgba(57, 224, 109, 0.12),
+    0 6px 18px rgba(231, 213, 44, 0.08);
+}
+
+/* botão secundário também com detalhe verde */
+#telaManipulador .acoes-manipulador .btn.secundario {
+  border: 1px solid rgba(57, 224, 109, 0.16);
+}
+
+/* opcional: deixa o feedback verde mais harmonizado */
+#telaManipulador #feedbackManipulador {
+  color: #2df07f;
+}

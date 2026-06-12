@@ -20,46 +20,53 @@
       <p class="boot-linha linha1">INICIANDO ESTAÇÃO...</p>
       <p class="boot-linha linha2">CARREGANDO FREQUÊNCIAS...</p>
       <p class="boot-linha linha3">VERIFICANDO CANAL...</p>
-      <p class="boot-linha linha4">QAP?</p>
-      <p class="boot-linha linha5">QSL</p>
+      <p class="boot-linha linha4">QRU</p>
+      <p class="boot-linha linha5">QAP</p>
     </div>
 
     <h1 class="boot-titulo">EDS MORSE</h1>
-    <p class="boot-subtitulo">ACADEMIA DE TELEGRAFIA</p>
+    <p class="boot-subtitulo">OPERAÇÕES EM TELEGRAFIA</p>
     <p class="boot-status">MISSÃO AUTORIZADA</p>
   </div>
 </div>
   <main class="app">
     <!-- TELA INICIAL -->
 <section id="telaInicial" class="tela ativa">
-  <div class="hero-game">
+  <div class="hero-game hero-abertura-estilo">
     <div class="marca-jogo">
-      <div class="icone-radio">⌁</div>
+      <div class="icone-radio"></div>
       <div>
-        <span>Exciting and fun game</span>
+        <span>OPERAÇÕES EM TELEGRAFIA</span>
         <h1>EDS MORSE</h1>
       </div>
     </div>
+  
+    <p class="subtitulo-hero">
+      Quando o complexo falha, o simples prevalece.
+    </p>
+  
+    <div class="selo-autorizado">MISSÃO AUTORIZADA</div>
+  </div>
 
     <p class="subtitulo-hero">
       Quando o complexo falha, o simples prevalece.
     </p>
 
     <div class="botoes-inicio">
+      <button id="btnEntrarCampanha" class="btn principal">
+        🎮 Jogar
+      </button>
+    
       <button id="btnAbrirMissao" class="btn secundario">
         📡 Missão
       </button>
     
-      <button id="btnEntrarCampanha" class="btn principal">
-        🚀 Iniciar Missão
+      <button id="btnAbrirManipulador" class="btn secundario">
+        🎙️ Manipulador Livre
       </button>
     
       <button id="btnAbrirBiblioteca" class="btn secundario">
         📖 Biblioteca
-      </button>
-    
-      <button id="btnAbrirManipulador" class="btn secundario">
-        🎙️ Manipulador Livre
       </button>
     
       <button id="btnAbrirRanking" class="btn secundario">
@@ -473,13 +480,7 @@
 <!-- TELA MANIPULADOR LIVRE -->
 <section id="telaManipulador" class="tela">
   <div class="card licao-card manipulador-card">
-    <div class="badge">Treino Livre</div>
-
-    <h1>🎙️ Manipulador Livre</h1>
-
-    <p>
-      Pratique ponto, traço e pausas sem missão, sem erro e sem pressão.
-    </p>
+    <div class="badge badge-treino-livre">TREINO LIVRE</div>
 
     <div class="painel-codigo painel-manipulador">
       <span>Código transmitido</span>
