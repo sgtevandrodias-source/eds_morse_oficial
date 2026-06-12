@@ -2172,20 +2172,6 @@ transform: translate(-50%, -140%);
   animation-delay: 3.75s;
 }
 
-.boot-status {
-  opacity: 0;
-  display: inline-block;
-  margin-top: 18px;
-  padding: 8px 14px;
-  border-radius: 999px;
-  color: #052e16;
-  background: #22c55e;
-  font-size: 0.78rem;
-  font-weight: 1000;
-  letter-spacing: 0.12em;
-  animation: bootLinha 0.5s ease forwards;
-  animation-delay: 4.15s;
-}
 
 @keyframes bootEntrar {
   from {
@@ -2971,5 +2957,71 @@ body.visualizando-mapa-modo .titulo-secao {
   #telaMissao .texto-missao-animado p {
     font-size: 1.12rem;
     line-height: 1.7;
+  }
+}
+/* =========================
+   BOTÃO TREINO LIVRE
+========================= */
+
+#telaInicial .btn-treino-livre {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+#telaInicial .icone-chave-telegrafica {
+  position: relative;
+  display: inline-block;
+  width: 34px;
+  height: 24px;
+  flex: 0 0 34px;
+}
+
+/* base da chave */
+#telaInicial .icone-chave-telegrafica::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #d8dee7, #8e9bab);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.28);
+}
+
+/* haste superior da chave */
+#telaInicial .icone-chave-telegrafica::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 7px;
+  width: 20px;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #facc15, #f59e0b);
+  transform: rotate(-18deg);
+  transform-origin: left center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
+}
+
+/* botão/manopla da chave */
+#telaInicial .btn-treino-livre .icone-chave-telegrafica {
+  background:
+    radial-gradient(circle at 24px 6px, #1f2937 0 4px, transparent 4.5px),
+    radial-gradient(circle at 8px 16px, #94a3b8 0 2.5px, transparent 3px);
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 720px) {
+  #telaInicial .btn-treino-livre {
+    gap: 10px;
+  }
+
+  #telaInicial .icone-chave-telegrafica {
+    width: 30px;
+    height: 22px;
+    flex-basis: 30px;
   }
 }

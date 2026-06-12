@@ -230,6 +230,7 @@ const CONQUISTAS = {
     descricao: "Conclua o modo Iniciante."
   }
 };
+
 function getChaveConquistas() {
   return `operadorMorseConquistas_${getChaveOperador()}`;
 }
@@ -256,12 +257,13 @@ function desbloquearConquista(idConquista) {
   }
 
   conquistas.push(idConquista);
-salvarConquistasDesbloqueadas(conquistas);
+  salvarConquistasDesbloqueadas(conquistas);
 
-// mostrarAvisoConquista(idConquista);
+  // mostrarAvisoConquista(idConquista);
 
-return true;
+  return true;
 }
+
 let filaAvisosConquista = [];
 let exibindoAvisoConquista = false;
 
@@ -303,6 +305,7 @@ function processarFilaAvisosConquista() {
     }, 400);
   }, 3000);
 }
+
 function mostrarAvisoRapido(titulo, texto) {
   const avisoAntigo = document.querySelector(".aviso-rapido");
   if (avisoAntigo) avisoAntigo.remove();
@@ -350,6 +353,7 @@ function gerarGruposAvancados(qtd = 200, tamanho = 5) {
 }
 
 const BANCO_GRUPOS_AVANCADOS = gerarGruposAvancados(200, 5);
+
 const NIVEIS_AVANCADO = [
   {
     numero: 1,
@@ -359,6 +363,7 @@ const NIVEIS_AVANCADO = [
     missoes: BANCO_GRUPOS_AVANCADOS.slice(0, 10)
   }
 ];
+
 const MENSAGENS_NARRATIVAS_AVANCADO = {
   1: {
     titulo: "📡 Canal avançado estabelecido",
@@ -609,6 +614,7 @@ const MENSAGENS_NARRATIVAS_INICIANTE = {
     texto: "As comunicações básicas voltaram a funcionar. O treinamento inicial foi concluído."
   }
 };
+
 function getMensagemNarrativaNivel(resultado) {
   if (!resultado) return null;
 
@@ -710,8 +716,265 @@ function chaveInicianteConcluido() {
 function chaveIntermediarioConcluido() {
   return `operadorMorseIntermediarioConcluido_${getChaveOperador()}`;
 }
+
 function chaveAvancadoConcluido() {
   return `operadorMorseAvancadoConcluido_${getChaveOperador()}`;
+}
+
+function chaveCarreiraOperador() {
+  return `operadorMorseCarreira_${getChaveOperador()}`;
+}
+
+function obterCarreiraOperador() {
+  const carreiraPadrao = {
+    pontosTotais: 0,
+    fasesConcluidas: [],
+    medalhas: [],
+    titulos: [],
+    melhorTempoSegundos: null,
+    melhorAproveitamento: 0,
+    melhorWpm: 0,
+    ultimaAtualizacao: null
+  };
+
+  try {
+    const dadosSalvos = JSON.parse(
+      localStorage.getItem(chaveCarreiraOperador()) || "null"
+    );
+
+    return {
+      ...carreiraPadrao,
+      ...(dadosSalvos || {})
+    };
+  } catch (erro) {
+    return carreiraPadrao;
+  }
+}
+
+function salvarCarreiraOperador(carreira) {
+  localStorage.setItem(
+    chaveCarreiraOperador(),
+    JSON.stringify(carreira)
+  );
+}
+
+function gerarIdFaseCarreira(resultado) {
+  return `${resultado.modo}_${resultado.nivel}`;
+}
+
+function obterPremiosDaFase(resultado) {
+  const premios = [];
+
+  const modo = resultado.modo || "Modo";
+  const nivel = resultado.nivel || 0;
+  const aproveitamento = Number(resultado.aproveitamento || 0);
+  const tempoSegundos = Number(resultado.tempoSegundos || 0);
+
+  if (aproveitamento >= 80) {
+    premios.push({
+      tipo: "medalha",
+      id: `${modo}_${nivel}_conclusao`,
+      nome: `Medalha de Conclusão — ${modo} ${nivel}`,
+      descricao: "Concedida por concluir a fase com aproveitamento mínimo operacional."
+    });
+  }
+
+  if (aproveitamento >= 90) {
+    premios.push({
+      tipo: "medalha",
+      id: `${modo}_${nivel}_excelencia`,
+      nome: `Medalha de Excelência — ${modo} ${nivel}`,
+      descricao: "Concedida por concluir a fase com desempenho superior a 90%."
+    });
+  }
+
+  if (aproveitamento === 100) {
+    premios.push({
+      tipo: "medalha",
+      id: `${modo}_${nivel}_perfeita`,
+      nome: `Transmissão Perfeita — ${modo} ${nivel}`,
+      descricao: "Concedida por concluir a fase sem erros."
+    });
+  }
+
+  if (tempoSegundos > 0 && tempoSegundos <= 60) {
+    premios.push({
+      tipo: "distintivo",
+      id: `${modo}_${nivel}_rapidez`,
+      nome: `Distintivo de Rapidez — ${modo} ${nivel}`,
+      descricao: "Concedido por concluir a fase em até 60 segundos."
+    });
+  }
+
+  if (modo === "Iniciante" && nivel === 20 && aproveitamento >= 80) {
+    premios.push({
+      tipo: "titulo",
+      id: "titulo_operador_morse_inicial",
+      nome: "Operador Morse Inicial",
+      descricao: "Título concedido por concluir toda a formação inicial."
+    });
+  }
+
+  if (modo === "Intermediário" && nivel === 10 && aproveitamento >= 80) {
+    premios.push({
+      tipo: "titulo",
+      id: "titulo_operador_intermediario",
+      nome: "Operador Morse Intermediário",
+      descricao: "Título concedido por concluir a etapa intermediária."
+    });
+  }
+
+  if (modo === "Avançado" && aproveitamento >= 80) {
+    premios.push({
+      tipo: "titulo",
+      id: "titulo_operador_estacao",
+      nome: "Operador de Estação",
+      descricao: "Título concedido por desempenho operacional avançado."
+    });
+  }
+
+  return premios;
+}
+
+function calcularBonusTempoNivel(resultado) {
+  const tempoSegundos = Number(resultado.tempoSegundos || 0);
+  const aproveitamento = Number(resultado.aproveitamento || 0);
+
+  if (!resultado.aprovado || tempoSegundos <= 0) {
+    return 0;
+  }
+
+  let bonusTempo = 0;
+
+  if (tempoSegundos <= 30) {
+    bonusTempo = 120;
+  } else if (tempoSegundos <= 45) {
+    bonusTempo = 90;
+  } else if (tempoSegundos <= 60) {
+    bonusTempo = 60;
+  } else if (tempoSegundos <= 90) {
+    bonusTempo = 35;
+  } else if (tempoSegundos <= 120) {
+    bonusTempo = 20;
+  }
+
+  if (aproveitamento === 100) {
+    bonusTempo += 30;
+  }
+
+  if (resultado.wpm >= META_WPM) {
+    bonusTempo += 25;
+  }
+
+  return bonusTempo;
+}
+
+function registrarResultadoNaCarreira(resultado) {
+  if (!resultado || !resultado.aprovado) {
+    return null;
+  }
+
+  const carreira = obterCarreiraOperador();
+  const idFase = gerarIdFaseCarreira(resultado);
+  const premiosDaFase = obterPremiosDaFase(resultado);
+  const bonusTempo = calcularBonusTempoNivel(resultado);
+
+  const pontosDaFase = Number(resultado.pontos || 0);
+  const pontosComBonusTempo = pontosDaFase + bonusTempo;
+
+  const faseJaRegistrada = carreira.fasesConcluidas.find(
+    (fase) => fase.id === idFase
+  );
+
+  let pontosSomados = 0;
+
+  if (!faseJaRegistrada) {
+    pontosSomados = pontosComBonusTempo;
+
+    carreira.fasesConcluidas.push({
+      id: idFase,
+      modo: resultado.modo,
+      nivel: resultado.nivel,
+      titulo: resultado.titulo,
+      melhorPontuacao: pontosComBonusTempo,
+      pontosBase: pontosDaFase,
+      bonusTempo,
+      melhorTempoSegundos: resultado.tempoSegundos,
+      melhorAproveitamento: resultado.aproveitamento,
+      melhorWpm: resultado.wpm,
+      data: resultado.data
+    });
+  } else if (pontosComBonusTempo > faseJaRegistrada.melhorPontuacao) {
+    pontosSomados = pontosComBonusTempo - faseJaRegistrada.melhorPontuacao;
+
+    faseJaRegistrada.melhorPontuacao = pontosComBonusTempo;
+    faseJaRegistrada.pontosBase = pontosDaFase;
+    faseJaRegistrada.bonusTempo = bonusTempo;
+    faseJaRegistrada.melhorTempoSegundos = resultado.tempoSegundos;
+    faseJaRegistrada.melhorAproveitamento = Math.max(
+      faseJaRegistrada.melhorAproveitamento || 0,
+      resultado.aproveitamento
+    );
+    faseJaRegistrada.melhorWpm = Math.max(
+      faseJaRegistrada.melhorWpm || 0,
+      resultado.wpm
+    );
+    faseJaRegistrada.data = resultado.data;
+  }
+
+  carreira.pontosTotais += pontosSomados;
+
+  premiosDaFase.forEach((premio) => {
+    if (premio.tipo === "titulo") {
+      const jaTemTitulo = carreira.titulos.some(
+        (titulo) => titulo.id === premio.id
+      );
+
+      if (!jaTemTitulo) {
+        carreira.titulos.push(premio);
+      }
+
+      return;
+    }
+
+    const jaTemMedalha = carreira.medalhas.some(
+      (medalha) => medalha.id === premio.id
+    );
+
+    if (!jaTemMedalha) {
+      carreira.medalhas.push(premio);
+    }
+  });
+
+  if (
+    carreira.melhorTempoSegundos === null ||
+    resultado.tempoSegundos < carreira.melhorTempoSegundos
+  ) {
+    carreira.melhorTempoSegundos = resultado.tempoSegundos;
+  }
+
+  carreira.melhorAproveitamento = Math.max(
+    carreira.melhorAproveitamento || 0,
+    resultado.aproveitamento
+  );
+
+  carreira.melhorWpm = Math.max(
+    carreira.melhorWpm || 0,
+    resultado.wpm
+  );
+
+  carreira.ultimaAtualizacao = new Date().toISOString();
+
+  salvarCarreiraOperador(carreira);
+
+  return {
+    carreira,
+    pontosSomados,
+    pontosDaFase,
+    bonusTempo,
+    pontosComBonusTempo,
+    premiosDaFase
+  };
 }
 btnAbrirMissao.addEventListener("click", abrirMissao);
 btnVoltarInicioMissao.addEventListener("click", voltarInicio);
@@ -720,15 +983,10 @@ btnEntrarCampanha.addEventListener("click", entrarCampanha);
 btnAbrirBiblioteca.addEventListener("click", abrirBiblioteca);
 btnBibAlfabeto.addEventListener("click", abrirBibliotecaAlfabeto);
 btnBibNumeros.addEventListener("click", abrirBibliotecaNumeros);
-
 btnBibCodigoQ.addEventListener("click", abrirBibliotecaCodigoQ);
-
 btnBibSinaisServico.addEventListener("click", abrirBibliotecaSinaisServico);
-
 btnBibAbreviacoes.addEventListener("click", abrirBibliotecaAbreviacoes);
-
 btnBibCaracteresEspeciais.addEventListener("click", abrirBibliotecaCaracteresEspeciais);
-
 btnBibTreinoAuditivo.addEventListener("click", abrirBibliotecaTreinoAuditivo);
 btnAbrirRanking.addEventListener("click", abrirRanking);
 
@@ -757,6 +1015,7 @@ btnRankingFinal.addEventListener("click", abrirRanking);
 btnVoltarCampanhaRanking.addEventListener("click", entrarCampanha);
 btnVoltarInicio.addEventListener("click", voltarInicio);
 btnLimparRanking.addEventListener("click", limparRanking);
+
 btnIniciarTreinoLicao.addEventListener("click", () => {
   iniciarNivel(nivelAtualIndex);
 });
@@ -801,6 +1060,7 @@ btnMorse.addEventListener("pointerdown", iniciarPressionamento);
 btnMorse.addEventListener("pointerup", finalizarPressionamento);
 btnMorse.addEventListener("pointerleave", finalizarPressionamento);
 btnMorse.addEventListener("pointercancel", cancelarPressionamento);
+
 btnMorseManipulador.addEventListener("pointerdown", iniciarPressionamentoManipulador);
 btnMorseManipulador.addEventListener("pointerup", finalizarPressionamentoManipulador);
 btnMorseManipulador.addEventListener("pointerleave", finalizarPressionamentoManipulador);
@@ -874,6 +1134,7 @@ document.addEventListener("keyup", (evento) => {
 carregarPreferencias();
 recalcularTemposPorWpm();
 atualizarPainelRitmo();
+
 history.replaceState(
   {
     telaId: "telaInicial",
@@ -883,6 +1144,7 @@ history.replaceState(
   "",
   ""
 );
+
 function carregarPreferencias() {
   const nomeSalvo = localStorage.getItem("operadorMorseNome");
 
@@ -897,6 +1159,7 @@ function carregarPreferencias() {
 
 function mostrarTela(tela, registrarHistorico = true) {
   pararTodosOsSons();
+
   telaInicial.classList.remove("ativa");
   telaMissao.classList.remove("ativa");
   telaBiblioteca.classList.remove("ativa");
@@ -925,6 +1188,7 @@ function mostrarTela(tela, registrarHistorico = true) {
     registrarEstadoNavegacao();
   }
 }
+
 const MAPA_TELAS_APP = {
   telaInicial,
   telaMissao,
@@ -980,14 +1244,17 @@ window.addEventListener("popstate", (evento) => {
   pararTodosOsSons();
   aplicarEstadoNavegacao(evento.state);
 });
+
 function voltarInicio() {
   mostrarTela(telaInicial);
 }
+
 function abrirMissao() {
   mostrarTela(telaMissao);
   prepararAudio();
   animarTextoMissao();
 }
+
 let temporizadorDigitacaoMissao = null;
 let osciladoresMissaoAnimada = [];
 
@@ -1028,28 +1295,28 @@ function animarTextoMissao() {
 
     paragrafos[indiceParagrafo].textContent += caractere;
 
-const duracaoMorse = tocarSinalDigitacaoMissao(caractere);
+    const duracaoMorse = tocarSinalDigitacaoMissao(caractere);
 
-indiceLetra += 1;
+    indiceLetra += 1;
 
-if (indiceLetra >= textoAtual.length) {
-  indiceParagrafo += 1;
-  indiceLetra = 0;
-  temporizadorDigitacaoMissao = setTimeout(digitarProximoCaractere, 520);
-  return;
-}
+    if (indiceLetra >= textoAtual.length) {
+      indiceParagrafo += 1;
+      indiceLetra = 0;
+      temporizadorDigitacaoMissao = setTimeout(digitarProximoCaractere, 520);
+      return;
+    }
 
-const pausaVisual = caractere === "." || caractere === "," ? 260 : 40;
-const pausa = Math.max(duracaoMorse, pausaVisual);
+    const pausaVisual = caractere === "." || caractere === "," ? 260 : 40;
+    const pausa = Math.max(duracaoMorse, pausaVisual);
 
-temporizadorDigitacaoMissao = setTimeout(digitarProximoCaractere, pausa);
+    temporizadorDigitacaoMissao = setTimeout(digitarProximoCaractere, pausa);
   }
 
   digitarProximoCaractere();
 }
 
 function tocarSinalDigitacaoMissao(caractere) {
-  const unidadeMissaoMs = 48; // 25 WPM = 1200 / 25 = 48 ms
+  const unidadeMissaoMs = 48;
   const caractereNormalizado = String(caractere || "")
     .toUpperCase()
     .normalize("NFD")
@@ -1082,7 +1349,7 @@ function tocarSinalDigitacaoMissao(caractere) {
     tempoAtual += duracao;
 
     if (indice < codigoMorse.length - 1) {
-      tempoAtual += unidadeSegundos; // pausa entre ponto/traço da mesma letra
+      tempoAtual += unidadeSegundos;
     }
   });
 
@@ -1093,7 +1360,7 @@ function tocarSinalDigitacaoMissao(caractere) {
         return total + (simbolo === "." ? unidadeMissaoMs : unidadeMissaoMs * 3);
       }, 0) +
     Math.max(0, codigoMorse.length - 1) * unidadeMissaoMs +
-    unidadeMissaoMs * 3; // pausa entre letras
+    unidadeMissaoMs * 3;
 
   return duracaoTotalMs;
 }
@@ -1122,6 +1389,7 @@ function tocarTomCurtoMissao(inicioAudio, duracaoSegundos) {
   oscilador.start(inicioAudio);
   oscilador.stop(inicioAudio + duracaoSegundos + 0.02);
 }
+
 function pararAnimacaoMissao() {
   if (temporizadorDigitacaoMissao) {
     clearTimeout(temporizadorDigitacaoMissao);
@@ -1131,13 +1399,12 @@ function pararAnimacaoMissao() {
   osciladoresMissaoAnimada.forEach((oscilador) => {
     try {
       oscilador.stop();
-    } catch (erro) {
-      // o som já pode ter parado sozinho
-    }
+    } catch (erro) {}
   });
 
   osciladoresMissaoAnimada = [];
 }
+
 function pararTodosOsSons() {
   pararAnimacaoMissao();
 
@@ -1205,6 +1472,7 @@ function abrirBibliotecaAlfabeto() {
 
   btnVoltarMenuBiblioteca.style.display = "inline-block";
   menuBiblioteca.style.display = "none";
+
   telaBiblioteca.scrollIntoView({
     behavior: "smooth",
     block: "start"
@@ -1220,48 +1488,40 @@ function abrirBibliotecaNumeros() {
 
   btnVoltarMenuBiblioteca.style.display = "inline-block";
   menuBiblioteca.style.display = "none";
+
   telaBiblioteca.scrollIntoView({
     behavior: "smooth",
     block: "start"
   });
 }
+
 function abrirBibliotecaCodigoQ() {
   tituloBiblioteca.textContent = "📡 Código Q";
-
-  descricaoBiblioteca.textContent =
-    "Selecione uma categoria do Código Q.";
+  descricaoBiblioteca.textContent = "Selecione uma categoria do Código Q.";
 
   gridBibliotecaMorse.innerHTML = `
     <button class="cartao-caractere categoria-q" id="btnQOperacao">
       <span class="letra">📡</span>
       <span class="morse">Operação</span>
-      <span class="fonico">
-        Comunicação entre operadores
-      </span>
+      <span class="fonico">Comunicação entre operadores</span>
     </button>
 
     <button class="cartao-caractere categoria-q" id="btnQEstacao">
       <span class="letra">🏠</span>
       <span class="morse">Estação</span>
-      <span class="fonico">
-        Localização e identificação
-      </span>
+      <span class="fonico">Localização e identificação</span>
     </button>
 
     <button class="cartao-caractere categoria-q" id="btnQQualidade">
       <span class="letra">📶</span>
       <span class="morse">Qualidade</span>
-      <span class="fonico">
-        Sinais, ruídos e interferências
-      </span>
+      <span class="fonico">Sinais, ruídos e interferências</span>
     </button>
 
     <button class="cartao-caractere categoria-q" id="btnQTrafego">
       <span class="letra">📨</span>
       <span class="morse">Tráfego</span>
-      <span class="fonico">
-        Mensagens e radiogramas
-      </span>
+      <span class="fonico">Mensagens e radiogramas</span>
     </button>
   `;
 
@@ -1269,27 +1529,17 @@ function abrirBibliotecaCodigoQ() {
   btnVoltarCodigoQ.style.display = "none";
   menuBiblioteca.style.display = "none";
 
-  document
-    .getElementById("btnQOperacao")
-    .addEventListener("click", abrirQOperacao);
-
-  document
-    .getElementById("btnQEstacao")
-    .addEventListener("click", abrirQEstacao);
-
-  document
-    .getElementById("btnQQualidade")
-    .addEventListener("click", abrirQQualidade);
-
-  document
-    .getElementById("btnQTrafego")
-    .addEventListener("click", abrirQTrafego);
+  document.getElementById("btnQOperacao").addEventListener("click", abrirQOperacao);
+  document.getElementById("btnQEstacao").addEventListener("click", abrirQEstacao);
+  document.getElementById("btnQQualidade").addEventListener("click", abrirQQualidade);
+  document.getElementById("btnQTrafego").addEventListener("click", abrirQTrafego);
 
   window.scrollTo({
     top: 0,
     behavior: "smooth"
   });
 }
+
 const CODIGO_Q = {
   operacao: [
     { codigo: "QRL", significado: "A frequência está ocupada." },
@@ -1342,6 +1592,7 @@ const CODIGO_Q = {
     { codigo: "QSJ", significado: "Valor ou taxa da comunicação." }
   ]
 };
+
 const SINAIS_SERVICO = [
   { codigo: "AR", significado: "Fim da transmissão." },
   { codigo: "AS", significado: "Espere." },
@@ -1362,6 +1613,7 @@ const SINAIS_SERVICO = [
   { codigo: "WA", significado: "Palavra após." },
   { codigo: "WB", significado: "Palavra antes." }
 ];
+
 const ABREVIACOES_MORSE = [
   { codigo: "AGN", significado: "Novamente." },
   { codigo: "ANT", significado: "Antena." },
@@ -1397,6 +1649,7 @@ const ABREVIACOES_MORSE = [
   { codigo: "73", significado: "Saudações / cordial abraço." },
   { codigo: "88", significado: "Abraços e beijos." }
 ];
+
 const CARACTERES_ESPECIAIS_MORSE = [
   { codigo: ".", significado: "Ponto final." },
   { codigo: ",", significado: "Vírgula." },
@@ -1406,6 +1659,7 @@ const CARACTERES_ESPECIAIS_MORSE = [
   { codigo: "+", significado: "Mais." },
   { codigo: "@", significado: "Arroba." }
 ];
+
 const PALAVRAS_COMUNS_MORSE = [
   "SOL", "MAR", "RIO", "LUZ", "SOM", "FIO", "RUA", "AR", "REDE", "BASE",
   "RADIO", "MORSE", "SINAL", "TORRE", "POSTO", "ANTENA", "CANAL", "CHAVE", "FONIA", "CABO",
@@ -1441,6 +1695,7 @@ const FRASES_OPERACIONAIS_MORSE = [
   "POSTO 3",
   "RADIO BASE"
 ];
+
 const MENSAGENS_OPERACIONAIS_MORSE = [
   "QSL RECEBIDO",
   "QRV PARA TRANSMITIR",
@@ -1516,6 +1771,7 @@ const ESCUTA_OPERACIONAL_BIBLIOTECA = [
   "CONTATO ESTABELECIDO",
   "CONTATO PERDIDO"
 ];
+
 function embaralharArray(array) {
   const copia = [...array];
 
@@ -1527,12 +1783,14 @@ function embaralharArray(array) {
 
   return copia;
 }
+
 let escutaOperacional = {
   indice: 0,
   acertos: 0,
   erros: 0,
   pontos: 0
 };
+
 let ouvirDigitar = {
   indice: 0,
   acertos: 0,
@@ -1540,6 +1798,7 @@ let ouvirDigitar = {
   pontos: 0,
   missoes: []
 };
+
 let treinoAuditivo = {
   modo: "livre",
   categoria: "letras",
@@ -1554,11 +1813,10 @@ let treinoAuditivo = {
   repeticoesItem: 0,
   historico: []
 };
+
 function mostrarCategoriaQ(titulo, itens) {
   tituloBiblioteca.textContent = titulo;
-
-  descricaoBiblioteca.textContent =
-    "Toque em um cartão para ouvir o código e consultar o significado.";
+  descricaoBiblioteca.textContent = "Toque em um cartão para ouvir o código e consultar o significado.";
 
   btnVoltarMenuBiblioteca.style.display = "none";
   btnVoltarCodigoQ.style.display = "inline-block";
@@ -1585,38 +1843,26 @@ function mostrarCategoriaQ(titulo, itens) {
     });
   });
 }
+
 function abrirQOperacao() {
-  mostrarCategoriaQ(
-    "📡 Código Q — Operação",
-    CODIGO_Q.operacao
-  );
+  mostrarCategoriaQ("📡 Código Q — Operação", CODIGO_Q.operacao);
 }
 
 function abrirQEstacao() {
-  mostrarCategoriaQ(
-    "🏠 Código Q — Estação",
-    CODIGO_Q.estacao
-  );
+  mostrarCategoriaQ("🏠 Código Q — Estação", CODIGO_Q.estacao);
 }
 
 function abrirQQualidade() {
-  mostrarCategoriaQ(
-    "📶 Código Q — Qualidade",
-    CODIGO_Q.qualidade
-  );
+  mostrarCategoriaQ("📶 Código Q — Qualidade", CODIGO_Q.qualidade);
 }
 
 function abrirQTrafego() {
-  mostrarCategoriaQ(
-    "📨 Código Q — Tráfego",
-    CODIGO_Q.trafego
-  );
+  mostrarCategoriaQ("📨 Código Q — Tráfego", CODIGO_Q.trafego);
 }
+
 function abrirBibliotecaSinaisServico() {
   tituloBiblioteca.textContent = "⚡ Sinais de Serviço";
-
-  descricaoBiblioteca.textContent =
-    "Sinais usados para controlar, corrigir e organizar a comunicação Morse.";
+  descricaoBiblioteca.textContent = "Sinais usados para controlar, corrigir e organizar a comunicação Morse.";
 
   btnVoltarMenuBiblioteca.style.display = "inline-block";
   btnVoltarCodigoQ.style.display = "none";
@@ -1648,11 +1894,10 @@ function abrirBibliotecaSinaisServico() {
     behavior: "smooth"
   });
 }
+
 function abrirBibliotecaAbreviacoes() {
   tituloBiblioteca.textContent = "📚 Abreviações Morse";
-
-  descricaoBiblioteca.textContent =
-    "Abreviações comuns usadas em comunicação Morse e rádio.";
+  descricaoBiblioteca.textContent = "Abreviações comuns usadas em comunicação Morse e rádio.";
 
   btnVoltarMenuBiblioteca.style.display = "inline-block";
   btnVoltarCodigoQ.style.display = "none";
@@ -1684,6 +1929,7 @@ function abrirBibliotecaAbreviacoes() {
     behavior: "smooth"
   });
 }
+
 function abrirBibliotecaCaracteresEspeciais() {
   tituloBiblioteca.textContent = "🔣 Caracteres Especiais";
   descricaoBiblioteca.textContent = "";
@@ -1718,6 +1964,7 @@ function abrirBibliotecaCaracteresEspeciais() {
     behavior: "smooth"
   });
 }
+
 function abrirBibliotecaTreinoAuditivo() {
   tituloBiblioteca.textContent = "";
   descricaoBiblioteca.textContent = "";
@@ -1750,6 +1997,7 @@ function iniciarOuvirDigitar() {
 
   renderizarOuvirDigitar();
 }
+
 function renderizarOuvirDigitar(mostrarResposta = false, mensagem = "") {
   const mensagemCorreta = ouvirDigitar.missoes[ouvirDigitar.indice];
 
@@ -1855,6 +2103,7 @@ function renderizarOuvirDigitar(mostrarResposta = false, mensagem = "") {
     .getElementById("btnVoltarMenuOuvirDigitar")
     .addEventListener("click", montarMenuTreinoAuditivo);
 }
+
 function confirmarOuvirDigitar() {
   const input = document.getElementById("inputOuvirDigitar");
   if (!input) return;
@@ -1884,10 +2133,12 @@ function confirmarOuvirDigitar() {
   tocarErro();
   renderizarOuvirDigitar(true, "Incorreto. Confira a mensagem correta.");
 }
+
 function proximaOuvirDigitar() {
   ouvirDigitar.indice += 1;
   renderizarOuvirDigitar(false);
 }
+
 function finalizarOuvirDigitar() {
   const total = ouvirDigitar.missoes.length || 1;
 
@@ -1957,8 +2208,8 @@ function finalizarOuvirDigitar() {
     .getElementById("btnVoltarTreinoOuvirDigitarFinal")
     .addEventListener("click", montarMenuTreinoAuditivo);
 }
-function iniciarEscutaOperacional() {
 
+function iniciarEscutaOperacional() {
   const sorteadas = embaralharArray(
     ESCUTA_OPERACIONAL_BIBLIOTECA
   ).slice(0, 5);
@@ -1973,6 +2224,7 @@ function iniciarEscutaOperacional() {
 
   renderizarEscutaOperacional();
 }
+
 function renderizarEscutaOperacional() {
   const mensagemCorreta = escutaOperacional.missoes[escutaOperacional.indice];
 
@@ -2073,6 +2325,7 @@ function responderEscutaOperacional(respostaSelecionada) {
     renderizarEscutaOperacional();
   }, 1200);
 }
+
 function finalizarEscutaOperacional() {
   const aproveitamento = Math.round(
     (escutaOperacional.acertos / escutaOperacional.missoes.length) * 100
@@ -2154,48 +2407,54 @@ function finalizarEscutaOperacional() {
     .getElementById("btnVoltarTreinoEscutaFinal")
     .addEventListener("click", montarMenuTreinoAuditivo);
 }
+
 function montarMenuTreinoAuditivo() {
   const progressoAuditivo = obterProgressoAuditivo();
+
   gridBibliotecaMorse.innerHTML = `
     <div class="painel-treino-auditivo treino-menu-clean">
       <div class="treino-auditivo-topo">
         <h2>🎧 Treino Auditivo</h2>
+
         <div class="painel-progresso-auditivo">
-  <div class="progresso-auditivo-card">
-    <span class="label">Categorias concluídas</span>
-    <strong>${progressoAuditivo.concluidas}/8</strong>
-  </div>
+          <div class="progresso-auditivo-card">
+            <span class="label">Categorias concluídas</span>
+            <strong>${progressoAuditivo.concluidas}/8</strong>
+          </div>
 
-  <div class="progresso-auditivo-card">
-    <span class="label">Melhor aproveitamento</span>
-    <strong>${progressoAuditivo.melhor}%</strong>
-  </div>
+          <div class="progresso-auditivo-card">
+            <span class="label">Melhor aproveitamento</span>
+            <strong>${progressoAuditivo.melhor}%</strong>
+          </div>
 
-  <div class="progresso-auditivo-card">
-    <span class="label">Treinos realizados</span>
-    <strong>${progressoAuditivo.total}</strong>
-  </div>
-</div>
+          <div class="progresso-auditivo-card">
+            <span class="label">Treinos realizados</span>
+            <strong>${progressoAuditivo.total}</strong>
+          </div>
+        </div>
       </div>
+
       <div class="card-escuta-operacional">
-      <h3>📡 Escuta Operacional</h3>
-      <p>Ouça mensagens completas e escolha a alternativa correta.</p>
-    
-      <button id="btnIniciarEscutaOperacional" class="btn principal">
-        Iniciar Escuta Operacional
-      </button>
-    </div>
-    <div class="card-escuta-operacional">
-  <h3>⌨️ Ouvir e Digitar</h3>
+        <h3>📡 Escuta Operacional</h3>
+        <p>Ouça mensagens completas e escolha a alternativa correta.</p>
 
-  <p>
-    Escute a mensagem em Morse e digite exatamente o que ouviu.
-  </p>
+        <button id="btnIniciarEscutaOperacional" class="btn principal">
+          Iniciar Escuta Operacional
+        </button>
+      </div>
 
-  <button id="btnOuvirDigitar" class="btn principal">
-    Iniciar Ouvir e Digitar
-  </button>
-</div>
+      <div class="card-escuta-operacional">
+        <h3>⌨️ Ouvir e Digitar</h3>
+
+        <p>
+          Escute a mensagem em Morse e digite exatamente o que ouviu.
+        </p>
+
+        <button id="btnOuvirDigitar" class="btn principal">
+          Iniciar Ouvir e Digitar
+        </button>
+      </div>
+
       <div class="lista-treino-auditivo">
         ${criarLinhaCategoriaTreino("letras", "ABC / Letras")}
         ${criarLinhaCategoriaTreino("numeros", "Números")}
@@ -2231,17 +2490,20 @@ function montarMenuTreinoAuditivo() {
   document
     .getElementById("btnVoltarBibliotecaTreinoMenu")
     .addEventListener("click", abrirBiblioteca);
-    const btnEscutaOperacional = document.getElementById("btnIniciarEscutaOperacional");
 
-if (btnEscutaOperacional) {
-  btnEscutaOperacional.addEventListener("click", iniciarEscutaOperacional);
-}
-const btnOuvirDigitar = document.getElementById("btnOuvirDigitar");
+  const btnEscutaOperacional = document.getElementById("btnIniciarEscutaOperacional");
 
-if (btnOuvirDigitar) {
-  btnOuvirDigitar.addEventListener("click", iniciarOuvirDigitar);
+  if (btnEscutaOperacional) {
+    btnEscutaOperacional.addEventListener("click", iniciarEscutaOperacional);
+  }
+
+  const btnOuvirDigitar = document.getElementById("btnOuvirDigitar");
+
+  if (btnOuvirDigitar) {
+    btnOuvirDigitar.addEventListener("click", iniciarOuvirDigitar);
+  }
 }
-}
+
 function criarLinhaCategoriaTreino(categoria, titulo) {
   return `
     <div class="linha-categoria-treino">
@@ -2259,6 +2521,7 @@ function criarLinhaCategoriaTreino(categoria, titulo) {
     </div>
   `;
 }
+
 function iniciarTreinoAuditivo(categoria, modo) {
   treinoAuditivo = {
     modo,
@@ -2311,7 +2574,8 @@ function obterItensTreinoAuditivo(categoria) {
 
   const frases = FRASES_OPERACIONAIS_MORSE
     .map((item) => criarItemTreino(item, "Frase operacional", "Frase curta para preparação do modo avançado."));
-    const mensagens = MENSAGENS_OPERACIONAIS_MORSE
+
+  const mensagens = MENSAGENS_OPERACIONAIS_MORSE
     .map((item) => criarItemTreino(item, "Mensagem operacional", "Mensagem completa para preparação do modo avançado."));
 
   if (categoria === "letras") return letras;
@@ -2369,7 +2633,6 @@ function sortearNovoItemTreinoAuditivo() {
     treinoAuditivo.rodada += 1;
   }
 }
-
 function renderizarTelaTreinoAuditivo(mostrarResposta = false, mensagem = "") {
   const item = treinoAuditivo.itemAtual;
   const ehDesafio = treinoAuditivo.modo === "desafio";
@@ -2498,6 +2761,7 @@ function renderizarTelaTreinoAuditivo(mostrarResposta = false, mensagem = "") {
     });
   }
 }
+
 function ouvirItemTreinoAuditivo() {
   if (!treinoAuditivo.itemAtual) return;
 
@@ -2511,10 +2775,11 @@ function confirmarRespostaAuditiva() {
 
   input.setAttribute("readonly", "readonly");
   input.blur();
-  
+
   setTimeout(() => {
     input.removeAttribute("readonly");
   }, 300);
+
   const respostaUsuario = normalizarRespostaAuditiva(input.value);
   const respostaCorreta = normalizarRespostaAuditiva(treinoAuditivo.itemAtual.resposta);
 
@@ -2537,21 +2802,21 @@ function confirmarRespostaAuditiva() {
 
     tocarAcerto();
 
-setTimeout(() => {
-  renderizarTelaTreinoAuditivo(true, `Correto!`);
+    setTimeout(() => {
+      renderizarTelaTreinoAuditivo(true, "Correto!");
 
-  setTimeout(() => {
-    const areaResposta = document.getElementById("areaRespostaTreino");
-    if (areaResposta) {
-      areaResposta.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-      });
-    }
-  }, 150);
-}, 350);
+      setTimeout(() => {
+        const areaResposta = document.getElementById("areaRespostaTreino");
+        if (areaResposta) {
+          areaResposta.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+          });
+        }
+      }, 150);
+    }, 350);
 
-return;
+    return;
   }
 
   treinoAuditivo.erros += 1;
@@ -2559,19 +2824,19 @@ return;
 
   tocarErro();
 
-setTimeout(() => {
-  renderizarTelaTreinoAuditivo(true, `Incorreto.`);
-
   setTimeout(() => {
-    const areaResposta = document.getElementById("areaRespostaTreino");
-    if (areaResposta) {
-      areaResposta.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-      });
-    }
-  }, 150);
-}, 350);
+    renderizarTelaTreinoAuditivo(true, "Incorreto.");
+
+    setTimeout(() => {
+      const areaResposta = document.getElementById("areaRespostaTreino");
+      if (areaResposta) {
+        areaResposta.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+      }
+    }, 150);
+  }, 350);
 }
 
 function proximoItemTreinoAuditivo() {
@@ -2686,6 +2951,7 @@ function finalizarDesafioAuditivo() {
   document.getElementById("btnVoltarMenuTreinoFinal").addEventListener("click", montarMenuTreinoAuditivo);
   document.getElementById("btnVoltarBibliotecaTreinoFinal").addEventListener("click", abrirBiblioteca);
 }
+
 function obterProgressoAuditivo() {
   const dados = JSON.parse(
     localStorage.getItem("edsMorseProgressoAuditivo") || "{}"
@@ -2714,6 +2980,7 @@ function obterProgressoAuditivo() {
     total
   };
 }
+
 function salvarResultadoTreinoAuditivo(aproveitamento) {
   const dados = JSON.parse(
     localStorage.getItem("edsMorseProgressoAuditivo") || "{}"
@@ -2739,6 +3006,7 @@ function salvarResultadoTreinoAuditivo(aproveitamento) {
     JSON.stringify(dados)
   );
 }
+
 function obterResultadoTreinoAuditivo() {
   const chave = `operadorMorseTreinoAuditivo_${getChaveOperador()}`;
 
@@ -2774,6 +3042,7 @@ function nomeCategoriaTreino(categoria) {
 
   return nomes[categoria] || "Treino Auditivo";
 }
+
 function salvarNomeOperador() {
   nomeOperador = getNomeOperadorAtual();
   inputNomeOperador.value = nomeOperador;
@@ -2874,6 +3143,7 @@ function abrirTelaMapaModo() {
 
   registrarEstadoNavegacao();
 }
+
 function atualizarCardModo(idCard, liberado, textoBadge, textoStatus) {
   const card = document.getElementById(idCard);
   if (!card) return;
@@ -2905,18 +3175,22 @@ function aplicarModoVisualJogo() {
       modoAtual === MODO_INTERMEDIARIO
     );
   }
+
   if (cardProgresso) {
     cardProgresso.style.display =
       modoAtual === MODO_AVANCADO ? "none" : "";
   }
+
   document.body.classList.toggle(
     "modo-avancado",
     modoAtual === MODO_AVANCADO
   );
+
   if (timerMissaoEl) {
     timerMissaoEl.style.display =
       modoAtual === MODO_AVANCADO ? "inline-flex" : "none";
   }
+
   atualizarPainelRitmo();
 }
 
@@ -2953,38 +3227,39 @@ function renderizarCampanha() {
   if (labelModoAtual) {
     labelModoAtual.textContent = `Modo ${getNomeModo(modoAtual)}`;
   }
+
   const tituloSecao = document.querySelector(".titulo-secao");
 
-if (tituloSecao) {
-  const botaoVoltarModosExistente = document.getElementById("btnVoltarModos");
+  if (tituloSecao) {
+    const botaoVoltarModosExistente = document.getElementById("btnVoltarModos");
 
-  if (botaoVoltarModosExistente) {
-    botaoVoltarModosExistente.remove();
+    if (botaoVoltarModosExistente) {
+      botaoVoltarModosExistente.remove();
+    }
+
+    if (document.body.classList.contains("visualizando-mapa-modo")) {
+      const botaoVoltarModos = document.createElement("button");
+      botaoVoltarModos.id = "btnVoltarModos";
+      botaoVoltarModos.className = "btn secundario compacto";
+      botaoVoltarModos.textContent = "← Modos";
+
+      botaoVoltarModos.addEventListener("click", () => {
+        document.body.classList.remove("visualizando-mapa-modo");
+        renderizarCampanha();
+
+        const telaAtiva = document.querySelector(".tela.ativa");
+        if (telaAtiva) {
+          telaAtiva.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "instant"
+          });
+        }
+      });
+
+      tituloSecao.appendChild(botaoVoltarModos);
+    }
   }
-
-  if (document.body.classList.contains("visualizando-mapa-modo")) {
-    const botaoVoltarModos = document.createElement("button");
-    botaoVoltarModos.id = "btnVoltarModos";
-    botaoVoltarModos.className = "btn secundario compacto";
-    botaoVoltarModos.textContent = "← Modos";
-
-    botaoVoltarModos.addEventListener("click", () => {
-      document.body.classList.remove("visualizando-mapa-modo");
-      renderizarCampanha();
-
-      const telaAtiva = document.querySelector(".tela.ativa");
-      if (telaAtiva) {
-        telaAtiva.scrollTo({
-          top: 0,
-          left: 0,
-          behavior: "instant"
-        });
-      }
-    });
-
-    tituloSecao.appendChild(botaoVoltarModos);
-  }
-}
 
   atualizarCardModo(
     "cardModoIntermediario",
@@ -3102,10 +3377,12 @@ function iniciarNivel(index) {
   limparTemporizadoresPausa();
 
   mostrarTela(telaJogo);
+
   window.scrollTo({
     top: 0,
     behavior: "smooth"
   });
+
   carregarMissao();
   atualizarPlacar();
   aplicarModoVisualJogo();
@@ -3135,7 +3412,6 @@ function avancarProximoNivel() {
 
   iniciarNivel(nivelAtualIndex + 1);
 }
-
 function getNivelAtual() {
   return getNiveisModo(modoAtual)[nivelAtualIndex];
 }
@@ -3157,11 +3433,11 @@ function carregarMissao() {
 
   nomeOperadorEl.textContent = nivel.titulo;
 
-badgeNivel.textContent =
-  `Missão ${missaoAtualIndex + 1}/${nivel.missoes.length}`;
+  badgeNivel.textContent =
+    `Missão ${missaoAtualIndex + 1}/${nivel.missoes.length}`;
 
   badgePatente.textContent =
-  `Acertos ${acertosNivel}/${nivel.missoes.length}`;
+    `Acertos ${acertosNivel}/${nivel.missoes.length}`;
 
   textoMissao.textContent = `Envie: ${missao.alvo}`;
 
@@ -3183,20 +3459,20 @@ badgeNivel.textContent =
   atualizarCodigoNaTela();
 
   feedback.textContent = "";
-feedback.className = "feedback";
-inicioMissaoMs = performance.now();
+  feedback.className = "feedback";
+  inicioMissaoMs = performance.now();
 
-if (modoAtual === MODO_AVANCADO) {
-  iniciarTimerMissao();
-} else {
-  pararTimerMissao();
+  if (modoAtual === MODO_AVANCADO) {
+    iniciarTimerMissao();
+  } else {
+    pararTimerMissao();
 
-  if (timerMissaoEl) {
-    timerMissaoEl.style.display = "none";
+    if (timerMissaoEl) {
+      timerMissaoEl.style.display = "none";
+    }
   }
-}
 
-aplicarModoVisualJogo();
+  aplicarModoVisualJogo();
 }
 
 function confirmarEnvio() {
@@ -3228,7 +3504,7 @@ function confirmarEnvio() {
     tocarAcerto();
     feedback.textContent = `Correto! +${pontosGanhos} pontos.`;
     feedback.className = "feedback sucesso";
-      } else {
+  } else {
     errosNivel += 1;
     sequenciaAcertos = 0;
     pontuacao = Math.max(0, pontuacao - 2);
@@ -3311,6 +3587,7 @@ function finalizarNivel() {
   const excelenciaWpm = wpm >= META_WPM;
 
   let pontosFinais = pontuacao;
+
   if (bonus) pontosFinais += 25;
   if (excelenciaWpm && aprovado) pontosFinais += 25;
 
@@ -3321,7 +3598,7 @@ function finalizarNivel() {
 
   if (aprovado && nivelAtualIndex === niveis.length - 1) {
     campanhaFinalizada = true;
-  
+
     if (modoAtual === MODO_AVANCADO) {
       patenteResultado = PATENTE_FINAL_AVANCADO;
     } else if (modoAtual === MODO_INTERMEDIARIO) {
@@ -3336,7 +3613,7 @@ function finalizarNivel() {
     chaveOperador: getChaveOperador(),
     modo: getNomeModo(modoAtual),
     patente: patenteResultado,
-    nivel: campanhaFinalizada ? niveis.length + 1 : nivel.numero,
+    nivel: nivel.numero,
     titulo: campanhaFinalizada ? `Campanha ${getNomeModo(modoAtual)} concluída` : nivel.titulo,
     pontos: pontosFinais,
     aproveitamento,
@@ -3350,6 +3627,10 @@ function finalizarNivel() {
   };
 
   salvarRanking(ultimoResultado);
+
+  const registroCarreira = registrarResultadoNaCarreira(ultimoResultado);
+
+  ultimoResultado.registroCarreira = registroCarreira;
 
   if (aprovado) liberarProximoNivel(campanhaFinalizada);
 
@@ -3370,6 +3651,7 @@ function liberarProximoNivel(campanhaFinalizada) {
     if (modoAtual === MODO_INTERMEDIARIO) {
       localStorage.setItem(chaveIntermediarioConcluido(), "sim");
     }
+
     if (modoAtual === MODO_AVANCADO) {
       localStorage.setItem(chaveAvancadoConcluido(), "sim");
     }
@@ -3428,6 +3710,88 @@ function mostrarResultadoNivel(resultado, campanhaFinalizada) {
 
   renderizarRelatorioOperacional(resultado, mensagemNarrativa, conquistasNovas, campanhaFinalizada);
 }
+
+function renderizarRelatorioOperacional(resultado, mensagemNarrativa, conquistasNovas, campanhaFinalizada) {
+  const relatorio = document.getElementById("relatorioOperacionalResultado");
+  if (!relatorio) return;
+
+  relatorio.style.display = "grid";
+
+  const proximaPromocao = resultado.aprovado
+    ? (campanhaFinalizada ? resultado.patente : proximaPatenteTexto())
+    : resultado.patente;
+
+  const tituloRelatorio = mensagemNarrativa?.titulo || "📡 Nível concluído";
+  const textoRelatorio = mensagemNarrativa?.texto || "A rede avançou para a próxima etapa.";
+
+  const listaConquistas = conquistasNovas.length
+    ? conquistasNovas
+        .map((id) => {
+          const conquista = CONQUISTAS[id];
+          if (!conquista) return "";
+          return `<li>${escaparHtml(conquista.nome)}</li>`;
+        })
+        .join("")
+    : "<li>Nenhuma nova medalha nesta missão.</li>";
+
+  const registroCarreira = resultado.registroCarreira;
+
+  let htmlCarreira = "";
+
+  if (registroCarreira) {
+    const listaPremiosCarreira = registroCarreira.premiosDaFase.length
+      ? registroCarreira.premiosDaFase
+          .map((premio) => `<li>${escaparHtml(premio.nome)}</li>`)
+          .join("")
+      : "<li>Nenhum novo prêmio de carreira nesta missão.</li>";
+
+    htmlCarreira = `
+      <div class="relatorio-bloco bloco-carreira-operador">
+        <span class="label">Carreira do Operador</span>
+        <h2>🎖️ Pontuação acumulada</h2>
+
+        <p>
+          Pontos somados nesta fase:
+          <strong>+${registroCarreira.pontosSomados}</strong>
+        </p>
+
+        <p>
+          Bônus de tempo:
+          <strong>+${registroCarreira.bonusTempo}</strong>
+        </p>
+
+        <p>
+          Total acumulado:
+          <strong>${registroCarreira.carreira.pontosTotais} pontos</strong>
+        </p>
+
+        <p>Prêmios desta fase:</p>
+        <ul>${listaPremiosCarreira}</ul>
+      </div>
+    `;
+  }
+
+  relatorio.innerHTML = `
+    <div class="relatorio-bloco">
+      <span class="label">Situação da Rede</span>
+      <h2>${escaparHtml(tituloRelatorio)}</h2>
+      <p>${escaparHtml(textoRelatorio)}</p>
+    </div>
+
+    ${htmlCarreira}
+
+    <div class="relatorio-bloco">
+      <span class="label">Promoção</span>
+      <strong>${escaparHtml(proximaPromocao)}</strong>
+    </div>
+
+    <div class="relatorio-bloco">
+      <span class="label">Medalhas e Distintivos</span>
+      <ul>${listaConquistas}</ul>
+    </div>
+  `;
+}
+
 function verificarConquistasDoNivel(resultado, campanhaFinalizada) {
   if (!resultado || !resultado.aprovado) return [];
 
@@ -3459,52 +3823,13 @@ function verificarConquistasDoNivel(resultado, campanhaFinalizada) {
   return novas;
 }
 
-function renderizarRelatorioOperacional(resultado, mensagemNarrativa, conquistasNovas, campanhaFinalizada) {
-  const relatorio = document.getElementById("relatorioOperacionalResultado");
-  if (!relatorio) return;
-
-  relatorio.style.display = "grid";
-
-  const proximaPromocao = resultado.aprovado
-    ? (campanhaFinalizada ? resultado.patente : proximaPatenteTexto())
-    : resultado.patente;
-
-  const tituloRelatorio = mensagemNarrativa?.titulo || "📡 Nível concluído";
-  const textoRelatorio = mensagemNarrativa?.texto || "A rede avançou para a próxima etapa.";
-
-  const listaConquistas = conquistasNovas.length
-    ? conquistasNovas
-        .map((id) => {
-          const conquista = CONQUISTAS[id];
-          if (!conquista) return "";
-          return `<li>${escaparHtml(conquista.nome)}</li>`;
-        })
-        .join("")
-    : "<li>Nenhuma nova medalha nesta missão.</li>";
-
-  relatorio.innerHTML = `
-    <div class="relatorio-bloco">
-      <span class="label">Situação da Rede</span>
-      <h2>${escaparHtml(tituloRelatorio)}</h2>
-      <p>${escaparHtml(textoRelatorio)}</p>
-    </div>
-
-    <div class="relatorio-bloco">
-      <span class="label">Promoção</span>
-      <strong>${escaparHtml(proximaPromocao)}</strong>
-    </div>
-
-    <div class="relatorio-bloco">
-      <span class="label">Medalhas e Distintivos</span>
-      <ul>${listaConquistas}</ul>
-    </div>
-  `;
-}
 function proximaPatenteTexto() {
   const niveis = getNiveisModo(modoAtual);
 
   if (nivelAtualIndex >= niveis.length - 1) {
-    return modoAtual === MODO_INTERMEDIARIO ? PATENTE_FINAL_INTERMEDIARIO : PATENTE_FINAL_INICIANTE;
+    if (modoAtual === MODO_AVANCADO) return PATENTE_FINAL_AVANCADO;
+    if (modoAtual === MODO_INTERMEDIARIO) return PATENTE_FINAL_INTERMEDIARIO;
+    return PATENTE_FINAL_INICIANTE;
   }
 
   return niveis[nivelAtualIndex + 1].patente;
@@ -3547,6 +3872,7 @@ function finalizarPressionamento() {
 
 function cancelarPressionamento() {
   if (!pressionando) return;
+
   pressionando = false;
   btnMorse.classList.remove("pressionado");
   pararTomMorse();
@@ -3606,25 +3932,20 @@ function agendarSeparacaoAutomatica() {
 
   temporizadorPalavra = setTimeout(() => {
     if (modoAtual === MODO_AVANCADO) return;
-  
+
     if (!codigoAtual.trim()) return;
-  
+
     const missao = getMissaoAtual();
-    const enviado = normalizarCodigo(codigoAtual);
     const correto = normalizarCodigo(missao.codigo);
-  
-    if (enviado === correto) {
-      return;
-    }
-  
+
     const codigoComBarra = normalizarCodigo(`${codigoAtual.trim()} /`);
-  
+
     if (!correto.startsWith(codigoComBarra)) {
       return;
     }
-  
+
     codigoAtual = codigoAtual.trim();
-  
+
     if (!codigoAtual.endsWith("/")) {
       codigoAtual += " / ";
       atualizarCodigoNaTela();
@@ -3632,6 +3953,7 @@ function agendarSeparacaoAutomatica() {
     }
   }, pausaAutoPalavraMs);
 }
+
 function mostrarFeedbackPausa(texto) {
   feedback.innerHTML = `<span class="feedback-pausa">${texto}</span>`;
   feedback.className = "feedback alerta";
@@ -3640,6 +3962,7 @@ function mostrarFeedbackPausa(texto) {
 function limparTemporizadoresPausa() {
   if (temporizadorLetra) clearTimeout(temporizadorLetra);
   if (temporizadorPalavra) clearTimeout(temporizadorPalavra);
+
   temporizadorLetra = null;
   temporizadorPalavra = null;
 }
@@ -3669,9 +3992,11 @@ function limparCodigo() {
 
 function mostrarFeedbackManipulacao(simbolo, duracao) {
   const duracaoArredondada = Math.round(duracao);
+
   feedback.textContent = simbolo === "."
     ? `Ponto transmitido (${duracaoArredondada} ms).`
     : `Traço transmitido (${duracaoArredondada} ms).`;
+
   feedback.className = "feedback";
 }
 
@@ -3693,6 +4018,7 @@ function calcularWpmNivel(tempoSegundos) {
 
   return Number.isFinite(wpm) ? wpm : 0;
 }
+
 function iniciarTimerMissao() {
   pararTimerMissao();
 
@@ -3717,6 +4043,7 @@ function pararTimerMissao() {
     intervaloTimerMissao = null;
   }
 }
+
 function formatarTempo(segundos) {
   const min = Math.floor(segundos / 60);
   const seg = segundos % 60;
@@ -3927,6 +4254,7 @@ function tocarSequenciaMorse(codigoMorse) {
     }
   });
 }
+
 /* =========================
    BOOT DA ESTAÇÃO MORSE - SEM SOM
 ========================= */
@@ -3948,12 +4276,13 @@ function iniciarBootEstacao() {
     }, 800);
   };
 
-  setTimeout(fecharBoot, 5200);
+  setTimeout(fecharBoot, 4300);
 
   telaBoot.addEventListener("click", fecharBoot);
 }
 
 window.addEventListener("load", iniciarBootEstacao);
+
 /* =========================
    MANIPULADOR LIVRE
 ========================= */
@@ -3974,7 +4303,7 @@ function iniciarPressionamentoManipulador() {
   limparTemporizadoresManipulador();
 
   pressionandoManipulador = true;
-    inicioPressionamentoManipulador = performance.now();
+  inicioPressionamentoManipulador = performance.now();
 
   btnMorseManipulador.classList.add("pressionado");
   iniciarTomMorse();
@@ -4013,6 +4342,7 @@ function cancelarPressionamentoManipulador() {
   btnMorseManipulador.classList.remove("pressionado");
   pararTomMorse();
 }
+
 function limparTemporizadoresManipulador() {
   if (temporizadorLetraManipulador) clearTimeout(temporizadorLetraManipulador);
   if (temporizadorPalavraManipulador) clearTimeout(temporizadorPalavraManipulador);
@@ -4048,6 +4378,7 @@ function agendarPausasManipulador() {
     }
   }, pausaAutoPalavraMs);
 }
+
 function inserirEspacoLetraManipulador() {
   if (!codigoLivre.trim()) return;
 
@@ -4142,6 +4473,7 @@ function limparManipuladorLivre() {
 
   atualizarManipuladorLivre();
 }
+
 function iniciarPressionamentoLimparManipulador(evento) {
   evento.preventDefault();
 
@@ -4189,6 +4521,7 @@ function limparTudoManipuladorLivre() {
 
   atualizarManipuladorLivre();
 }
+
 function atualizarManipuladorLivre() {
   codigoManipulador.textContent = codigoLivre.trim() || "—";
   textoManipulador.textContent = decodificarMorseLivre(codigoLivre) || "—";
