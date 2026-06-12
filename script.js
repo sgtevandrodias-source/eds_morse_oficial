@@ -3979,7 +3979,7 @@ function iniciarPressionamentoLimparManipulador(evento) {
   temporizadorLimparTotalManipulador = setTimeout(() => {
     limpezaTotalManipuladorAcionada = true;
     limparTudoManipuladorLivre();
-  }, 2000);
+  }, 1000);
 }
 
 function finalizarPressionamentoLimparManipulador(evento) {
