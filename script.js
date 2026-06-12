@@ -806,7 +806,10 @@ btnMorseManipulador.addEventListener("pointerup", finalizarPressionamentoManipul
 btnMorseManipulador.addEventListener("pointerleave", finalizarPressionamentoManipulador);
 btnMorseManipulador.addEventListener("pointercancel", cancelarPressionamentoManipulador);
 
-btnLimparManipulador.addEventListener("click", limparManipuladorLivre);
+btnLimparManipulador.addEventListener("pointerdown", iniciarPressionamentoLimparManipulador);
+btnLimparManipulador.addEventListener("pointerup", finalizarPressionamentoLimparManipulador);
+btnLimparManipulador.addEventListener("pointerleave", cancelarPressionamentoLimparManipulador);
+btnLimparManipulador.addEventListener("pointercancel", cancelarPressionamentoLimparManipulador);
 btnVoltarInicioManipulador.addEventListener("click", voltarInicio);
 
 document.addEventListener("keydown", (evento) => {
@@ -3785,6 +3788,8 @@ let pressionandoManipulador = false;
 let inicioPressionamentoManipulador = 0;
 let temporizadorLetraManipulador = null;
 let temporizadorPalavraManipulador = null;
+let temporizadorLimparTotalManipulador = null;
+let limpezaTotalManipuladorAcionada = false;
 
 function iniciarPressionamentoManipulador() {
   prepararAudio();
@@ -3962,7 +3967,53 @@ function limparManipuladorLivre() {
 
   atualizarManipuladorLivre();
 }
+function iniciarPressionamentoLimparManipulador(evento) {
+  evento.preventDefault();
 
+  limpezaTotalManipuladorAcionada = false;
+
+  if (temporizadorLimparTotalManipulador) {
+    clearTimeout(temporizadorLimparTotalManipulador);
+  }
+
+  temporizadorLimparTotalManipulador = setTimeout(() => {
+    limpezaTotalManipuladorAcionada = true;
+    limparTudoManipuladorLivre();
+  }, 2000);
+}
+
+function finalizarPressionamentoLimparManipulador(evento) {
+  evento.preventDefault();
+
+  if (temporizadorLimparTotalManipulador) {
+    clearTimeout(temporizadorLimparTotalManipulador);
+    temporizadorLimparTotalManipulador = null;
+  }
+
+  if (limpezaTotalManipuladorAcionada) {
+    return;
+  }
+
+  limparManipuladorLivre();
+}
+
+function cancelarPressionamentoLimparManipulador() {
+  if (temporizadorLimparTotalManipulador) {
+    clearTimeout(temporizadorLimparTotalManipulador);
+    temporizadorLimparTotalManipulador = null;
+  }
+}
+
+function limparTudoManipuladorLivre() {
+  limparTemporizadoresManipulador();
+
+  codigoLivre = "";
+
+  feedbackManipulador.textContent = "Manipulador totalmente limpo.";
+  feedbackManipulador.className = "feedback";
+
+  atualizarManipuladorLivre();
+}
 function atualizarManipuladorLivre() {
   codigoManipulador.textContent = codigoLivre.trim() || "—";
   textoManipulador.textContent = decodificarMorseLivre(codigoLivre) || "—";
