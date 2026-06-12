@@ -982,7 +982,136 @@ function voltarInicio() {
   mostrarTela(telaInicial);
 }
 function abrirMissao() {
+  prepararAudio();
   mostrarTela(telaMissao);
+  animarTextoMissao();
+}
+let temporizadorDigitacaoMissao = null;
+
+const TEXTO_MISSAO_COLAPSO = [
+  "Após um grande bug nos sistemas de telecomunicações, a única forma de se comunicar é por meio de equipamentos simples de rádio usando código Morse.",
+  "Para sobreviver ao caos, você precisa dominar o código, transmitir mensagens e manter contato com outros operadores.",
+  "Avance pelas missões mantendo rendimento acima de 80% e alcance a meta operacional de 12 palavras por minuto."
+];
+
+function animarTextoMissao() {
+  const areaTexto = document.getElementById("textoMissaoAnimado");
+  if (!areaTexto) return;
+
+  if (temporizadorDigitacaoMissao) {
+    clearTimeout(temporizadorDigitacaoMissao);
+    temporizadorDigitacaoMissao = null;
+  }
+
+  areaTexto.innerHTML = "";
+
+  const paragrafos = TEXTO_MISSAO_COLAPSO.map(() => {
+    const p = document.createElement("p");
+    areaTexto.appendChild(p);
+    return p;
+  });
+
+  let indiceParagrafo = 0;
+  let indiceLetra = 0;
+
+  function digitarProximoCaractere() {
+    if (indiceParagrafo >= TEXTO_MISSAO_COLAPSO.length) {
+      temporizadorDigitacaoMissao = null;
+      return;
+    }
+
+    const textoAtual = TEXTO_MISSAO_COLAPSO[indiceParagrafo];
+    const caractere = textoAtual[indiceLetra];
+
+    paragrafos[indiceParagrafo].textContent += caractere;
+
+const duracaoMorse = tocarSinalDigitacaoMissao(caractere);
+
+indiceLetra += 1;
+
+if (indiceLetra >= textoAtual.length) {
+  indiceParagrafo += 1;
+  indiceLetra = 0;
+  temporizadorDigitacaoMissao = setTimeout(digitarProximoCaractere, 520);
+  return;
+}
+
+const pausaVisual = caractere === "." || caractere === "," ? 260 : 40;
+const pausa = Math.max(duracaoMorse, pausaVisual);
+
+temporizadorDigitacaoMissao = setTimeout(digitarProximoCaractere, pausa);
+  }
+
+  digitarProximoCaractere();
+}
+
+function tocarSinalDigitacaoMissao(caractere) {
+  const unidadeMissaoMs = 48; // 25 WPM = 1200 / 25 = 48 ms
+  const caractereNormalizado = String(caractere || "")
+    .toUpperCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+  if (caractereNormalizado === " ") {
+    return unidadeMissaoMs * 7;
+  }
+
+  const codigoMorse = TABELA_MORSE[caractereNormalizado];
+
+  if (!codigoMorse) {
+    return unidadeMissaoMs * 2;
+  }
+
+  prepararAudio();
+
+  if (!audioContext) {
+    return unidadeMissaoMs * 3;
+  }
+
+  let tempoAtual = audioContext.currentTime;
+  const unidadeSegundos = unidadeMissaoMs / 1000;
+
+  codigoMorse.split("").forEach((simbolo, indice) => {
+    const duracao = simbolo === "." ? unidadeSegundos : unidadeSegundos * 3;
+
+    tocarTomCurtoMissao(tempoAtual, duracao);
+
+    tempoAtual += duracao;
+
+    if (indice < codigoMorse.length - 1) {
+      tempoAtual += unidadeSegundos; // pausa entre ponto/traço da mesma letra
+    }
+  });
+
+  const duracaoTotalMs =
+    codigoMorse
+      .split("")
+      .reduce((total, simbolo) => {
+        return total + (simbolo === "." ? unidadeMissaoMs : unidadeMissaoMs * 3);
+      }, 0) +
+    Math.max(0, codigoMorse.length - 1) * unidadeMissaoMs +
+    unidadeMissaoMs * 3; // pausa entre letras
+
+  return duracaoTotalMs;
+}
+
+function tocarTomCurtoMissao(inicioAudio, duracaoSegundos) {
+  const oscilador = audioContext.createOscillator();
+  const ganho = audioContext.createGain();
+
+  oscilador.type = "sine";
+  oscilador.frequency.value = frequenciaSidetone || 650;
+
+  ganho.gain.setValueAtTime(0.0001, inicioAudio);
+  ganho.gain.exponentialRampToValueAtTime(0.035, inicioAudio + 0.008);
+  ganho.gain.setValueAtTime(0.035, inicioAudio + Math.max(0.01, duracaoSegundos - 0.012));
+  ganho.gain.exponentialRampToValueAtTime(0.0001, inicioAudio + duracaoSegundos);
+
+  oscilador.connect(ganho);
+  ganho.connect(audioContext.destination);
+
+  oscilador.start(inicioAudio);
+  oscilador.stop(inicioAudio + duracaoSegundos + 0.02);
 }
 function abrirBiblioteca() {
   tituloBiblioteca.textContent = "📚 Biblioteca Morse";
