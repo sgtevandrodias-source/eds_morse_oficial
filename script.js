@@ -896,9 +896,7 @@ function carregarPreferencias() {
 }
 
 function mostrarTela(tela, registrarHistorico = true) {
-  if (telaMissao.classList.contains("ativa") && tela !== telaMissao) {
-    pararAnimacaoMissao();
-  }
+  pararTodosOsSons();
   telaInicial.classList.remove("ativa");
   telaMissao.classList.remove("ativa");
   telaBiblioteca.classList.remove("ativa");
@@ -979,14 +977,15 @@ function aplicarEstadoNavegacao(estado) {
 }
 
 window.addEventListener("popstate", (evento) => {
+  pararTodosOsSons();
   aplicarEstadoNavegacao(evento.state);
 });
 function voltarInicio() {
   mostrarTela(telaInicial);
 }
 function abrirMissao() {
-  prepararAudio();
   mostrarTela(telaMissao);
+  prepararAudio();
   animarTextoMissao();
 }
 let temporizadorDigitacaoMissao = null;
@@ -1138,6 +1137,27 @@ function pararAnimacaoMissao() {
   });
 
   osciladoresMissaoAnimada = [];
+}
+function pararTodosOsSons() {
+  pararAnimacaoMissao();
+
+  if (typeof pararTomMorse === "function") {
+    pararTomMorse();
+  }
+
+  if (typeof pararTimerMissao === "function") {
+    pararTimerMissao();
+  }
+
+  if (temporizadorLetra) {
+    clearTimeout(temporizadorLetra);
+    temporizadorLetra = null;
+  }
+
+  if (temporizadorPalavra) {
+    clearTimeout(temporizadorPalavra);
+    temporizadorPalavra = null;
+  }
 }
 function abrirBiblioteca() {
   tituloBiblioteca.textContent = "📚 Biblioteca Morse";
