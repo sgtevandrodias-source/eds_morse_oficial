@@ -357,10 +357,172 @@ const BANCO_GRUPOS_AVANCADOS = gerarGruposAvancados(200, 5);
 const NIVEIS_AVANCADO = [
   {
     numero: 1,
-    patente: "Operador de Estação",
+    patente: "Operador Avançado I",
     titulo: "Missão Avançada 01 – Grupos de 5",
     descricao: "Transmita grupos aleatórios de cinco letras e números usando manipulação natural.",
     missoes: BANCO_GRUPOS_AVANCADOS.slice(0, 10)
+  },
+  {
+    numero: 2,
+    patente: "Operador Avançado II",
+    titulo: "Missão Avançada 02 – Grupos Alfanuméricos",
+    descricao: "Transmita grupos mistos com letras e números. A precisão começa a pesar mais.",
+    missoes: [
+      "A7K2M",
+      "Q9TR4",
+      "B5Z1P",
+      "M8D3X",
+      "C4L9N",
+      "R2V6Q",
+      "T7H1S",
+      "K3P8W",
+      "Z5N2A",
+      "G9F4J"
+    ]
+  },
+  {
+    numero: 3,
+    patente: "Operador de Chamada",
+    titulo: "Missão Avançada 03 – Indicativos de Estação",
+    descricao: "Simule chamadas de rádio com indicativos operacionais.",
+    missoes: [
+      "PY1ABC",
+      "PT2EDS",
+      "ZZ9MOR",
+      "K7RAD",
+      "BR4QSL",
+      "PX3NET",
+      "PY2QTC",
+      "PT9QRV",
+      "RA1MOR",
+      "TX5EDS"
+    ]
+  },
+  {
+    numero: 4,
+    patente: "Operador Código Q",
+    titulo: "Missão Avançada 04 – Código Q Operacional",
+    descricao: "Use códigos Q em sequência, como em uma operação real de rádio.",
+    missoes: [
+      "QSL",
+      "QRV",
+      "QTH",
+      "QRM",
+      "QRN",
+      "QTC",
+      "QRA",
+      "QRT",
+      "QRX",
+      "QSY"
+    ]
+  },
+  {
+    numero: 5,
+    patente: "Operador de Tráfego",
+    titulo: "Missão Avançada 05 – Mensagens Curtas",
+    descricao: "Transmita mensagens curtas com pausas entre palavras.",
+    missoes: [
+      "BASE QRV",
+      "QSL RECEBIDO",
+      "SINAL FORTE",
+      "POSTO 2 OK",
+      "RADIO QRV",
+      "QTC BASE",
+      "TORRE QSL",
+      "POSTO QRV",
+      "CANAL LIVRE",
+      "CAMBIO"
+    ]
+  },
+  {
+    numero: 6,
+    patente: "Operador sob Pressão",
+    titulo: "Missão Avançada 06 – Tráfego com Números",
+    descricao: "Mensagens operacionais com números de posto, rota, base e confirmação.",
+    missoes: [
+      "BASE 1 QRV",
+      "POSTO 2 QSL",
+      "ROTA 3 OK",
+      "TORRE 4 QRV",
+      "QTC 5 BASE",
+      "RADIO 7 QSL",
+      "SINAL 9 FORTE",
+      "POSTO 8 OK",
+      "BASE 6 CAMBIO",
+      "QRV SETOR 2"
+    ]
+  },
+  {
+    numero: 7,
+    patente: "Operador de Emergência",
+    titulo: "Missão Avançada 07 – Mensagens de Emergência",
+    descricao: "Transmita mensagens críticas. Erros reduzem a eficiência da rede.",
+    missoes: [
+      "SOS APOIO",
+      "QTC URGENTE",
+      "BASE EM ALERTA",
+      "POSTO SEM SINAL",
+      "ROTA BLOQUEADA",
+      "EQUIPE QRV",
+      "RADIO FALHA",
+      "SINAL FRACO",
+      "APOIO A CAMINHO",
+      "MANTER ESCUTA"
+    ]
+  },
+  {
+    numero: 8,
+    patente: "Operador de Rede",
+    titulo: "Missão Avançada 08 – Coordenação de Rede",
+    descricao: "Coordene postos e estações com mensagens mais longas.",
+    missoes: [
+      "BASE ALFA QRV",
+      "POSTO BRAVO QSL",
+      "TORRE CHARLIE OK",
+      "EQUIPE DELTA QRV",
+      "QTC BASE ALFA",
+      "ROTA SEGURA 3",
+      "CANAL LIVRE QSL",
+      "SINAL FORTE 9",
+      "OPERADOR AGUARDE",
+      "TRANSMISSAO OK"
+    ]
+  },
+  {
+    numero: 9,
+    patente: "Comandante de Estação",
+    titulo: "Missão Avançada 09 – Mensagens Operacionais",
+    descricao: "Transmita mensagens completas mantendo ritmo, precisão e controle das pausas.",
+    missoes: [
+      "QTC BASE SINAL FORTE",
+      "OPERADOR QRV POSTO 3",
+      "ROTA SEGURA CONFIRMADA",
+      "BASE ALFA AGUARDE",
+      "POSTO BRAVO SEM SINAL",
+      "RADIO BASE QSL 9",
+      "EQUIPE DELTA EM ROTA",
+      "CANAL LIVRE PARA QTC",
+      "TRANSMISSAO FINALIZADA",
+      "REDE OPERACIONAL"
+    ]
+  },
+  {
+    numero: 10,
+    patente: "Operador de Estação",
+    titulo: "Missão Avançada 10 – Prova de Estação",
+    descricao: "Prova final avançada. Mistura grupos, códigos Q, números, indicativos e mensagens completas.",
+    missoes: [
+      "PY2EDS QRV",
+      "QTC BASE ALFA 7",
+      "K7RAD QSL",
+      "A7K2M",
+      "POSTO 3 SINAL FORTE",
+      "QRV PARA TRANSMITIR",
+      "ROTA 5 CONFIRMADA",
+      "BASE QSL RECEBIDO",
+      "TX5EDS QTC URGENTE",
+      "REDE OPERACIONAL"
+    ]
   }
 ];
 
@@ -368,6 +530,42 @@ const MENSAGENS_NARRATIVAS_AVANCADO = {
   1: {
     titulo: "📡 Canal avançado estabelecido",
     texto: "A Rede ADR entrou em operação avançada. Grupos de cinco caracteres serão usados para autenticação, rotas e mensagens críticas."
+  },
+  2: {
+    titulo: "🔢 Tráfego alfanumérico iniciado",
+    texto: "A rede passou a usar grupos mistos com letras e números. A precisão agora define a confiabilidade do operador."
+  },
+  3: {
+    titulo: "📻 Indicativos reconhecidos",
+    texto: "As estações começaram a se identificar. Você já consegue transmitir chamadas operacionais com mais segurança."
+  },
+  4: {
+    titulo: "📡 Código Q em operação",
+    texto: "A comunicação ficou mais rápida. Os códigos Q permitem transmitir informações importantes com poucas letras."
+  },
+  5: {
+    titulo: "✉️ Mensagens curtas transmitidas",
+    texto: "Você já consegue enviar mensagens operacionais curtas mantendo pausas corretas entre palavras."
+  },
+  6: {
+    titulo: "🔐 Tráfego numerado confirmado",
+    texto: "Postos, rotas e bases começaram a usar identificação numérica. A rede depende da sua atenção aos detalhes."
+  },
+  7: {
+    titulo: "🚨 Emergência controlada",
+    texto: "Mensagens críticas foram transmitidas sob pressão. O operador avançado precisa manter calma, ritmo e precisão."
+  },
+  8: {
+    titulo: "🌐 Rede coordenada",
+    texto: "As estações passaram a operar em conjunto. Sua transmissão ajudou a coordenar postos, equipes e canais."
+  },
+  9: {
+    titulo: "🎯 Tráfego operacional completo",
+    texto: "Você transmitiu mensagens maiores com controle de ritmo, pausas e clareza. A rede já pode confiar no seu sinal."
+  },
+  10: {
+    titulo: "🏆 Prova de estação concluída",
+    texto: "Você concluiu a prova avançada. A Rede ADR reconhece sua capacidade como Operador de Estação."
   }
 };
 
@@ -826,10 +1024,46 @@ function obterPremiosDaFase(resultado) {
 
   if (modo === "Avançado" && aproveitamento >= 80) {
     premios.push({
+      tipo: "medalha",
+      id: `${modo}_${nivel}_operacao_avancada`,
+      nome: `Medalha de Operação Avançada — Fase ${nivel}`,
+      descricao: "Concedida por concluir uma fase avançada com desempenho operacional."
+    });
+  }
+  
+  if (modo === "Avançado" && aproveitamento >= 90) {
+    premios.push({
+      tipo: "distintivo",
+      id: `${modo}_${nivel}_elite_avancada`,
+      nome: `Distintivo de Elite Avançada — Fase ${nivel}`,
+      descricao: "Concedido por concluir uma fase avançada com aproveitamento superior a 90%."
+    });
+  }
+  
+  if (modo === "Avançado" && nivel === 10 && aproveitamento >= 80) {
+    premios.push({
       tipo: "titulo",
       id: "titulo_operador_estacao",
       nome: "Operador de Estação",
-      descricao: "Título concedido por desempenho operacional avançado."
+      descricao: "Título concedido por concluir a Prova de Estação do modo Avançado."
+    });
+  }
+  
+  if (modo === "Avançado" && nivel === 10 && aproveitamento >= 90) {
+    premios.push({
+      tipo: "titulo",
+      id: "titulo_comandante_estacao",
+      nome: "Comandante de Estação",
+      descricao: "Título concedido por concluir a prova avançada com desempenho superior."
+    });
+  }
+  
+  if (modo === "Avançado" && nivel === 10 && aproveitamento === 100) {
+    premios.push({
+      tipo: "titulo",
+      id: "titulo_mestre_telegrafista",
+      nome: "Mestre Telegrafista",
+      descricao: "Título máximo concedido por concluir a prova avançada sem erros."
     });
   }
 
@@ -3507,7 +3741,11 @@ function confirmarEnvio() {
   } else {
     errosNivel += 1;
     sequenciaAcertos = 0;
-    pontuacao = Math.max(0, pontuacao - 2);
+    if (modoAtual === MODO_AVANCADO) {
+      pontuacao = Math.max(0, pontuacao - 25);
+    } else {
+      pontuacao = Math.max(0, pontuacao - 2);
+    }
 
     tocarErro();
     feedback.textContent = `Incorreto. Correto: ${missao.codigo}`;
@@ -3525,16 +3763,24 @@ function calcularPontosAcerto() {
       Math.round((performance.now() - inicioMissaoMs) / 1000)
     );
 
-    let pontos = 100;
+    let pontos = 120;
 
-    if (tempoMissaoSegundos <= 10) {
-      pontos += 50;
-    } else if (tempoMissaoSegundos <= 20) {
+    if (tempoMissaoSegundos <= 8) {
+      pontos += 90;
+    } else if (tempoMissaoSegundos <= 12) {
+      pontos += 70;
+    } else if (tempoMissaoSegundos <= 18) {
+      pontos += 45;
+    } else if (tempoMissaoSegundos <= 25) {
       pontos += 25;
     }
 
-    if (sequenciaAcertos >= 5) {
-      pontos += 50;
+    if (sequenciaAcertos >= 10) {
+      pontos += 100;
+    } else if (sequenciaAcertos >= 7) {
+      pontos += 70;
+    } else if (sequenciaAcertos >= 5) {
+      pontos += 45;
     } else if (sequenciaAcertos >= 3) {
       pontos += 25;
     }
@@ -3547,7 +3793,6 @@ function calcularPontosAcerto() {
   if (sequenciaAcertos >= 2) return 12;
   return 10;
 }
-
 function proximaMissao() {
   const nivel = getNivelAtual();
 
@@ -3588,8 +3833,15 @@ function finalizarNivel() {
 
   let pontosFinais = pontuacao;
 
-  if (bonus) pontosFinais += 25;
-  if (excelenciaWpm && aprovado) pontosFinais += 25;
+  if (modoAtual === MODO_AVANCADO) {
+    if (aprovado) pontosFinais += 100;
+    if (bonus) pontosFinais += 150;
+    if (aproveitamento === 100) pontosFinais += 250;
+    if (excelenciaWpm && aprovado) pontosFinais += 150;
+  } else {
+    if (bonus) pontosFinais += 25;
+    if (excelenciaWpm && aprovado) pontosFinais += 25;
+  }
 
   pontuacao = pontosFinais;
 
@@ -3691,8 +3943,13 @@ function mostrarResultadoNivel(resultado, campanhaFinalizada) {
   if (campanhaFinalizada) {
     resultadoBadge.textContent = `Campanha ${getNomeModo(modoAtual)} concluída`;
     tituloResultado.textContent = "Rede restabelecida";
-    resultadoFinal.textContent =
-      `Você concluiu o modo ${getNomeModo(modoAtual)} com ${resultado.aproveitamento}% de aproveitamento e ${resultado.wpm.toFixed(1)} WPM aproximado.`;
+    if (resultado.modo === "Avançado") {
+      resultadoFinal.textContent =
+        `Você concluiu uma missão avançada com ${resultado.aproveitamento}% de aproveitamento, em ${formatarTempo(resultado.tempoSegundos)}, alcançando ${resultado.wpm.toFixed(1)} WPM aproximado. No modo Avançado, tempo, precisão e sequência de acertos pesam muito mais no ranking.`;
+    } else {
+      resultadoFinal.textContent =
+        `Você concluiu a missão com ${resultado.aproveitamento}% de aproveitamento, em ${formatarTempo(resultado.tempoSegundos)}, alcançando ${resultado.wpm.toFixed(1)} WPM aproximado.`;
+    }
     btnProximoNivel.style.display = "none";
     btnJogarNovamente.textContent = "Refazer missão final";
     renderizarRelatorioOperacional(resultado, mensagemNarrativa, conquistasNovas, campanhaFinalizada);
@@ -4056,9 +4313,60 @@ function formatarTempo(segundos) {
 function salvarRanking(resultado) {
   const ranking = obterRanking();
 
-  ranking.push(resultado);
+  const resultadoLimpo = {
+    nome: resultado.nome,
+    chaveOperador: resultado.chaveOperador,
+    modo: resultado.modo,
+    patente: resultado.patente,
+    nivel: resultado.nivel,
+    titulo: resultado.titulo,
+    pontos: resultado.pontos,
+    aproveitamento: resultado.aproveitamento,
+    tempoSegundos: resultado.tempoSegundos,
+    wpm: resultado.wpm,
+    wpmConfigurado: resultado.wpmConfigurado,
+    aprovado: resultado.aprovado,
+    data: resultado.data
+  };
+
+  const indiceExistente = ranking.findIndex((item) => {
+    return (
+      item.chaveOperador === resultadoLimpo.chaveOperador &&
+      item.modo === resultadoLimpo.modo &&
+      item.nivel === resultadoLimpo.nivel
+    );
+  });
+
+  if (indiceExistente === -1) {
+    ranking.push(resultadoLimpo);
+  } else {
+    const resultadoAnterior = ranking[indiceExistente];
+
+    const novoResultadoMelhor =
+      resultadoLimpo.pontos > resultadoAnterior.pontos ||
+      (
+        resultadoLimpo.pontos === resultadoAnterior.pontos &&
+        resultadoLimpo.aproveitamento > resultadoAnterior.aproveitamento
+      ) ||
+      (
+        resultadoLimpo.pontos === resultadoAnterior.pontos &&
+        resultadoLimpo.aproveitamento === resultadoAnterior.aproveitamento &&
+        resultadoLimpo.tempoSegundos < resultadoAnterior.tempoSegundos
+      ) ||
+      (
+        resultadoLimpo.pontos === resultadoAnterior.pontos &&
+        resultadoLimpo.aproveitamento === resultadoAnterior.aproveitamento &&
+        resultadoLimpo.tempoSegundos === resultadoAnterior.tempoSegundos &&
+        resultadoLimpo.wpm > resultadoAnterior.wpm
+      );
+
+    if (novoResultadoMelhor) {
+      ranking[indiceExistente] = resultadoLimpo;
+    }
+  }
 
   ranking.sort((a, b) => {
+    if (b.aprovado !== a.aprovado) return Number(b.aprovado) - Number(a.aprovado);
     if (b.modo !== a.modo) return String(b.modo).localeCompare(String(a.modo));
     if (b.nivel !== a.nivel) return b.nivel - a.nivel;
     if (b.pontos !== a.pontos) return b.pontos - a.pontos;
@@ -4067,7 +4375,7 @@ function salvarRanking(resultado) {
     return b.wpm - a.wpm;
   });
 
-  localStorage.setItem("operadorMorseRanking", JSON.stringify(ranking.slice(0, 20)));
+  localStorage.setItem("operadorMorseRanking", JSON.stringify(ranking.slice(0, 50)));
 }
 
 function obterRanking() {
@@ -4077,16 +4385,103 @@ function obterRanking() {
     return [];
   }
 }
+function obterRankingCarreira() {
+  const rankingMissoes = obterRanking();
+  const operadoresMap = new Map();
 
+  rankingMissoes.forEach((item) => {
+    if (!item.chaveOperador) return;
+
+    if (!operadoresMap.has(item.chaveOperador)) {
+      operadoresMap.set(item.chaveOperador, {
+        nome: item.nome,
+        chaveOperador: item.chaveOperador,
+        pontosTotais: 0,
+        fasesConcluidas: 0,
+        medalhas: 0,
+        titulos: 0,
+        melhorTempoSegundos: null,
+        melhorAproveitamento: 0,
+        melhorWpm: 0,
+        patente: item.patente || "Operador"
+      });
+    }
+
+    const operador = operadoresMap.get(item.chaveOperador);
+
+    operador.pontosTotais += Number(item.pontos || 0);
+    operador.fasesConcluidas += item.aprovado ? 1 : 0;
+    operador.melhorAproveitamento = Math.max(
+      operador.melhorAproveitamento,
+      Number(item.aproveitamento || 0)
+    );
+    operador.melhorWpm = Math.max(
+      operador.melhorWpm,
+      Number(item.wpm || 0)
+    );
+
+    if (
+      item.tempoSegundos &&
+      (
+        operador.melhorTempoSegundos === null ||
+        item.tempoSegundos < operador.melhorTempoSegundos
+      )
+    ) {
+      operador.melhorTempoSegundos = item.tempoSegundos;
+    }
+
+    const carreiraOriginal = JSON.parse(
+      localStorage.getItem(`operadorMorseCarreira_${item.chaveOperador}`) || "null"
+    );
+
+    if (carreiraOriginal) {
+      operador.pontosTotais = Number(carreiraOriginal.pontosTotais || operador.pontosTotais);
+      operador.fasesConcluidas = Array.isArray(carreiraOriginal.fasesConcluidas)
+        ? carreiraOriginal.fasesConcluidas.length
+        : operador.fasesConcluidas;
+
+      operador.medalhas = Array.isArray(carreiraOriginal.medalhas)
+        ? carreiraOriginal.medalhas.length
+        : 0;
+
+      operador.titulos = Array.isArray(carreiraOriginal.titulos)
+        ? carreiraOriginal.titulos.length
+        : 0;
+
+      operador.melhorAproveitamento = Number(
+        carreiraOriginal.melhorAproveitamento || operador.melhorAproveitamento
+      );
+
+      operador.melhorWpm = Number(
+        carreiraOriginal.melhorWpm || operador.melhorWpm
+      );
+
+      operador.melhorTempoSegundos =
+        carreiraOriginal.melhorTempoSegundos || operador.melhorTempoSegundos;
+    }
+  });
+
+  return Array.from(operadoresMap.values()).sort((a, b) => {
+    if (b.pontosTotais !== a.pontosTotais) return b.pontosTotais - a.pontosTotais;
+    if (b.fasesConcluidas !== a.fasesConcluidas) return b.fasesConcluidas - a.fasesConcluidas;
+    if (b.medalhas !== a.medalhas) return b.medalhas - a.medalhas;
+    if (b.titulos !== a.titulos) return b.titulos - a.titulos;
+    if (b.melhorAproveitamento !== a.melhorAproveitamento) {
+      return b.melhorAproveitamento - a.melhorAproveitamento;
+    }
+    return b.melhorWpm - a.melhorWpm;
+  });
+}
 function abrirRanking() {
   renderizarRanking();
   mostrarTela(telaRanking);
 }
 
 function renderizarRanking() {
-  const ranking = obterRanking();
+  const rankingCarreira = obterRankingCarreira();
+  const rankingMissoes = obterRanking();
 
-  if (!ranking.length) {
+  if (!rankingCarreira.length && !rankingMissoes.length) {
     listaRanking.innerHTML = `
       <div class="ranking-item">
         <div class="ranking-posicao">—</div>
@@ -4099,22 +4494,88 @@ function renderizarRanking() {
     return;
   }
 
-  listaRanking.innerHTML = ranking
-    .map((item, index) => `
-      <div class="ranking-item">
-        <div class="ranking-posicao">${index + 1}</div>
-        <div>
-          <div class="ranking-nome">${escaparHtml(item.nome)} — ${escaparHtml(item.patente)}</div>
-          <div class="ranking-detalhes">
-            ${escaparHtml(item.modo || "Iniciante")} • Nível ${item.nivel} • ${item.aproveitamento}% • ${formatarTempo(item.tempoSegundos)} • ${item.wpm.toFixed(1)} WPM • ${item.data}
-          </div>
-        </div>
-        <div class="ranking-pontos">${item.pontos} pts</div>
-      </div>
-    `)
-    .join("");
-}
+  const htmlCarreira = rankingCarreira.length
+    ? `
+      <div class="ranking-secao">
+        <h3>🏆 Ranking da Carreira</h3>
+        <p class="ranking-descricao">
+          Classificação geral dos operadores pelo desempenho acumulado.
+        </p>
 
+        ${rankingCarreira
+          .map((item, index) => `
+            <div class="ranking-item ranking-carreira-item">
+              <div class="ranking-posicao">${index + 1}</div>
+
+              <div>
+                <div class="ranking-nome">
+                  ${escaparHtml(item.nome)}
+                </div>
+
+                <div class="ranking-detalhes">
+                  Fases: ${item.fasesConcluidas}
+                  • Medalhas: ${item.medalhas}
+                  • Títulos: ${item.titulos}
+                  • Melhor aproveitamento: ${item.melhorAproveitamento}%
+                  • Melhor WPM: ${Number(item.melhorWpm || 0).toFixed(1)}
+                  ${
+                    item.melhorTempoSegundos
+                      ? `• Melhor tempo: ${formatarTempo(item.melhorTempoSegundos)}`
+                      : ""
+                  }
+                </div>
+              </div>
+
+              <div class="ranking-pontos">
+                ${item.pontosTotais} pts
+              </div>
+            </div>
+          `)
+          .join("")}
+      </div>
+    `
+    : "";
+
+  const htmlMissoes = rankingMissoes.length
+    ? `
+      <div class="ranking-secao">
+        <h3>📡 Melhores Missões</h3>
+        <p class="ranking-descricao">
+          Melhor resultado registrado por operador, modo e nível.
+        </p>
+
+        ${rankingMissoes
+          .map((item, index) => `
+            <div class="ranking-item">
+              <div class="ranking-posicao">${index + 1}</div>
+
+              <div>
+                <div class="ranking-nome">
+                  ${escaparHtml(item.nome)} — ${escaparHtml(item.patente)}
+                </div>
+
+                <div class="ranking-detalhes">
+                  ${escaparHtml(item.modo || "Iniciante")}
+                  • Nível ${item.nivel}
+                  • ${item.aproveitamento}%
+                  • ${formatarTempo(item.tempoSegundos)}
+                  • ${Number(item.wpm || 0).toFixed(1)} WPM
+                  • ${item.data}
+                </div>
+              </div>
+
+              <div class="ranking-pontos">
+                ${item.pontos} pts
+              </div>
+            </div>
+          `)
+          .join("")}
+      </div>
+    `
+    : "";
+
+  listaRanking.innerHTML = htmlCarreira + htmlMissoes;
+}
 function limparRanking() {
   const confirmar = window.confirm("Deseja limpar o ranking local deste aparelho?");
   if (!confirmar) return;
