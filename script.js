@@ -1476,13 +1476,50 @@ function aplicarEstadoNavegacao(estado) {
 
 window.addEventListener("popstate", (evento) => {
   pararTodosOsSons();
+
+  const telaAtual = getIdTelaAtual();
+
+  if (telaAtual === "telaInicial") {
+    history.pushState(
+      {
+        telaId: "telaInicial",
+        modo: MODO_INICIANTE,
+        visualizandoMapaModo: false
+      },
+      "",
+      ""
+    );
+
+    return;
+  }
+
   aplicarEstadoNavegacao(evento.state);
 });
 
 function voltarInicio() {
-  mostrarTela(telaInicial);
-}
+  document.body.classList.remove("visualizando-mapa-modo");
 
+  mostrarTela(telaInicial, false);
+
+  history.replaceState(
+    {
+      telaId: "telaInicial",
+      modo: MODO_INICIANTE,
+      visualizandoMapaModo: false
+    },
+    "",
+    ""
+  );
+  history.pushState(
+    {
+      telaId: "telaInicial",
+      modo: MODO_INICIANTE,
+      visualizandoMapaModo: false
+    },
+    "",
+    ""
+  );
+}
 function abrirMissao() {
   mostrarTela(telaMissao);
   prepararAudio();
