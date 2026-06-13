@@ -3567,7 +3567,7 @@ function iniciarNivel(index) {
 
   limparTemporizadoresPausa();
 
-  mostrarTela(telaJogo);
+  mostrarTela(telaJogo, false);
 
   window.scrollTo({
     top: 0,
@@ -3876,7 +3876,7 @@ function liberarProximoNivel(campanhaFinalizada) {
 }
 
 function mostrarResultadoNivel(resultado, campanhaFinalizada) {
-  mostrarTela(telaFinal);
+mostrarTela(telaFinal, false);
 
   const conquistasNovas = verificarConquistasDoNivel(resultado, campanhaFinalizada) || [];
   const mensagemNarrativa = getMensagemNarrativaNivel(resultado);
