@@ -3514,3 +3514,14 @@ body.visualizando-mapa-modo .titulo-secao {
 #telaCampanha .btn.compacto:hover {
   border-color: rgba(34, 211, 238, 0.34);
 }
+/* =========================
+   RODAPÉ - SOMENTE NA TELA INICIAL
+========================= */
+
+.rodape-app {
+  display: none;
+}
+
+body:has(#telaInicial.ativa) .rodape-app {
+  display: block;
+}
