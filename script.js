@@ -3394,18 +3394,8 @@ function aplicarModoVisualJogo() {
   const manipulacaoNatural =
   modoAtual === MODO_INTERMEDIARIO || modoAtual === MODO_AVANCADO;
 
-const missaoAtual = getMissaoAtual ? getMissaoAtual() : null;
-const alvoTemEspaco = missaoAtual && String(missaoAtual.alvo || "").includes(" ");
-
 btnEspacoLetra.style.display = manipulacaoNatural ? "none" : "inline-block";
-
-if (modoAtual === MODO_AVANCADO && alvoTemEspaco) {
-  btnEspacoPalavra.style.display = "inline-block";
-  btnEspacoPalavra.textContent = "Espaço palavra";
-} else {
-  btnEspacoPalavra.style.display = manipulacaoNatural ? "none" : "inline-block";
-}
-
+btnEspacoPalavra.style.display = manipulacaoNatural ? "none" : "inline-block";
   if (painelRitmo) {
     painelRitmo.classList.toggle(
       "ativo",
