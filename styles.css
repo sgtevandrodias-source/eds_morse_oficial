@@ -3514,3 +3514,25 @@ body.visualizando-mapa-modo .titulo-secao {
 #telaCampanha .btn.compacto:hover {
   border-color: rgba(34, 211, 238, 0.34);
 }
+/* =========================
+   CORREÇÃO - REMOVER FAIXA PRETA INFERIOR
+========================= */
+
+.app {
+  min-height: 100dvh;
+  height: auto !important;
+  overflow: visible !important;
+  padding-bottom: 0 !important;
+}
+
+.app > .tela {
+  min-height: 100dvh;
+  height: auto !important;
+  overflow-y: visible !important;
+  padding-bottom: 24px !important;
+}
+
+body {
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
