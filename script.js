@@ -4206,29 +4206,6 @@ function agendarSeparacaoAutomatica() {
     }
   }, pausaAutoPalavraMs);
 }
-  temporizadorPalavra = setTimeout(() => {
-        if (!codigoAtual.trim()) return;
-
-    const missao = getMissaoAtual();
-    const enviado = normalizarCodigo(codigoAtual);
-    const correto = normalizarCodigo(missao.codigo);
-
-    const codigoComBarra = normalizarCodigo(`${codigoAtual.trim()} /`);
-
-    if (!correto.startsWith(codigoComBarra)) {
-      return;
-    }
-
-    codigoAtual = codigoAtual.trim();
-
-    if (!codigoAtual.endsWith("/")) {
-      codigoAtual += " / ";
-      atualizarCodigoNaTela();
-      mostrarFeedbackPausa("✓ Palavra fechada");
-    }
-  }, pausaAutoPalavraMs);
-}
-
 function mostrarFeedbackPausa(texto) {
   feedback.innerHTML = `<span class="feedback-pausa">${texto}</span>`;
   feedback.className = "feedback alerta";
