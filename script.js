@@ -3392,10 +3392,19 @@ function atualizarCardModo(idCard, liberado, textoBadge, textoStatus) {
 
 function aplicarModoVisualJogo() {
   const manipulacaoNatural =
-    modoAtual === MODO_INTERMEDIARIO || modoAtual === MODO_AVANCADO;
+  modoAtual === MODO_INTERMEDIARIO || modoAtual === MODO_AVANCADO;
 
-  btnEspacoLetra.style.display = manipulacaoNatural ? "none" : "inline-block";
+const missaoAtual = getMissaoAtual ? getMissaoAtual() : null;
+const alvoTemEspaco = missaoAtual && String(missaoAtual.alvo || "").includes(" ");
+
+btnEspacoLetra.style.display = manipulacaoNatural ? "none" : "inline-block";
+
+if (modoAtual === MODO_AVANCADO && alvoTemEspaco) {
+  btnEspacoPalavra.style.display = "inline-block";
+  btnEspacoPalavra.textContent = "Espaço palavra";
+} else {
   btnEspacoPalavra.style.display = manipulacaoNatural ? "none" : "inline-block";
+}
 
   if (painelRitmo) {
     painelRitmo.classList.toggle(
@@ -4182,11 +4191,10 @@ function agendarSeparacaoAutomatica() {
   }, pausaAutoLetraMs);
 
   temporizadorPalavra = setTimeout(() => {
-    if (modoAtual === MODO_AVANCADO) return;
-
-    if (!codigoAtual.trim()) return;
+        if (!codigoAtual.trim()) return;
 
     const missao = getMissaoAtual();
+    const enviado = normalizarCodigo(codigoAtual);
     const correto = normalizarCodigo(missao.codigo);
 
     const codigoComBarra = normalizarCodigo(`${codigoAtual.trim()} /`);
