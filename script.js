@@ -4113,11 +4113,12 @@ function finalizarPressionamento() {
   const simbolo = duracao < limitePontoTracoMs ? "." : "-";
 
   adicionarSimbolo(simbolo);
-  mostrarFeedbackManipulacao(simbolo, duracao);
+mostrarFeedbackManipulacao(simbolo, duracao);
 
-  if (modoAtual === MODO_INTERMEDIARIO || modoAtual === MODO_AVANCADO) {
-    agendarSeparacaoAutomatica();
-  }
+if (modoAtual === MODO_INTERMEDIARIO || modoAtual === MODO_AVANCADO) {
+  fecharSeparacaoPeloAlvo();
+  agendarSeparacaoAutomatica();
+}
 }
 
 function cancelarPressionamento() {
@@ -4157,6 +4158,39 @@ function inserirEspacoPalavra() {
   }
 
   atualizarCodigoNaTela();
+}
+function fecharSeparacaoPeloAlvo() {
+  if (modoAtual !== MODO_INTERMEDIARIO && modoAtual !== MODO_AVANCADO) {
+    return;
+  }
+
+  if (!codigoAtual.trim()) return;
+
+  const missao = getMissaoAtual();
+  if (!missao || !missao.codigo) return;
+
+  const enviado = normalizarCodigo(codigoAtual);
+  const correto = normalizarCodigo(missao.codigo);
+
+  if (enviado === correto) {
+    return;
+  }
+
+  const proximoComoPalavra = normalizarCodigo(`${enviado} /`);
+  const proximoComoLetra = normalizarCodigo(`${enviado} `);
+
+  if (correto.startsWith(proximoComoPalavra)) {
+    codigoAtual = enviado + " / ";
+    atualizarCodigoNaTela();
+    mostrarFeedbackPausa("✓ Palavra fechada");
+    return;
+  }
+
+  if (correto.startsWith(proximoComoLetra)) {
+    codigoAtual = enviado + " ";
+    atualizarCodigoNaTela();
+    mostrarFeedbackPausa("✓ Letra fechada");
+  }
 }
 
 function agendarSeparacaoAutomatica() {
