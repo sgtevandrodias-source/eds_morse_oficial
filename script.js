@@ -925,6 +925,8 @@ let audioContext = null;
 let osciladorMorse = null;
 let ganhoMorse = null;
 let filtroMorse = null;
+let motorChavePronto = false;
+let chaveMorseAtiva = false;
 
 let ultimoResultado = null;
 let temporizadorLetra = null;
@@ -5026,7 +5028,14 @@ function iniciarTomMorse() {
 
   if (!audioContext) return;
 
-  if (!osciladorMorse || !ganhoMorse || !filtroMorse) {
+  if (audioContext.state === "suspended") {
+    audioContext.resume().then(() => {
+      iniciarTomMorse();
+    });
+    return;
+  }
+
+  if (!motorChavePronto || !osciladorMorse || !ganhoMorse || !filtroMorse) {
     osciladorMorse = audioContext.createOscillator();
     ganhoMorse = audioContext.createGain();
     filtroMorse = audioContext.createBiquadFilter();
@@ -5038,32 +5047,49 @@ function iniciarTomMorse() {
     );
 
     filtroMorse.type = "lowpass";
-    filtroMorse.frequency.setValueAtTime(1800, audioContext.currentTime);
+    filtroMorse.frequency.setValueAtTime(1600, audioContext.currentTime);
 
-    ganhoMorse.gain.setValueAtTime(0.0001, audioContext.currentTime);
+    ganhoMorse.gain.setValueAtTime(0.00001, audioContext.currentTime);
 
     osciladorMorse.connect(filtroMorse);
     filtroMorse.connect(ganhoMorse);
     ganhoMorse.connect(audioContext.destination);
 
     osciladorMorse.start();
+
+    motorChavePronto = true;
   }
 
   const agora = audioContext.currentTime;
 
+  chaveMorseAtiva = true;
+
+  osciladorMorse.frequency.cancelScheduledValues(agora);
   osciladorMorse.frequency.setValueAtTime(frequenciaSidetone, agora);
 
   ganhoMorse.gain.cancelScheduledValues(agora);
-  ganhoMorse.gain.setTargetAtTime(VOLUME_MORSE, agora, 0.004);
+  ganhoMorse.gain.setValueAtTime(
+    Math.max(ganhoMorse.gain.value, 0.00001),
+    agora
+  );
+
+  ganhoMorse.gain.linearRampToValueAtTime(VOLUME_MORSE, agora + 0.006);
 }
 function pararTomMorse() {
-  if (!audioContext || !osciladorMorse || !ganhoMorse) return;
+  if (!audioContext || !ganhoMorse) return;
 
   const agora = audioContext.currentTime;
 
+  chaveMorseAtiva = false;
+
   try {
     ganhoMorse.gain.cancelScheduledValues(agora);
-    ganhoMorse.gain.setTargetAtTime(0.0001, agora, 0.012);
+    ganhoMorse.gain.setValueAtTime(
+      Math.max(ganhoMorse.gain.value, 0.00001),
+      agora
+    );
+
+    ganhoMorse.gain.linearRampToValueAtTime(0.00001, agora + 0.018);
   } catch (erro) {}
 }
 
