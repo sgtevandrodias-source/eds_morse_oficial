@@ -4169,30 +4169,43 @@ function fecharSeparacaoPeloAlvo() {
   const missao = getMissaoAtual();
   if (!missao || !missao.codigo) return;
 
-  const enviado = normalizarCodigo(codigoAtual);
-  const correto = normalizarCodigo(missao.codigo);
+  const codigoCorreto = normalizarCodigo(missao.codigo);
+  const tokensCorretos = codigoCorreto.split(" ").filter(Boolean);
 
-  if (enviado === correto) {
+  const codigoLimpo = normalizarCodigo(codigoAtual);
+  const tokensEnviados = codigoLimpo.split(" ").filter(Boolean);
+
+  if (!tokensEnviados.length) return;
+
+  const tokenAtual = tokensEnviados[tokensEnviados.length - 1];
+  const indiceAtual = tokensEnviados.length - 1;
+
+  const tokenEsperado = tokensCorretos[indiceAtual];
+  const proximoTokenEsperado = tokensCorretos[indiceAtual + 1];
+
+  if (!tokenEsperado) return;
+
+  if (tokenAtual !== tokenEsperado) {
     return;
   }
 
-  const proximoComoPalavra = normalizarCodigo(`${enviado} /`);
-  const proximoComoLetra = normalizarCodigo(`${enviado} `);
+  if (!proximoTokenEsperado) {
+    return;
+  }
 
-  if (correto.startsWith(proximoComoPalavra)) {
-    codigoAtual = enviado + " / ";
+  codigoAtual = codigoLimpo;
+
+  if (proximoTokenEsperado === "/") {
+    codigoAtual += " / ";
     atualizarCodigoNaTela();
     mostrarFeedbackPausa("✓ Palavra fechada");
     return;
   }
 
-  if (correto.startsWith(proximoComoLetra)) {
-    codigoAtual = enviado + " ";
-    atualizarCodigoNaTela();
-    mostrarFeedbackPausa("✓ Letra fechada");
-  }
+  codigoAtual += " ";
+  atualizarCodigoNaTela();
+  mostrarFeedbackPausa("✓ Letra fechada");
 }
-
 function agendarSeparacaoAutomatica() {
   limparTemporizadoresPausa();
 
