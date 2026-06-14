@@ -5018,43 +5018,53 @@ function prepararAudio() {
 
 function iniciarTomMorse() {
   prepararAudio();
-  pararTomMorse();
 
-  osciladorMorse = audioContext.createOscillator();
-  ganhoMorse = audioContext.createGain();
-  filtroMorse = audioContext.createBiquadFilter();
+  if (!audioContext) return;
 
-  osciladorMorse.type = "square";
-  osciladorMorse.frequency.setValueAtTime(frequenciaSidetone, audioContext.currentTime);
+  if (!osciladorMorse || !ganhoMorse || !filtroMorse) {
+    osciladorMorse = audioContext.createOscillator();
+    ganhoMorse = audioContext.createGain();
+    filtroMorse = audioContext.createBiquadFilter();
 
-  filtroMorse.type = "lowpass";
-  filtroMorse.frequency.setValueAtTime(1500, audioContext.currentTime);
+    osciladorMorse.type = "square";
+    osciladorMorse.frequency.setValueAtTime(
+      frequenciaSidetone,
+      audioContext.currentTime
+    );
 
-  ganhoMorse.gain.setValueAtTime(0.001, audioContext.currentTime);
-  ganhoMorse.gain.exponentialRampToValueAtTime(VOLUME_MORSE, audioContext.currentTime + 0.012);
+    filtroMorse.type = "lowpass";
+    filtroMorse.frequency.setValueAtTime(1500, audioContext.currentTime);
 
-  osciladorMorse.connect(filtroMorse);
-  filtroMorse.connect(ganhoMorse);
-  ganhoMorse.connect(audioContext.destination);
+    ganhoMorse.gain.setValueAtTime(0.0001, audioContext.currentTime);
 
-  osciladorMorse.start();
+    osciladorMorse.connect(filtroMorse);
+    filtroMorse.connect(ganhoMorse);
+    ganhoMorse.connect(audioContext.destination);
+
+    osciladorMorse.start();
+  }
+
+  const agora = audioContext.currentTime;
+
+  osciladorMorse.frequency.setValueAtTime(frequenciaSidetone, agora);
+
+  ganhoMorse.gain.cancelScheduledValues(agora);
+  ganhoMorse.gain.setValueAtTime(Math.max(ganhoMorse.gain.value, 0.0001), agora);
+  ganhoMorse.gain.exponentialRampToValueAtTime(VOLUME_MORSE, agora + 0.003);
 }
-
 function pararTomMorse() {
-  if (!osciladorMorse || !ganhoMorse) return;
+  if (!audioContext || !osciladorMorse || !ganhoMorse) return;
 
   const agora = audioContext.currentTime;
 
   try {
     ganhoMorse.gain.cancelScheduledValues(agora);
-    ganhoMorse.gain.setValueAtTime(ganhoMorse.gain.value || VOLUME_MORSE, agora);
-    ganhoMorse.gain.exponentialRampToValueAtTime(0.001, agora + 0.018);
-    osciladorMorse.stop(agora + 0.025);
+    ganhoMorse.gain.setValueAtTime(
+      Math.max(ganhoMorse.gain.value, 0.0001),
+      agora
+    );
+    ganhoMorse.gain.exponentialRampToValueAtTime(0.0001, agora + 0.006);
   } catch (erro) {}
-
-  osciladorMorse = null;
-  ganhoMorse = null;
-  filtroMorse = null;
 }
 
 function tocarTomCurto(frequencia, duracao, volume = 0.14, tipo = "sine") {
