@@ -4326,3 +4326,33 @@ input:focus,
     font-size: 1.45rem;
   }
 }
+/* =========================================
+   RANKING - PONTOS DETALHADOS
+========================================= */
+
+.ranking-pontos-detalhado {
+  display: grid;
+  gap: 4px;
+  text-align: right;
+}
+
+.ranking-pontos-detalhado strong {
+  display: block;
+  color: var(--eds-amarelo, var(--amarelo));
+  font-size: 1.05rem;
+  font-weight: 1000;
+}
+
+.ranking-pontos-detalhado small {
+  display: block;
+  color: var(--eds-muted, var(--muted));
+  font-size: 0.76rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+@media (max-width: 720px) {
+  .ranking-pontos-detalhado {
+    text-align: left;
+  }
+}

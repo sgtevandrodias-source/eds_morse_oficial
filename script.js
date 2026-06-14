@@ -1173,7 +1173,8 @@ function registrarResultadoNaCarreira(resultado) {
 
   const carreira = obterCarreiraOperador();
   const idFase = gerarIdFaseCarreira(resultado);
-  const premiosDaFase = obterPremiosDaFase(resultado);
+  const premiosPossiveisDaFase = obterPremiosDaFase(resultado);
+  const premiosNovosDaFase = [];
   const bonusTempo = calcularBonusTempoNivel(resultado);
 
   const pontosDaFase = Number(resultado.pontos || 0);
@@ -1221,7 +1222,7 @@ function registrarResultadoNaCarreira(resultado) {
 
   carreira.pontosTotais += pontosSomados;
 
-  premiosDaFase.forEach((premio) => {
+  premiosPossiveisDaFase.forEach((premio) => {
     if (premio.tipo === "titulo") {
       const jaTemTitulo = carreira.titulos.some(
         (titulo) => titulo.id === premio.id
@@ -1229,6 +1230,7 @@ function registrarResultadoNaCarreira(resultado) {
 
       if (!jaTemTitulo) {
         carreira.titulos.push(premio);
+        premiosNovosDaFase.push(premio);
       }
 
       return;
@@ -1240,6 +1242,7 @@ function registrarResultadoNaCarreira(resultado) {
 
     if (!jaTemMedalha) {
       carreira.medalhas.push(premio);
+      premiosNovosDaFase.push(premio);
     }
   });
 
@@ -1270,7 +1273,7 @@ function registrarResultadoNaCarreira(resultado) {
     pontosDaFase,
     bonusTempo,
     pontosComBonusTempo,
-    premiosDaFase
+    premiosDaFase: premiosNovosDaFase
   };
 }
 btnAbrirMissao.addEventListener("click", abrirMissao);
@@ -3576,19 +3579,39 @@ function renderizarCampanha() {
     }
   }
 
-  atualizarCardModo(
-    "cardModoIntermediario",
-    inicianteConcluido,
-    inicianteConcluido ? "Liberado" : "Bloqueado",
-    inicianteConcluido ? "Clique para treinar sem botões de espaço" : "Conclua o Iniciante para liberar"
-  );
+  const avancadoConcluido =
+  localStorage.getItem(chaveAvancadoConcluido()) === "sim";
 
-  atualizarCardModo(
-    "cardModoAvancado",
-    intermediarioConcluido,
-    intermediarioConcluido ? "Liberado" : "Bloqueado",
-    intermediarioConcluido ? "Modo Avançado liberado" : "Conclua o Intermediário para liberar"
-  );
+atualizarCardModo(
+  "cardModoIniciante",
+  true,
+  inicianteConcluido ? "Concluído" : "Liberado",
+  inicianteConcluido
+    ? "Formação inicial concluída"
+    : "Clique para iniciar sua formação"
+);
+
+atualizarCardModo(
+  "cardModoIntermediario",
+  inicianteConcluido,
+  modoIntermediarioConcluido() ? "Concluído" : inicianteConcluido ? "Liberado" : "Bloqueado",
+  modoIntermediarioConcluido()
+    ? "Etapa intermediária concluída"
+    : inicianteConcluido
+      ? "Clique para treinar sem botões de espaço"
+      : "Conclua o Iniciante para liberar"
+);
+
+atualizarCardModo(
+  "cardModoAvancado",
+  intermediarioConcluido,
+  avancadoConcluido ? "Concluído" : intermediarioConcluido ? "Liberado" : "Bloqueado",
+  avancadoConcluido
+    ? "Campanha avançada concluída"
+    : intermediarioConcluido
+      ? "Modo Avançado liberado"
+      : "Conclua o Intermediário para liberar"
+);
 
   gridNiveis.innerHTML = niveis
     .map((nivel, index) => {
@@ -4151,7 +4174,7 @@ function mostrarFimDoJogo(resultado) {
   const carreira = obterCarreiraOperador();
 
   const nomeOperadorFinal = getNomeOperadorAtual();
-  const patenteFinal = resultado?.patente || PATENTE_FINAL_AVANCADO;
+  const patenteFinal = PATENTE_FINAL_AVANCADO;
   const pontosFinal = carreira?.pontosTotais || resultado?.pontos || 0;
   const wpmFinal = Number(resultado?.wpm || 0).toFixed(1);
 
@@ -4259,11 +4282,10 @@ function montarCardsPremiosDaFase(premiosDaFase = []) {
       <div class="premios-vazio">
         <span>📡</span>
         <strong>Nenhum novo prêmio nesta missão</strong>
-        <small>Continue operando para liberar novas medalhas, distintivos e títulos.</small>
+        <small>As recompensas desta fase já podem ter sido conquistadas anteriormente. Continue melhorando sua pontuação e seu tempo operacional.</small>
       </div>
     `;
   }
-
   return premiosDaFase
     .map((premio) => {
       const icone = getIconePremio(premio.tipo);
@@ -4681,6 +4703,10 @@ function formatarTempo(segundos) {
 function salvarRanking(resultado) {
   const ranking = obterRanking();
 
+  const pontosBase = Number(resultado.pontos || 0);
+  const bonusTempo = 0;
+  const pontosComBonusTempo = pontosBase;
+
   const resultadoLimpo = {
     nome: resultado.nome,
     chaveOperador: resultado.chaveOperador,
@@ -4688,7 +4714,12 @@ function salvarRanking(resultado) {
     patente: resultado.patente,
     nivel: resultado.nivel,
     titulo: resultado.titulo,
-    pontos: resultado.pontos,
+
+    pontos: pontosComBonusTempo,
+    pontosBase,
+    bonusTempo,
+    pontosComBonusTempo,
+
     aproveitamento: resultado.aproveitamento,
     tempoSegundos: resultado.tempoSegundos,
     wpm: resultado.wpm,
@@ -4931,10 +4962,10 @@ function renderizarRanking() {
                   • ${item.data}
                 </div>
               </div>
-
-              <div class="ranking-pontos">
-                ${item.pontos} pts
-              </div>
+              <div class="ranking-pontos ranking-pontos-detalhado">
+              <strong>${item.pontos} pts</strong>
+              <small>Melhor missão</small>
+            </div>
             </div>
           `)
           .join("")}
@@ -4945,13 +4976,27 @@ function renderizarRanking() {
   listaRanking.innerHTML = htmlCarreira + htmlMissoes;
 }
 function limparRanking() {
-  const confirmar = window.confirm("Deseja limpar o ranking local deste aparelho?");
+  const confirmar = window.confirm(
+    "Deseja limpar o ranking local e os dados de carreira salvos neste aparelho?"
+  );
+
   if (!confirmar) return;
 
   localStorage.removeItem("operadorMorseRanking");
-  renderizarRanking();
-}
 
+  Object.keys(localStorage).forEach((chave) => {
+    if (chave.startsWith("operadorMorseCarreira_")) {
+      localStorage.removeItem(chave);
+    }
+  });
+
+  renderizarRanking();
+
+  mostrarAvisoRapido(
+    "Ranking limpo",
+    "Ranking local e dados de carreira foram apagados deste aparelho."
+  );
+}
 function escaparHtml(valor) {
   return String(valor)
     .replaceAll("&", "&amp;")
