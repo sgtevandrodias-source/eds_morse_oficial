@@ -4433,7 +4433,8 @@ function proximaPatenteTexto() {
   return niveis[nivelAtualIndex + 1].patente;
 }
 
-function iniciarPressionamento() {
+function iniciarPressionamento(evento) {
+  if (evento) evento.preventDefault();
   prepararAudio();
 
   if (pressionando) return;
@@ -4447,7 +4448,9 @@ function iniciarPressionamento() {
   iniciarTomMorse();
 }
 
-function finalizarPressionamento() {
+function finalizarPressionamento(evento) {
+  if (evento) evento.preventDefault();
+
   if (!pressionando) return;
 
   const fimPressionamento = performance.now();
@@ -4469,7 +4472,9 @@ if (modoAtual === MODO_INTERMEDIARIO || modoAtual === MODO_AVANCADO) {
 }
 }
 
-function cancelarPressionamento() {
+function cancelarPressionamento(evento) {
+  if (evento) evento.preventDefault();
+
   if (!pressionando) return;
 
   pressionando = false;
@@ -5193,7 +5198,9 @@ let temporizadorPalavraManipulador = null;
 let temporizadorLimparTotalManipulador = null;
 let limpezaTotalManipuladorAcionada = false;
 
-function iniciarPressionamentoManipulador() {
+function iniciarPressionamentoManipulador(evento) {
+  if (evento) evento.preventDefault();
+
   prepararAudio();
 
   if (pressionandoManipulador) return;
@@ -5207,7 +5214,9 @@ function iniciarPressionamentoManipulador() {
   iniciarTomMorse();
 }
 
-function finalizarPressionamentoManipulador() {
+function finalizarPressionamentoManipulador(evento) {
+  if (evento) evento.preventDefault();
+
   if (!pressionandoManipulador) return;
 
   const fim = performance.now();
@@ -5233,7 +5242,9 @@ function finalizarPressionamentoManipulador() {
   agendarPausasManipulador();
 }
 
-function cancelarPressionamentoManipulador() {
+function cancelarPressionamentoManipulador(evento) {
+  if (evento) evento.preventDefault();
+
   if (!pressionandoManipulador) return;
 
   pressionandoManipulador = false;
