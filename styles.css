@@ -3593,3 +3593,259 @@ body {
     font-size: 1.05rem;
   }
 }
+/* =========================================
+   TEMA GLOBAL EDS MORSE
+   Remove predominância azul e unifica identidade visual
+========================================= */
+
+:root {
+  --eds-fundo-profundo: #020817;
+  --eds-fundo-card: rgba(4, 14, 32, 0.96);
+  --eds-fundo-card-2: rgba(7, 18, 34, 0.98);
+
+  --eds-verde: #2ee06a;
+  --eds-verde-escuro: #14532d;
+  --eds-verde-suave: rgba(46, 224, 106, 0.16);
+
+  --eds-amarelo: #ffd42d;
+  --eds-amarelo-escuro: #ca8a04;
+  --eds-amarelo-suave: rgba(255, 212, 45, 0.16);
+
+  --eds-oliva: #84cc16;
+  --eds-ciano-discreto: #35cfff;
+
+  --eds-texto: #f3f7fb;
+  --eds-muted: #aebccd;
+
+  --eds-borda: rgba(43, 255, 173, 0.18);
+  --eds-borda-forte: rgba(43, 255, 173, 0.34);
+  --eds-brilho-verde: rgba(46, 224, 106, 0.18);
+  --eds-brilho-amarelo: rgba(255, 212, 45, 0.18);
+}
+
+/* Fundo geral mais próximo da tela inicial */
+body {
+  background:
+    radial-gradient(circle at 18% 8%, rgba(46, 224, 106, 0.13), transparent 34%),
+    radial-gradient(circle at 82% 18%, rgba(255, 212, 45, 0.09), transparent 30%),
+    radial-gradient(circle at 50% 100%, rgba(132, 204, 22, 0.08), transparent 34%),
+    linear-gradient(160deg, #020617, #020817 62%, #010409);
+}
+
+/* Cards gerais com identidade EDS */
+.card {
+  border-color: var(--eds-borda);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(12, 28, 48, 0.96) 0%,
+      rgba(4, 14, 32, 0.98) 100%
+    );
+  box-shadow:
+    0 0 0 1px rgba(43, 255, 173, 0.035),
+    0 24px 70px rgba(0, 0, 0, 0.42),
+    inset 0 0 30px rgba(43, 255, 173, 0.025);
+}
+
+/* Botão principal: verde/amarelo, sem azul */
+.btn.principal {
+  background: linear-gradient(135deg, var(--eds-verde), var(--eds-amarelo));
+  color: #06141d;
+  border: 1px solid rgba(255, 212, 45, 0.34);
+  box-shadow:
+    0 12px 28px rgba(46, 224, 106, 0.16),
+    0 6px 18px rgba(255, 212, 45, 0.10),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.10);
+}
+
+/* Botão secundário: escuro operacional */
+.btn.secundario {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(16, 32, 48, 0.96) 0%,
+      rgba(7, 18, 34, 0.98) 100%
+    );
+  color: var(--eds-texto);
+  border: 1px solid var(--eds-borda);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.025),
+    0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+/* Botão discreto */
+.btn.discreto {
+  background: rgba(2, 8, 23, 0.42);
+  color: var(--eds-muted);
+  border: 1px solid rgba(43, 255, 173, 0.14);
+}
+
+/* Hover geral dos botões */
+.btn:hover {
+  filter: brightness(1.06);
+}
+
+.btn.principal:hover {
+  box-shadow:
+    0 14px 30px rgba(46, 224, 106, 0.22),
+    0 8px 22px rgba(255, 212, 45, 0.14);
+}
+
+/* Estado ativo: amarelo/dourado */
+.btn-wpm.ativo,
+.btnTom.ativo,
+.btnWpm.ativo {
+  background: linear-gradient(135deg, var(--eds-amarelo), #f59e0b);
+  color: #1f1300;
+  border-color: rgba(255, 212, 45, 0.42);
+  box-shadow:
+    0 0 18px rgba(255, 212, 45, 0.32),
+    inset 0 0 0 1px rgba(255,255,255,0.12);
+}
+
+/* Remove piscada azul */
+.btn.piscou {
+  background: linear-gradient(135deg, var(--eds-verde), var(--eds-amarelo)) !important;
+  color: #06141d !important;
+  box-shadow: 0 0 22px rgba(46, 224, 106, 0.38) !important;
+}
+
+/* Badges gerais sem azul dominante */
+.badge {
+  background: rgba(46, 224, 106, 0.13);
+  color: var(--eds-verde);
+  border-color: rgba(46, 224, 106, 0.24);
+}
+
+.badge.patente {
+  background: rgba(255, 212, 45, 0.13);
+  color: var(--eds-amarelo);
+  border-color: rgba(255, 212, 45, 0.24);
+}
+
+.badge.sucesso {
+  background: rgba(46, 224, 106, 0.14);
+  color: var(--eds-verde);
+  border-color: rgba(46, 224, 106, 0.26);
+}
+
+.badge.alerta {
+  background: rgba(255, 212, 45, 0.14);
+  color: var(--eds-amarelo);
+  border-color: rgba(255, 212, 45, 0.26);
+}
+
+/* Inputs sem foco azul */
+input:focus,
+.campo-operador input:focus,
+.campo-resposta-auditiva input:focus {
+  border-color: rgba(46, 224, 106, 0.48);
+  box-shadow: 0 0 0 4px rgba(46, 224, 106, 0.12);
+}
+
+/* Cards de modo e níveis */
+.modo-card.ativo,
+.nivel-card.atual {
+  border-color: rgba(46, 224, 106, 0.42);
+  background: rgba(46, 224, 106, 0.10);
+  box-shadow:
+    0 0 0 1px rgba(46, 224, 106, 0.22),
+    0 18px 42px rgba(46, 224, 106, 0.12);
+}
+
+.nivel-card .nivel-numero {
+  background: rgba(46, 224, 106, 0.12);
+  border-color: rgba(46, 224, 106, 0.22);
+  color: var(--eds-verde);
+}
+
+.nivel-card::after {
+  background: var(--eds-verde);
+  box-shadow: 0 0 18px rgba(46, 224, 106, 0.55);
+}
+
+.nivel-card:hover {
+  border-color: rgba(46, 224, 106, 0.38);
+}
+
+/* Linha do mapa em verde/amarelo */
+.mapa-campanha::before {
+  background: linear-gradient(
+    to bottom,
+    rgba(46, 224, 106, 0.48),
+    rgba(255, 212, 45, 0.34),
+    rgba(132, 204, 22, 0.25)
+  );
+}
+
+/* Cards concluídos continuam verdes, mas mais premium */
+.nivel-card.concluido {
+  background: rgba(46, 224, 106, 0.10);
+  border-color: rgba(46, 224, 106, 0.30);
+}
+
+.nivel-card.concluido::after {
+  background: var(--eds-verde);
+  box-shadow: 0 0 18px rgba(46, 224, 106, 0.55);
+}
+
+/* Painéis internos */
+.cards-regras div,
+.progresso div,
+.topo-jogo .status-card,
+.quadro-resultado div,
+.quadro-treino-status div,
+.progresso-auditivo-card,
+.relatorio-bloco,
+.painel-ritmo > div,
+.config-grupo,
+.linha-categoria-treino,
+.card-escuta-operacional {
+  border-color: rgba(43, 255, 173, 0.14);
+  background: rgba(3, 12, 28, 0.72);
+}
+
+/* Biblioteca: remove azul dos códigos */
+.cartao-caractere .morse,
+#gridBibliotecaMorse .cartao-clicavel .morse,
+.resposta-treino .morse-resposta {
+  color: var(--eds-amarelo);
+  background: rgba(255, 212, 45, 0.10);
+  border-color: rgba(255, 212, 45, 0.18);
+}
+
+#gridBibliotecaMorse .cartao-clicavel:hover {
+  border-color: rgba(46, 224, 106, 0.42);
+  box-shadow: 0 16px 34px rgba(46, 224, 106, 0.10);
+}
+
+/* Ranking */
+.ranking-posicao {
+  background: rgba(46, 224, 106, 0.14);
+  color: var(--eds-verde);
+}
+
+.ranking-pontos {
+  color: var(--eds-amarelo);
+}
+
+/* Feedbacks mantêm semântica */
+.feedback.sucesso {
+  color: var(--eds-verde);
+}
+
+.feedback.alerta {
+  color: var(--eds-amarelo);
+}
+
+/* Card de recepção avançada */
+.card-recepcao-avancada {
+  border-color: rgba(46, 224, 106, 0.20);
+  background: rgba(3, 12, 28, 0.76);
+}
+
+/* Texto de marca ainda pode usar ciano discreto */
+.marca-jogo span,
+.boot-subtitulo {
+  color: var(--eds-ciano-discreto);
+}
