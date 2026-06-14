@@ -4172,7 +4172,52 @@ mostrarTela(telaFinal, false);
 
   renderizarRelatorioOperacional(resultado, mensagemNarrativa, conquistasNovas, campanhaFinalizada);
 }
+function getIconePremio(tipo) {
+  if (tipo === "titulo") return "🎖️";
+  if (tipo === "distintivo") return "⚡";
+  if (tipo === "medalha") return "🏅";
 
+  return "🏆";
+}
+
+function getClassePremio(tipo) {
+  if (tipo === "titulo") return "premio-titulo";
+  if (tipo === "distintivo") return "premio-distintivo";
+  if (tipo === "medalha") return "premio-medalha";
+
+  return "premio-generico";
+}
+
+function montarCardsPremiosDaFase(premiosDaFase = []) {
+  if (!premiosDaFase.length) {
+    return `
+      <div class="premios-vazio">
+        <span>📡</span>
+        <strong>Nenhum novo prêmio nesta missão</strong>
+        <small>Continue operando para liberar novas medalhas, distintivos e títulos.</small>
+      </div>
+    `;
+  }
+
+  return premiosDaFase
+    .map((premio) => {
+      const icone = getIconePremio(premio.tipo);
+      const classe = getClassePremio(premio.tipo);
+
+      return `
+        <article class="card-premio ${classe}">
+          <div class="icone-premio">${icone}</div>
+
+          <div>
+            <span>${escaparHtml(premio.tipo || "prêmio")}</span>
+            <strong>${escaparHtml(premio.nome)}</strong>
+            <small>${escaparHtml(premio.descricao || "Recompensa adicionada à carreira do operador.")}</small>
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+}
 function renderizarRelatorioOperacional(resultado, mensagemNarrativa, conquistasNovas, campanhaFinalizada) {
   const relatorio = document.getElementById("relatorioOperacionalResultado");
   if (!relatorio) return;
@@ -4201,34 +4246,43 @@ function renderizarRelatorioOperacional(resultado, mensagemNarrativa, conquistas
   let htmlCarreira = "";
 
   if (registroCarreira) {
-    const listaPremiosCarreira = registroCarreira.premiosDaFase.length
-      ? registroCarreira.premiosDaFase
-          .map((premio) => `<li>${escaparHtml(premio.nome)}</li>`)
-          .join("")
-      : "<li>Nenhum novo prêmio de carreira nesta missão.</li>";
-
     htmlCarreira = `
       <div class="relatorio-bloco bloco-carreira-operador">
         <span class="label">Carreira do Operador</span>
         <h2>🎖️ Pontuação acumulada</h2>
 
-        <p>
-          Pontos somados nesta fase:
-          <strong>+${registroCarreira.pontosSomados}</strong>
-        </p>
+        <div class="resumo-carreira-fase resumo-carreira-fase-4">
+        <div>
+          <span class="label">Pontos-base</span>
+          <strong>+${registroCarreira.pontosDaFase}</strong>
+        </div>
 
-        <p>
-          Bônus de tempo:
+        <div>
+          <span class="label">Bônus de tempo</span>
           <strong>+${registroCarreira.bonusTempo}</strong>
-        </p>
+        </div>
 
-        <p>
-          Total acumulado:
-          <strong>${registroCarreira.carreira.pontosTotais} pontos</strong>
-        </p>
+        <div>
+          <span class="label">Ganho nesta missão</span>
+          <strong>+${registroCarreira.pontosSomados}</strong>
+        </div>
 
-        <p>Prêmios desta fase:</p>
-        <ul>${listaPremiosCarreira}</ul>
+        <div>
+          <span class="label">Total acumulado</span>
+          <strong>${registroCarreira.carreira.pontosTotais}</strong>
+        </div>
+      </div>
+
+        <div class="cabecalho-premios">
+          <h2>🏆 Recompensas da missão</h2>
+          <p>
+            Medalhas, distintivos e títulos conquistados nesta operação.
+          </p>
+        </div>
+
+        <div class="grid-premios-fase">
+          ${montarCardsPremiosDaFase(registroCarreira.premiosDaFase)}
+        </div>
       </div>
     `;
   }
@@ -4245,11 +4299,6 @@ function renderizarRelatorioOperacional(resultado, mensagemNarrativa, conquistas
     <div class="relatorio-bloco">
       <span class="label">Promoção</span>
       <strong>${escaparHtml(proximaPromocao)}</strong>
-    </div>
-
-    <div class="relatorio-bloco">
-      <span class="label">Medalhas e Distintivos</span>
-      <ul>${listaConquistas}</ul>
     </div>
   `;
 }
