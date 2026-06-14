@@ -5,6 +5,7 @@ const telaCampanha = document.getElementById("telaCampanha");
 const telaLicao = document.getElementById("telaLicao");
 const telaJogo = document.getElementById("telaJogo");
 const telaFinal = document.getElementById("telaFinal");
+const telaFimJogo = document.getElementById("telaFimJogo");
 const telaRanking = document.getElementById("telaRanking");
 const telaManipulador = document.getElementById("telaManipulador");
 
@@ -39,6 +40,16 @@ const btnJogarNovamente = document.getElementById("btnJogarNovamente");
 const btnProximoNivel = document.getElementById("btnProximoNivel");
 const btnMapaResultado = document.getElementById("btnMapaResultado");
 const btnRankingFinal = document.getElementById("btnRankingFinal");
+
+const fimJogoOperador = document.getElementById("fimJogoOperador");
+const fimJogoPatente = document.getElementById("fimJogoPatente");
+const fimJogoPontos = document.getElementById("fimJogoPontos");
+const fimJogoWpm = document.getElementById("fimJogoWpm");
+const textoFimJogoResumo = document.getElementById("textoFimJogoResumo");
+
+const btnFimJogoRanking = document.getElementById("btnFimJogoRanking");
+const btnFimJogoMapa = document.getElementById("btnFimJogoMapa");
+const btnFimJogoInicio = document.getElementById("btnFimJogoInicio");
 
 const btnVoltarCampanhaRanking = document.getElementById("btnVoltarCampanhaRanking");
 const btnVoltarInicio = document.getElementById("btnVoltarInicio");
@@ -1298,6 +1309,18 @@ btnProximoNivel.addEventListener("click", avancarProximoNivel);
 btnMapaResultado.addEventListener("click", entrarCampanha);
 btnRankingFinal.addEventListener("click", abrirRanking);
 
+if (btnFimJogoRanking) {
+  btnFimJogoRanking.addEventListener("click", abrirRanking);
+}
+
+if (btnFimJogoMapa) {
+  btnFimJogoMapa.addEventListener("click", entrarCampanha);
+}
+
+if (btnFimJogoInicio) {
+  btnFimJogoInicio.addEventListener("click", voltarInicio);
+}
+
 btnVoltarCampanhaRanking.addEventListener("click", entrarCampanha);
 btnVoltarInicio.addEventListener("click", voltarInicio);
 btnLimparRanking.addEventListener("click", limparRanking);
@@ -1464,6 +1487,7 @@ function mostrarTela(tela, registrarHistorico = true) {
   telaLicao.classList.remove("ativa");
   telaJogo.classList.remove("ativa");
   telaFinal.classList.remove("ativa");
+  telaFimJogo.classList.remove("ativa");
   telaRanking.classList.remove("ativa");
   telaManipulador.classList.remove("ativa");
 
@@ -1494,6 +1518,7 @@ const MAPA_TELAS_APP = {
   telaLicao,
   telaJogo,
   telaFinal,
+  telaFimJogo,
   telaRanking,
   telaManipulador
 };
@@ -4122,9 +4147,49 @@ function liberarProximoNivel(campanhaFinalizada) {
     localStorage.setItem(chaveNivelLiberado(modoAtual), String(proximoIndex));
   }
 }
+function mostrarFimDoJogo(resultado) {
+  const carreira = obterCarreiraOperador();
 
-function mostrarResultadoNivel(resultado, campanhaFinalizada) {
-mostrarTela(telaFinal, false);
+  const nomeOperadorFinal = getNomeOperadorAtual();
+  const patenteFinal = resultado?.patente || PATENTE_FINAL_AVANCADO;
+  const pontosFinal = carreira?.pontosTotais || resultado?.pontos || 0;
+  const wpmFinal = Number(resultado?.wpm || 0).toFixed(1);
+
+  if (fimJogoOperador) {
+    fimJogoOperador.textContent = nomeOperadorFinal;
+  }
+
+  if (fimJogoPatente) {
+    fimJogoPatente.textContent = patenteFinal;
+  }
+
+  if (fimJogoPontos) {
+    fimJogoPontos.textContent = pontosFinal;
+  }
+
+  if (fimJogoWpm) {
+    fimJogoWpm.textContent = wpmFinal;
+  }
+
+  if (textoFimJogoResumo) {
+    textoFimJogoResumo.textContent =
+      "A Rede ADR foi restabelecida. O sinal voltou a cruzar o silêncio. Sua última transmissão confirmou que ainda havia esperança.";
+  }
+
+  mostrarTela(telaFimJogo, false);
+}
+
+function mostrarResultadoNivel(resultado, campanhaFinalizada = false) {
+  if (
+    campanhaFinalizada &&
+    resultado &&
+    resultado.modo === "Avançado"
+  ) {
+    mostrarFimDoJogo(resultado);
+    return;
+  }
+
+  mostrarTela(telaFinal, false);
 
   const conquistasNovas = verificarConquistasDoNivel(resultado, campanhaFinalizada) || [];
   const mensagemNarrativa = getMensagemNarrativaNivel(resultado);
@@ -5308,3 +5373,17 @@ function decodificarMorseLivre(codigo) {
     .join(" ")
     .trim();
 }
+/* =========================================
+   TESTE TEMPORÁRIO - TELA FIM DO JOGO
+   Remover depois da validação
+========================================= */
+
+window.testarFimDoJogo = function () {
+  mostrarFimDoJogo({
+    modo: "Avançado",
+    nivel: 12,
+    patente: "Operador de Escuta Avançada",
+    pontos: 9999,
+    wpm: 12.5
+  });
+};
