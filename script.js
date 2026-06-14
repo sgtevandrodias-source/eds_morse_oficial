@@ -638,7 +638,7 @@ const META_WPM = 12;
 
 const PATENTE_FINAL_INICIANTE = "Mestre Morse";
 const PATENTE_FINAL_INTERMEDIARIO = "Operador Intermediário";
-const PATENTE_FINAL_AVANCADO = "Operador de Estação";
+const PATENTE_FINAL_AVANCADO = "Operador de Escuta Avançada";
 
 let frequenciaSidetone = Number(localStorage.getItem("operadorMorseTomHz") || "650");
 const VOLUME_MORSE = 0.22;
@@ -1103,30 +1103,30 @@ function obterPremiosDaFase(resultado) {
     });
   }
   
-  if (modo === "Avançado" && nivel === 10 && aproveitamento >= 80) {
+  if (modo === "Avançado" && nivel === 12 && aproveitamento >= 80) {
     premios.push({
       tipo: "titulo",
       id: "titulo_operador_estacao",
       nome: "Operador de Estação",
-      descricao: "Título concedido por concluir a Prova de Estação do modo Avançado."
+      descricao: "Título concedido por concluir toda a fase avançada, incluindo a escuta operacional."
     });
   }
   
-  if (modo === "Avançado" && nivel === 10 && aproveitamento >= 90) {
+  if (modo === "Avançado" && nivel === 12 && aproveitamento >= 90) {
     premios.push({
       tipo: "titulo",
       id: "titulo_comandante_estacao",
       nome: "Comandante de Estação",
-      descricao: "Título concedido por concluir a prova avançada com desempenho superior."
+      descricao: "Título concedido por concluir a fase avançada com desempenho superior."
     });
   }
   
-  if (modo === "Avançado" && nivel === 10 && aproveitamento === 100) {
+  if (modo === "Avançado" && nivel === 12 && aproveitamento === 100) {
     premios.push({
       tipo: "titulo",
       id: "titulo_mestre_telegrafista",
       nome: "Mestre Telegrafista",
-      descricao: "Título máximo concedido por concluir a prova avançada sem erros."
+      descricao: "Título máximo concedido por concluir toda a fase avançada sem erros."
     });
   }
 
@@ -5373,17 +5373,3 @@ function decodificarMorseLivre(codigo) {
     .join(" ")
     .trim();
 }
-/* =========================================
-   TESTE TEMPORÁRIO - TELA FIM DO JOGO
-   Remover depois da validação
-========================================= */
-
-window.testarFimDoJogo = function () {
-  mostrarFimDoJogo({
-    modo: "Avançado",
-    nivel: 12,
-    patente: "Operador de Escuta Avançada",
-    pontos: 9999,
-    wpm: 12.5
-  });
-};
