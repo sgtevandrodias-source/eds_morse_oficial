@@ -5026,14 +5026,14 @@ function iniciarTomMorse() {
     ganhoMorse = audioContext.createGain();
     filtroMorse = audioContext.createBiquadFilter();
 
-    osciladorMorse.type = "square";
+    osciladorMorse.type = "sine";
     osciladorMorse.frequency.setValueAtTime(
       frequenciaSidetone,
       audioContext.currentTime
     );
 
     filtroMorse.type = "lowpass";
-    filtroMorse.frequency.setValueAtTime(1500, audioContext.currentTime);
+    filtroMorse.frequency.setValueAtTime(1800, audioContext.currentTime);
 
     ganhoMorse.gain.setValueAtTime(0.0001, audioContext.currentTime);
 
@@ -5049,8 +5049,7 @@ function iniciarTomMorse() {
   osciladorMorse.frequency.setValueAtTime(frequenciaSidetone, agora);
 
   ganhoMorse.gain.cancelScheduledValues(agora);
-  ganhoMorse.gain.setValueAtTime(Math.max(ganhoMorse.gain.value, 0.0001), agora);
-  ganhoMorse.gain.exponentialRampToValueAtTime(VOLUME_MORSE, agora + 0.003);
+  ganhoMorse.gain.setTargetAtTime(VOLUME_MORSE, agora, 0.004);
 }
 function pararTomMorse() {
   if (!audioContext || !osciladorMorse || !ganhoMorse) return;
@@ -5059,11 +5058,7 @@ function pararTomMorse() {
 
   try {
     ganhoMorse.gain.cancelScheduledValues(agora);
-    ganhoMorse.gain.setValueAtTime(
-      Math.max(ganhoMorse.gain.value, 0.0001),
-      agora
-    );
-    ganhoMorse.gain.exponentialRampToValueAtTime(0.0001, agora + 0.006);
+    ganhoMorse.gain.setTargetAtTime(0.0001, agora, 0.012);
   } catch (erro) {}
 }
 
