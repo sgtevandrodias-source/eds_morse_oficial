@@ -353,7 +353,35 @@ function gerarGruposAvancados(qtd = 200, tamanho = 5) {
 }
 
 const BANCO_GRUPOS_AVANCADOS = gerarGruposAvancados(200, 5);
+const MENSAGENS_ESCUTA_AVANCADA = [
+  "QTC UU",
+  "GOOD NEWS",
+  "WE ARE SAVED",
+  "COMMUNICATIONS ON",
+  "HELP IS COMING",
+  "THANK YOU",
+  "THANK GOD",
+  "SEE YOU SOON"
+];
 
+const BANCO_GRUPOS_ESCUTA_AVANCADA = [
+  "QTCUU",
+  "GOODN",
+  "EWSWE",
+  "ARESA",
+  "VEDCO",
+  "MMUNI",
+  "CATIO",
+  "NSONH",
+  "HELPI",
+  "SCOMI",
+  "NGTHA",
+  "NKYOU",
+  "THANK",
+  "GODSE",
+  "EYOUU",
+  "SOONO"
+];
 const NIVEIS_AVANCADO = [
   {
     numero: 1,
@@ -510,7 +538,7 @@ const NIVEIS_AVANCADO = [
     numero: 10,
     patente: "Operador de Estação",
     titulo: "Missão Avançada 10 – Prova de Estação",
-    descricao: "Prova final avançada. Mistura grupos, códigos Q, números, indicativos e mensagens completas.",
+    descricao: "Prova avançada. Mistura grupos, códigos Q, números, indicativos e mensagens completas.",
     missoes: [
       "PY2EDS QRV",
       "QTC BASE ALFA 7",
@@ -523,6 +551,22 @@ const NIVEIS_AVANCADO = [
       "TX5EDS QTC URGENTE",
       "REDE OPERACIONAL"
     ]
+  },
+  {
+    numero: 11,
+    patente: "Copista de Grupos",
+    titulo: "Missão Avançada 11 – Escuta de Grupos de 5",
+    descricao: "Ouça grupos de cinco letras formados a partir das mensagens finais e digite exatamente o que recebeu.",
+    tipoMissao: "recepcao",
+    missoes: BANCO_GRUPOS_ESCUTA_AVANCADA.slice(0, 10)
+  },
+  {
+    numero: 12,
+    patente: "Operador de Escuta Avançada",
+    titulo: "Missão Avançada 12 – Escuta de Mensagens Simples",
+    descricao: "Ouça mensagens simples em Morse e digite a mensagem recebida.",
+    tipoMissao: "recepcao",
+    missoes: MENSAGENS_ESCUTA_AVANCADA
   }
 ];
 
@@ -566,6 +610,14 @@ const MENSAGENS_NARRATIVAS_AVANCADO = {
   10: {
     titulo: "🏆 Prova de estação concluída",
     texto: "Você concluiu a prova avançada. A Rede ADR reconhece sua capacidade como Operador de Estação."
+  },
+  11: {
+    titulo: "🎧 Grupos copiados com sucesso",
+    texto: "Você passou da transmissão para a recepção. Copiar grupos de cinco letras exige ouvido firme, memória curta e atenção total."
+  },
+  12: {
+    titulo: "📡 Escuta avançada concluída",
+    texto: "Você recebeu mensagens simples em Morse e registrou o conteúdo corretamente. A Rede ADR reconhece sua capacidade de escuta operacional."
   }
 };
 
@@ -3653,7 +3705,145 @@ function getMissaoAtual() {
     tipo: nivel.titulo
   };
 }
+function nivelEhRecepcaoAvancada(nivel = getNivelAtual()) {
+  return modoAtual === MODO_AVANCADO && nivel && nivel.tipoMissao === "recepcao";
+}
 
+function garantirPainelRecepcaoAvancada() {
+  let painel = document.getElementById("painelRecepcaoAvancada");
+
+  if (painel) return painel;
+
+  painel = document.createElement("div");
+  painel.id = "painelRecepcaoAvancada";
+  painel.className = "painel-recepcao-avancada";
+
+  const acoesJogo = document.querySelector("#telaJogo .acoes");
+
+  if (acoesJogo && acoesJogo.parentNode) {
+    acoesJogo.parentNode.insertBefore(painel, acoesJogo);
+  }
+
+  return painel;
+}
+
+function restaurarInterfaceTransmissao() {
+  const painel = garantirPainelRecepcaoAvancada();
+
+  painel.style.display = "none";
+  painel.innerHTML = "";
+
+  btnMorse.style.display = "";
+  btnEspacoLetra.style.display = "";
+  btnEspacoPalavra.style.display = "";
+  btnLimpar.style.display = "";
+  btnEnviar.textContent = "Confirmar";
+}
+
+function configurarInterfaceRecepcaoAvancada(missao) {
+  const painel = garantirPainelRecepcaoAvancada();
+
+  btnMorse.style.display = "none";
+  btnEspacoLetra.style.display = "none";
+  btnEspacoPalavra.style.display = "none";
+  btnLimpar.style.display = "none";
+  btnEnviar.textContent = "Confirmar recepção";
+
+  textoMissao.textContent = "Receba a transmissão";
+  dicaMissaoEl.textContent = "Ouça o Morse e digite exatamente a mensagem recebida.";
+  codigoDigitado.textContent = "Mensagem oculta";
+
+  painel.style.display = "grid";
+  painel.innerHTML = `
+    <div class="card-recepcao-avancada">
+      <span class="label">Escuta operacional</span>
+
+      <button id="btnOuvirRecepcaoAvancada" class="btn principal">
+        🔊 Ouvir transmissão
+      </button>
+
+      <div class="campo-resposta-auditiva campo-recepcao-jogo">
+        <label for="inputRecepcaoAvancada">Digite o que você recebeu</label>
+
+        <input
+          id="inputRecepcaoAvancada"
+          type="text"
+          autocomplete="off"
+          placeholder="Ex: THANK GOD"
+        />
+      </div>
+
+      <small>
+        Dica: use espaço entre palavras quando houver pausa longa.
+      </small>
+    </div>
+  `;
+
+  const btnOuvir = document.getElementById("btnOuvirRecepcaoAvancada");
+  const input = document.getElementById("inputRecepcaoAvancada");
+
+  if (btnOuvir) {
+    btnOuvir.addEventListener("click", () => {
+      tocarSequenciaMorse(missao.codigo);
+      feedback.textContent = "Transmissão em andamento. Copie com calma.";
+      feedback.className = "feedback alerta";
+    });
+  }
+
+  if (input) {
+    input.focus();
+
+    input.addEventListener("keydown", (evento) => {
+      if (evento.code === "Enter") {
+        evento.preventDefault();
+        confirmarEnvio();
+      }
+    });
+  }
+}
+
+function confirmarRecepcaoAvancada() {
+  const missao = getMissaoAtual();
+  const input = document.getElementById("inputRecepcaoAvancada");
+
+  if (!input) return;
+
+  const respostaUsuario = normalizarRespostaAuditiva(input.value);
+  const respostaCorreta = normalizarRespostaAuditiva(missao.alvo);
+
+  if (!respostaUsuario) {
+    tocarErro();
+    feedback.textContent = "Digite a mensagem recebida antes de confirmar.";
+    feedback.className = "feedback erro";
+    return;
+  }
+
+  if (respostaUsuario === respostaCorreta) {
+    acertosNivel += 1;
+    sequenciaAcertos += 1;
+
+    const pontosGanhos = calcularPontosAcerto() + 80;
+    pontuacao += pontosGanhos;
+
+    tocarAcerto();
+    feedback.textContent = `Correto! Mensagem copiada. +${pontosGanhos} pontos.`;
+    feedback.className = "feedback sucesso";
+  } else {
+    errosNivel += 1;
+    sequenciaAcertos = 0;
+    pontuacao = Math.max(0, pontuacao - 35);
+
+    tocarErro();
+    feedback.textContent = `Incorreto. Correto: ${missao.alvo}`;
+    feedback.className = "feedback erro";
+  }
+
+  input.setAttribute("readonly", "readonly");
+
+  atualizarPlacar();
+
+  setTimeout(proximaMissao, 1100);
+}
 function carregarMissao() {
   const nivel = getNivelAtual();
   const missao = getMissaoAtual();
@@ -3670,13 +3860,19 @@ function carregarMissao() {
 
   const dicaFonico = getDicaFonico(missao.alvo);
 
-  if (/^[A-Z0-9]$/.test(String(missao.alvo).toUpperCase())) {
-    dicaMissaoEl.innerHTML = `
-      <span>Código: ${missao.codigo}</span><br>
-      <span>Dica: ${dicaFonico}</span>
-    `;
+  if (nivelEhRecepcaoAvancada(nivel)) {
+    configurarInterfaceRecepcaoAvancada(missao);
   } else {
-    dicaMissaoEl.textContent = `Código: ${missao.codigo}`;
+    restaurarInterfaceTransmissao();
+
+    if (/^[A-Z0-9]$/.test(String(missao.alvo).toUpperCase())) {
+      dicaMissaoEl.innerHTML = `
+        <span>Código: ${missao.codigo}</span><br>
+        <span>Dica: ${dicaFonico}</span>
+      `;
+    } else {
+      dicaMissaoEl.textContent = `Código: ${missao.codigo}`;
+    }
   }
 
   contadorMissaoEl.textContent = `${missaoAtualIndex + 1}/${nivel.missoes.length}`;
@@ -3704,6 +3900,11 @@ function carregarMissao() {
 
 function confirmarEnvio() {
   limparTemporizadoresPausa();
+
+  if (nivelEhRecepcaoAvancada()) {
+    confirmarRecepcaoAvancada();
+    return;
+  }
 
   const missao = getMissaoAtual();
 
