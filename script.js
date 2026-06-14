@@ -1391,6 +1391,17 @@ document.addEventListener("keydown", (evento) => {
   }
 
   if (evento.code === "Backspace") {
+    const estaDigitandoEmCampo =
+      evento.target &&
+      (
+        evento.target.tagName === "INPUT" ||
+        evento.target.tagName === "TEXTAREA"
+      );
+  
+    if (estaDigitandoEmCampo) {
+      return;
+    }
+  
     evento.preventDefault();
     limparCodigo();
   }
