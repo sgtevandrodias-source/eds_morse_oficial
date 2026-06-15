@@ -929,8 +929,9 @@ let motorChavePronto = false;
 let chaveMorseAtiva = false;
 let ultimoAcionamentoChaveMs = 0;
 let volumeAtualChave = 0.00001;
-let inicioSomChaveMs = 0;
-let temporizadorSoltarSomChave = null;
+
+let somChaveAtual = null;
+let sonsChaveAtivos = [];
 
 let ultimoResultado = null;
 let temporizadorLetra = null;
@@ -1780,6 +1781,14 @@ function pararTodosOsSons() {
   if (typeof pararTomMorse === "function") {
     pararTomMorse();
   }
+  sonsChaveAtivos.forEach((som) => {
+    try {
+      som.oscilador.stop();
+    } catch (erro) {}
+  });
+
+  sonsChaveAtivos = [];
+  somChaveAtual = null;
 
   if (typeof pararTimerMissao === "function") {
     pararTimerMissao();
@@ -5044,140 +5053,115 @@ function prepararAudio() {
   }
 }
 
-function garantirMotorChaveMorse() {
+function limparSomChaveDaLista(som) {
+  sonsChaveAtivos = sonsChaveAtivos.filter((item) => item !== som);
+
+  if (somChaveAtual === som) {
+    somChaveAtual = null;
+  }
+}
+
+function iniciarTomMorse() {
   prepararAudio();
 
-  if (!audioContext) return false;
+  if (!audioContext) return;
 
   if (audioContext.state === "suspended") {
     audioContext.resume();
   }
 
-  if (
-    motorChavePronto &&
-    osciladorMorse &&
-    ganhoMorse &&
-    filtroMorse
-  ) {
-    return true;
-  }
-
-  osciladorMorse = audioContext.createOscillator();
-  ganhoMorse = audioContext.createGain();
-  filtroMorse = audioContext.createBiquadFilter();
-
-  osciladorMorse.type = "sine";
-  osciladorMorse.frequency.setValueAtTime(
-    frequenciaSidetone,
-    audioContext.currentTime
-  );
-
-  filtroMorse.type = "lowpass";
-  filtroMorse.frequency.setValueAtTime(1400, audioContext.currentTime);
-  filtroMorse.Q.setValueAtTime(0.5, audioContext.currentTime);
-
-  volumeAtualChave = 0.00001;
-  ganhoMorse.gain.setValueAtTime(volumeAtualChave, audioContext.currentTime);
-
-  osciladorMorse.connect(filtroMorse);
-  filtroMorse.connect(ganhoMorse);
-  ganhoMorse.connect(audioContext.destination);
-
-  osciladorMorse.start();
-
-  motorChavePronto = true;
-
-  return true;
-}
-
-function iniciarTomMorse() {
-  const motorOk = garantirMotorChaveMorse();
-
-  if (!motorOk || !audioContext || !ganhoMorse || !osciladorMorse) return;
-
-  if (temporizadorSoltarSomChave) {
-    clearTimeout(temporizadorSoltarSomChave);
-    temporizadorSoltarSomChave = null;
-  }
-
   const agoraMs = performance.now();
 
-  if (agoraMs - ultimoAcionamentoChaveMs < 8) {
+  if (agoraMs - ultimoAcionamentoChaveMs < 6) {
     return;
   }
 
   ultimoAcionamentoChaveMs = agoraMs;
-  inicioSomChaveMs = agoraMs;
 
   const agora = audioContext.currentTime;
+
+  const oscilador = audioContext.createOscillator();
+  const ganho = audioContext.createGain();
+  const filtro = audioContext.createBiquadFilter();
+
+  oscilador.type = "sine";
+  oscilador.frequency.setValueAtTime(frequenciaSidetone, agora);
+
+  filtro.type = "lowpass";
+  filtro.frequency.setValueAtTime(1500, agora);
+  filtro.Q.setValueAtTime(0.5, agora);
+
+  ganho.gain.setValueAtTime(0.0001, agora);
+  ganho.gain.linearRampToValueAtTime(VOLUME_MORSE * 0.82, agora + 0.004);
+
+  oscilador.connect(filtro);
+  filtro.connect(ganho);
+  ganho.connect(audioContext.destination);
+
+  oscilador.start(agora);
+
+  const som = {
+    oscilador,
+    ganho,
+    filtro,
+    inicioAudio: agora,
+    inicioMs: agoraMs,
+    finalizado: false
+  };
+
+  somChaveAtual = som;
+  sonsChaveAtivos.push(som);
 
   chaveMorseAtiva = true;
 
-  try {
-    osciladorMorse.frequency.cancelScheduledValues(agora);
-    osciladorMorse.frequency.setValueAtTime(frequenciaSidetone, agora);
-
-    ganhoMorse.gain.cancelScheduledValues(agora);
-    ganhoMorse.gain.setValueAtTime(
-      Math.max(volumeAtualChave, 0.00001),
-      agora
-    );
-
-    ganhoMorse.gain.linearRampToValueAtTime(VOLUME_MORSE, agora + 0.006);
-
-    volumeAtualChave = VOLUME_MORSE;
-  } catch (erro) {}
-}
-
-function soltarSomChaveAgora() {
-  if (!audioContext || !ganhoMorse) return;
-
-  const agora = audioContext.currentTime;
-
-  chaveMorseAtiva = false;
-
-  try {
-    ganhoMorse.gain.cancelScheduledValues(agora);
-    ganhoMorse.gain.setValueAtTime(
-      Math.max(volumeAtualChave, 0.00001),
-      agora
-    );
-
-    ganhoMorse.gain.linearRampToValueAtTime(0.00001, agora + 0.020);
-
-    volumeAtualChave = 0.00001;
-  } catch (erro) {}
+  oscilador.onended = () => {
+    limparSomChaveDaLista(som);
+  };
 }
 
 function pararTomMorse() {
-  if (!audioContext || !ganhoMorse) return;
+  if (!audioContext || !somChaveAtual) return;
 
-  const duracaoSomMs = performance.now() - inicioSomChaveMs;
+  const som = somChaveAtual;
+
+  if (som.finalizado) return;
+
+  som.finalizado = true;
+
+  const agora = audioContext.currentTime;
+  const duracaoAtual = agora - som.inicioAudio;
 
   /*
-    Proteção contra pipoco:
-    mesmo que o dedo solte muito rápido, o ponto precisa ter
-    um mínimo de som audível para não virar estalo no Android/PWA.
+    Cada ponto muito rápido precisa ter um mínimo audível.
+    Isso evita o "pipoco" quando o operador faz . . . muito rápido.
   */
-  const duracaoMinimaPontoAudivelMs = 48;
+  const duracaoMinimaPontoSeg = 0.072;
+  const solturaSeg = 0.018;
 
-  if (duracaoSomMs < duracaoMinimaPontoAudivelMs) {
-    const restante = duracaoMinimaPontoAudivelMs - duracaoSomMs;
+  const inicioSoltura = Math.max(
+    agora,
+    som.inicioAudio + duracaoMinimaPontoSeg
+  );
 
-    if (temporizadorSoltarSomChave) {
-      clearTimeout(temporizadorSoltarSomChave);
-    }
+  try {
+    som.ganho.gain.cancelScheduledValues(inicioSoltura);
+    som.ganho.gain.setValueAtTime(VOLUME_MORSE * 0.82, inicioSoltura);
+    som.ganho.gain.linearRampToValueAtTime(
+      0.0001,
+      inicioSoltura + solturaSeg
+    );
 
-    temporizadorSoltarSomChave = setTimeout(() => {
-      temporizadorSoltarSomChave = null;
-      soltarSomChaveAgora();
-    }, restante);
-
-    return;
+    som.oscilador.stop(inicioSoltura + solturaSeg + 0.025);
+  } catch (erro) {
+    try {
+      som.oscilador.stop();
+    } catch (erroInterno) {}
   }
 
-  soltarSomChaveAgora();
+  chaveMorseAtiva = false;
+  somChaveAtual = null;
 }
+  
 function tocarTomCurto(frequencia, duracao, volume = 0.14, tipo = "sine") {
   prepararAudio();
 
