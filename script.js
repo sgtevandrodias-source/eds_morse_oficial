@@ -640,7 +640,14 @@ const PATENTE_FINAL_INICIANTE = "Mestre Morse";
 const PATENTE_FINAL_INTERMEDIARIO = "Operador Intermediário";
 const PATENTE_FINAL_AVANCADO = "Operador de Escuta Avançada";
 
-let frequenciaSidetone = Number(localStorage.getItem("operadorMorseTomHz") || "650");
+let frequenciaSidetone = Number(localStorage.getItem("operadorMorseTomHz") || "800");
+
+// Força um tom mais claro no PWA, evitando ficar preso em tom grave salvo anteriormente.
+if (!frequenciaSidetone || frequenciaSidetone < 700) {
+  frequenciaSidetone = 800;
+  localStorage.setItem("operadorMorseTomHz", String(frequenciaSidetone));
+}
+
 const VOLUME_MORSE = 0.22;
 
 let wpmAtual = Number(localStorage.getItem("operadorMorseWpm") || "12");
@@ -5088,11 +5095,11 @@ function iniciarTomMorse() {
   oscilador.frequency.setValueAtTime(frequenciaSidetone, agora);
 
   filtro.type = "lowpass";
-  filtro.frequency.setValueAtTime(3200, agora);
-  filtro.Q.setValueAtTime(0.35, agora);
+  filtro.frequency.setValueAtTime(6000, agora);
+  filtro.Q.setValueAtTime(0.15, agora);
 
   ganho.gain.setValueAtTime(0.0001, agora);
-  ganho.gain.linearRampToValueAtTime(VOLUME_MORSE * 0.92, agora + 0.0015);
+  ganho.gain.linearRampToValueAtTime(VOLUME_MORSE, agora + 0.0006);
 
   oscilador.connect(filtro);
   filtro.connect(ganho);
@@ -5135,8 +5142,8 @@ function pararTomMorse() {
     Cada ponto muito rápido precisa ter um mínimo audível.
     Isso evita o "pipoco" quando o operador faz . . . muito rápido.
   */
-    const duracaoMinimaPontoSeg = 0.055;
-  const solturaSeg = 0.010;
+  const duracaoMinimaPontoSeg = 0.050;
+  const solturaSeg = 0.008;
 
   const inicioSoltura = Math.max(
     agora,
