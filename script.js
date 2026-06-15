@@ -925,8 +925,10 @@ let audioContext = null;
 let osciladorMorse = null;
 let ganhoMorse = null;
 let filtroMorse = null;
+let compressorMorse = null;
 let motorChavePronto = false;
 let chaveMorseAtiva = false;
+let ultimoAcionamentoChaveMs = 0;
 
 let ultimoResultado = null;
 let temporizadorLetra = null;
@@ -4436,7 +4438,16 @@ function proximaPatenteTexto() {
 }
 
 function iniciarPressionamento(evento) {
-  if (evento) evento.preventDefault();
+  if (evento) {
+    evento.preventDefault();
+
+    if (evento.pointerId !== undefined && btnMorse.setPointerCapture) {
+      try {
+        btnMorse.setPointerCapture(evento.pointerId);
+      } catch (erro) {}
+    }
+  }
+
   prepararAudio();
 
   if (pressionando) return;
@@ -4451,7 +4462,15 @@ function iniciarPressionamento(evento) {
 }
 
 function finalizarPressionamento(evento) {
-  if (evento) evento.preventDefault();
+  if (evento) {
+    evento.preventDefault();
+
+    if (evento.pointerId !== undefined && btnMorse.releasePointerCapture) {
+      try {
+        btnMorse.releasePointerCapture(evento.pointerId);
+      } catch (erro) {}
+    }
+  }
 
   if (!pressionando) return;
 
@@ -5023,58 +5042,91 @@ function prepararAudio() {
   }
 }
 
-function iniciarTomMorse() {
+function garantirMotorChaveMorse() {
   prepararAudio();
 
-  if (!audioContext) return;
+  if (!audioContext) return false;
 
   if (audioContext.state === "suspended") {
-    audioContext.resume().then(() => {
-      iniciarTomMorse();
-    });
+    audioContext.resume();
+  }
+
+  if (
+    motorChavePronto &&
+    osciladorMorse &&
+    ganhoMorse &&
+    filtroMorse &&
+    compressorMorse
+  ) {
+    return true;
+  }
+
+  osciladorMorse = audioContext.createOscillator();
+  ganhoMorse = audioContext.createGain();
+  filtroMorse = audioContext.createBiquadFilter();
+  compressorMorse = audioContext.createDynamicsCompressor();
+
+  osciladorMorse.type = "sine";
+  osciladorMorse.frequency.setValueAtTime(
+    frequenciaSidetone,
+    audioContext.currentTime
+  );
+
+  filtroMorse.type = "lowpass";
+  filtroMorse.frequency.setValueAtTime(1500, audioContext.currentTime);
+  filtroMorse.Q.setValueAtTime(0.7, audioContext.currentTime);
+
+  compressorMorse.threshold.setValueAtTime(-24, audioContext.currentTime);
+  compressorMorse.knee.setValueAtTime(18, audioContext.currentTime);
+  compressorMorse.ratio.setValueAtTime(8, audioContext.currentTime);
+  compressorMorse.attack.setValueAtTime(0.004, audioContext.currentTime);
+  compressorMorse.release.setValueAtTime(0.12, audioContext.currentTime);
+
+  ganhoMorse.gain.setValueAtTime(0.00001, audioContext.currentTime);
+
+  osciladorMorse.connect(filtroMorse);
+  filtroMorse.connect(ganhoMorse);
+  ganhoMorse.connect(compressorMorse);
+  compressorMorse.connect(audioContext.destination);
+
+  osciladorMorse.start();
+
+  motorChavePronto = true;
+
+  return true;
+}
+
+function iniciarTomMorse() {
+  const motorOk = garantirMotorChaveMorse();
+
+  if (!motorOk || !audioContext || !ganhoMorse || !osciladorMorse) return;
+
+  const agoraMs = performance.now();
+
+  if (agoraMs - ultimoAcionamentoChaveMs < 12) {
     return;
   }
 
-  if (!motorChavePronto || !osciladorMorse || !ganhoMorse || !filtroMorse) {
-    osciladorMorse = audioContext.createOscillator();
-    ganhoMorse = audioContext.createGain();
-    filtroMorse = audioContext.createBiquadFilter();
-
-    osciladorMorse.type = "sine";
-    osciladorMorse.frequency.setValueAtTime(
-      frequenciaSidetone,
-      audioContext.currentTime
-    );
-
-    filtroMorse.type = "lowpass";
-    filtroMorse.frequency.setValueAtTime(1600, audioContext.currentTime);
-
-    ganhoMorse.gain.setValueAtTime(0.00001, audioContext.currentTime);
-
-    osciladorMorse.connect(filtroMorse);
-    filtroMorse.connect(ganhoMorse);
-    ganhoMorse.connect(audioContext.destination);
-
-    osciladorMorse.start();
-
-    motorChavePronto = true;
-  }
+  ultimoAcionamentoChaveMs = agoraMs;
 
   const agora = audioContext.currentTime;
 
   chaveMorseAtiva = true;
 
-  osciladorMorse.frequency.cancelScheduledValues(agora);
-  osciladorMorse.frequency.setValueAtTime(frequenciaSidetone, agora);
+  try {
+    osciladorMorse.frequency.cancelScheduledValues(agora);
+    osciladorMorse.frequency.setValueAtTime(frequenciaSidetone, agora);
 
-  ganhoMorse.gain.cancelScheduledValues(agora);
-  ganhoMorse.gain.setValueAtTime(
-    Math.max(ganhoMorse.gain.value, 0.00001),
-    agora
-  );
+    ganhoMorse.gain.cancelScheduledValues(agora);
+    ganhoMorse.gain.setValueAtTime(
+      Math.max(ganhoMorse.gain.value || 0.00001, 0.00001),
+      agora
+    );
 
-  ganhoMorse.gain.linearRampToValueAtTime(VOLUME_MORSE, agora + 0.006);
+    ganhoMorse.gain.setTargetAtTime(VOLUME_MORSE, agora, 0.004);
+  } catch (erro) {}
 }
+
 function pararTomMorse() {
   if (!audioContext || !ganhoMorse) return;
 
@@ -5085,14 +5137,13 @@ function pararTomMorse() {
   try {
     ganhoMorse.gain.cancelScheduledValues(agora);
     ganhoMorse.gain.setValueAtTime(
-      Math.max(ganhoMorse.gain.value, 0.00001),
+      Math.max(ganhoMorse.gain.value || 0.00001, 0.00001),
       agora
     );
 
-    ganhoMorse.gain.linearRampToValueAtTime(0.00001, agora + 0.018);
+    ganhoMorse.gain.setTargetAtTime(0.00001, agora, 0.012);
   } catch (erro) {}
 }
-
 function tocarTomCurto(frequencia, duracao, volume = 0.14, tipo = "sine") {
   prepararAudio();
 
@@ -5128,6 +5179,7 @@ function tocarErro() {
 }
 
 let temporizadoresSequenciaMorse = [];
+let osciladoresSequenciaMorse = [];
 
 function pararSequenciaMorse() {
   temporizadoresSequenciaMorse.forEach((temporizador) => {
@@ -5136,54 +5188,108 @@ function pararSequenciaMorse() {
 
   temporizadoresSequenciaMorse = [];
 
-  if (typeof pararTomMorse === "function") {
-    pararTomMorse();
-  }
+  osciladoresSequenciaMorse.forEach((oscilador) => {
+    try {
+      oscilador.stop();
+    } catch (erro) {}
+  });
+
+  osciladoresSequenciaMorse = [];
 }
 
 function tocarSequenciaMorse(codigoMorse) {
   prepararAudio();
   pararSequenciaMorse();
 
-  const unidade = 1100 / wpmAtual;
-  const fatorTraco = 3.6;
-  let atraso = 0;
+  if (!audioContext) return;
 
-  function tocarElementoComSomDaChave(duracaoMs, atrasoMs) {
-    const temporizadorInicio = setTimeout(() => {
-      iniciarTomMorse();
-
-      const temporizadorFim = setTimeout(() => {
-        pararTomMorse();
-      }, duracaoMs);
-
-      temporizadoresSequenciaMorse.push(temporizadorFim);
-    }, atrasoMs);
-
-    temporizadoresSequenciaMorse.push(temporizadorInicio);
+  if (audioContext.state === "suspended") {
+    audioContext.resume();
   }
 
-  String(codigoMorse).split("").forEach((simbolo) => {
-    if (simbolo === ".") {
-      tocarElementoComSomDaChave(unidade, atraso);
-      atraso += unidade * 2;
+  const tokens = String(codigoMorse || "")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+
+  if (!tokens.length) return;
+
+  const unidade = 1200 / wpmAtual / 1000;
+  const volumeSequencia = 0.16;
+  const ataque = 0.006;
+  const soltura = 0.012;
+
+  let tempoAtual = audioContext.currentTime + 0.04;
+
+  function tocarElementoProgramado(inicio, duracao) {
+    const oscilador = audioContext.createOscillator();
+    const ganho = audioContext.createGain();
+    const filtro = audioContext.createBiquadFilter();
+
+    oscilador.type = "sine";
+    oscilador.frequency.setValueAtTime(frequenciaSidetone, inicio);
+
+    filtro.type = "lowpass";
+    filtro.frequency.setValueAtTime(1800, inicio);
+
+    ganho.gain.setValueAtTime(0.0001, inicio);
+    ganho.gain.linearRampToValueAtTime(volumeSequencia, inicio + ataque);
+    ganho.gain.setValueAtTime(
+      volumeSequencia,
+      Math.max(inicio + ataque, inicio + duracao - soltura)
+    );
+    ganho.gain.linearRampToValueAtTime(0.0001, inicio + duracao);
+
+    oscilador.connect(filtro);
+    filtro.connect(ganho);
+    ganho.connect(audioContext.destination);
+
+    oscilador.start(inicio);
+    oscilador.stop(inicio + duracao + 0.03);
+
+    osciladoresSequenciaMorse.push(oscilador);
+
+    oscilador.onended = () => {
+      osciladoresSequenciaMorse = osciladoresSequenciaMorse.filter(
+        (item) => item !== oscilador
+      );
+    };
+  }
+
+  tokens.forEach((token, indiceToken) => {
+    if (token === "/") {
+      return;
     }
 
-    if (simbolo === "-") {
-      tocarElementoComSomDaChave(unidade * fatorTraco, atraso);
-      atraso += unidade * fatorTraco + unidade;
+    const simbolos = token.split("");
+
+    simbolos.forEach((simbolo, indiceSimbolo) => {
+      if (simbolo !== "." && simbolo !== "-") return;
+
+      const duracao = simbolo === "." ? unidade : unidade * 3;
+
+      tocarElementoProgramado(tempoAtual, duracao);
+
+      tempoAtual += duracao;
+
+      if (indiceSimbolo < simbolos.length - 1) {
+        tempoAtual += unidade;
+      }
+    });
+
+    const proximoToken = tokens[indiceToken + 1];
+
+    if (proximoToken === "/") {
+      tempoAtual += unidade * 7;
+      return;
     }
 
-    if (simbolo === " ") {
-      atraso += unidade * 1.6;
-    }
-
-    if (simbolo === "/") {
-      atraso += unidade * 6;
+    if (proximoToken) {
+      tempoAtual += unidade * 3;
     }
   });
 }
-
+  
 /* =========================
    BOOT DA ESTAÇÃO MORSE - SEM SOM
 ========================= */
@@ -5225,7 +5331,15 @@ let temporizadorLimparTotalManipulador = null;
 let limpezaTotalManipuladorAcionada = false;
 
 function iniciarPressionamentoManipulador(evento) {
-  if (evento) evento.preventDefault();
+  if (evento) {
+    evento.preventDefault();
+
+    if (evento.pointerId !== undefined && btnMorseManipulador.setPointerCapture) {
+      try {
+        btnMorseManipulador.setPointerCapture(evento.pointerId);
+      } catch (erro) {}
+    }
+  }
 
   prepararAudio();
 
@@ -5241,7 +5355,15 @@ function iniciarPressionamentoManipulador(evento) {
 }
 
 function finalizarPressionamentoManipulador(evento) {
-  if (evento) evento.preventDefault();
+  if (evento) {
+    evento.preventDefault();
+
+    if (evento.pointerId !== undefined && btnMorseManipulador.releasePointerCapture) {
+      try {
+        btnMorseManipulador.releasePointerCapture(evento.pointerId);
+      } catch (erro) {}
+    }
+  }
 
   if (!pressionandoManipulador) return;
 
