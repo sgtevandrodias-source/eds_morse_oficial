@@ -929,6 +929,8 @@ let motorChavePronto = false;
 let chaveMorseAtiva = false;
 let ultimoAcionamentoChaveMs = 0;
 let volumeAtualChave = 0.00001;
+let inicioSomChaveMs = 0;
+let temporizadorSoltarSomChave = null;
 
 let ultimoResultado = null;
 let temporizadorLetra = null;
@@ -1374,13 +1376,13 @@ if (btnMaisPalavra) btnMaisPalavra.style.display = "none";
 
 btnMorse.addEventListener("pointerdown", iniciarPressionamento);
 btnMorse.addEventListener("pointerup", finalizarPressionamento);
-btnMorse.addEventListener("pointerleave", finalizarPressionamento);
 btnMorse.addEventListener("pointercancel", cancelarPressionamento);
+btnMorse.addEventListener("lostpointercapture", finalizarPressionamento);
 
 btnMorseManipulador.addEventListener("pointerdown", iniciarPressionamentoManipulador);
 btnMorseManipulador.addEventListener("pointerup", finalizarPressionamentoManipulador);
-btnMorseManipulador.addEventListener("pointerleave", finalizarPressionamentoManipulador);
 btnMorseManipulador.addEventListener("pointercancel", cancelarPressionamentoManipulador);
+btnMorseManipulador.addEventListener("lostpointercapture", finalizarPressionamentoManipulador);
 
 btnLimparManipulador.addEventListener("pointerdown", iniciarPressionamentoLimparManipulador);
 btnLimparManipulador.addEventListener("pointerup", finalizarPressionamentoLimparManipulador);
@@ -5093,13 +5095,19 @@ function iniciarTomMorse() {
 
   if (!motorOk || !audioContext || !ganhoMorse || !osciladorMorse) return;
 
+  if (temporizadorSoltarSomChave) {
+    clearTimeout(temporizadorSoltarSomChave);
+    temporizadorSoltarSomChave = null;
+  }
+
   const agoraMs = performance.now();
 
-  if (agoraMs - ultimoAcionamentoChaveMs < 10) {
+  if (agoraMs - ultimoAcionamentoChaveMs < 8) {
     return;
   }
 
   ultimoAcionamentoChaveMs = agoraMs;
+  inicioSomChaveMs = agoraMs;
 
   const agora = audioContext.currentTime;
 
@@ -5110,14 +5118,18 @@ function iniciarTomMorse() {
     osciladorMorse.frequency.setValueAtTime(frequenciaSidetone, agora);
 
     ganhoMorse.gain.cancelScheduledValues(agora);
-    ganhoMorse.gain.setValueAtTime(volumeAtualChave, agora);
-    ganhoMorse.gain.linearRampToValueAtTime(VOLUME_MORSE, agora + 0.010);
+    ganhoMorse.gain.setValueAtTime(
+      Math.max(volumeAtualChave, 0.00001),
+      agora
+    );
+
+    ganhoMorse.gain.linearRampToValueAtTime(VOLUME_MORSE, agora + 0.006);
 
     volumeAtualChave = VOLUME_MORSE;
   } catch (erro) {}
 }
 
-function pararTomMorse() {
+function soltarSomChaveAgora() {
   if (!audioContext || !ganhoMorse) return;
 
   const agora = audioContext.currentTime;
@@ -5126,11 +5138,45 @@ function pararTomMorse() {
 
   try {
     ganhoMorse.gain.cancelScheduledValues(agora);
-    ganhoMorse.gain.setValueAtTime(volumeAtualChave, agora);
-    ganhoMorse.gain.linearRampToValueAtTime(0.00001, agora + 0.026);
+    ganhoMorse.gain.setValueAtTime(
+      Math.max(volumeAtualChave, 0.00001),
+      agora
+    );
+
+    ganhoMorse.gain.linearRampToValueAtTime(0.00001, agora + 0.020);
 
     volumeAtualChave = 0.00001;
   } catch (erro) {}
+}
+
+function pararTomMorse() {
+  if (!audioContext || !ganhoMorse) return;
+
+  const duracaoSomMs = performance.now() - inicioSomChaveMs;
+
+  /*
+    Proteção contra pipoco:
+    mesmo que o dedo solte muito rápido, o ponto precisa ter
+    um mínimo de som audível para não virar estalo no Android/PWA.
+  */
+  const duracaoMinimaPontoAudivelMs = 48;
+
+  if (duracaoSomMs < duracaoMinimaPontoAudivelMs) {
+    const restante = duracaoMinimaPontoAudivelMs - duracaoSomMs;
+
+    if (temporizadorSoltarSomChave) {
+      clearTimeout(temporizadorSoltarSomChave);
+    }
+
+    temporizadorSoltarSomChave = setTimeout(() => {
+      temporizadorSoltarSomChave = null;
+      soltarSomChaveAgora();
+    }, restante);
+
+    return;
+  }
+
+  soltarSomChaveAgora();
 }
 function tocarTomCurto(frequencia, duracao, volume = 0.14, tipo = "sine") {
   prepararAudio();
