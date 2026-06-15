@@ -5215,6 +5215,10 @@ function tocarSequenciaMorse(codigoMorse) {
   if (!tokens.length) return;
 
   const unidade = 1200 / wpmAtual / 1000;
+  const pausaInternaCaractere = unidade * 0.55;
+  const pausaEntreLetras = unidade * 3;
+  const pausaEntrePalavras = unidade * 7;
+
   const volumeSequencia = 0.16;
   const ataque = 0.006;
   const soltura = 0.012;
@@ -5273,19 +5277,19 @@ function tocarSequenciaMorse(codigoMorse) {
       tempoAtual += duracao;
 
       if (indiceSimbolo < simbolos.length - 1) {
-        tempoAtual += unidade;
+        tempoAtual += pausaInternaCaractere;
       }
     });
 
     const proximoToken = tokens[indiceToken + 1];
 
     if (proximoToken === "/") {
-      tempoAtual += unidade * 7;
+      tempoAtual += pausaEntrePalavras;
       return;
     }
 
     if (proximoToken) {
-      tempoAtual += unidade * 3;
+      tempoAtual += pausaEntreLetras;
     }
   });
 }
