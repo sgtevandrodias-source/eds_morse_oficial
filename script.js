@@ -925,10 +925,10 @@ let audioContext = null;
 let osciladorMorse = null;
 let ganhoMorse = null;
 let filtroMorse = null;
-let compressorMorse = null;
 let motorChavePronto = false;
 let chaveMorseAtiva = false;
 let ultimoAcionamentoChaveMs = 0;
+let volumeAtualChave = 0.00001;
 
 let ultimoResultado = null;
 let temporizadorLetra = null;
@@ -5055,8 +5055,7 @@ function garantirMotorChaveMorse() {
     motorChavePronto &&
     osciladorMorse &&
     ganhoMorse &&
-    filtroMorse &&
-    compressorMorse
+    filtroMorse
   ) {
     return true;
   }
@@ -5064,7 +5063,6 @@ function garantirMotorChaveMorse() {
   osciladorMorse = audioContext.createOscillator();
   ganhoMorse = audioContext.createGain();
   filtroMorse = audioContext.createBiquadFilter();
-  compressorMorse = audioContext.createDynamicsCompressor();
 
   osciladorMorse.type = "sine";
   osciladorMorse.frequency.setValueAtTime(
@@ -5073,21 +5071,15 @@ function garantirMotorChaveMorse() {
   );
 
   filtroMorse.type = "lowpass";
-  filtroMorse.frequency.setValueAtTime(1500, audioContext.currentTime);
-  filtroMorse.Q.setValueAtTime(0.7, audioContext.currentTime);
+  filtroMorse.frequency.setValueAtTime(1400, audioContext.currentTime);
+  filtroMorse.Q.setValueAtTime(0.5, audioContext.currentTime);
 
-  compressorMorse.threshold.setValueAtTime(-24, audioContext.currentTime);
-  compressorMorse.knee.setValueAtTime(18, audioContext.currentTime);
-  compressorMorse.ratio.setValueAtTime(8, audioContext.currentTime);
-  compressorMorse.attack.setValueAtTime(0.004, audioContext.currentTime);
-  compressorMorse.release.setValueAtTime(0.12, audioContext.currentTime);
-
-  ganhoMorse.gain.setValueAtTime(0.00001, audioContext.currentTime);
+  volumeAtualChave = 0.00001;
+  ganhoMorse.gain.setValueAtTime(volumeAtualChave, audioContext.currentTime);
 
   osciladorMorse.connect(filtroMorse);
   filtroMorse.connect(ganhoMorse);
-  ganhoMorse.connect(compressorMorse);
-  compressorMorse.connect(audioContext.destination);
+  ganhoMorse.connect(audioContext.destination);
 
   osciladorMorse.start();
 
@@ -5103,7 +5095,7 @@ function iniciarTomMorse() {
 
   const agoraMs = performance.now();
 
-  if (agoraMs - ultimoAcionamentoChaveMs < 12) {
+  if (agoraMs - ultimoAcionamentoChaveMs < 10) {
     return;
   }
 
@@ -5118,12 +5110,10 @@ function iniciarTomMorse() {
     osciladorMorse.frequency.setValueAtTime(frequenciaSidetone, agora);
 
     ganhoMorse.gain.cancelScheduledValues(agora);
-    ganhoMorse.gain.setValueAtTime(
-      Math.max(ganhoMorse.gain.value || 0.00001, 0.00001),
-      agora
-    );
+    ganhoMorse.gain.setValueAtTime(volumeAtualChave, agora);
+    ganhoMorse.gain.linearRampToValueAtTime(VOLUME_MORSE, agora + 0.010);
 
-    ganhoMorse.gain.setTargetAtTime(VOLUME_MORSE, agora, 0.004);
+    volumeAtualChave = VOLUME_MORSE;
   } catch (erro) {}
 }
 
@@ -5136,12 +5126,10 @@ function pararTomMorse() {
 
   try {
     ganhoMorse.gain.cancelScheduledValues(agora);
-    ganhoMorse.gain.setValueAtTime(
-      Math.max(ganhoMorse.gain.value || 0.00001, 0.00001),
-      agora
-    );
+    ganhoMorse.gain.setValueAtTime(volumeAtualChave, agora);
+    ganhoMorse.gain.linearRampToValueAtTime(0.00001, agora + 0.026);
 
-    ganhoMorse.gain.setTargetAtTime(0.00001, agora, 0.012);
+    volumeAtualChave = 0.00001;
   } catch (erro) {}
 }
 function tocarTomCurto(frequencia, duracao, volume = 0.14, tipo = "sine") {
