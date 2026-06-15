@@ -5095,11 +5095,11 @@ function iniciarTomMorse() {
   oscilador.frequency.setValueAtTime(frequenciaSidetone, agora);
 
   filtro.type = "lowpass";
-  filtro.frequency.setValueAtTime(6000, agora);
-  filtro.Q.setValueAtTime(0.15, agora);
+  filtro.frequency.setValueAtTime(5200, agora);
+  filtro.Q.setValueAtTime(0.22, agora);
 
   ganho.gain.setValueAtTime(0.0001, agora);
-  ganho.gain.linearRampToValueAtTime(VOLUME_MORSE, agora + 0.0006);
+  ganho.gain.linearRampToValueAtTime(VOLUME_MORSE * 0.94, agora + 0.001);
 
   oscilador.connect(filtro);
   filtro.connect(ganho);
@@ -5142,8 +5142,8 @@ function pararTomMorse() {
     Cada ponto muito rápido precisa ter um mínimo audível.
     Isso evita o "pipoco" quando o operador faz . . . muito rápido.
   */
-  const duracaoMinimaPontoSeg = 0.050;
-  const solturaSeg = 0.008;
+  const duracaoMinimaPontoSeg = 0.052;
+  const solturaSeg = 0.010;
 
   const inicioSoltura = Math.max(
     agora,
