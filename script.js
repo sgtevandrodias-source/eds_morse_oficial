@@ -5088,11 +5088,11 @@ function iniciarTomMorse() {
   oscilador.frequency.setValueAtTime(frequenciaSidetone, agora);
 
   filtro.type = "lowpass";
-  filtro.frequency.setValueAtTime(1500, agora);
-  filtro.Q.setValueAtTime(0.5, agora);
+  filtro.frequency.setValueAtTime(3200, agora);
+  filtro.Q.setValueAtTime(0.35, agora);
 
   ganho.gain.setValueAtTime(0.0001, agora);
-  ganho.gain.linearRampToValueAtTime(VOLUME_MORSE * 0.82, agora + 0.004);
+  ganho.gain.linearRampToValueAtTime(VOLUME_MORSE * 0.92, agora + 0.0015);
 
   oscilador.connect(filtro);
   filtro.connect(ganho);
@@ -5135,8 +5135,8 @@ function pararTomMorse() {
     Cada ponto muito rápido precisa ter um mínimo audível.
     Isso evita o "pipoco" quando o operador faz . . . muito rápido.
   */
-  const duracaoMinimaPontoSeg = 0.072;
-  const solturaSeg = 0.018;
+    const duracaoMinimaPontoSeg = 0.055;
+  const solturaSeg = 0.010;
 
   const inicioSoltura = Math.max(
     agora,
@@ -5586,7 +5586,54 @@ function limparTudoManipuladorLivre() {
 
 function atualizarManipuladorLivre() {
   codigoManipulador.textContent = codigoLivre.trim() || "—";
-  textoManipulador.textContent = decodificarMorseLivre(codigoLivre) || "—";
+  textoManipulador.textContent = decodificarMorseLivreSomenteFechado(codigoLivre) || "—";
+}
+
+function decodificarMorseLivreSomenteFechado(codigo) {
+  const reverso = {};
+
+  Object.keys(TABELA_MORSE).forEach((chave) => {
+    reverso[TABELA_MORSE[chave]] = chave;
+  });
+
+  const textoCodigo = String(codigo || "");
+
+  if (!textoCodigo.trim()) return "";
+
+  const terminaComLetraFechada =
+    /\s$/.test(textoCodigo) || textoCodigo.trim().endsWith("/");
+
+  const partesPalavra = textoCodigo.split(" / ");
+  const resultado = [];
+
+  partesPalavra.forEach((palavra, indicePalavra) => {
+    let tokens = palavra
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+
+    const ehUltimaPalavra = indicePalavra === partesPalavra.length - 1;
+
+    /*
+      Se a última letra ainda não foi fechada por pausa,
+      não traduzimos esse token parcial.
+      Exemplo:
+      .   não mostra E ainda
+      .-  não mostra A ainda
+      .-. só mostra R depois da pausa de letra
+    */
+    if (ehUltimaPalavra && !terminaComLetraFechada) {
+      tokens = tokens.slice(0, -1);
+    }
+
+    const palavraDecodificada = tokens
+      .map((letra) => reverso[letra] || "")
+      .join("");
+
+    resultado.push(palavraDecodificada);
+  });
+
+  return resultado.join(" ").trim();
 }
 
 function decodificarMorseLivre(codigo) {
