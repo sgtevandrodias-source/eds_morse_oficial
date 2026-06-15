@@ -5142,8 +5142,8 @@ function pararTomMorse() {
     Cada ponto muito rápido precisa ter um mínimo audível.
     Isso evita o "pipoco" quando o operador faz . . . muito rápido.
   */
-  const duracaoMinimaPontoSeg = 0.052;
-  const solturaSeg = 0.010;
+    const duracaoMinimaPontoSeg = 0.052;
+    const solturaSeg = 0.008;
 
   const inicioSoltura = Math.max(
     agora,
