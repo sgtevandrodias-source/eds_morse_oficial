@@ -1977,7 +1977,26 @@ const CODIGO_Q = {
     { codigo: "QSJ", significado: "Valor ou taxa da comunicação." }
   ]
 };
+const MORSE_SINAIS_SERVICO = {
+  AR: ".-.-.",
+  AS: ".-...",
+  BT: "-...-",
+  HH: "........",
+  IMI: "..--..",
+  KN: "-.--.",
+  SK: "...-.-",
+  VA: "...-.-"
+};
 
+function obterMorseSinalServico(codigo) {
+  const chave = String(codigo || "").toUpperCase().trim();
+
+  if (MORSE_SINAIS_SERVICO[chave]) {
+    return MORSE_SINAIS_SERVICO[chave];
+  }
+
+  return textoParaMorse(chave);
+}
 const SINAIS_SERVICO = [
   { codigo: "AR", significado: "Fim da transmissão." },
   { codigo: "AS", significado: "Espere." },
@@ -2255,7 +2274,7 @@ function abrirBibliotecaSinaisServico() {
 
   gridBibliotecaMorse.innerHTML = SINAIS_SERVICO
     .map((item) => {
-      const morse = textoParaMorse(item.codigo);
+      const morse = obterMorseSinalServico(item.codigo);
 
       return `
         <button class="cartao-caractere cartao-clicavel" data-morse="${escaparHtml(morse)}">
@@ -2988,7 +3007,9 @@ function criarItemTreino(resposta, tipo, significado) {
     resposta: texto,
     tipo,
     significado: significado || "",
-    morse: textoParaMorse(texto)
+    morse: tipo === "Sinal de Serviço"
+      ? obterMorseSinalServico(texto)
+      : textoParaMorse(texto)
   };
 }
 
