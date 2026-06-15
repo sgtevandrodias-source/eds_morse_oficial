@@ -5203,13 +5203,18 @@ function tocarSequenciaMorse(codigoMorse) {
   if (!tokens.length) return;
 
   const unidade = 1200 / wpmAtual / 1000;
-  const pausaInternaCaractere = unidade * 0.55;
+
+  // Na Biblioteca, a pausa interna precisa ser bem curta
+  // para o caractere soar como uma sequência única.
+  const pausaInternaCaractere = unidade * 0.18;
+
+  // Mantemos separação clara apenas entre letras e palavras.
   const pausaEntreLetras = unidade * 3;
   const pausaEntrePalavras = unidade * 7;
 
-  const volumeSequencia = 0.16;
-  const ataque = 0.006;
-  const soltura = 0.012;
+  const volumeSequencia = 0.17;
+  const ataque = 0.003;
+  const soltura = 0.006;
 
   let tempoAtual = audioContext.currentTime + 0.04;
 

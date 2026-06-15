@@ -1,4 +1,4 @@
-const CACHE_NAME = "eds-morse-cache-v2";
+const CACHE_NAME = "eds-morse-cache-v5";
 
 const ARQUIVOS_CACHE = [
   "/",
@@ -11,13 +11,13 @@ const ARQUIVOS_CACHE = [
 ];
 
 self.addEventListener("install", (evento) => {
+  self.skipWaiting();
+
   evento.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(ARQUIVOS_CACHE);
     })
   );
-
-  self.skipWaiting();
 });
 
 self.addEventListener("activate", (evento) => {
@@ -32,14 +32,42 @@ self.addEventListener("activate", (evento) => {
           return null;
         })
       );
+    }).then(() => {
+      return self.clients.claim();
     })
   );
-
-  self.clients.claim();
 });
 
 self.addEventListener("fetch", (evento) => {
   if (evento.request.method !== "GET") {
+    return;
+  }
+
+  const url = new URL(evento.request.url);
+
+  const arquivoDinamico =
+    url.pathname.endsWith(".js") ||
+    url.pathname.endsWith(".css") ||
+    url.pathname.endsWith(".html") ||
+    url.pathname === "/";
+
+  if (arquivoDinamico) {
+    evento.respondWith(
+      fetch(evento.request)
+        .then((respostaRede) => {
+          const copia = respostaRede.clone();
+
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(evento.request, copia);
+          });
+
+          return respostaRede;
+        })
+        .catch(() => {
+          return caches.match(evento.request);
+        })
+    );
+
     return;
   }
 
@@ -49,9 +77,7 @@ self.addEventListener("fetch", (evento) => {
         return respostaCache;
       }
 
-      return fetch(evento.request).then((respostaRede) => {
-        return respostaRede;
-      });
+      return fetch(evento.request);
     })
   );
 });
