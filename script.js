@@ -1,3 +1,6 @@
+const RANKING_GLOBAL_API_URL = "https://eds-morse-ranking-api.sgtevandrodias.workers.dev/ranking";
+const VERSAO_APP_EDS_MORSE = "1.0.0";
+
 const telaInicial = document.getElementById("telaInicial");
 const telaMissao = document.getElementById("telaMissao");
 const telaBiblioteca = document.getElementById("telaBiblioteca");
@@ -975,7 +978,21 @@ function gerarSlugOperador(nome) {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "") || "operador";
 }
+function obterIdOperadorLocal() {
+  let id = localStorage.getItem("edsMorseOperadorLocalId");
 
+  if (!id) {
+    if (crypto && crypto.randomUUID) {
+      id = `op_${crypto.randomUUID()}`;
+    } else {
+      id = `op_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    }
+
+    localStorage.setItem("edsMorseOperadorLocalId", id);
+  }
+
+  return id;
+}
 function getChaveOperador() {
   return gerarSlugOperador(getNomeOperadorAtual());
 }
@@ -4175,6 +4192,7 @@ function finalizarNivel() {
   };
 
   salvarRanking(ultimoResultado);
+  enviarResultadoRankingGlobal(ultimoResultado);
 
   const registroCarreira = registrarResultadoNaCarreira(ultimoResultado);
 
@@ -4763,6 +4781,56 @@ function formatarTempo(segundos) {
   if (min <= 0) return `${seg}s`;
 
   return `${min}min ${String(seg).padStart(2, "0")}s`;
+}
+async function enviarResultadoRankingGlobal(resultado) {
+  if (!resultado || !resultado.aprovado) {
+    return;
+  }
+
+  const dadosRankingGlobal = {
+    operador: resultado.nome || getNomeOperadorAtual(),
+    operadorLocalId: obterIdOperadorLocal(),
+    modo: resultado.modo,
+    nivel: resultado.nivel,
+    tituloNivel: resultado.titulo,
+    pontos: resultado.pontos,
+    aproveitamento: resultado.aproveitamento,
+    tempoSegundos: resultado.tempoSegundos,
+    wpm: resultado.wpm,
+    versaoApp: VERSAO_APP_EDS_MORSE,
+    origem: "pwa"
+  };
+
+  try {
+    const resposta = await fetch(RANKING_GLOBAL_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(dadosRankingGlobal)
+    });
+
+    const retorno = await resposta.json();
+
+    if (retorno && retorno.ok) {
+      console.log("Ranking Global:", retorno.mensagem || "Resultado enviado.");
+    
+      if (typeof mostrarAvisoRapido === "function") {
+        mostrarAvisoRapido(
+          "Ranking Global",
+          "Resultado enviado com sucesso."
+        );
+      }
+    
+      return true;
+    }
+
+    console.warn("Ranking Global recusou o envio:", retorno);
+    return false;
+  } catch (erro) {
+    console.warn("Falha ao enviar Ranking Global:", erro);
+    return false;
+  }
 }
 
 function salvarRanking(resultado) {
