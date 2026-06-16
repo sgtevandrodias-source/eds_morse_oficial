@@ -5005,10 +5005,126 @@ function obterRankingCarreira() {
   });
 }
 function abrirRanking() {
-  renderizarRanking();
   mostrarTela(telaRanking);
+  renderizarRankingGlobal();
+}
+async function buscarRankingGlobal(limite = 50) {
+  const resposta = await fetch(`${RANKING_GLOBAL_API_URL}?modo=Geral&limite=${limite}`);
+
+  if (!resposta.ok) {
+    throw new Error("Falha ao buscar Ranking Global.");
+  }
+
+  const dados = await resposta.json();
+
+  if (!dados || !dados.ok) {
+    throw new Error("Resposta inválida do Ranking Global.");
+  }
+
+  return dados.ranking || [];
 }
 
+function formatarDataRankingGlobal(valor) {
+  if (!valor) return "";
+
+  const data = new Date(valor);
+
+  if (Number.isNaN(data.getTime())) {
+    return "";
+  }
+
+  return data.toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "2-digit"
+  });
+}
+
+async function renderizarRankingGlobal() {
+  listaRanking.innerHTML = `
+    <div class="ranking-item">
+      <div class="ranking-posicao">...</div>
+      <div>
+        <div class="ranking-nome">Carregando Ranking Global</div>
+        <div class="ranking-detalhes">Buscando dados salvos na nuvem...</div>
+      </div>
+    </div>
+  `;
+
+  try {
+    const ranking = await buscarRankingGlobal(50);
+
+    if (!ranking.length) {
+      listaRanking.innerHTML = `
+        <div class="ranking-item">
+          <div class="ranking-posicao">—</div>
+          <div>
+            <div class="ranking-nome">Ainda não há registros globais</div>
+            <div class="ranking-detalhes">
+              Conclua uma missão aprovada para aparecer no Ranking Global.
+            </div>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    listaRanking.innerHTML = `
+      <div class="ranking-secao">
+        <h3>🌍 Ranking Global</h3>
+        <p class="ranking-descricao">
+          Classificação geral dos operadores salva na nuvem.
+        </p>
+
+        ${ranking
+          .map((item, index) => `
+            <div class="ranking-item">
+              <div class="ranking-posicao">${index + 1}</div>
+
+              <div>
+                <div class="ranking-nome">
+                  ${escaparHtml(item.operador || "Operador")}
+                </div>
+
+                <div class="ranking-detalhes">
+                  ${escaparHtml(item.modo || "Modo")}
+                  • Nível ${item.nivel || "-"}
+                  • ${item.aproveitamento || 0}%
+                  • ${formatarTempo(Number(item.tempo_segundos || 0))}
+                  • ${Number(item.wpm || 0).toFixed(1)} WPM
+                  ${
+                    item.criado_em
+                      ? `• ${formatarDataRankingGlobal(item.criado_em)}`
+                      : ""
+                  }
+                </div>
+              </div>
+
+              <div class="ranking-pontos ranking-pontos-detalhado">
+                <strong>${item.pontos || 0} pts</strong>
+                <small>Global</small>
+              </div>
+            </div>
+          `)
+          .join("")}
+      </div>
+    `;
+  } catch (erro) {
+    console.warn("Erro ao carregar Ranking Global:", erro);
+
+    listaRanking.innerHTML = `
+      <div class="ranking-item">
+        <div class="ranking-posicao">!</div>
+        <div>
+          <div class="ranking-nome">Não foi possível carregar o Ranking Global</div>
+          <div class="ranking-detalhes">
+            Verifique a conexão com a internet e tente novamente.
+          </div>
+        </div>
+      </div>
+    `;
+  }
+}
 function renderizarRanking() {
   const rankingCarreira = obterRankingCarreira();
   const rankingMissoes = obterRanking();
