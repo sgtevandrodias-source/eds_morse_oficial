@@ -4192,11 +4192,12 @@ function finalizarNivel() {
   };
 
   salvarRanking(ultimoResultado);
-  enviarResultadoRankingGlobal(ultimoResultado);
 
-  const registroCarreira = registrarResultadoNaCarreira(ultimoResultado);
+const registroCarreira = registrarResultadoNaCarreira(ultimoResultado);
 
-  ultimoResultado.registroCarreira = registroCarreira;
+ultimoResultado.registroCarreira = registroCarreira;
+
+enviarResultadoRankingGlobal(ultimoResultado);
 
   if (aprovado) liberarProximoNivel(campanhaFinalizada);
 
@@ -4787,16 +4788,35 @@ async function enviarResultadoRankingGlobal(resultado) {
     return;
   }
 
+  const carreira = obterCarreiraOperador();
+
   const dadosRankingGlobal = {
     operador: resultado.nome || getNomeOperadorAtual(),
     operadorLocalId: obterIdOperadorLocal(),
+
     modo: resultado.modo,
     nivel: resultado.nivel,
     tituloNivel: resultado.titulo,
+
     pontos: resultado.pontos,
     aproveitamento: resultado.aproveitamento,
     tempoSegundos: resultado.tempoSegundos,
     wpm: resultado.wpm,
+
+    pontosCarreira: Number(carreira.pontosTotais || resultado.pontos || 0),
+    fasesConcluidas: Array.isArray(carreira.fasesConcluidas)
+      ? carreira.fasesConcluidas.length
+      : 1,
+    medalhas: Array.isArray(carreira.medalhas)
+      ? carreira.medalhas.length
+      : 0,
+    titulos: Array.isArray(carreira.titulos)
+      ? carreira.titulos.length
+      : 0,
+    melhorAproveitamento: Number(carreira.melhorAproveitamento || resultado.aproveitamento || 0),
+    melhorWpm: Number(carreira.melhorWpm || resultado.wpm || 0),
+    melhorTempoSegundos: Number(carreira.melhorTempoSegundos || resultado.tempoSegundos || 0),
+
     versaoApp: VERSAO_APP_EDS_MORSE,
     origem: "pwa"
   };
@@ -4814,25 +4834,47 @@ async function enviarResultadoRankingGlobal(resultado) {
 
     if (retorno && retorno.ok) {
       console.log("Ranking Global:", retorno.mensagem || "Resultado enviado.");
-    
+
       if (typeof mostrarAvisoRapido === "function") {
         mostrarAvisoRapido(
           "Ranking Global",
-          "Resultado enviado com sucesso."
+          retorno.mensagem || "Resultado enviado com sucesso."
         );
       }
-    
+
       return true;
     }
+
+    if (
+      retorno &&
+      retorno.codigo === "NOME_EM_USO_OUTRO_APARELHO"
+    ) {
+      mostrarAvisoRapido(
+        "Nome de operador bloqueado",
+        retorno.erro || "Este nome já está sendo usado por outro aparelho."
+      );
+
+      return false;
+    }
+
+    mostrarAvisoRapido(
+      "Ranking Global",
+      retorno?.erro || "Resultado não enviado."
+    );
 
     console.warn("Ranking Global recusou o envio:", retorno);
     return false;
   } catch (erro) {
     console.warn("Falha ao enviar Ranking Global:", erro);
+
+    mostrarAvisoRapido(
+      "Ranking Global",
+      "Falha de conexão com o Ranking Global."
+    );
+
     return false;
   }
 }
-
 function salvarRanking(resultado) {
   const ranking = obterRanking();
 
@@ -5073,7 +5115,7 @@ async function renderizarRankingGlobal() {
       <div class="ranking-secao">
         <h3>🌍 Ranking Global</h3>
         <p class="ranking-descricao">
-          Classificação geral dos operadores salva na nuvem.
+          Classificação por carreira: pontuação acumulada, progressão, aproveitamento e WPM.
         </p>
 
         ${ranking
@@ -5089,20 +5131,28 @@ async function renderizarRankingGlobal() {
                 <div class="ranking-detalhes">
                   ${escaparHtml(item.modo || "Modo")}
                   • Nível ${item.nivel || "-"}
-                  • ${item.aproveitamento || 0}%
-                  • ${formatarTempo(Number(item.tempo_segundos || 0))}
-                  • ${Number(item.wpm || 0).toFixed(1)} WPM
+                  • Fases ${item.fases_concluidas || 0}
+                  • Medalhas ${item.medalhas || 0}
+                  • Títulos ${item.titulos || 0}
+                  • Melhor ${item.melhor_aproveitamento || 0}%
+                  • ${Number(item.melhor_wpm || 0).toFixed(1)} WPM
                   ${
-                    item.criado_em
-                      ? `• ${formatarDataRankingGlobal(item.criado_em)}`
+                    item.melhor_tempo_segundos
+                      ? `• Melhor tempo ${formatarTempo(Number(item.melhor_tempo_segundos || 0))}`
+                      : ""
+                  }
+                  ${
+                    item.atualizado_em
+                      ? `• ${formatarDataRankingGlobal(item.atualizado_em)}`
                       : ""
                   }
                 </div>
               </div>
 
               <div class="ranking-pontos ranking-pontos-detalhado">
-                <strong>${item.pontos || 0} pts</strong>
-                <small>Global</small>
+                <strong>${item.pontos_carreira || 0} pts</strong>
+                <small>Carreira</small>
+                <small>Missão: ${item.pontos_missao || 0}</small>
               </div>
             </div>
           `)
