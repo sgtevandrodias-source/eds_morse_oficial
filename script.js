@@ -58,6 +58,10 @@ const btnVoltarCampanhaRanking = document.getElementById("btnVoltarCampanhaRanki
 const btnVoltarInicio = document.getElementById("btnVoltarInicio");
 const btnLimparRanking = document.getElementById("btnLimparRanking");
 
+const telaRegrasFAQ = document.getElementById("telaRegrasFAQ");
+const btnAbrirRegrasFAQ = document.getElementById("btnAbrirRegrasFAQ");
+const btnVoltarInicioRegrasFAQ = document.getElementById("btnVoltarInicioRegrasFAQ");
+
 const textoMissao = document.getElementById("textoMissao");
 const codigoDigitado = document.getElementById("codigoDigitado");
 const feedback = document.getElementById("feedback");
@@ -1320,6 +1324,7 @@ btnBibAbreviacoes.addEventListener("click", abrirBibliotecaAbreviacoes);
 btnBibCaracteresEspeciais.addEventListener("click", abrirBibliotecaCaracteresEspeciais);
 btnBibTreinoAuditivo.addEventListener("click", abrirBibliotecaTreinoAuditivo);
 btnAbrirRanking.addEventListener("click", abrirRanking);
+btnAbrirRegrasFAQ.addEventListener("click", abrirRegrasFAQ);
 
 btnAbrirManipulador.addEventListener("click", () => {
   mostrarTela(telaManipulador);
@@ -1358,6 +1363,7 @@ if (btnFimJogoInicio) {
 btnVoltarCampanhaRanking.addEventListener("click", entrarCampanha);
 btnVoltarInicio.addEventListener("click", voltarInicio);
 btnLimparRanking.addEventListener("click", limparRanking);
+btnVoltarInicioRegrasFAQ.addEventListener("click", voltarInicio);
 
 btnIniciarTreinoLicao.addEventListener("click", () => {
   iniciarNivel(nivelAtualIndex);
@@ -1523,6 +1529,7 @@ function mostrarTela(tela, registrarHistorico = true) {
   telaFinal.classList.remove("ativa");
   telaFimJogo.classList.remove("ativa");
   telaRanking.classList.remove("ativa");
+  telaRegrasFAQ.classList.remove("ativa");
   telaManipulador.classList.remove("ativa");
 
   tela.classList.add("ativa");
@@ -1554,6 +1561,7 @@ const MAPA_TELAS_APP = {
   telaFinal,
   telaFimJogo,
   telaRanking,
+  telaRegrasFAQ,
   telaManipulador
 };
 
@@ -1641,6 +1649,10 @@ function voltarInicio() {
     "",
     ""
   );
+}
+function abrirRegrasFAQ() {
+  document.body.classList.remove("visualizando-mapa-modo");
+  mostrarTela(telaRegrasFAQ);
 }
 function abrirMissao() {
   mostrarTela(telaMissao);
@@ -5150,9 +5162,7 @@ async function renderizarRankingGlobal() {
               </div>
 
               <div class="ranking-pontos ranking-pontos-detalhado">
-                <strong>${item.pontos_carreira || 0} pts</strong>
-                <small>Carreira</small>
-                <small>Missão: ${item.pontos_missao || 0}</small>
+              <strong>${item.pontos_carreira || 0} pts</strong>
               </div>
             </div>
           `)

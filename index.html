@@ -72,6 +72,10 @@
       <button id="btnAbrirRanking" class="btn secundario">
         🏆 Ranking
       </button>
+
+      <button id="btnAbrirRegrasFAQ" class="btn secundario">
+        📡 Regras e FAQ
+      </button>
     </div>
 
     <div class="card painel-inicial card-operador">
@@ -81,7 +85,7 @@
           id="inputNomeOperador"
           type="text"
           maxlength="24"
-          placeholder="Ex: Evandro"
+          placeholder="Digite um nome ou codinome aqui..."
         />
       </div>
     </div>
@@ -596,7 +600,155 @@
         </div>
       </div>
     </section>
+    <!-- TELA REGRAS E FAQ -->
+    <section id="telaRegrasFAQ" class="tela">
+      <div class="card resultado-card regras-faq-card">
+        <div class="badge">Manual do operador</div>
 
+        <h1>📘 Regras e FAQ</h1>
+
+        <p class="subtitulo-regras">
+          Entenda como jogar, pontuar e participar do Ranking Global do EDS MORSE.
+        </p>
+
+        <div class="regras-faq-lista">
+          <article class="bloco-regra">
+            <h2>🎮 Como jogar</h2>
+            <p>
+              O EDS MORSE é um jogo de Código Morse. Em cada fase, o operador precisa
+              transmitir ou reconhecer sinais usando pontos e traços.
+            </p>
+            <p>
+              Pressionamentos curtos representam pontos. Pressionamentos longos
+              representam traços. Complete as missões com atenção, ritmo e precisão.
+            </p>
+          </article>
+
+          <article class="bloco-regra">
+            <h2>✅ Aprovação nas fases</h2>
+            <p>
+              Para concluir uma fase, o operador precisa alcançar pelo menos
+              <strong>80% de aproveitamento</strong>.
+            </p>
+            <p>
+              Abaixo de 80%, a fase precisa ser repetida. Com 90% ou mais, o operador
+              pode receber bônus e recompensas adicionais.
+            </p>
+          </article>
+
+          <article class="bloco-regra">
+            <h2>🏆 Pontuação</h2>
+            <p>
+              Cada missão gera uma pontuação própria. Acertos seguidos aumentam a
+              pontuação, enquanto erros reduzem o desempenho.
+            </p>
+            <p>
+              O tempo, o aproveitamento e o WPM também podem influenciar o resultado
+              final da missão.
+            </p>
+          </article>
+
+          <article class="bloco-regra">
+            <h2>📈 Pontuação de carreira</h2>
+            <p>
+              A pontuação de carreira é a soma dos melhores resultados alcançados nas
+              fases concluídas.
+            </p>
+            <p>
+              Repetir uma fase só aumenta a pontuação de carreira se o novo resultado
+              for melhor que o anterior.
+            </p>
+          </article>
+
+          <article class="bloco-regra">
+            <h2>🌍 Ranking Global</h2>
+            <p>
+              O Ranking Global mostra o melhor desempenho de cada operador.
+            </p>
+            <p>
+              Cada nome de operador fica vinculado ao primeiro aparelho que usou esse
+              nome. Outro aparelho não poderá usar o mesmo nome.
+            </p>
+            <p>
+              A ordem do ranking considera: pontuação de carreira, modo mais avançado,
+              nível alcançado, aproveitamento, WPM e tempo.
+            </p>
+          </article>
+
+          <article class="bloco-regra">
+            <h2>❓ FAQ</h2>
+
+            <details>
+              <summary>Por que meu nome foi bloqueado?</summary>
+              <p>
+                Porque esse nome já foi usado em outro aparelho. Cada nome de operador
+                é único no Ranking Global.
+              </p>
+            </details>
+
+            <details>
+              <summary>Por que estou atrás de outro jogador mesmo tendo melhor tempo?</summary>
+              <p>
+                Porque o primeiro critério do Ranking Global é a pontuação de carreira.
+                O tempo é usado como critério de desempate.
+              </p>
+            </details>
+
+            <details>
+              <summary>Minha pontuação sempre aumenta quando repito uma fase?</summary>
+              <p>
+                Não. A carreira só aumenta se você superar seu melhor resultado naquela
+                fase.
+              </p>
+            </details>
+
+            <details>
+              <summary>O ranking funciona sem internet?</summary>
+              <p>
+                O jogo pode funcionar instalado como PWA, mas o Ranking Global precisa
+                de internet para enviar e carregar resultados.
+              </p>
+            </details>
+
+            <details>
+              <summary>O que é WPM?</summary>
+              <p>
+                WPM significa Words Per Minute, ou palavras por minuto. É uma medida de
+                velocidade usada em Código Morse.
+              </p>
+            </details>
+          </article>
+
+          <article class="bloco-regra bloco-contato">
+            <h2>📡 Acompanhe o projeto</h2>
+
+            <p>
+              Instagram oficial:
+              <a href="https://www.instagram.com/eds_morse_oficial" target="_blank" rel="noopener noreferrer">
+                @eds_morse_oficial
+              </a>
+            </p>
+
+            <p>
+              E-mail:
+              <a href="mailto:edsideasfactory@gmail.com">
+                edsideasfactory@gmail.com
+              </a>
+            </p>
+
+            <p class="assinatura-regras">
+              EDS MORSE — Quando o complexo falha, o simples prevalece.
+            </p>
+          </article>
+        </div>
+
+        <div class="botoes-resultado">
+          <button id="btnVoltarInicioRegrasFAQ" class="btn principal">
+            Início
+          </button>
+        </div>
+      </div>
+    </section>
       </main>
 
   <script src="script.js"></script>
