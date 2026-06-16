@@ -340,7 +340,7 @@ function mostrarAvisoRapido(titulo, texto) {
   setTimeout(() => {
     aviso.classList.remove("visivel");
     setTimeout(() => aviso.remove(), 350);
-  }, 1800);
+  }, 3100);
 }
 
 const MODO_INTERMEDIARIO = "intermediario";
