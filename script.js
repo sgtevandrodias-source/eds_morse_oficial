@@ -4444,7 +4444,7 @@ function renderizarRelatorioOperacional(resultado, mensagemNarrativa, conquistas
           </div>
 
           <div>
-            <span>Total acumulado</span>
+            <span>Progresso Total</span>
             <strong>${totalAcumulado} pts</strong>
           </div>
         </div>
