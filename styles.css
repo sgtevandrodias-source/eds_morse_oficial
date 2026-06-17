@@ -5331,3 +5331,38 @@ body:not(.modo-iniciante) #telaJogo .acoes-apoio {
   color: #86efac !important;
   text-transform: uppercase;
 }
+/* =========================================================
+   FASES FINAIS — MANTER CADA LETRA MORSE JUNTA
+   ========================================================= */
+
+   .morse-frase-simbolos {
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Cada letra Morse vira um bloco indivisível */
+  .morse-letra-grupo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(4px, 1.2vw, 8px);
+    flex: 0 0 auto;
+    white-space: nowrap;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  
+  /* Espaço entre uma letra e outra */
+  .morse-frase-simbolos .morse-letra-grupo {
+    margin: 0 clamp(3px, 1vw, 8px);
+  }
+  
+  /* Barra entre palavras também fica como bloco próprio */
+  .separador-palavra-grande {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    margin: 0 clamp(6px, 2vw, 14px);
+    white-space: nowrap;
+  }

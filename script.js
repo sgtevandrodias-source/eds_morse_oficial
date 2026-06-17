@@ -235,6 +235,43 @@ function gerarHtmlMorseVisual(codigoMorse) {
     })
     .join("");
 }
+function gerarHtmlMorseVisualAgrupadoPorLetra(codigoMorse) {
+  const codigo = normalizarCodigo(codigoMorse);
+
+  if (!codigo) {
+    return `<span class="simbolo-morse texto-morse-vazio">—</span>`;
+  }
+
+  return codigo
+    .split(" ")
+    .map((parte) => {
+      if (parte === "/") {
+        return `<span class="separador-palavra-morse separador-palavra-grande">/</span>`;
+      }
+
+      const simbolosDaLetra = parte
+        .split("")
+        .map((simbolo) => {
+          if (simbolo === ".") {
+            return `<span class="simbolo-morse ponto-morse" aria-label="ponto"></span>`;
+          }
+
+          if (simbolo === "-") {
+            return `<span class="simbolo-morse traco-morse" aria-label="traço"></span>`;
+          }
+
+          return "";
+        })
+        .join("");
+
+      return `
+        <span class="morse-letra-grupo">
+          ${simbolosDaLetra}
+        </span>
+      `;
+    })
+    .join("");
+}
 function missaoUsaCodigoComoAlvo(nivel = getNivelAtual()) {
   return (
     modoAtual === MODO_INICIANTE &&
@@ -252,9 +289,9 @@ function renderizarGuiaMorseMissao(missao, dicaFonico, nivel = null) {
 
   if (ehCaractereUnico) {
     dicaMissaoEl.innerHTML = `
-      <div class="morse-simbolos-grandes">
-        ${gerarHtmlMorseVisual(codigo)}
-      </div>
+    <div class="morse-simbolos-grandes morse-frase-simbolos">
+    ${gerarHtmlMorseVisualAgrupadoPorLetra(codigo)}
+  </div>
 
       <div class="morse-dica-fonica">
         ${escaparHtml(dicaFonico)}
@@ -267,16 +304,12 @@ function renderizarGuiaMorseMissao(missao, dicaFonico, nivel = null) {
   if (usarCodigoComoAlvo) {
     dicaMissaoEl.innerHTML = `
       <div class="morse-label-discreta">Código Morse</div>
-
+  
       <div class="morse-simbolos-grandes morse-frase-simbolos">
-        ${gerarHtmlMorseVisual(codigo)}
-      </div>
-
-      <div class="morse-texto-pequeno">
-        ${escaparHtml(alvo)}
+        ${gerarHtmlMorseVisualAgrupadoPorLetra(codigo)}
       </div>
     `;
-
+  
     return;
   }
 
