@@ -2270,6 +2270,179 @@ const MENSAGENS_OPERACIONAIS_MORSE = [
   "TRANSMISSAO FINALIZADA",
   "REDE OPERACIONAL"
 ];
+function gerarBancoGruposDeCincoTreinoAuditivo(qtd = 500) {
+  const caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  const grupos = new Set();
+
+  while (grupos.size < qtd) {
+    let grupo = "";
+
+    for (let i = 0; i < 5; i++) {
+      grupo += caracteres[Math.floor(Math.random() * caracteres.length)];
+    }
+
+    grupos.add(grupo);
+  }
+
+  return Array.from(grupos);
+}
+
+const BANCO_GRUPOS_5_TREINO_AUDITIVO = gerarBancoGruposDeCincoTreinoAuditivo(500);
+
+const BASE_FRASES_TREINO_AUDITIVO = [
+  "BOM DIA",
+  "BOA NOITE",
+  "TUDO BEM",
+  "ATE LOGO",
+  "OBRIGADO",
+  "ESTOU AQUI",
+  "VAMOS LA",
+  "DEU CERTO",
+  "BASE QRV",
+  "QSL RECEBIDO",
+  "RADIO BASE",
+  "POSTO 2 OK",
+  "SINAL FORTE",
+  "SINAL FRACO",
+  "MANTER ESCUTA",
+  "CANAL LIVRE",
+  "QTC BASE",
+  "TORRE QRV",
+  "BASE QSL",
+  "RADIO QRV",
+  "POSTO QSL",
+  "TORRE OK",
+  "QRM FORTE",
+  "QRN FRACO",
+  "QTC SINAL",
+  "BASE 1",
+  "POSTO 3",
+  "RADIO BASE",
+  "OPERADOR QRV",
+  "QTC RECEBIDO",
+  "MENSAGEM OK",
+  "CANAL OK",
+  "REDE ATIVA",
+  "REDE OPERACIONAL",
+  "ESTACAO ALFA",
+  "ESTACAO BRAVO",
+  "ESTACAO DELTA",
+  "COMUNICACAO OK",
+  "TRANSMISSAO OK",
+  "AGUARDE QTC",
+  "QAP NA ESCUTA",
+  "QRV PARA TRANSMITIR",
+  "QTH BRASILIA",
+  "APOIO A CAMINHO",
+  "EQUIPE EM ROTA",
+  "ROTA SEGURA",
+  "BASE OPERACIONAL",
+  "PONTO DE CONTROLE",
+  "POSTO DE OBSERVACAO",
+  "ALVO LOCALIZADO",
+  "BUSCA INICIADA",
+  "BUSCA FINALIZADA",
+  "MATERIAL RECEBIDO",
+  "MATERIAL ENTREGUE",
+  "VIATURA PRONTA",
+  "OPERACAO INICIADA",
+  "OPERACAO CONCLUIDA",
+  "SOLICITO APOIO",
+  "SOLICITO INFORMES",
+  "MANTER POSICAO",
+  "PROSSEGUIR MISSAO",
+  "RETORNAR BASE",
+  "CHEGADA CONFIRMADA",
+  "SAIDA CONFIRMADA",
+  "TESTE DE RADIO",
+  "CONTATO ESTABELECIDO",
+  "CONTATO PERDIDO",
+  "FREQUENCIA LIVRE",
+  "FREQUENCIA OCUPADA",
+  "INTERFERENCIA FORTE",
+  "REPITA MENSAGEM",
+  "COPIE MENSAGEM",
+  "ENVIE QTC",
+  "AGUARDE RESPOSTA",
+  "SINAL CLARO",
+  "SINAL LIMPO",
+  "CANAL SEGURO",
+  "BASE EM ALERTA",
+  "POSTO SEM SINAL",
+  "ROTA BLOQUEADA",
+  "EQUIPE QRV",
+  "RADIO FALHA",
+  "MANTER CANAL",
+  "TRANSMITA AGORA",
+  "COPIADO BASE",
+  "CAMBIO FINAL",
+  "FIM DE TRANSMISSAO",
+  "QRU NO MOMENTO",
+  "QRT TEMPORARIO",
+  "QSY CANAL 2",
+  "QRX AGUARDE",
+  "QSL COPIADO"
+];
+
+function gerarBancoFrasesCurtasTreinoAuditivo(qtd = 300) {
+  const frases = new Set(BASE_FRASES_TREINO_AUDITIVO);
+
+  const sujeitos = [
+    "BASE",
+    "POSTO",
+    "RADIO",
+    "TORRE",
+    "EQUIPE",
+    "OPERADOR",
+    "ESTACAO",
+    "REDE",
+    "CANAL",
+    "ROTA"
+  ];
+
+  const acoes = [
+    "QRV",
+    "QSL",
+    "OK",
+    "AGUARDE",
+    "COPIE",
+    "TRANSMITA",
+    "CONFIRME",
+    "RETORNE",
+    "PROSSIGA",
+    "MANTENHA"
+  ];
+
+  const complementos = [
+    "AGORA",
+    "BASE",
+    "POSTO 1",
+    "POSTO 2",
+    "SETOR 3",
+    "CANAL 4",
+    "SINAL 5",
+    "ROTA 6",
+    "QTC 7",
+    "RADIO 9"
+  ];
+
+  for (const sujeito of sujeitos) {
+    for (const acao of acoes) {
+      for (const complemento of complementos) {
+        frases.add(`${sujeito} ${acao} ${complemento}`);
+
+        if (frases.size >= qtd) {
+          return Array.from(frases).slice(0, qtd);
+        }
+      }
+    }
+  }
+
+  return Array.from(frases).slice(0, qtd);
+}
+
+const BANCO_FRASES_CURTAS_TREINO_AUDITIVO =
+  gerarBancoFrasesCurtasTreinoAuditivo(300);
 
 const ESCUTA_OPERACIONAL_BIBLIOTECA = [
   "QSL RECEBIDO",
@@ -2958,77 +3131,89 @@ function finalizarEscutaOperacional() {
 function montarMenuTreinoAuditivo() {
   const progressoAuditivo = obterProgressoAuditivo();
 
+  tituloBiblioteca.textContent = "";
+  descricaoBiblioteca.textContent = "";
+
   gridBibliotecaMorse.innerHTML = `
-    <div class="painel-treino-auditivo treino-menu-clean">
-      <div class="treino-auditivo-topo">
+    <div class="painel-treino-auditivo treino-auditivo-novo">
+      <div class="treino-auditivo-topo treino-topo-novo">
+        <span class="badge">Sala de escuta</span>
+
         <h2>🎧 Treino Auditivo</h2>
 
-        <div class="painel-progresso-auditivo">
-          <div class="progresso-auditivo-card">
-            <span class="label">Categorias concluídas</span>
-            <strong>${progressoAuditivo.concluidas}/8</strong>
-          </div>
+        <p>
+          Ouça o Código Morse, digite o que recebeu e treine seu ouvido de forma progressiva.
+        </p>
+      </div>
 
-          <div class="progresso-auditivo-card">
-            <span class="label">Melhor aproveitamento</span>
-            <strong>${progressoAuditivo.melhor}%</strong>
-          </div>
+      <div class="painel-progresso-auditivo treino-progresso-simples">
+        <div>
+          <span class="label">Melhor aproveitamento</span>
+          <strong>${progressoAuditivo.melhor}%</strong>
+        </div>
 
-          <div class="progresso-auditivo-card">
-            <span class="label">Treinos realizados</span>
-            <strong>${progressoAuditivo.total}</strong>
-          </div>
+        <div>
+          <span class="label">Treinos realizados</span>
+          <strong>${progressoAuditivo.total}</strong>
         </div>
       </div>
 
-      <div class="card-escuta-operacional">
-        <h3>📡 Escuta Operacional</h3>
-        <p>Ouça mensagens completas e escolha a alternativa correta.</p>
+      <div class="grid-treino-auditivo-simples">
+        <article class="card-treino-auditivo-simples">
+          <div class="icone-treino-auditivo">🔤</div>
 
-        <button id="btnIniciarEscutaOperacional" class="btn principal">
-          Iniciar Escuta Operacional
-        </button>
-      </div>
+          <div>
+            <h3>Caracteres isolados</h3>
+            <p>
+              Letras, números e sinais simples. Ideal para começar a reconhecer sons individuais.
+            </p>
+          </div>
 
-      <div class="card-escuta-operacional">
-        <h3>⌨️ Ouvir e Digitar</h3>
+          <button class="btn principal btn-iniciar-treino-auditivo" data-categoria="caracteres_isolados">
+            Iniciar treino
+          </button>
+        </article>
 
-        <p>
-          Escute a mensagem em Morse e digite exatamente o que ouviu.
-        </p>
+        <article class="card-treino-auditivo-simples">
+          <div class="icone-treino-auditivo">🔢</div>
 
-        <button id="btnOuvirDigitar" class="btn principal">
-          Iniciar Ouvir e Digitar
-        </button>
-      </div>
+          <div>
+            <h3>Grupos de 5</h3>
+            <p>
+              Sequências aleatórias com cinco caracteres. Treino operacional de ouvido e memória.
+            </p>
+          </div>
 
-      <div class="lista-treino-auditivo">
-        ${criarLinhaCategoriaTreino("letras", "ABC / Letras")}
-        ${criarLinhaCategoriaTreino("numeros", "Números")}
-        ${criarLinhaCategoriaTreino("codigoQ", "Código Q")}
-        ${criarLinhaCategoriaTreino("sinais", "Sinais de Serviço")}
-        ${criarLinhaCategoriaTreino("abreviacoes", "Abreviações")}
-        ${criarLinhaCategoriaTreino("caracteres", "Caracteres Especiais")}
-        ${criarLinhaCategoriaTreino("palavras", "Palavras Comuns")}
-        ${criarLinhaCategoriaTreino("frases", "Frases Operacionais")}
-        ${criarLinhaCategoriaTreino("mensagens", "Mensagens Operacionais")}  
+          <button class="btn principal btn-iniciar-treino-auditivo" data-categoria="grupos_5">
+            Iniciar treino
+          </button>
+        </article>
+
+        <article class="card-treino-auditivo-simples">
+          <div class="icone-treino-auditivo">📡</div>
+
+          <div>
+            <h3>Frases curtas</h3>
+            <p>
+              Mensagens operacionais e do dia a dia para preparar o operador para escuta real.
+            </p>
+          </div>
+
+          <button class="btn principal btn-iniciar-treino-auditivo" data-categoria="frases_curtas">
+            Iniciar treino
+          </button>
+        </article>
       </div>
 
       <div class="botoes-resultado bloco-voltar-treino">
-        <button id="btnVoltarBibliotecaTreinoMenu" class="btn principal">
+        <button id="btnVoltarBibliotecaTreinoMenu" class="btn secundario">
           Voltar para Biblioteca
         </button>
       </div>
     </div>
   `;
 
-  document.querySelectorAll(".btn-treino-livre").forEach((botao) => {
-    botao.addEventListener("click", () => {
-      iniciarTreinoAuditivo(botao.dataset.categoria, "livre");
-    });
-  });
-
-  document.querySelectorAll(".btn-treino-desafio").forEach((botao) => {
+  document.querySelectorAll(".btn-iniciar-treino-auditivo").forEach((botao) => {
     botao.addEventListener("click", () => {
       iniciarTreinoAuditivo(botao.dataset.categoria, "desafio");
     });
@@ -3037,20 +3222,7 @@ function montarMenuTreinoAuditivo() {
   document
     .getElementById("btnVoltarBibliotecaTreinoMenu")
     .addEventListener("click", abrirBiblioteca);
-
-  const btnEscutaOperacional = document.getElementById("btnIniciarEscutaOperacional");
-
-  if (btnEscutaOperacional) {
-    btnEscutaOperacional.addEventListener("click", iniciarEscutaOperacional);
-  }
-
-  const btnOuvirDigitar = document.getElementById("btnOuvirDigitar");
-
-  if (btnOuvirDigitar) {
-    btnOuvirDigitar.addEventListener("click", iniciarOuvirDigitar);
-  }
 }
-
 function criarLinhaCategoriaTreino(categoria, titulo) {
   return `
     <div class="linha-categoria-treino">
@@ -3095,59 +3267,40 @@ function iniciarTreinoAuditivo(categoria, modo) {
 }
 
 function obterItensTreinoAuditivo(categoria) {
-  const letras = Object.keys(TABELA_MORSE)
-    .filter((item) => /^[A-Z]$/.test(item))
-    .map((item) => criarItemTreino(item, "Letra", getDicaFonico(item)));
+  const caracteresIsolados = [
+    ...Object.keys(TABELA_MORSE).filter((item) => /^[A-Z]$/.test(item)),
+    ...Object.keys(TABELA_MORSE).filter((item) => /^[0-9]$/.test(item)),
+    ".",
+    ",",
+    "?",
+    "/",
+    "=",
+    "+"
+  ].map((item) => criarItemTreino(item, "Caractere isolado", "Ouça e reconheça o sinal."));
 
-  const numeros = Object.keys(TABELA_MORSE)
-    .filter((item) => /^[0-9]$/.test(item))
-    .map((item) => criarItemTreino(item, "Número", getDicaFonico(item)));
+  const grupos5 = BANCO_GRUPOS_5_TREINO_AUDITIVO.map((item) =>
+    criarItemTreino(item, "Grupo de 5", "Ouça o grupo completo e digite os cinco caracteres.")
+  );
 
-  const codigoQ = Object.values(CODIGO_Q)
-    .flat()
-    .map((item) => criarItemTreino(item.codigo, "Código Q", item.significado));
+  const frasesCurtas = BANCO_FRASES_CURTAS_TREINO_AUDITIVO.map((item) =>
+    criarItemTreino(item, "Frase curta", "Ouça a frase completa e digite o que recebeu.")
+  );
 
-  const sinais = SINAIS_SERVICO
-    .map((item) => criarItemTreino(item.codigo, "Sinal de Serviço", item.significado));
-
-  const abreviacoes = ABREVIACOES_MORSE
-    .map((item) => criarItemTreino(item.codigo, "Abreviação", item.significado));
-
-  const caracteres = CARACTERES_ESPECIAIS_MORSE
-    .map((item) => criarItemTreino(item.codigo, "Caractere especial", item.significado));
-
-  const palavras = PALAVRAS_COMUNS_MORSE
-    .map((item) => criarItemTreino(item, "Palavra comum", "Palavra do banco de treino auditivo."));
-
-  const frases = FRASES_OPERACIONAIS_MORSE
-    .map((item) => criarItemTreino(item, "Frase operacional", "Frase curta para preparação do modo avançado."));
-
-  const mensagens = MENSAGENS_OPERACIONAIS_MORSE
-    .map((item) => criarItemTreino(item, "Mensagem operacional", "Mensagem completa para preparação do modo avançado."));
-
-  if (categoria === "letras") return letras;
-  if (categoria === "numeros") return numeros;
-  if (categoria === "codigoQ") return codigoQ;
-  if (categoria === "sinais") return sinais;
-  if (categoria === "abreviacoes") return abreviacoes;
-  if (categoria === "caracteres") return caracteres;
-  if (categoria === "palavras") return palavras;
-  if (categoria === "frases") return frases;
-  if (categoria === "mensagens") return mensagens;
-
-  return [
-    ...letras,
-    ...numeros,
-    ...codigoQ,
-    ...sinais,
-    ...abreviacoes,
-    ...caracteres,
-    ...palavras,
-    ...frases,
-    ...mensagens
+  const todos = [
+    ...caracteresIsolados,
+    ...grupos5,
+    ...frasesCurtas
   ];
-}
 
+  const mapa = {
+    caracteres_isolados: caracteresIsolados,
+    grupos_5: grupos5,
+    frases_curtas: frasesCurtas,
+    misto: todos
+  };
+
+  return mapa[categoria] || todos;
+}
 function criarItemTreino(resposta, tipo, significado) {
   const texto = String(resposta).toUpperCase();
 
@@ -3271,9 +3424,13 @@ function renderizarTelaTreinoAuditivo(mostrarResposta = false, mensagem = "") {
 
   const inputResposta = document.getElementById("inputRespostaAuditiva");
   const btnConfirmar = document.getElementById("btnConfirmarRespostaAuditiva");
-
+  
   if (inputResposta && btnConfirmar) {
-    inputResposta.focus();
+    if (!mostrarResposta && !mensagem) {
+      setTimeout(() => {
+        inputResposta.focus();
+      }, 250);
+    }
 
     btnConfirmar.addEventListener("click", confirmarRespostaAuditiva);
 
@@ -3297,20 +3454,28 @@ function confirmarRespostaAuditiva() {
   if (!input) return;
 
   input.setAttribute("readonly", "readonly");
-  input.blur();
+input.blur();
 
-  setTimeout(() => {
-    input.removeAttribute("readonly");
-  }, 300);
+setTimeout(() => {
+  input.removeAttribute("readonly");
+}, 300);
 
   const respostaUsuario = normalizarRespostaAuditiva(input.value);
   const respostaCorreta = normalizarRespostaAuditiva(treinoAuditivo.itemAtual.resposta);
 
   if (!respostaUsuario) {
     renderizarTelaTreinoAuditivo(false, "Digite uma resposta antes de confirmar.");
+  
+    setTimeout(() => {
+      const novoInput = document.getElementById("inputRespostaAuditiva");
+  
+      if (novoInput) {
+        novoInput.blur();
+      }
+    }, 80);
+  
     return;
   }
-
   if (respostaUsuario === respostaCorreta) {
     treinoAuditivo.acertos += 1;
     treinoAuditivo.sequencia += 1;
@@ -3538,6 +3703,10 @@ function normalizarRespostaAuditiva(valor) {
 
 function nomeCategoriaTreino(categoria) {
   const nomes = {
+    caracteres_isolados: "Caracteres isolados",
+    grupos_5: "Grupos de 5",
+    frases_curtas: "Frases curtas",
+
     letras: "Letras",
     numeros: "Números",
     codigoQ: "Código Q",
@@ -3552,7 +3721,6 @@ function nomeCategoriaTreino(categoria) {
 
   return nomes[categoria] || "Treino Auditivo";
 }
-
 function salvarNomeOperador() {
   nomeOperador = getNomeOperadorAtual();
   inputNomeOperador.value = nomeOperador;
