@@ -235,11 +235,16 @@ function gerarHtmlMorseVisual(codigoMorse) {
     })
     .join("");
 }
-function renderizarGuiaMorseMissao(missao, dicaFonico) {
+function renderizarGuiaMorseMissao(missao, dicaFonico, nivel = null) {
   const alvo = String(missao?.alvo || "").toUpperCase();
   const codigo = String(missao?.codigo || "").trim();
 
   const ehCaractereUnico = /^[A-Z0-9]$/.test(alvo);
+
+  const usarCodigoComoAlvo =
+    modoAtual === MODO_INICIANTE &&
+    nivel &&
+    Number(nivel.numero) >= 18;
 
   if (ehCaractereUnico) {
     dicaMissaoEl.innerHTML = `
@@ -249,6 +254,22 @@ function renderizarGuiaMorseMissao(missao, dicaFonico) {
 
       <div class="morse-dica-fonica">
         ${escaparHtml(dicaFonico)}
+      </div>
+    `;
+
+    return;
+  }
+
+  if (usarCodigoComoAlvo) {
+    dicaMissaoEl.innerHTML = `
+      <div class="morse-label-discreta">Código Morse</div>
+
+      <div class="morse-simbolos-grandes morse-frase-simbolos">
+        ${gerarHtmlMorseVisual(codigo)}
+      </div>
+
+      <div class="morse-texto-pequeno">
+        ${escaparHtml(alvo)}
       </div>
     `;
 
@@ -4062,7 +4083,15 @@ function carregarMissao() {
   badgePatente.textContent =
     `Acertos ${acertosNivel}/${nivel.missoes.length}`;
 
-    textoMissao.textContent = `TECLE: ${missao.alvo}`;
+    const usarCodigoComoAlvo =
+    modoAtual === MODO_INICIANTE &&
+    Number(nivel.numero) >= 18;
+
+  textoMissao.classList.toggle("texto-tecle-codigo", usarCodigoComoAlvo);
+
+  textoMissao.textContent = usarCodigoComoAlvo
+    ? "TECLE:"
+    : `TECLE: ${missao.alvo}`;
 
   const dicaFonico = getDicaFonico(missao.alvo);
 
@@ -4070,9 +4099,8 @@ function carregarMissao() {
     configurarInterfaceRecepcaoAvancada(missao);
   } else {
     restaurarInterfaceTransmissao();
-    renderizarGuiaMorseMissao(missao, dicaFonico);
+    renderizarGuiaMorseMissao(missao, dicaFonico, nivel);
   }
-
   contadorMissaoEl.textContent = `${missaoAtualIndex + 1}/${nivel.missoes.length}`;
   faseAtualEl.textContent = missao.tipo;
 
