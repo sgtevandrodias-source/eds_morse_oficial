@@ -4518,3 +4518,21 @@ input:focus,
       padding: 0.85rem;
     }
   }
+  /* =========================================================
+   ASSINATURA DISCRETA — TELA INICIAL
+   ========================================================= */
+
+.assinatura-inicial {
+  margin: 1.2rem auto 0 auto;
+  text-align: center;
+  font-size: 0.78rem;
+  color: rgba(203, 213, 225, 0.48);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.assinatura-inicial span {
+  color: rgba(134, 239, 172, 0.62);
+  font-family: monospace;
+  letter-spacing: 0.12em;
+}
