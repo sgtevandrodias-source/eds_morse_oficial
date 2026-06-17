@@ -323,20 +323,35 @@
           </span>
         </div>
 
-        <h2 id="textoMissao">Envie: E</h2>
+        <h2 id="textoMissao" class="texto-tecle">TECLE: E</h2>
 
-        <p id="dicaMissao">Pressione: .</p>
+        <div id="dicaMissao" class="guia-morse-visual">
+          <div class="morse-simbolos-grandes">
+            <span class="simbolo-morse ponto-morse">●</span>
+          </div>
 
-        <div class="painel-codigo">
+          <div class="morse-dica-fonica">
+            bi
+          </div>
+        </div>
+
+        <div class="painel-codigo codigo-enviado-card">
           <span>Código enviado</span>
           <strong id="codigoDigitado">—</strong>
         </div>
 
-        <button id="btnMorse" class="botao-morse">
-          TRANSMITIR
-        </button>
+        <div class="area-transmissao-principal">
+          <button id="btnMorse" class="botao-morse">
+            TRANSMITIR
+          </button>
 
-        <div class="acoes">
+          <button id="btnEnviar" class="btn-enviar-missao" aria-label="Enviar código">
+            <span class="icone-enviar-missao">➤</span>
+            <span>ENVIAR</span>
+          </button>
+        </div>
+
+        <div class="acoes acoes-apoio">
           <button id="btnEspacoLetra" class="btn secundario">
             Espaço letra
           </button>
@@ -348,13 +363,9 @@
           <button id="btnLimpar" class="btn secundario">
             Limpar
           </button>
-
-          <button id="btnEnviar" class="btn principal">
-            Confirmar
-          </button>
         </div>
 
-        <div id="feedback" class="feedback"></div>
+        <div id="feedback" class="feedback feedback-jogo"></div>
 
         <!-- PAINEL DE RITMO - APARECE NO MODO INTERMEDIÁRIO -->
         <div id="painelRitmo" class="painel-ritmo">

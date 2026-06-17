@@ -205,7 +205,69 @@ function getDicaFonico(alvo) {
 
   return "Transmita no ritmo correto, usando as pausas naturais.";
 }
+function gerarHtmlMorseVisual(codigoMorse) {
+  const codigo = String(codigoMorse || "").trim();
 
+  if (!codigo) {
+    return `<span class="simbolo-morse texto-morse-vazio">—</span>`;
+  }
+
+  return codigo
+    .split("")
+    .map((simbolo) => {
+      if (simbolo === ".") {
+        return `<span class="simbolo-morse ponto-morse">●</span>`;
+      }
+
+      if (simbolo === "-") {
+        return `<span class="simbolo-morse traco-morse">▬</span>`;
+      }
+
+      if (simbolo === "/") {
+        return `<span class="simbolo-morse separador-palavra-morse">/</span>`;
+      }
+
+      if (simbolo === " ") {
+        return `<span class="espaco-morse-visual"></span>`;
+      }
+
+      return `<span class="simbolo-morse texto-morse-vazio">${escaparHtml(simbolo)}</span>`;
+    })
+    .join("");
+}
+
+function renderizarGuiaMorseMissao(missao, dicaFonico) {
+  const alvo = String(missao?.alvo || "").toUpperCase();
+  const codigo = String(missao?.codigo || "").trim();
+
+  const ehCaractereUnico = /^[A-Z0-9]$/.test(alvo);
+
+  if (ehCaractereUnico) {
+    dicaMissaoEl.innerHTML = `
+      <div class="morse-simbolos-grandes">
+        ${gerarHtmlMorseVisual(codigo)}
+      </div>
+
+      <div class="morse-dica-fonica">
+        ${escaparHtml(dicaFonico)}
+      </div>
+    `;
+
+    return;
+  }
+
+  dicaMissaoEl.innerHTML = `
+    <div class="morse-label-discreta">Código Morse</div>
+
+    <div class="morse-linha-texto">
+      ${escaparHtml(codigo)}
+    </div>
+
+    <div class="morse-dica-operacional">
+      Transmita no ritmo correto, respeitando pausas entre letras e palavras.
+    </div>
+  `;
+}
 const MODO_INICIANTE = "iniciante";
 const CONQUISTAS = {
   primeiro_sinal: {
@@ -3575,6 +3637,15 @@ btnEspacoPalavra.style.display = manipulacaoNatural ? "none" : "inline-block";
     "modo-avancado",
     modoAtual === MODO_AVANCADO
   );
+  document.body.classList.toggle(
+    "modo-iniciante",
+    modoAtual === MODO_INICIANTE
+  );
+
+  document.body.classList.toggle(
+    "modo-intermediario",
+    modoAtual === MODO_INTERMEDIARIO
+  );  
 
   if (timerMissaoEl) {
     timerMissaoEl.style.display =
@@ -3865,10 +3936,15 @@ function restaurarInterfaceTransmissao() {
   painel.innerHTML = "";
 
   btnMorse.style.display = "";
+  btnEnviar.style.display = "";
   btnEspacoLetra.style.display = "";
   btnEspacoPalavra.style.display = "";
   btnLimpar.style.display = "";
-  btnEnviar.textContent = "Confirmar";
+
+  btnEnviar.innerHTML = `
+    <span class="icone-enviar-missao">➤</span>
+    <span>ENVIAR</span>
+  `;
 }
 
 function configurarInterfaceRecepcaoAvancada(missao) {
@@ -3987,7 +4063,7 @@ function carregarMissao() {
   badgePatente.textContent =
     `Acertos ${acertosNivel}/${nivel.missoes.length}`;
 
-  textoMissao.textContent = `Envie: ${missao.alvo}`;
+    textoMissao.textContent = `TECLE: ${missao.alvo}`;
 
   const dicaFonico = getDicaFonico(missao.alvo);
 
@@ -3995,15 +4071,7 @@ function carregarMissao() {
     configurarInterfaceRecepcaoAvancada(missao);
   } else {
     restaurarInterfaceTransmissao();
-
-    if (/^[A-Z0-9]$/.test(String(missao.alvo).toUpperCase())) {
-      dicaMissaoEl.innerHTML = `
-        <span>Código: ${missao.codigo}</span><br>
-        <span>Dica: ${dicaFonico}</span>
-      `;
-    } else {
-      dicaMissaoEl.textContent = `Código: ${missao.codigo}`;
-    }
+    renderizarGuiaMorseMissao(missao, dicaFonico);
   }
 
   contadorMissaoEl.textContent = `${missaoAtualIndex + 1}/${nivel.missoes.length}`;
@@ -4770,13 +4838,13 @@ function limparCodigo() {
 }
 
 function mostrarFeedbackManipulacao(simbolo, duracao) {
-  const duracaoArredondada = Math.round(duracao);
+  if (simbolo === ".") {
+    feedback.innerHTML = `<span class="feedback-ponto">●</span> Ponto transmitido`;
+  } else {
+    feedback.innerHTML = `<span class="feedback-traco">▬</span> Traço transmitido`;
+  }
 
-  feedback.textContent = simbolo === "."
-    ? `Ponto transmitido (${duracaoArredondada} ms).`
-    : `Traço transmitido (${duracaoArredondada} ms).`;
-
-  feedback.className = "feedback";
+  feedback.className = "feedback feedback-jogo alerta";
 }
 
 function normalizarCodigo(codigo) {

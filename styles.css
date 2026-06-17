@@ -4626,3 +4626,445 @@ input:focus,
       font-size: 1.05rem;
     }
   }
+  /* =========================================================
+   NOVA TELA DE JOGO — EDS MORSE
+   Layout ampliado para todas as fases
+   ========================================================= */
+
+#telaJogo {
+  --jogo-verde: #36f07a;
+  --jogo-verde-2: #22c55e;
+  --jogo-amarelo: #facc15;
+  --jogo-azul: #38bdf8;
+  --jogo-fundo-card: rgba(3, 12, 28, 0.92);
+  --jogo-borda: rgba(45, 212, 191, 0.28);
+}
+
+/* Topo: nível e pontuação maiores */
+#telaJogo .topo-jogo {
+  max-width: 920px;
+  margin: 0 auto 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+#telaJogo .topo-jogo .status-card {
+  min-height: 118px;
+  border-radius: 26px;
+  padding: 22px;
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.9), rgba(2, 6, 23, 0.88));
+  border: 1px solid rgba(45, 212, 191, 0.22);
+}
+
+#telaJogo .topo-jogo .label {
+  font-size: 1rem;
+  color: #b7c2d6;
+}
+
+#telaJogo .topo-jogo strong {
+  margin-top: 8px;
+  font-size: clamp(2rem, 7vw, 3.8rem);
+  line-height: 0.95;
+  color: #ffffff;
+}
+
+/* Card principal */
+#telaJogo .missao {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 22px;
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.08), transparent 36%),
+    linear-gradient(180deg, rgba(8, 21, 40, 0.96), rgba(3, 10, 24, 0.98));
+  border: 1px solid var(--jogo-borda);
+  box-shadow:
+    0 0 0 1px rgba(45, 212, 191, 0.05),
+    0 24px 80px rgba(0, 0, 0, 0.38),
+    inset 0 0 34px rgba(45, 212, 191, 0.035);
+}
+
+/* Badges Missão / Acertos */
+#telaJogo .linha-nivel {
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+#telaJogo .linha-nivel .badge {
+  min-width: 150px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+}
+
+#badgeNivel {
+  background: rgba(34, 197, 94, 0.16);
+  color: var(--jogo-verde);
+  border-color: rgba(34, 197, 94, 0.42);
+}
+
+#badgePatente {
+  background: rgba(250, 204, 21, 0.13);
+  color: var(--jogo-amarelo);
+  border-color: rgba(250, 204, 21, 0.38);
+}
+
+/* Texto principal TECLE */
+#textoMissao.texto-tecle,
+#telaJogo #textoMissao {
+  margin: 14px auto 10px;
+  font-size: clamp(3rem, 12vw, 5.8rem);
+  font-weight: 1000;
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+#textoMissao::first-letter {
+  color: #ffffff;
+}
+
+/* Guia visual do Morse */
+.guia-morse-visual {
+  margin: 6px auto 14px;
+  text-align: center;
+}
+
+.morse-simbolos-grandes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(18px, 6vw, 48px);
+  min-height: 54px;
+  margin-bottom: 8px;
+}
+
+.simbolo-morse {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  line-height: 1;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.08));
+}
+
+.ponto-morse {
+  font-size: clamp(2.3rem, 9vw, 4.2rem);
+}
+
+.traco-morse {
+  font-size: clamp(2.6rem, 10vw, 4.5rem);
+  transform: scaleX(1.55);
+}
+
+.separador-palavra-morse {
+  font-size: clamp(2rem, 7vw, 3.2rem);
+  color: var(--jogo-amarelo);
+}
+
+.espaco-morse-visual {
+  width: clamp(10px, 4vw, 24px);
+}
+
+.morse-dica-fonica {
+  font-size: clamp(2rem, 8vw, 4rem);
+  font-weight: 1000;
+  color: #7cf579;
+  line-height: 1.05;
+  text-shadow: 0 0 12px rgba(34, 197, 94, 0.18);
+}
+
+.morse-dica-fonica strong,
+.morse-dica-fonica .destaque {
+  color: var(--jogo-amarelo);
+}
+
+.morse-label-discreta {
+  color: #93a4bc;
+  font-size: 0.82rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 8px;
+}
+
+.morse-linha-texto {
+  display: inline-block;
+  max-width: 100%;
+  padding: 10px 14px;
+  border-radius: 18px;
+  background: rgba(2, 6, 23, 0.52);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  color: #ffffff;
+  font-size: clamp(1.45rem, 5vw, 2.3rem);
+  font-weight: 1000;
+  letter-spacing: 0.12em;
+  line-height: 1.25;
+  word-break: break-word;
+}
+
+.morse-dica-operacional {
+  margin-top: 8px;
+  color: #9ca3af;
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+/* Código enviado */
+.codigo-enviado-card {
+  width: min(720px, 100%);
+  margin: 12px auto 18px;
+  border-radius: 24px;
+  padding: 16px;
+  background: rgba(1, 7, 22, 0.72);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.codigo-enviado-card span {
+  color: #b7c2d6;
+  font-size: 0.9rem;
+}
+
+.codigo-enviado-card strong {
+  font-size: clamp(1.6rem, 5vw, 2.4rem);
+  color: #ffffff;
+  letter-spacing: 0.22em;
+}
+
+/* Botão transmitir + enviar ao lado */
+.area-transmissao-principal {
+  width: min(650px, 100%);
+  margin: 8px auto 18px;
+  display: grid;
+  grid-template-columns: 1fr 116px;
+  align-items: center;
+  justify-items: center;
+  gap: 16px;
+}
+
+.area-transmissao-principal .botao-morse {
+  width: min(300px, 62vw);
+  max-width: 300px;
+  border: 8px solid rgba(250, 204, 21, 0.58);
+  background:
+    radial-gradient(circle at 35% 25%, #fff176 0%, #facc15 46%, #d79a00 100%);
+  box-shadow:
+    0 0 0 8px rgba(250, 204, 21, 0.08),
+    0 0 52px rgba(250, 204, 21, 0.25),
+    inset 0 -18px 28px rgba(99, 61, 0, 0.22),
+    inset 0 12px 22px rgba(255,255,255,0.18);
+}
+
+.btn-enviar-missao {
+  width: 104px;
+  height: 104px;
+  border-radius: 999px;
+  border: 1px solid rgba(34, 197, 94, 0.55);
+  background: rgba(2, 6, 23, 0.58);
+  color: var(--jogo-verde);
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 4px;
+  cursor: pointer;
+  font-weight: 1000;
+  box-shadow:
+    0 0 24px rgba(34, 197, 94, 0.14),
+    inset 0 0 0 1px rgba(255,255,255,0.02);
+}
+
+.btn-enviar-missao .icone-enviar-missao {
+  display: block;
+  font-size: 2.5rem;
+  line-height: 1;
+  transform: rotate(-18deg);
+}
+
+.btn-enviar-missao span:last-child {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+}
+
+/* Botões de apoio */
+#telaJogo .acoes-apoio {
+  width: min(720px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+#telaJogo .acoes-apoio .btn {
+  min-height: 64px;
+  border-radius: 20px;
+  font-size: 1.15rem;
+  background:
+    linear-gradient(180deg, rgba(15, 30, 51, 0.94), rgba(7, 18, 35, 0.96));
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  color: #f8fafc;
+}
+
+#btnLimpar {
+  grid-column: 1 / -1;
+}
+
+/* Feedback mais simples */
+.feedback-jogo {
+  margin-top: 14px;
+  min-height: 34px;
+  font-size: 1.1rem;
+  color: #d1fae5;
+}
+
+.feedback-ponto,
+.feedback-traco {
+  color: var(--jogo-verde);
+  margin-right: 6px;
+}
+
+/* Botões inferiores */
+#telaJogo .barra-rodape-jogo {
+  max-width: 920px;
+  margin: 16px auto 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+#telaJogo .barra-rodape-jogo .btn {
+  min-height: 72px;
+  border-radius: 22px;
+  font-size: 1.35rem;
+}
+
+#btnReiniciar {
+  color: #fb7185;
+  border-color: rgba(248, 113, 113, 0.38);
+}
+
+#btnVoltarCampanha {
+  color: #60a5fa;
+  border-color: rgba(96, 165, 250, 0.38);
+}
+
+/* Ajuste para modo intermediário/avançado quando esconder espaço letra/palavra */
+body.modo-avancado #telaJogo .acoes-apoio,
+body:not(.modo-iniciante) #telaJogo .acoes-apoio {
+  grid-template-columns: 1fr;
+}
+
+/* Mobile */
+@media (max-width: 720px) {
+  #telaJogo .topo-jogo {
+    gap: 10px;
+  }
+
+  #telaJogo .topo-jogo .status-card {
+    min-height: 96px;
+    padding: 16px;
+    border-radius: 22px;
+  }
+
+  #telaJogo .topo-jogo .label {
+    font-size: 0.95rem;
+  }
+
+  #telaJogo .topo-jogo strong {
+    font-size: clamp(2rem, 8.5vw, 3.2rem);
+  }
+
+  #telaJogo .missao {
+    padding: 18px 12px;
+    border-radius: 26px;
+  }
+
+  #telaJogo .linha-nivel .badge {
+    min-width: 132px;
+    padding: 10px 13px;
+    font-size: 0.86rem;
+  }
+
+  #textoMissao.texto-tecle,
+  #telaJogo #textoMissao {
+    font-size: clamp(3rem, 14vw, 4.8rem);
+  }
+
+  .morse-simbolos-grandes {
+    gap: clamp(16px, 5vw, 34px);
+  }
+
+  .morse-dica-fonica {
+    font-size: clamp(2rem, 9vw, 3.4rem);
+  }
+
+  .area-transmissao-principal {
+    grid-template-columns: 1fr 88px;
+    gap: 8px;
+  }
+
+  .area-transmissao-principal .botao-morse {
+    width: min(258px, 63vw);
+    font-size: 1.35rem;
+  }
+
+  .btn-enviar-missao {
+    width: 82px;
+    height: 82px;
+  }
+
+  .btn-enviar-missao .icone-enviar-missao {
+    font-size: 2rem;
+  }
+
+  .btn-enviar-missao span:last-child {
+    font-size: 0.68rem;
+  }
+
+  #telaJogo .acoes-apoio .btn {
+    min-height: 58px;
+    font-size: 1rem;
+  }
+
+  #telaJogo .barra-rodape-jogo .btn {
+    min-height: 64px;
+    font-size: 1.15rem;
+  }
+}
+
+@media (max-width: 420px) and (max-height: 760px) {
+  #telaJogo .topo-jogo .status-card {
+    min-height: 82px;
+    padding: 12px;
+  }
+
+  #textoMissao.texto-tecle,
+  #telaJogo #textoMissao {
+    font-size: clamp(2.6rem, 13vw, 4rem);
+  }
+
+  .morse-dica-fonica {
+    font-size: clamp(1.8rem, 8vw, 2.8rem);
+  }
+
+  .codigo-enviado-card {
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  .area-transmissao-principal .botao-morse {
+    width: min(218px, 60vw);
+  }
+
+  .btn-enviar-missao {
+    width: 74px;
+    height: 74px;
+  }
+
+  #telaJogo .acoes-apoio .btn {
+    min-height: 52px;
+  }
+}
