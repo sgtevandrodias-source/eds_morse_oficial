@@ -4297,8 +4297,8 @@ function mostrarResultadoNivel(resultado, campanhaFinalizada = false) {
   resultadoPontos.textContent = resultado.pontos;
 
   if (!resultado.aprovado) {
-    resultadoBadge.textContent = "Repetir nível";
-    tituloResultado.textContent = "Missão não concluída";
+    resultadoBadge.textContent = "Missão não cumprida";
+    tituloResultado.textContent = "Tente novamente";
     resultadoFinal.textContent =
       `Você ficou com ${resultado.aproveitamento}% de aproveitamento. O mínimo é 80%. Repita a missão para manter a rede operacional.`;
     btnProximoNivel.style.display = "none";
@@ -4323,7 +4323,7 @@ function mostrarResultadoNivel(resultado, campanhaFinalizada = false) {
     return;
   }
 
-  resultadoBadge.textContent = resultado.bonus ? "Missão concluída com destaque" : "Missão concluída";
+  resultadoBadge.textContent = "Missão cumprida";
   tituloResultado.textContent = "Relatório da missão";
 
   resultadoFinal.textContent =
@@ -4385,85 +4385,121 @@ function renderizarRelatorioOperacional(resultado, mensagemNarrativa, conquistas
 
   relatorio.style.display = "grid";
 
+  const registroCarreira = resultado.registroCarreira || null;
+
   const proximaPromocao = resultado.aprovado
     ? (campanhaFinalizada ? resultado.patente : proximaPatenteTexto())
     : resultado.patente;
 
-  const tituloRelatorio = mensagemNarrativa?.titulo || "📡 Nível concluído";
-  const textoRelatorio = mensagemNarrativa?.texto || "A rede avançou para a próxima etapa.";
+  const tituloRede = mensagemNarrativa?.titulo || "📡 Rede atualizada";
+  const textoRede = mensagemNarrativa?.texto || "A rede avançou para a próxima etapa.";
 
-  const listaConquistas = conquistasNovas.length
-    ? conquistasNovas
-        .map((id) => {
-          const conquista = CONQUISTAS[id];
-          if (!conquista) return "";
-          return `<li>${escaparHtml(conquista.nome)}</li>`;
-        })
-        .join("")
-    : "<li>Nenhuma nova medalha nesta missão.</li>";
+  const pontosMissao = registroCarreira
+    ? Number(registroCarreira.pontosDaFase || 0)
+    : Number(resultado.pontos || 0);
 
-  const registroCarreira = resultado.registroCarreira;
+  const bonusTempo = registroCarreira
+    ? Number(registroCarreira.bonusTempo || 0)
+    : 0;
 
-  let htmlCarreira = "";
+  const ganhoMissao = registroCarreira
+    ? Number(registroCarreira.pontosSomados || 0)
+    : Number(resultado.pontos || 0);
 
-  if (registroCarreira) {
-    htmlCarreira = `
-      <div class="relatorio-bloco bloco-carreira-operador">
-        <span class="label">Carreira do Operador</span>
-        <h2>🎖️ Pontuação acumulada</h2>
+  const totalAcumulado = registroCarreira
+    ? Number(registroCarreira.carreira?.pontosTotais || 0)
+    : Number(resultado.pontos || 0);
 
-        <div class="resumo-carreira-fase resumo-carreira-fase-4">
-        <div>
-          <span class="label">Pontos-base</span>
-          <strong>+${registroCarreira.pontosDaFase}</strong>
-        </div>
+  const premiosDaFase = registroCarreira?.premiosDaFase || [];
 
-        <div>
-          <span class="label">Bônus de tempo</span>
-          <strong>+${registroCarreira.bonusTempo}</strong>
-        </div>
+  const htmlPromocao = resultado.aprovado
+    ? `
+      <div class="relatorio-bloco relatorio-destaque-promocao">
+        <span class="label">Promoção</span>
+        <h2>🎖️ Você foi promovido a ${escaparHtml(proximaPromocao)}</h2>
+      </div>
+    `
+    : "";
 
-        <div>
-          <span class="label">Ganho nesta missão</span>
-          <strong>+${registroCarreira.pontosSomados}</strong>
-        </div>
+  const htmlPontuacao = registroCarreira
+    ? `
+      <div class="relatorio-bloco relatorio-pontuacao-simples">
+        <span class="label">Seu progresso</span>
+        <h2>🏆 Pontuação</h2>
 
-        <div>
-          <span class="label">Total acumulado</span>
-          <strong>${registroCarreira.carreira.pontosTotais}</strong>
+        <div class="pontuacao-linhas">
+          <div>
+            <span>Pontos da missão</span>
+            <strong>${pontosMissao} pts</strong>
+          </div>
+
+          <div>
+            <span>Bônus</span>
+            <strong>+${bonusTempo} pts</strong>
+          </div>
+
+          <div>
+            <span>Ganho nesta missão</span>
+            <strong>+${ganhoMissao} pts</strong>
+          </div>
+
+          <div>
+            <span>Total acumulado</span>
+            <strong>${totalAcumulado} pts</strong>
+          </div>
         </div>
       </div>
+    `
+    : "";
 
-        <div class="cabecalho-premios">
-          <h2>🏆 Recompensas da missão</h2>
-          <p>
-            Medalhas, distintivos e títulos conquistados nesta operação.
-          </p>
-        </div>
+  const htmlRecompensas = premiosDaFase.length
+    ? `
+      <div class="relatorio-bloco relatorio-recompensas-simples">
+        <span class="label">Recompensas</span>
+        <h2>🎁 ${premiosDaFase.length} recompensa${premiosDaFase.length > 1 ? "s" : ""} conquistada${premiosDaFase.length > 1 ? "s" : ""}</h2>
 
-        <div class="grid-premios-fase">
-          ${montarCardsPremiosDaFase(registroCarreira.premiosDaFase)}
+        <div class="lista-recompensas-simples">
+          ${premiosDaFase
+            .map((premio) => {
+              const icone = premio.tipo === "distintivo"
+                ? "⚡"
+                : premio.tipo === "titulo"
+                  ? "🎖️"
+                  : "🏅";
+
+              const nomeLimpo = String(premio.nome || "Recompensa")
+                .replace(/\s+—\s+Iniciante\s+\d+/gi, "")
+                .replace(/\s+—\s+Intermediário\s+\d+/gi, "")
+                .replace(/\s+—\s+Avançado\s+\d+/gi, "")
+                .replace(/\s+—\s+Fase\s+\d+/gi, "");
+
+              return `
+                <div class="recompensa-linha">
+                  <span>${icone}</span>
+                  <strong>${escaparHtml(nomeLimpo)}</strong>
+                </div>
+              `;
+            })
+            .join("")}
         </div>
       </div>
-    `;
-  }
+    `
+    : "";
 
   relatorio.innerHTML = `
-    <div class="relatorio-bloco">
+    ${htmlPromocao}
+
+    <div class="relatorio-bloco relatorio-rede-simples">
       <span class="label">Situação da Rede</span>
-      <h2>${escaparHtml(tituloRelatorio)}</h2>
-      <p>${escaparHtml(textoRelatorio)}</p>
+      <h2>${escaparHtml(tituloRede)}</h2>
+      <p>${escaparHtml(textoRede)}</p>
     </div>
 
-    ${htmlCarreira}
+    ${htmlPontuacao}
 
-    <div class="relatorio-bloco">
-      <span class="label">Promoção</span>
-      <strong>${escaparHtml(proximaPromocao)}</strong>
-    </div>
+    ${htmlRecompensas}
   `;
 }
-
 function verificarConquistasDoNivel(resultado, campanhaFinalizada) {
   if (!resultado || !resultado.aprovado) return [];
 
