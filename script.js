@@ -216,11 +216,11 @@ function gerarHtmlMorseVisual(codigoMorse) {
     .split("")
     .map((simbolo) => {
       if (simbolo === ".") {
-        return `<span class="simbolo-morse ponto-morse">●</span>`;
+        return `<span class="simbolo-morse ponto-morse" aria-label="ponto"></span>`;
       }
 
       if (simbolo === "-") {
-        return `<span class="simbolo-morse traco-morse">▬</span>`;
+        return `<span class="simbolo-morse traco-morse" aria-label="traço"></span>`;
       }
 
       if (simbolo === "/") {
@@ -235,7 +235,6 @@ function gerarHtmlMorseVisual(codigoMorse) {
     })
     .join("");
 }
-
 function renderizarGuiaMorseMissao(missao, dicaFonico) {
   const alvo = String(missao?.alvo || "").toUpperCase();
   const codigo = String(missao?.codigo || "").trim();
@@ -4055,7 +4054,7 @@ function carregarMissao() {
   const nivel = getNivelAtual();
   const missao = getMissaoAtual();
 
-  nomeOperadorEl.textContent = nivel.titulo;
+  nomeOperadorEl.textContent = `${getNomeModo(modoAtual)} ${nivel.numero}`;
 
   badgeNivel.textContent =
     `Missão ${missaoAtualIndex + 1}/${nivel.missoes.length}`;
