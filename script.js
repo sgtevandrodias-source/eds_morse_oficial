@@ -235,16 +235,20 @@ function gerarHtmlMorseVisual(codigoMorse) {
     })
     .join("");
 }
+function missaoUsaCodigoComoAlvo(nivel = getNivelAtual()) {
+  return (
+    modoAtual === MODO_INICIANTE &&
+    nivel &&
+    Number(nivel.numero) >= 18
+  );
+}
 function renderizarGuiaMorseMissao(missao, dicaFonico, nivel = null) {
   const alvo = String(missao?.alvo || "").toUpperCase();
   const codigo = String(missao?.codigo || "").trim();
 
   const ehCaractereUnico = /^[A-Z0-9]$/.test(alvo);
 
-  const usarCodigoComoAlvo =
-    modoAtual === MODO_INICIANTE &&
-    nivel &&
-    Number(nivel.numero) >= 18;
+  const usarCodigoComoAlvo = missaoUsaCodigoComoAlvo(nivel);
 
   if (ehCaractereUnico) {
     dicaMissaoEl.innerHTML = `
@@ -4083,9 +4087,7 @@ function carregarMissao() {
   badgePatente.textContent =
     `Acertos ${acertosNivel}/${nivel.missoes.length}`;
 
-    const usarCodigoComoAlvo =
-    modoAtual === MODO_INICIANTE &&
-    Number(nivel.numero) >= 18;
+    const usarCodigoComoAlvo = missaoUsaCodigoComoAlvo(nivel);
 
   textoMissao.classList.toggle("texto-tecle-codigo", usarCodigoComoAlvo);
 
@@ -4100,6 +4102,13 @@ function carregarMissao() {
   } else {
     restaurarInterfaceTransmissao();
     renderizarGuiaMorseMissao(missao, dicaFonico, nivel);
+  }
+  const labelCodigoEnviado = document.querySelector(".codigo-enviado-card span");
+
+  if (labelCodigoEnviado) {
+    labelCodigoEnviado.textContent = usarCodigoComoAlvo
+      ? "Texto enviado"
+      : "Código enviado";
   }
   contadorMissaoEl.textContent = `${missaoAtualIndex + 1}/${nivel.missoes.length}`;
   faseAtualEl.textContent = missao.tipo;
@@ -4851,8 +4860,40 @@ function piscarBotao(botao) {
   }, 140);
 }
 
+function decodificarMorseDigitadoParaTexto(codigo) {
+  const mapaInvertido = Object.fromEntries(
+    Object.entries(TABELA_MORSE).map(([letra, morse]) => [morse, letra])
+  );
+
+  const codigoNormalizado = normalizarCodigo(codigo);
+
+  if (!codigoNormalizado) {
+    return "—";
+  }
+
+  return codigoNormalizado
+    .split(" ")
+    .map((parte) => {
+      if (parte === "/") {
+        return " ";
+      }
+
+      return mapaInvertido[parte] || "";
+    })
+    .join("")
+    .replace(/\s+/g, " ")
+    .trim() || "—";
+}
+
 function atualizarCodigoNaTela() {
+  if (missaoUsaCodigoComoAlvo()) {
+    codigoDigitado.textContent = decodificarMorseDigitadoParaTexto(codigoAtual);
+    codigoDigitado.classList.add("texto-decodificado-enviado");
+    return;
+  }
+
   codigoDigitado.textContent = codigoAtual.trim() || "—";
+  codigoDigitado.classList.remove("texto-decodificado-enviado");
 }
 
 function limparCodigo() {

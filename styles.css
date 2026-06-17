@@ -5303,3 +5303,31 @@ body:not(.modo-iniciante) #telaJogo .acoes-apoio {
       font-size: clamp(1rem, 4.2vw, 1.55rem);
     }
   }
+  /* =========================================================
+   AJUSTE FINO — FASES FINAIS DO INICIANTE
+   Morse alvo menor e texto enviado decodificado
+   ========================================================= */
+
+/* Reduz cerca de 30% os pontos e traços só nas fases 18, 19 e 20 */
+.morse-frase-simbolos .ponto-morse {
+  width: clamp(7px, 2.2vw, 13px) !important;
+  height: clamp(7px, 2.2vw, 13px) !important;
+}
+
+.morse-frase-simbolos .traco-morse {
+  width: clamp(24px, 6vw, 39px) !important;
+  height: clamp(5px, 1.3vw, 8px) !important;
+}
+
+.morse-frase-simbolos {
+  gap: clamp(7px, 2.2vw, 17px) !important;
+  padding: 0.65rem 0.35rem !important;
+}
+
+/* Texto que aparece no painel inferior quando o jogador transmite */
+.texto-decodificado-enviado {
+  font-size: clamp(1.8rem, 7vw, 3rem) !important;
+  letter-spacing: 0.08em !important;
+  color: #86efac !important;
+  text-transform: uppercase;
+}
