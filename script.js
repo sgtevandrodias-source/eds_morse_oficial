@@ -3135,72 +3135,103 @@ function montarMenuTreinoAuditivo() {
   descricaoBiblioteca.textContent = "";
 
   gridBibliotecaMorse.innerHTML = `
-    <div class="painel-treino-auditivo treino-auditivo-novo">
-      <div class="treino-auditivo-topo treino-topo-novo">
-        <span class="badge">Sala de escuta</span>
+    <div class="painel-treino-auditivo treino-auditivo-premium">
+      <div class="treino-premium-topo">
+        <span class="badge badge-sala-escuta">
+          <span class="icone-ondas-mini"></span>
+          SALA DE ESCUTA
+        </span>
 
-        <h2>🎧 Treino Auditivo</h2>
-
-        <p>
-          Ouça o Código Morse, digite o que recebeu e treine seu ouvido de forma progressiva.
-        </p>
-      </div>
-
-      <div class="painel-progresso-auditivo treino-progresso-simples">
-        <div>
-          <span class="label">Melhor aproveitamento</span>
-          <strong>${progressoAuditivo.melhor}%</strong>
-        </div>
-
-        <div>
-          <span class="label">Treinos realizados</span>
-          <strong>${progressoAuditivo.total}</strong>
-        </div>
-      </div>
-
-      <div class="grid-treino-auditivo-simples">
-        <article class="card-treino-auditivo-simples">
-          <div class="icone-treino-auditivo">🔤</div>
+        <div class="titulo-treino-premium">
+          <span class="icone-fone-premium" aria-hidden="true"></span>
 
           <div>
+            <h2>Treino Auditivo</h2>
+            <p>
+              Ouça o Código Morse, digite o que recebeu e treine seu ouvido de forma progressiva.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="treino-stats-premium">
+        <div class="stat-auditivo-premium">
+          <div class="icone-stat-auditivo trofeu-css"></div>
+
+          <div>
+            <span>Melhor aproveitamento</span>
+            <strong>${progressoAuditivo.melhor}%</strong>
+          </div>
+        </div>
+
+        <div class="stat-auditivo-premium">
+          <div class="icone-stat-auditivo barras-css">
+            <i></i><i></i><i></i>
+          </div>
+
+          <div>
+            <span>Treinos realizados</span>
+            <strong>${progressoAuditivo.total}</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-treino-auditivo-premium">
+        <article class="card-treino-auditivo-premium">
+          <div class="icone-card-auditivo morse-mini">
+            <span></span>
+            <b></b>
+            <span></span>
+          </div>
+
+          <div class="conteudo-card-auditivo">
             <h3>Caracteres isolados</h3>
             <p>
               Letras, números e sinais simples. Ideal para começar a reconhecer sons individuais.
             </p>
           </div>
 
-          <button class="btn principal btn-iniciar-treino-auditivo" data-categoria="caracteres_isolados">
-            Iniciar treino
+          <button class="btn principal btn-iniciar-treino-auditivo btn-treino-premium" data-categoria="caracteres_isolados">
+            <span>Iniciar treino</span>
+            <strong>→</strong>
           </button>
         </article>
 
-        <article class="card-treino-auditivo-simples">
-          <div class="icone-treino-auditivo">🔢</div>
+        <article class="card-treino-auditivo-premium">
+          <div class="icone-card-auditivo grupo5-mini">
+            5
+          </div>
 
-          <div>
+          <div class="conteudo-card-auditivo">
             <h3>Grupos de 5</h3>
             <p>
               Sequências aleatórias com cinco caracteres. Treino operacional de ouvido e memória.
             </p>
           </div>
 
-          <button class="btn principal btn-iniciar-treino-auditivo" data-categoria="grupos_5">
-            Iniciar treino
+          <button class="btn principal btn-iniciar-treino-auditivo btn-treino-premium" data-categoria="grupos_5">
+            <span>Iniciar treino</span>
+            <strong>→</strong>
           </button>
         </article>
 
-        <article class="card-treino-auditivo-simples">
-          <div class="icone-treino-auditivo">📡</div>
+        <article class="card-treino-auditivo-premium">
+          <div class="icone-card-auditivo frase-mini">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
 
-          <div>
+          <div class="conteudo-card-auditivo">
             <h3>Frases curtas</h3>
             <p>
               Mensagens operacionais e do dia a dia para preparar o operador para escuta real.
             </p>
           </div>
 
-          <button class="btn principal btn-iniciar-treino-auditivo" data-categoria="frases_curtas">
-            Iniciar treino
+          <button class="btn principal btn-iniciar-treino-auditivo btn-treino-premium" data-categoria="frases_curtas">
+            <span>Iniciar treino</span>
+            <strong>→</strong>
           </button>
         </article>
       </div>
