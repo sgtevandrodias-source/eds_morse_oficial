@@ -3758,13 +3758,76 @@ function salvarNomeOperador() {
   localStorage.setItem("operadorMorseNome", nomeOperador);
 }
 
-function entrarCampanha() {
+function getRankingApiBaseUrl() {
+  return RANKING_GLOBAL_API_URL.replace(/\/ranking$/, "");
+}
+
+async function verificarNomeOperadorAntesDeJogar() {
+  const operador = getNomeOperadorAtual();
+
+  if (!operador || operador.trim().length < 2) {
+    mostrarAvisoRapido(
+      "Nome inválido",
+      "Digite um nome de operador com pelo menos 2 caracteres."
+    );
+
+    if (inputNomeOperador) {
+      inputNomeOperador.focus();
+    }
+
+    return false;
+  }
+
+  const parametros = new URLSearchParams();
+  parametros.set("operador", operador);
+  parametros.set("operadorLocalId", obterIdOperadorLocal());
+
+  try {
+    const resposta = await fetch(
+      `${getRankingApiBaseUrl()}/operador?${parametros.toString()}`
+    );
+
+    const retorno = await resposta.json();
+
+    if (retorno && retorno.ok && retorno.disponivel) {
+      return true;
+    }
+
+    mostrarAvisoRapido(
+      "Nome indisponível",
+      retorno?.erro || "Este nome já está sendo usado por outro aparelho."
+    );
+
+    if (inputNomeOperador) {
+      inputNomeOperador.focus();
+      inputNomeOperador.select();
+    }
+
+    return false;
+  } catch (erro) {
+    console.warn("Falha ao verificar nome do operador:", erro);
+
+    mostrarAvisoRapido(
+      "Ranking Global",
+      "Não foi possível verificar o nome agora. Confira sua conexão."
+    );
+
+    return false;
+  }
+}
+
+async function entrarCampanha() {
+  const nomeLiberado = await verificarNomeOperadorAntesDeJogar();
+
+  if (!nomeLiberado) {
+    return;
+  }
+
   salvarNomeOperador();
   document.body.classList.remove("visualizando-mapa-modo");
   renderizarCampanha();
   mostrarTela(telaCampanha);
 }
-
 function getNiveisModo(modo = modoAtual) {
   if (modo === MODO_AVANCADO) return NIVEIS_AVANCADO;
   if (modo === MODO_INTERMEDIARIO) return NIVEIS_INTERMEDIARIO;
@@ -3795,13 +3858,25 @@ function rolarParaMapaCampanha() {
   });
 }
 
-function abrirModoIniciante() {
+async function abrirModoIniciante() {
+  const nomeLiberado = await verificarNomeOperadorAntesDeJogar();
+
+  if (!nomeLiberado) {
+    return;
+  }
+
   salvarNomeOperador();
   modoAtual = MODO_INICIANTE;
   abrirTelaMapaModo();
 }
 
-function abrirModoIntermediario() {
+async function abrirModoIntermediario() {
+  const nomeLiberado = await verificarNomeOperadorAntesDeJogar();
+
+  if (!nomeLiberado) {
+    return;
+  }
+
   salvarNomeOperador();
 
   if (!modoInicianteConcluido()) {
@@ -3816,7 +3891,13 @@ function abrirModoIntermediario() {
   abrirTelaMapaModo();
 }
 
-function abrirModoAvancado() {
+async function abrirModoAvancado() {
+  const nomeLiberado = await verificarNomeOperadorAntesDeJogar();
+
+  if (!nomeLiberado) {
+    return;
+  }
+
   salvarNomeOperador();
 
   if (!modoIntermediarioConcluido()) {
@@ -3830,7 +3911,6 @@ function abrirModoAvancado() {
   modoAtual = MODO_AVANCADO;
   abrirTelaMapaModo();
 }
-
 function abrirTelaMapaModo() {
   document.body.classList.add("visualizando-mapa-modo");
   renderizarCampanha();
@@ -5466,8 +5546,24 @@ function abrirRanking() {
   mostrarTela(telaRanking);
   renderizarRankingGlobal();
 }
-async function buscarRankingGlobal(limite = 50) {
-  const resposta = await fetch(`${RANKING_GLOBAL_API_URL}?modo=Geral&limite=${limite}`);
+
+async function buscarRankingGlobal(limite = 50, busca = "") {
+  const parametros = new URLSearchParams();
+
+  parametros.set("modo", "Geral");
+  parametros.set("limite", String(limite));
+
+  const operadorAtual = getNomeOperadorAtual();
+
+  if (operadorAtual && operadorAtual.trim().length >= 2) {
+    parametros.set("operadorSlug", getChaveOperador());
+  }
+
+  if (busca && busca.trim()) {
+    parametros.set("busca", busca.trim());
+  }
+
+  const resposta = await fetch(`${RANKING_GLOBAL_API_URL}?${parametros.toString()}`);
 
   if (!resposta.ok) {
     throw new Error("Falha ao buscar Ranking Global.");
@@ -5479,7 +5575,7 @@ async function buscarRankingGlobal(limite = 50) {
     throw new Error("Resposta inválida do Ranking Global.");
   }
 
-  return dados.ranking || [];
+  return dados;
 }
 
 function formatarDataRankingGlobal(valor) {
@@ -5498,195 +5594,234 @@ function formatarDataRankingGlobal(valor) {
   });
 }
 
-async function renderizarRankingGlobal() {
-  listaRanking.innerHTML = `
-    <div class="ranking-item">
-      <div class="ranking-posicao">...</div>
-      <div>
-        <div class="ranking-nome">Carregando Ranking Global</div>
-        <div class="ranking-detalhes">Buscando dados salvos na nuvem...</div>
+function formatarNumeroRanking(valor) {
+  return Number(valor || 0).toLocaleString("pt-BR");
+}
+
+function formatarWpmRanking(valor) {
+  const numero = Number(valor || 0);
+
+  if (!Number.isFinite(numero)) {
+    return "0.0";
+  }
+
+  return numero.toFixed(1);
+}
+
+function renderizarCardMinhaPosicao(minhaPosicao) {
+  if (!minhaPosicao) {
+    return `
+      <section class="ranking-minha-posicao vazio">
+        <div>
+          <span class="label">Minha posição</span>
+          <strong>Fora do ranking</strong>
+          <p>
+            Conclua uma missão aprovada com este nome de operador para aparecer no Ranking Global.
+          </p>
+        </div>
+      </section>
+    `;
+  }
+
+  return `
+    <section class="ranking-minha-posicao">
+      <div class="ranking-minha-posicao-numero">
+        #${formatarNumeroRanking(minhaPosicao.posicao)}
       </div>
+
+      <div class="ranking-minha-posicao-info">
+        <span class="label">Minha posição</span>
+
+        <strong>${escaparHtml(minhaPosicao.operador || "Operador")}</strong>
+
+        <div class="ranking-minha-posicao-detalhes">
+          <span>${formatarNumeroRanking(minhaPosicao.pontos_carreira)} pts</span>
+          <span>${escaparHtml(minhaPosicao.modo || "Modo")} • Nível ${formatarNumeroRanking(minhaPosicao.nivel)}</span>
+          <span>${formatarNumeroRanking(minhaPosicao.melhor_aproveitamento)}% • ${formatarWpmRanking(minhaPosicao.melhor_wpm)} WPM</span>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderizarLinhaRankingGlobal(item, indice = 0) {
+  const posicao = item.posicao || indice + 1;
+  const dataAtualizacao = formatarDataRankingGlobal(item.atualizado_em);
+
+  return `
+    <article class="ranking-item ranking-item-global">
+      <div class="ranking-posicao">
+        #${formatarNumeroRanking(posicao)}
+      </div>
+
+      <div>
+        <div class="ranking-nome">
+          ${escaparHtml(item.operador || "Operador")}
+        </div>
+
+        <div class="ranking-detalhes">
+          ${escaparHtml(item.modo || "Modo")} • Nível ${formatarNumeroRanking(item.nivel)}
+          ${item.titulo_nivel ? `• ${escaparHtml(item.titulo_nivel)}` : ""}
+        </div>
+
+        <div class="ranking-detalhes ranking-detalhes-extra">
+          ${formatarNumeroRanking(item.fases_concluidas)} fases •
+          ${formatarNumeroRanking(item.medalhas)} medalhas •
+          ${formatarNumeroRanking(item.melhor_aproveitamento)}% •
+          ${formatarWpmRanking(item.melhor_wpm)} WPM
+          ${dataAtualizacao ? `• ${dataAtualizacao}` : ""}
+        </div>
+      </div>
+
+      <div class="ranking-pontos">
+        ${formatarNumeroRanking(item.pontos_carreira)}
+        <small>pts</small>
+      </div>
+    </article>
+  `;
+}
+
+function montarHtmlRankingGlobal(dados, busca = "") {
+  const ranking = dados?.ranking || [];
+  const minhaPosicao = dados?.minhaPosicao || null;
+  const temBusca = busca && busca.trim();
+
+  const htmlMinhaPosicao = renderizarCardMinhaPosicao(minhaPosicao);
+
+  const htmlBusca = `
+    <section class="ranking-busca-operador">
+      <label for="inputBuscaOperadorRanking">
+        Buscar operador
+      </label>
+
+      <div class="ranking-busca-linha">
+        <input
+          id="inputBuscaOperadorRanking"
+          type="text"
+          maxlength="24"
+          placeholder="Digite o nome do operador..."
+          value="${escaparHtml(busca || "")}"
+          autocomplete="off"
+        />
+
+        <button id="btnExecutarBuscaRanking" class="btn principal compacto">
+          Buscar
+        </button>
+
+        <button id="btnLimparBuscaRanking" class="btn secundario compacto" ${temBusca ? "" : "style='display:none;'"}>
+          Limpar
+        </button>
+      </div>
+
+      <p>
+        ${temBusca
+          ? `Resultado da busca por: <strong>${escaparHtml(busca)}</strong>`
+          : "Busque um amigo pelo nome ou codinome usado no Ranking Global."
+        }
+      </p>
+    </section>
+  `;
+
+  let tituloLista = "🌍 Top Global";
+
+  if (temBusca) {
+    tituloLista = `🔎 Resultado da busca`;
+  }
+
+  let htmlLista = "";
+
+  if (!ranking.length) {
+    htmlLista = `
+      <div class="ranking-vazio">
+        ${temBusca
+          ? "Nenhum operador encontrado com esse nome."
+          : "O Ranking Global ainda não possui registros."
+        }
+      </div>
+    `;
+  } else {
+    htmlLista = ranking
+      .map((item, indice) => renderizarLinhaRankingGlobal(item, indice))
+      .join("");
+  }
+
+  return `
+    <div class="ranking-global-painel">
+      ${htmlMinhaPosicao}
+
+      ${htmlBusca}
+
+      <section class="ranking-lista-global">
+        <div class="ranking-lista-titulo">
+          <h2>${tituloLista}</h2>
+
+          <span>
+            ${temBusca
+              ? `${formatarNumeroRanking(dados.totalEncontrados || ranking.length)} encontrado(s)`
+              : `${formatarNumeroRanking(ranking.length)} operador(es)`
+            }
+          </span>
+        </div>
+
+        ${htmlLista}
+      </section>
+    </div>
+  `;
+}
+
+async function renderizarRankingGlobal(busca = "") {
+  listaRanking.innerHTML = `
+    <div class="ranking-carregando">
+      Carregando Ranking Global...
     </div>
   `;
 
   try {
-    const ranking = await buscarRankingGlobal(50);
+    const dados = await buscarRankingGlobal(50, busca);
 
-    if (!ranking.length) {
-      listaRanking.innerHTML = `
-        <div class="ranking-item">
-          <div class="ranking-posicao">—</div>
-          <div>
-            <div class="ranking-nome">Ainda não há registros globais</div>
-            <div class="ranking-detalhes">
-              Conclua uma missão aprovada para aparecer no Ranking Global.
-            </div>
-          </div>
-        </div>
-      `;
-      return;
+    listaRanking.innerHTML = montarHtmlRankingGlobal(dados, busca);
+
+    const inputBusca = document.getElementById("inputBuscaOperadorRanking");
+    const btnBuscar = document.getElementById("btnExecutarBuscaRanking");
+    const btnLimparBusca = document.getElementById("btnLimparBuscaRanking");
+
+    function executarBusca() {
+      const termo = inputBusca ? inputBusca.value.trim() : "";
+      renderizarRankingGlobal(termo);
     }
 
-    listaRanking.innerHTML = `
-      <div class="ranking-secao">
-        <h3>🌍 Ranking Global</h3>
-        <p class="ranking-descricao">
-          Classificação por carreira: pontuação acumulada, progressão, aproveitamento e WPM.
-        </p>
+    if (btnBuscar) {
+      btnBuscar.addEventListener("click", executarBusca);
+    }
 
-        ${ranking
-          .map((item, index) => `
-            <div class="ranking-item">
-              <div class="ranking-posicao">${index + 1}</div>
+    if (btnLimparBusca) {
+      btnLimparBusca.addEventListener("click", () => {
+        renderizarRankingGlobal("");
+      });
+    }
 
-              <div>
-                <div class="ranking-nome">
-                  ${escaparHtml(item.operador || "Operador")}
-                </div>
-
-                <div class="ranking-detalhes">
-                  ${escaparHtml(item.modo || "Modo")}
-                  • Nível ${item.nivel || "-"}
-                  • Fases ${item.fases_concluidas || 0}
-                  • Medalhas ${item.medalhas || 0}
-                  • Títulos ${item.titulos || 0}
-                  • Melhor ${item.melhor_aproveitamento || 0}%
-                  • ${Number(item.melhor_wpm || 0).toFixed(1)} WPM
-                  ${
-                    item.melhor_tempo_segundos
-                      ? `• Melhor tempo ${formatarTempo(Number(item.melhor_tempo_segundos || 0))}`
-                      : ""
-                  }
-                  ${
-                    item.atualizado_em
-                      ? `• ${formatarDataRankingGlobal(item.atualizado_em)}`
-                      : ""
-                  }
-                </div>
-              </div>
-
-              <div class="ranking-pontos ranking-pontos-detalhado">
-              <strong>${item.pontos_carreira || 0} pts</strong>
-              </div>
-            </div>
-          `)
-          .join("")}
-      </div>
-    `;
+    if (inputBusca) {
+      inputBusca.addEventListener("keydown", (evento) => {
+        if (evento.code === "Enter") {
+          evento.preventDefault();
+          inputBusca.blur();
+          executarBusca();
+        }
+      });
+    }
   } catch (erro) {
-    console.warn("Erro ao carregar Ranking Global:", erro);
+    console.warn("Falha ao carregar Ranking Global:", erro);
 
     listaRanking.innerHTML = `
-      <div class="ranking-item">
-        <div class="ranking-posicao">!</div>
-        <div>
-          <div class="ranking-nome">Não foi possível carregar o Ranking Global</div>
-          <div class="ranking-detalhes">
-            Verifique a conexão com a internet e tente novamente.
-          </div>
-        </div>
+      <div class="ranking-vazio">
+        Não foi possível carregar o Ranking Global agora.
       </div>
     `;
   }
 }
+
 function renderizarRanking() {
-  const rankingCarreira = obterRankingCarreira();
-  const rankingMissoes = obterRanking();
-
-  if (!rankingCarreira.length && !rankingMissoes.length) {
-    listaRanking.innerHTML = `
-      <div class="ranking-item">
-        <div class="ranking-posicao">—</div>
-        <div>
-          <div class="ranking-nome">Ainda não há registros</div>
-          <div class="ranking-detalhes">Conclua um nível para aparecer no ranking.</div>
-        </div>
-      </div>
-    `;
-    return;
-  }
-
-  const htmlCarreira = rankingCarreira.length
-    ? `
-      <div class="ranking-secao">
-        <h3>🏆 Ranking da Carreira</h3>
-        <p class="ranking-descricao">
-          Classificação geral dos operadores pelo desempenho acumulado.
-        </p>
-
-        ${rankingCarreira
-          .map((item, index) => `
-            <div class="ranking-item ranking-carreira-item">
-              <div class="ranking-posicao">${index + 1}</div>
-
-              <div>
-                <div class="ranking-nome">
-                  ${escaparHtml(item.nome)}
-                </div>
-
-                <div class="ranking-detalhes">
-                  Fases: ${item.fasesConcluidas}
-                  • Medalhas: ${item.medalhas}
-                  • Títulos: ${item.titulos}
-                  • Melhor aproveitamento: ${item.melhorAproveitamento}%
-                  • Melhor WPM: ${Number(item.melhorWpm || 0).toFixed(1)}
-                  ${
-                    item.melhorTempoSegundos
-                      ? `• Melhor tempo: ${formatarTempo(item.melhorTempoSegundos)}`
-                      : ""
-                  }
-                </div>
-              </div>
-
-              <div class="ranking-pontos">
-                ${item.pontosTotais} pts
-              </div>
-            </div>
-          `)
-          .join("")}
-      </div>
-    `
-    : "";
-
-  const htmlMissoes = rankingMissoes.length
-    ? `
-      <div class="ranking-secao">
-        <h3>📡 Melhores Missões</h3>
-        <p class="ranking-descricao">
-          Melhor resultado registrado por operador, modo e nível.
-        </p>
-
-        ${rankingMissoes
-          .map((item, index) => `
-            <div class="ranking-item">
-              <div class="ranking-posicao">${index + 1}</div>
-
-              <div>
-                <div class="ranking-nome">
-                  ${escaparHtml(item.nome)} — ${escaparHtml(item.patente)}
-                </div>
-
-                <div class="ranking-detalhes">
-                  ${escaparHtml(item.modo || "Iniciante")}
-                  • Nível ${item.nivel}
-                  • ${item.aproveitamento}%
-                  • ${formatarTempo(item.tempoSegundos)}
-                  • ${Number(item.wpm || 0).toFixed(1)} WPM
-                  • ${item.data}
-                </div>
-              </div>
-              <div class="ranking-pontos ranking-pontos-detalhado">
-              <strong>${item.pontos} pts</strong>
-              <small>Melhor missão</small>
-            </div>
-            </div>
-          `)
-          .join("")}
-      </div>
-    `
-    : "";
-
-  listaRanking.innerHTML = htmlCarreira + htmlMissoes;
+  renderizarRankingGlobal();
 }
 function limparRanking() {
   const confirmar = window.confirm(

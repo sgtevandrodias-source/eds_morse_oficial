@@ -5851,3 +5851,234 @@ body:not(.modo-iniciante) #telaJogo .acoes-apoio {
     margin: 0 auto;
   }
 }
+/* =========================================================
+   RANKING GLOBAL — MINHA POSIÇÃO + BUSCA
+   ========================================================= */
+
+   .ranking-global-painel {
+    display: grid;
+    gap: 18px;
+    margin-top: 22px;
+  }
+  
+  .ranking-minha-posicao {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 18px;
+    align-items: center;
+    padding: 20px;
+    border-radius: 24px;
+    background:
+      radial-gradient(circle at left, rgba(56, 189, 248, 0.16), transparent 42%),
+      linear-gradient(180deg, rgba(8, 21, 40, 0.94), rgba(3, 10, 24, 0.98));
+    border: 1px solid rgba(56, 189, 248, 0.24);
+    box-shadow:
+      inset 0 0 0 1px rgba(255,255,255,0.02),
+      0 18px 46px rgba(0, 0, 0, 0.22);
+    text-align: left;
+  }
+  
+  .ranking-minha-posicao.vazio {
+    grid-template-columns: 1fr;
+  }
+  
+  .ranking-minha-posicao.vazio strong {
+    color: var(--amarelo);
+  }
+  
+  .ranking-minha-posicao.vazio p {
+    margin: 8px 0 0;
+  }
+  
+  .ranking-minha-posicao-numero {
+    width: 104px;
+    height: 104px;
+    border-radius: 28px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, #39e06d, #facc15);
+    color: #07161f;
+    font-size: 2rem;
+    font-weight: 1000;
+    box-shadow:
+      0 14px 34px rgba(57, 224, 109, 0.16),
+      inset 0 0 0 1px rgba(255,255,255,0.16);
+  }
+  
+  .ranking-minha-posicao-info strong {
+    display: block;
+    margin-top: 4px;
+    color: #ffffff;
+    font-size: clamp(1.8rem, 5vw, 2.6rem);
+    line-height: 1;
+  }
+  
+  .ranking-minha-posicao-detalhes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  
+  .ranking-minha-posicao-detalhes span {
+    display: inline-flex;
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.82);
+    border: 1px solid rgba(56, 189, 248, 0.16);
+    color: #cbd5e1;
+    font-size: 0.82rem;
+    font-weight: 900;
+  }
+  
+  .ranking-busca-operador {
+    padding: 18px;
+    border-radius: 22px;
+    background: rgba(2, 6, 23, 0.42);
+    border: 1px solid var(--linha);
+    text-align: left;
+  }
+  
+  .ranking-busca-operador label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--muted);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.82rem;
+  }
+  
+  .ranking-busca-linha {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 10px;
+  }
+  
+  .ranking-busca-linha input {
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid var(--linha);
+    background: rgba(2, 6, 23, 0.72);
+    color: var(--texto);
+    border-radius: 16px;
+    padding: 12px 14px;
+    font-size: 1rem;
+    outline: none;
+  }
+  
+  .ranking-busca-linha input:focus {
+    border-color: var(--azul);
+    box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.12);
+  }
+  
+  .ranking-busca-operador p {
+    margin: 10px 0 0;
+    font-size: 0.92rem;
+  }
+  
+  .ranking-busca-operador p strong {
+    color: var(--amarelo);
+  }
+  
+  .ranking-lista-global {
+    display: grid;
+    gap: 10px;
+  }
+  
+  .ranking-lista-titulo {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 4px 0 6px;
+    text-align: left;
+  }
+  
+  .ranking-lista-titulo h2 {
+    margin: 0;
+    font-size: 1.7rem;
+  }
+  
+  .ranking-lista-titulo span {
+    color: var(--muted);
+    font-size: 0.88rem;
+    font-weight: 900;
+  }
+  
+  .ranking-item-global {
+    grid-template-columns: 70px 1fr auto;
+  }
+  
+  .ranking-item-global .ranking-posicao {
+    width: 54px;
+    height: 54px;
+    font-size: 0.95rem;
+  }
+  
+  .ranking-detalhes-extra {
+    margin-top: 5px;
+    font-size: 0.78rem;
+  }
+  
+  .ranking-pontos small {
+    display: block;
+    color: var(--muted);
+    font-size: 0.72rem;
+  }
+  
+  .ranking-carregando,
+  .ranking-vazio {
+    padding: 22px;
+    border-radius: 20px;
+    background: rgba(2, 6, 23, 0.46);
+    border: 1px solid var(--linha);
+    color: var(--muted);
+    text-align: center;
+    font-weight: 900;
+  }
+  
+  @media (max-width: 720px) {
+    .ranking-minha-posicao {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      text-align: center;
+    }
+  
+    .ranking-minha-posicao-info {
+      text-align: center;
+    }
+  
+    .ranking-minha-posicao-detalhes {
+      justify-content: center;
+    }
+  
+    .ranking-busca-linha {
+      grid-template-columns: 1fr;
+    }
+  
+    .ranking-busca-linha .btn {
+      width: 100%;
+      min-height: 48px;
+    }
+  
+    .ranking-lista-titulo {
+      display: grid;
+      gap: 4px;
+    }
+  
+    .ranking-item-global {
+      grid-template-columns: 52px 1fr;
+    }
+  
+    .ranking-item-global .ranking-posicao {
+      width: 44px;
+      height: 44px;
+      font-size: 0.78rem;
+    }
+  
+    .ranking-item-global .ranking-pontos {
+      grid-column: 2;
+      text-align: left;
+    }
+  }
