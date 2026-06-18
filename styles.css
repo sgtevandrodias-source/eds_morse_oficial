@@ -6082,3 +6082,73 @@ body:not(.modo-iniciante) #telaJogo .acoes-apoio {
       text-align: left;
     }
   }
+  /* =========================================================
+   TREINO LIVRE — MODO INICIANTE / PRO
+   ========================================================= */
+
+#telaManipulador .painel-modo-manipulador {
+  width: min(460px, 100%);
+  margin: 12px auto 18px;
+  padding: 14px;
+  border-radius: 20px;
+  background: rgba(1, 7, 22, 0.72);
+  border: 1px solid rgba(57, 224, 109, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+}
+
+#telaManipulador .painel-modo-manipulador > span {
+  display: block;
+  margin-bottom: 10px;
+  color: #b9c8d9;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+#telaManipulador .botoes-modo-manipulador {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+#telaManipulador .btn-modo-manipulador {
+  border: 1px solid rgba(57, 224, 109, 0.16);
+  border-radius: 16px;
+  min-height: 46px;
+  background: rgba(15, 23, 42, 0.88);
+  color: #f5f8fc;
+  font-weight: 1000;
+  cursor: pointer;
+}
+
+#telaManipulador .btn-modo-manipulador.ativo {
+  background: linear-gradient(135deg, #39e06d, #facc15);
+  color: #07161f;
+  border-color: rgba(250, 204, 21, 0.32);
+  box-shadow:
+    0 10px 22px rgba(57, 224, 109, 0.12),
+    0 6px 16px rgba(250, 204, 21, 0.08);
+}
+
+#telaManipulador #statusModoManipulador {
+  display: block;
+  margin-top: 10px;
+  color: #aebccd;
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+@media (max-width: 720px) {
+  #telaManipulador .painel-modo-manipulador {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 14px;
+  }
+
+  #telaManipulador .btn-modo-manipulador {
+    min-height: 44px;
+    font-size: 0.88rem;
+  }
+}

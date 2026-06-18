@@ -123,10 +123,13 @@ const btnEspacoPalavraManipulador = document.getElementById("btnEspacoPalavraMan
 const btnLimparManipulador = document.getElementById("btnLimparManipulador");
 const btnVoltarInicioManipulador = document.getElementById("btnVoltarInicioManipulador");
 
+const btnManipuladorIniciante = document.getElementById("btnManipuladorIniciante");
+const btnManipuladorPro = document.getElementById("btnManipuladorPro");
+const statusModoManipulador = document.getElementById("statusModoManipulador");
+
 const codigoManipulador = document.getElementById("codigoManipulador");
 const textoManipulador = document.getElementById("textoManipulador");
 const feedbackManipulador = document.getElementById("feedbackManipulador");
-
 const TABELA_MORSE = {
   A: ".-", B: "-...", C: "-.-.", D: "-..", E: ".", F: "..-.",
   G: "--.", H: "....", I: "..", J: ".---", K: "-.-", L: ".-..",
@@ -1533,6 +1536,18 @@ btnMorseManipulador.addEventListener("pointerdown", iniciarPressionamentoManipul
 btnMorseManipulador.addEventListener("pointerup", finalizarPressionamentoManipulador);
 btnMorseManipulador.addEventListener("pointercancel", cancelarPressionamentoManipulador);
 btnMorseManipulador.addEventListener("lostpointercapture", finalizarPressionamentoManipulador);
+
+if (btnManipuladorIniciante) {
+  btnManipuladorIniciante.addEventListener("click", () => {
+    selecionarModoManipuladorLivre("iniciante");
+  });
+}
+
+if (btnManipuladorPro) {
+  btnManipuladorPro.addEventListener("click", () => {
+    selecionarModoManipuladorLivre("pro");
+  });
+}
 
 btnLimparManipulador.addEventListener("pointerdown", iniciarPressionamentoLimparManipulador);
 btnLimparManipulador.addEventListener("pointerup", finalizarPressionamentoLimparManipulador);
@@ -6168,6 +6183,85 @@ let temporizadorPalavraManipulador = null;
 let temporizadorLimparTotalManipulador = null;
 let limpezaTotalManipuladorAcionada = false;
 
+let modoManipuladorLivre =
+  localStorage.getItem("edsMorseModoManipuladorLivre") || "iniciante";
+
+const CONFIG_MANIPULADOR_LIVRE = {
+  iniciante: {
+    nome: "Iniciante",
+    limitePontoTracoMs: null,
+    pausaLetraMs: null,
+    pausaPalavraMs: null,
+    descricao: "Ritmo confortável para treino inicial."
+  },
+
+  pro: {
+    nome: "Pro 15+",
+    limitePontoTracoMs: 120,
+    pausaLetraMs: 260,
+    pausaPalavraMs: 720,
+    descricao: "Resposta rápida para operador experiente."
+  }
+};
+
+function getConfigManipuladorLivre() {
+  const config = CONFIG_MANIPULADOR_LIVRE[modoManipuladorLivre] ||
+    CONFIG_MANIPULADOR_LIVRE.iniciante;
+
+  if (modoManipuladorLivre === "iniciante") {
+    return {
+      ...config,
+      limitePontoTracoMs,
+      pausaLetraMs: pausaAutoLetraMs,
+      pausaPalavraMs: pausaAutoPalavraMs
+    };
+  }
+
+  return config;
+}
+
+function atualizarVisualModoManipuladorLivre() {
+  const config = getConfigManipuladorLivre();
+
+  if (btnManipuladorIniciante) {
+    btnManipuladorIniciante.classList.toggle(
+      "ativo",
+      modoManipuladorLivre === "iniciante"
+    );
+  }
+
+  if (btnManipuladorPro) {
+    btnManipuladorPro.classList.toggle(
+      "ativo",
+      modoManipuladorLivre === "pro"
+    );
+  }
+
+  if (statusModoManipulador) {
+    statusModoManipulador.textContent =
+      `${config.descricao} Letra: ${Math.round(config.pausaLetraMs)} ms • Palavra: ${Math.round(config.pausaPalavraMs)} ms.`;
+  }
+}
+setTimeout(() => {
+  atualizarVisualModoManipuladorLivre();
+}, 0);
+function selecionarModoManipuladorLivre(novoModo) {
+  modoManipuladorLivre = novoModo === "pro" ? "pro" : "iniciante";
+
+  localStorage.setItem("edsMorseModoManipuladorLivre", modoManipuladorLivre);
+
+  limparTemporizadoresManipulador();
+  atualizarVisualModoManipuladorLivre();
+
+  const config = getConfigManipuladorLivre();
+
+  feedbackManipulador.textContent =
+    `Modo ${config.nome} ativado. ${config.descricao}`;
+
+  feedbackManipulador.className =
+    modoManipuladorLivre === "pro" ? "feedback alerta" : "feedback sucesso";
+}
+
 function iniciarPressionamentoManipulador(evento) {
   if (evento) {
     evento.preventDefault();
@@ -6213,7 +6307,8 @@ function finalizarPressionamentoManipulador(evento) {
 
   pararTomMorse();
 
-  const simbolo = duracao < limitePontoTracoMs ? "." : "-";
+  const configManipulador = getConfigManipuladorLivre();
+const simbolo = duracao < configManipulador.limitePontoTracoMs ? "." : "-";
 
   codigoLivre += simbolo;
 
@@ -6258,7 +6353,7 @@ function agendarPausasManipulador() {
       feedbackManipulador.className = "feedback sucesso";
       atualizarManipuladorLivre();
     }
-  }, pausaAutoLetraMs);
+  }, getConfigManipuladorLivre().pausaLetraMs);
 
   temporizadorPalavraManipulador = setTimeout(() => {
     if (!codigoLivre.trim()) return;
@@ -6271,7 +6366,7 @@ function agendarPausasManipulador() {
       feedbackManipulador.className = "feedback sucesso";
       atualizarManipuladorLivre();
     }
-  }, pausaAutoPalavraMs);
+  }, getConfigManipuladorLivre().pausaPalavraMs);
 }
 
 function inserirEspacoLetraManipulador() {
