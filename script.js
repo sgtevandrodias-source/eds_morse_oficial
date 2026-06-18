@@ -6196,7 +6196,7 @@ const CONFIG_MANIPULADOR_LIVRE = {
   },
 
   pro: {
-    nome: "Pro 18+",
+    nome: "Pro",
     limitePontoTracoMs: 105,
     pausaLetraMs: 210,
     pausaPalavraMs: 560,
