@@ -1,4 +1,4 @@
-const CACHE_NAME = "eds-morse-cache-v23";
+const CACHE_NAME = "eds-morse-cache-v24";
 const ARQUIVOS_CACHE = [
   "/",
   "/index.html",
