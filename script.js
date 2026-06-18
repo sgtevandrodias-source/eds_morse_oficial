@@ -6196,11 +6196,11 @@ const CONFIG_MANIPULADOR_LIVRE = {
   },
 
   pro: {
-    nome: "Pro 15+",
-    limitePontoTracoMs: 120,
-    pausaLetraMs: 260,
-    pausaPalavraMs: 720,
-    descricao: "Resposta rápida para operador experiente."
+    nome: "Pro 18+",
+    limitePontoTracoMs: 105,
+    pausaLetraMs: 210,
+    pausaPalavraMs: 560,
+    descricao: "Resposta mais rápida para operador experiente."
   }
 };
 
