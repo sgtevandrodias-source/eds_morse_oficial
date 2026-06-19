@@ -6,8 +6,6 @@
 
   <title>EDS Morse Game</title>
   <link rel="manifest" href="manifest.json">
-  <link rel="icon" type="image/png" sizes="192x192" href="icon-192-v2.png">
-<link rel="apple-touch-icon" href="icon-192-v2.png">
 
   <meta name="theme-color" content="#14532d">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -93,7 +91,7 @@
   </div>
 
   <div class="assinatura-inicial">
-    <span>. ...- .- -. -.. .-. --- / .- -.. .-.</span>
+    Desenvolvido por <span>. ...- .- -. -.. .-. ---</span>
   </div>
 </div>
 </section>
@@ -486,75 +484,6 @@
     </div>
   </div>
 </section>
-
-<!-- TELA TRANSIÇÃO DE FASE / MODO CONCLUÍDO -->
-<section id="telaTransicaoFase" class="tela">
-  <div class="transicao-fase-container">
-    <div class="transicao-scanlines"></div>
-    <div class="transicao-radar"></div>
-
-    <div class="card transicao-fase-card">
-      <div class="transicao-sinal">⌁</div>
-
-      <div id="transicaoFaseBadge" class="badge transicao-fase-badge">
-        FASE CONCLUÍDA
-      </div>
-
-      <h1 id="transicaoFaseTitulo">Fase concluída</h1>
-
-      <h2 id="transicaoFaseSubtitulo">
-        A rede recebeu sua transmissão.
-      </h2>
-
-      <p id="transicaoFaseTexto">
-        Você avançou para uma nova etapa da operação.
-      </p>
-
-      <div class="transicao-terminal">
-        <p id="transicaoLinha1">&gt; CANAL: ESTÁVEL</p>
-        <p id="transicaoLinha2">&gt; OPERADOR: VALIDADO</p>
-        <p id="transicaoLinha3">&gt; PRÓXIMA ETAPA: LIBERADA</p>
-      </div>
-
-      <div class="transicao-estatisticas">
-        <div>
-          <span class="label">Operador</span>
-          <strong id="transicaoOperador">Operador</strong>
-        </div>
-
-        <div>
-          <span class="label">Patente</span>
-          <strong id="transicaoPatente">—</strong>
-        </div>
-
-        <div>
-          <span class="label">Aproveitamento</span>
-          <strong id="transicaoAproveitamento">0%</strong>
-        </div>
-
-        <div>
-          <span class="label">Pontuação</span>
-          <strong id="transicaoPontos">0</strong>
-        </div>
-      </div>
-
-      <div class="botoes-resultado transicao-botoes">
-        <button id="btnTransicaoContinuar" class="btn principal">
-          Continuar operação
-        </button>
-
-        <button id="btnTransicaoMapa" class="btn secundario">
-          Mapa do jogo
-        </button>
-
-        <button id="btnTransicaoInicio" class="btn discreto">
-          Início
-        </button>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- TELA FIM DO JOGO -->
 <section id="telaFimJogo" class="tela">
   <div class="fim-jogo-container">
@@ -853,6 +782,168 @@ nível alcançado, aproveitamento, WPM e tempo.
         </div>
       </div>
     </section>
+
+<!-- TELA SENHA DA SALA SECRETA -->
+<section id="telaSalaSecretaSenha" class="tela">
+  <div class="sala-secreta-container">
+    <div class="sala-secreta-scanlines"></div>
+
+    <div class="card sala-secreta-card">
+      <div class="sala-secreta-sinal">⌁</div>
+
+      <div class="badge sala-secreta-badge">
+        CANAL RESTRITO DETECTADO
+      </div>
+
+      <h1>Sala Secreta</h1>
+
+      <p class="sala-secreta-dica">
+        A CHAVE PARA A SALVAÇÃO É...
+      </p>
+
+      <div class="campo-sala-secreta">
+        <label for="inputSenhaSalaSecreta">Senha de acesso</label>
+        <input
+          id="inputSenhaSalaSecreta"
+          type="text"
+          autocomplete="off"
+          maxlength="12"
+          placeholder="Digite a senha..."
+        />
+      </div>
+
+      <div id="feedbackSenhaSalaSecreta" class="feedback"></div>
+
+      <div class="botoes-resultado sala-secreta-botoes">
+        <button id="btnValidarSenhaSalaSecreta" class="btn principal">
+          Validar senha
+        </button>
+
+        <button id="btnVoltarInicioSalaSecretaSenha" class="btn secundario">
+          Início
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TELA DOS FRAGMENTOS SECRETOS -->
+<section id="telaSalaSecretaFragmentos" class="tela">
+  <div class="sala-secreta-container">
+    <div class="sala-secreta-scanlines"></div>
+
+    <div class="card sala-secreta-card sala-secreta-fragmentos-card">
+      <div class="badge sala-secreta-badge">
+        ARQUIVOS FRAGMENTADOS
+      </div>
+
+      <h1>Reconstrua a mensagem</h1>
+
+      <p>
+        Durante a campanha, seis grupos foram interceptados. Coloque-os na ordem correta para liberar a transmissão final.
+      </p>
+
+      <div id="fragmentosInterceptadosSalaSecreta" class="fragmentos-interceptados">
+        <!-- preenchido pelo JS -->
+      </div>
+
+      <div class="grid-inputs-fragmentos">
+        <div class="campo-sala-secreta">
+          <label for="inputFragmentoSecreto1">Grupo 1</label>
+          <input id="inputFragmentoSecreto1" type="text" maxlength="5" autocomplete="off" />
+        </div>
+
+        <div class="campo-sala-secreta">
+          <label for="inputFragmentoSecreto2">Grupo 2</label>
+          <input id="inputFragmentoSecreto2" type="text" maxlength="5" autocomplete="off" />
+        </div>
+
+        <div class="campo-sala-secreta">
+          <label for="inputFragmentoSecreto3">Grupo 3</label>
+          <input id="inputFragmentoSecreto3" type="text" maxlength="5" autocomplete="off" />
+        </div>
+
+        <div class="campo-sala-secreta">
+          <label for="inputFragmentoSecreto4">Grupo 4</label>
+          <input id="inputFragmentoSecreto4" type="text" maxlength="5" autocomplete="off" />
+        </div>
+
+        <div class="campo-sala-secreta">
+          <label for="inputFragmentoSecreto5">Grupo 5</label>
+          <input id="inputFragmentoSecreto5" type="text" maxlength="5" autocomplete="off" />
+        </div>
+
+        <div class="campo-sala-secreta">
+          <label for="inputFragmentoSecreto6">Grupo 6</label>
+          <input id="inputFragmentoSecreto6" type="text" maxlength="5" autocomplete="off" />
+        </div>
+      </div>
+
+      <div id="feedbackFragmentosSalaSecreta" class="feedback"></div>
+
+      <div class="botoes-resultado sala-secreta-botoes">
+        <button id="btnValidarFragmentosSalaSecreta" class="btn principal">
+          Liberar transmissão final
+        </button>
+
+        <button id="btnVoltarSenhaSalaSecreta" class="btn secundario">
+          Voltar
+        </button>
+
+        <button id="btnVoltarInicioSalaSecretaFragmentos" class="btn discreto">
+          Início
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TELA TRANSMISSÃO FINAL SECRETA -->
+<section id="telaSalaSecretaFinal" class="tela">
+  <div class="sala-secreta-container">
+    <div class="sala-secreta-scanlines"></div>
+
+    <div class="card sala-secreta-card sala-secreta-final-card">
+      <div class="sala-secreta-sinal">⌁</div>
+
+      <div class="badge sala-secreta-badge">
+        CANAL 73 LIBERADO
+      </div>
+
+      <h1>Transmissão final recebida</h1>
+
+      <div class="mensagem-reconstruida">
+        <span class="label">Mensagem reconstruída</span>
+        <strong>DISCIPLINA E FOCO SUPERAM LIMITES</strong>
+        <small>DISCI PLINA EFOCO SUPER AMLIM ITES@</small>
+      </div>
+
+      <p id="textoTransmissaoFinalSecreta" class="texto-transmissao-final-secreta">
+        Parabéns. Você demonstrou persistência, foco, coragem e inteligência. Bem-vindo ao seleto grupo de telegrafistas do EDS MORSE.
+      </p>
+
+      <div class="morse-final-secreto">
+        <span class="label">Código Morse</span>
+        <code id="codigoTransmissaoFinalSecreta"></code>
+      </div>
+
+      <div class="botoes-resultado sala-secreta-botoes">
+        <button id="btnOuvirTransmissaoFinalSecreta" class="btn principal">
+          Ouvir transmissão final
+        </button>
+
+        <button id="btnSalaSecretaRanking" class="btn secundario">
+          Ver ranking
+        </button>
+
+        <button id="btnSalaSecretaInicio" class="btn discreto">
+          Início
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
       </main>
 
   <script src="script.js"></script>

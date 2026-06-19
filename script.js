@@ -13,7 +13,28 @@ const telaFimJogo = document.getElementById("telaFimJogo");
 const telaRanking = document.getElementById("telaRanking");
 const telaManipulador = document.getElementById("telaManipulador");
 
+const telaSalaSecretaSenha = document.getElementById("telaSalaSecretaSenha");
+const telaSalaSecretaFragmentos = document.getElementById("telaSalaSecretaFragmentos");
+const telaSalaSecretaFinal = document.getElementById("telaSalaSecretaFinal");
+
 const inputNomeOperador = document.getElementById("inputNomeOperador");
+
+const inputSenhaSalaSecreta = document.getElementById("inputSenhaSalaSecreta");
+const feedbackSenhaSalaSecreta = document.getElementById("feedbackSenhaSalaSecreta");
+const btnValidarSenhaSalaSecreta = document.getElementById("btnValidarSenhaSalaSecreta");
+const btnVoltarInicioSalaSecretaSenha = document.getElementById("btnVoltarInicioSalaSecretaSenha");
+
+const fragmentosInterceptadosSalaSecreta = document.getElementById("fragmentosInterceptadosSalaSecreta");
+const feedbackFragmentosSalaSecreta = document.getElementById("feedbackFragmentosSalaSecreta");
+const btnValidarFragmentosSalaSecreta = document.getElementById("btnValidarFragmentosSalaSecreta");
+const btnVoltarSenhaSalaSecreta = document.getElementById("btnVoltarSenhaSalaSecreta");
+const btnVoltarInicioSalaSecretaFragmentos = document.getElementById("btnVoltarInicioSalaSecretaFragmentos");
+
+const textoTransmissaoFinalSecreta = document.getElementById("textoTransmissaoFinalSecreta");
+const codigoTransmissaoFinalSecreta = document.getElementById("codigoTransmissaoFinalSecreta");
+const btnOuvirTransmissaoFinalSecreta = document.getElementById("btnOuvirTransmissaoFinalSecreta");
+const btnSalaSecretaRanking = document.getElementById("btnSalaSecretaRanking");
+const btnSalaSecretaInicio = document.getElementById("btnSalaSecretaInicio");
 
 const btnEntrarCampanha = document.getElementById("btnEntrarCampanha");
 const btnAbrirMissao = document.getElementById("btnAbrirMissao");
@@ -166,6 +187,26 @@ const TABELA_MORSE = {
   "+": ".-.-.",
   "@": ".--.-."
 };
+;
+
+const SALA_SECRETA_SENHA = "JESUS";
+const SALA_SECRETA_CHAVE_CORRETA = ["DISCI", "PLINA", "EFOCO", "SUPER", "AMLIM", "ITES@"];
+const SALA_SECRETA_FRAGMENTOS_EMBARALHADOS = ["SUPER", "DISCI", "ITES@", "EFOCO", "AMLIM", "PLINA"];
+
+const SALA_SECRETA_PONTOS_CAMPANHA = [
+  { modo: "Iniciante", nivel: 1, fragmento: "SUPER" },
+  { modo: "Iniciante", nivel: 20, fragmento: "DISCI" },
+  { modo: "Intermediário", nivel: 1, fragmento: "ITES@" },
+  { modo: "Intermediário", nivel: 20, fragmento: "EFOCO" },
+  { modo: "Avançado", nivel: 1, fragmento: "AMLIM" },
+  { modo: "Avançado", nivel: 12, fragmento: "PLINA" }
+];
+
+const SALA_SECRETA_MENSAGEM_FINAL =
+  "PARABENS. VOCE DEMONSTROU PERSISTENCIA FOCO CORAGEM E INTELIGENCIA. BEM VINDO AO SELETO GRUPO DE TELEGRAFISTAS DO EDS MORSE.";
+
+let contadorToquesLogoSalaSecreta = 0;
+let temporizadorToquesLogoSalaSecreta = null;
 
 function textoParaMorse(texto) {
   return texto
@@ -302,23 +343,6 @@ function missaoUsaCodigoComoAlvo(nivel = getNivelAtual()) {
     Number(nivel.numero) >= 18
   );
 }
-
-function nivelIntermediarioMostraMorseComTraducao(nivel = getNivelAtual()) {
-  return (
-    modoAtual === MODO_INTERMEDIARIO &&
-    nivel &&
-    nivel.tipoVisual === "morse_com_traducao"
-  );
-}
-
-function formatarTraducaoMorseIntermediario(texto) {
-  return String(texto || "")
-    .toUpperCase()
-    .split(" ")
-    .map((palavra) => palavra.split("").join(" "))
-    .join("   ");
-}
-
 function renderizarGuiaMorseMissao(missao, dicaFonico, nivel = null) {
   const alvo = String(missao?.alvo || "").toUpperCase();
   const codigo = String(missao?.codigo || "").trim();
@@ -326,23 +350,6 @@ function renderizarGuiaMorseMissao(missao, dicaFonico, nivel = null) {
   const ehCaractereUnico = /^[A-Z0-9]$/.test(alvo);
 
   const usarCodigoComoAlvo = missaoUsaCodigoComoAlvo(nivel);
-  const mostrarMorseComTraducao = nivelIntermediarioMostraMorseComTraducao(nivel);
-
-  if (mostrarMorseComTraducao) {
-    dicaMissaoEl.innerHTML = `
-      <div class="morse-label-discreta">Código Morse</div>
-
-      <div class="morse-simbolos-grandes morse-frase-simbolos">
-        ${gerarHtmlMorseVisualAgrupadoPorLetra(codigo)}
-      </div>
-
-      <div class="morse-dica-operacional">
-        Tecle o código acima. A tradução aparecerá no painel de tradução enviada.
-      </div>
-    `;
-
-    return;
-  }
 
   if (ehCaractereUnico) {
     dicaMissaoEl.innerHTML = `
@@ -1080,7 +1087,7 @@ function getMensagemNarrativaNivel(resultado) {
   return null;
 }
 
-const NIVEIS_INTERMEDIARIO_BASE = [
+const NIVEIS_INTERMEDIARIO = [
   { numero: 1, patente: "Operador em Treinamento", titulo: "Sem Rodinhas", descricao: "Letras simples sem botões de espaço.", missoes: ["E", "T", "A", "N", "M"] },
   { numero: 2, patente: "Operador Aprendiz", titulo: "Pausa entre Letras", descricao: "A pausa média separa automaticamente as letras.", missoes: ["I", "S", "O", "R", "K"] },
   { numero: 3, patente: "Operador Auxiliar", titulo: "Ritmo Fônico I", descricao: "Reconheça o desenho sonoro das letras.", missoes: ["D", "U", "C", "P", "L"] },
@@ -1092,40 +1099,6 @@ const NIVEIS_INTERMEDIARIO_BASE = [
   { numero: 9, patente: "Instrutor Morse", titulo: "Mensagem Operacional", descricao: "Mensagens maiores, sem botão auxiliar.", missoes: ["RADIO BASE QRV", "QTC SINAL 3", "POSTO QSL 2", "BASE RADIO OK", "TORRE SINAL 9"] },
   { numero: 10, patente: "Especialista Morse", titulo: "Missão Final Intermediária", descricao: "Transmissão completa por ritmo e pausa.", missoes: ["OPERADOR QRV", "QTC BASE SINAL", "RADIO POSTO QSL", "SINAL FORTE OK", "MISSAO INTERMEDIARIA"] }
 ];
-
-function gerarNiveisIntermediarioDuplicados(niveisBase) {
-  const niveisDuplicados = [];
-
-  niveisBase.forEach((nivelBase, indice) => {
-    const numeroOriginal = indice + 1;
-    const numeroNormal = indice * 2 + 1;
-    const numeroLeitura = numeroNormal + 1;
-
-    niveisDuplicados.push({
-      ...nivelBase,
-      numero: numeroNormal,
-      faseBaseIntermediaria: numeroOriginal,
-      etapaIntermediaria: "transmissao_normal",
-      titulo: `${String(numeroNormal).padStart(2, "0")} – ${nivelBase.titulo}`,
-      descricao: `${nivelBase.descricao} Transmita vendo o texto da missão.`
-    });
-
-    niveisDuplicados.push({
-      ...nivelBase,
-      numero: numeroLeitura,
-      patente: `${nivelBase.patente} — Leitura Morse`,
-      titulo: `${String(numeroLeitura).padStart(2, "0")} – Leitura Morse: ${nivelBase.titulo}`,
-      descricao: "Leia o código Morse escrito, confira a tradução em português e transmita a mensagem no manipulador.",
-      faseBaseIntermediaria: numeroOriginal,
-      etapaIntermediaria: "leitura_morse",
-      tipoVisual: "morse_com_traducao"
-    });
-  });
-
-  return niveisDuplicados;
-}
-
-const NIVEIS_INTERMEDIARIO = gerarNiveisIntermediarioDuplicados(NIVEIS_INTERMEDIARIO_BASE);
 
 let nomeOperador = "Operador";
 let modoAtual = MODO_INICIANTE;
@@ -1227,41 +1200,6 @@ function chaveAvancadoConcluido() {
   return `operadorMorseAvancadoConcluido_${getChaveOperador()}`;
 }
 
-function chaveMigracaoIntermediarioDuplicado() {
-  return `edsMorseMigracaoIntermediarioDuplicadoV1_${getChaveOperador()}`;
-}
-
-function migrarProgressoIntermediarioDuplicado() {
-  const chaveMigracao = chaveMigracaoIntermediarioDuplicado();
-
-  if (localStorage.getItem(chaveMigracao) === "sim") {
-    return;
-  }
-
-  const chaveIntermediario = chaveNivelLiberado(MODO_INTERMEDIARIO);
-  const valorAntigo = Number(localStorage.getItem(chaveIntermediario) || "0");
-
-  if (modoIntermediarioConcluido()) {
-    localStorage.setItem(
-      chaveIntermediario,
-      String(NIVEIS_INTERMEDIARIO.length - 1)
-    );
-    localStorage.setItem(chaveMigracao, "sim");
-    return;
-  }
-
-  if (!Number.isNaN(valorAntigo) && valorAntigo > 0 && valorAntigo <= 9) {
-    const valorMigrado = Math.min(
-      valorAntigo * 2,
-      NIVEIS_INTERMEDIARIO.length - 1
-    );
-
-    localStorage.setItem(chaveIntermediario, String(valorMigrado));
-  }
-
-  localStorage.setItem(chaveMigracao, "sim");
-}
-
 function chaveCarreiraOperador() {
   return `operadorMorseCarreira_${getChaveOperador()}`;
 }
@@ -1356,16 +1294,12 @@ function obterPremiosDaFase(resultado) {
     });
   }
 
-  if (
-    modo === "Intermediário" &&
-    nivel === NIVEIS_INTERMEDIARIO.length &&
-    aproveitamento >= 80
-  ) {
+  if (modo === "Intermediário" && nivel === 10 && aproveitamento >= 80) {
     premios.push({
       tipo: "titulo",
       id: "titulo_operador_intermediario",
       nome: "Operador Morse Intermediário",
-      descricao: "Título concedido por concluir a etapa intermediária completa."
+      descricao: "Título concedido por concluir a etapa intermediária."
     });
   }
 
@@ -1560,6 +1494,67 @@ function registrarResultadoNaCarreira(resultado) {
     premiosDaFase: premiosNovosDaFase
   };
 }
+
+inicializarEntradaSecretaLogo();
+
+if (btnValidarSenhaSalaSecreta) {
+  btnValidarSenhaSalaSecreta.addEventListener("click", validarSenhaSalaSecreta);
+}
+
+if (inputSenhaSalaSecreta) {
+  inputSenhaSalaSecreta.addEventListener("keydown", (evento) => {
+    if (evento.code === "Enter") {
+      evento.preventDefault();
+      validarSenhaSalaSecreta();
+    }
+  });
+}
+
+if (btnVoltarInicioSalaSecretaSenha) {
+  btnVoltarInicioSalaSecretaSenha.addEventListener("click", voltarInicio);
+}
+
+if (btnValidarFragmentosSalaSecreta) {
+  btnValidarFragmentosSalaSecreta.addEventListener("click", validarFragmentosSalaSecreta);
+}
+
+if (btnVoltarSenhaSalaSecreta) {
+  btnVoltarSenhaSalaSecreta.addEventListener("click", abrirTelaSenhaSalaSecreta);
+}
+
+if (btnVoltarInicioSalaSecretaFragmentos) {
+  btnVoltarInicioSalaSecretaFragmentos.addEventListener("click", voltarInicio);
+}
+
+if (btnOuvirTransmissaoFinalSecreta) {
+  btnOuvirTransmissaoFinalSecreta.addEventListener("click", tocarTransmissaoFinalSalaSecreta);
+}
+
+if (btnSalaSecretaRanking) {
+  btnSalaSecretaRanking.addEventListener("click", abrirRanking);
+}
+
+if (btnSalaSecretaInicio) {
+  btnSalaSecretaInicio.addEventListener("click", voltarInicio);
+}
+
+document.querySelectorAll("[id^='inputFragmentoSecreto']").forEach((input, indice, lista) => {
+  input.addEventListener("input", () => {
+    input.value = normalizarEntradaSalaSecreta(input.value);
+
+    if (input.value.length >= 5 && lista[indice + 1]) {
+      lista[indice + 1].focus();
+    }
+  });
+
+  input.addEventListener("keydown", (evento) => {
+    if (evento.code === "Enter") {
+      evento.preventDefault();
+      validarFragmentosSalaSecreta();
+    }
+  });
+});
+
 btnAbrirMissao.addEventListener("click", abrirMissao);
 btnVoltarInicioMissao.addEventListener("click", voltarInicio);
 btnIniciarPelaMissao.addEventListener("click", entrarCampanha);
@@ -1778,6 +1773,261 @@ history.replaceState(
   ""
 );
 
+
+function getChaveFragmentosSalaSecreta() {
+  return `edsMorseSalaSecretaFragmentos_${getChaveOperador()}`;
+}
+
+function getChaveSalaSecretaLiberada() {
+  return `edsMorseSalaSecretaLiberada_${getChaveOperador()}`;
+}
+
+function obterFragmentosSalaSecreta() {
+  try {
+    return JSON.parse(localStorage.getItem(getChaveFragmentosSalaSecreta())) || [];
+  } catch (erro) {
+    return [];
+  }
+}
+
+function salvarFragmentosSalaSecreta(fragmentos) {
+  localStorage.setItem(getChaveFragmentosSalaSecreta(), JSON.stringify(fragmentos));
+}
+
+function normalizarEntradaSalaSecreta(valor) {
+  return String(valor || "")
+    .toUpperCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^A-Z0-9@]/g, "")
+    .slice(0, 5);
+}
+
+function inicializarEntradaSecretaLogo() {
+  const alvoLogo =
+    document.querySelector("#telaInicial .marca-jogo") ||
+    document.querySelector("#telaInicial h1");
+
+  if (!alvoLogo) return;
+
+  alvoLogo.classList.add("logo-sala-secreta");
+
+  alvoLogo.addEventListener("click", () => {
+    contadorToquesLogoSalaSecreta += 1;
+
+    if (temporizadorToquesLogoSalaSecreta) {
+      clearTimeout(temporizadorToquesLogoSalaSecreta);
+    }
+
+    temporizadorToquesLogoSalaSecreta = setTimeout(() => {
+      contadorToquesLogoSalaSecreta = 0;
+    }, 2200);
+
+    if (contadorToquesLogoSalaSecreta >= 5) {
+      contadorToquesLogoSalaSecreta = 0;
+      clearTimeout(temporizadorToquesLogoSalaSecreta);
+      abrirTelaSenhaSalaSecreta();
+    }
+  });
+}
+
+function abrirTelaSenhaSalaSecreta() {
+  if (!telaSalaSecretaSenha) return;
+
+  pararTodosOsSons();
+
+  if (inputSenhaSalaSecreta) {
+    inputSenhaSalaSecreta.value = "";
+  }
+
+  if (feedbackSenhaSalaSecreta) {
+    feedbackSenhaSalaSecreta.textContent = "";
+    feedbackSenhaSalaSecreta.className = "feedback";
+  }
+
+  mostrarTela(telaSalaSecretaSenha);
+
+  setTimeout(() => {
+    if (inputSenhaSalaSecreta) inputSenhaSalaSecreta.focus();
+  }, 250);
+}
+
+function validarSenhaSalaSecreta() {
+  const senha = normalizarRespostaAuditiva(inputSenhaSalaSecreta?.value || "")
+    .replace(/\s+/g, "");
+
+  if (senha === SALA_SECRETA_SENHA) {
+    tocarAcerto();
+
+    if (feedbackSenhaSalaSecreta) {
+      feedbackSenhaSalaSecreta.textContent = "Acesso autorizado. Canal restrito aberto.";
+      feedbackSenhaSalaSecreta.className = "feedback sucesso";
+    }
+
+    setTimeout(abrirTelaFragmentosSalaSecreta, 700);
+    return;
+  }
+
+  tocarErro();
+
+  if (feedbackSenhaSalaSecreta) {
+    feedbackSenhaSalaSecreta.textContent = "Senha incorreta. Continue escutando a rede.";
+    feedbackSenhaSalaSecreta.className = "feedback erro";
+  }
+
+  if (inputSenhaSalaSecreta) {
+    inputSenhaSalaSecreta.select();
+  }
+}
+
+function abrirTelaFragmentosSalaSecreta() {
+  if (!telaSalaSecretaFragmentos) return;
+
+  preencherFragmentosInterceptadosSalaSecreta();
+
+  document.querySelectorAll("[id^='inputFragmentoSecreto']").forEach((input) => {
+    input.value = "";
+  });
+
+  if (feedbackFragmentosSalaSecreta) {
+    feedbackFragmentosSalaSecreta.textContent = "";
+    feedbackFragmentosSalaSecreta.className = "feedback";
+  }
+
+  mostrarTela(telaSalaSecretaFragmentos);
+
+  setTimeout(() => {
+    const primeiroInput = document.getElementById("inputFragmentoSecreto1");
+    if (primeiroInput) primeiroInput.focus();
+  }, 250);
+}
+
+function preencherFragmentosInterceptadosSalaSecreta() {
+  if (!fragmentosInterceptadosSalaSecreta) return;
+
+  const coletados = obterFragmentosSalaSecreta();
+
+  const lista = SALA_SECRETA_FRAGMENTOS_EMBARALHADOS.map((fragmento) => {
+    const jaInterceptado = coletados.includes(fragmento);
+
+    return `
+      <span class="${jaInterceptado ? "fragmento-coletado" : "fragmento-nao-coletado"}">
+        ${jaInterceptado ? escaparHtml(fragmento) : "?????"}
+      </span>
+    `;
+  }).join("");
+
+  fragmentosInterceptadosSalaSecreta.innerHTML = `
+    <span class="label">Fragmentos interceptados</span>
+    <div class="fragmentos-linha">
+      ${lista}
+    </div>
+    <small>
+      Dica: os grupos podem aparecer fora da ordem. Reconstrua a mensagem original.
+    </small>
+  `;
+}
+
+function validarFragmentosSalaSecreta() {
+  const respostas = SALA_SECRETA_CHAVE_CORRETA.map((_, indice) => {
+    const input = document.getElementById(`inputFragmentoSecreto${indice + 1}`);
+    return normalizarEntradaSalaSecreta(input?.value || "");
+  });
+
+  const acertou = respostas.every((valor, indice) => {
+    return valor === SALA_SECRETA_CHAVE_CORRETA[indice];
+  });
+
+  if (!acertou) {
+    tocarErro();
+
+    if (feedbackFragmentosSalaSecreta) {
+      feedbackFragmentosSalaSecreta.textContent =
+        "Chave incompleta ou incorreta. Reorganize os fragmentos interceptados.";
+      feedbackFragmentosSalaSecreta.className = "feedback erro";
+    }
+
+    return;
+  }
+
+  tocarAcerto();
+  localStorage.setItem(getChaveSalaSecretaLiberada(), "sim");
+
+  if (feedbackFragmentosSalaSecreta) {
+    feedbackFragmentosSalaSecreta.textContent =
+      "Acesso autorizado. Transmissão final liberada.";
+    feedbackFragmentosSalaSecreta.className = "feedback sucesso";
+  }
+
+  setTimeout(abrirTelaFinalSalaSecreta, 800);
+}
+
+function abrirTelaFinalSalaSecreta() {
+  if (!telaSalaSecretaFinal) return;
+
+  if (textoTransmissaoFinalSecreta) {
+    textoTransmissaoFinalSecreta.textContent =
+      "Parabéns. Você demonstrou persistência, foco, coragem e inteligência. Bem-vindo ao seleto grupo de telegrafistas do EDS MORSE.";
+  }
+
+  if (codigoTransmissaoFinalSecreta) {
+    codigoTransmissaoFinalSecreta.textContent = textoParaMorse(SALA_SECRETA_MENSAGEM_FINAL);
+  }
+
+  mostrarTela(telaSalaSecretaFinal);
+}
+
+function tocarTransmissaoFinalSalaSecreta() {
+  prepararAudio();
+  tocarSequenciaMorse(textoParaMorse(SALA_SECRETA_MENSAGEM_FINAL));
+}
+
+function processarFragmentoSecretoResultado(resultado) {
+  if (!resultado || !resultado.aprovado) return;
+
+  const ponto = SALA_SECRETA_PONTOS_CAMPANHA.find((item) => {
+    return item.modo === resultado.modo && Number(item.nivel) === Number(resultado.nivel);
+  });
+
+  if (!ponto) return;
+
+  const fragmentos = obterFragmentosSalaSecreta();
+
+  if (!fragmentos.includes(ponto.fragmento)) {
+    fragmentos.push(ponto.fragmento);
+    salvarFragmentosSalaSecreta(fragmentos);
+  }
+
+  setTimeout(() => {
+    mostrarAvisoFragmentoSecreto(ponto.fragmento, fragmentos.length);
+  }, 900);
+}
+
+function mostrarAvisoFragmentoSecreto(fragmento, totalColetado) {
+  const avisoAntigo = document.querySelector(".aviso-fragmento-secreto");
+  if (avisoAntigo) avisoAntigo.remove();
+
+  const aviso = document.createElement("div");
+  aviso.className = "aviso-fragmento-secreto";
+  aviso.innerHTML = `
+    <span>TRANSMISSÃO FRAGMENTADA</span>
+    <strong>ANOTE: ${escaparHtml(fragmento)}</strong>
+    <small>Fragmento ${Math.min(totalColetado, 6)}/6 interceptado. Guarde este grupo.</small>
+  `;
+
+  document.body.appendChild(aviso);
+
+  setTimeout(() => {
+    aviso.classList.add("visivel");
+  }, 50);
+
+  setTimeout(() => {
+    aviso.classList.remove("visivel");
+    setTimeout(() => aviso.remove(), 450);
+  }, 7200);
+}
+
+
 function carregarPreferencias() {
   const nomeSalvo = localStorage.getItem("operadorMorseNome");
 
@@ -1785,8 +2035,6 @@ function carregarPreferencias() {
     nomeOperador = nomeSalvo;
     inputNomeOperador.value = nomeSalvo;
   }
-
-  migrarProgressoIntermediarioDuplicado();
 
   modoAtual = MODO_INICIANTE;
   nivelAtualIndex = obterNivelLiberado(MODO_INICIANTE);
@@ -1807,6 +2055,9 @@ function mostrarTela(tela, registrarHistorico = true) {
   telaRanking.classList.remove("ativa");
   telaRegrasFAQ.classList.remove("ativa");
   telaManipulador.classList.remove("ativa");
+  if (telaSalaSecretaSenha) telaSalaSecretaSenha.classList.remove("ativa");
+  if (telaSalaSecretaFragmentos) telaSalaSecretaFragmentos.classList.remove("ativa");
+  if (telaSalaSecretaFinal) telaSalaSecretaFinal.classList.remove("ativa");
 
   tela.classList.add("ativa");
 
@@ -1839,7 +2090,10 @@ const MAPA_TELAS_APP = {
   telaFimJogo,
   telaRanking,
   telaRegrasFAQ,
-  telaManipulador
+  telaManipulador,
+  telaSalaSecretaSenha,
+  telaSalaSecretaFragmentos,
+  telaSalaSecretaFinal
 };
 
 function getIdTelaAtual() {
@@ -4161,28 +4415,6 @@ function atualizarPainelRitmo() {
 
 function obterNivelLiberado(modo = modoAtual) {
   const niveis = getNiveisModo(modo);
-
-  if (
-    modo === MODO_INICIANTE &&
-    localStorage.getItem(chaveInicianteConcluido()) === "sim"
-  ) {
-    return niveis.length - 1;
-  }
-
-  if (
-    modo === MODO_INTERMEDIARIO &&
-    localStorage.getItem(chaveIntermediarioConcluido()) === "sim"
-  ) {
-    return niveis.length - 1;
-  }
-
-  if (
-    modo === MODO_AVANCADO &&
-    localStorage.getItem(chaveAvancadoConcluido()) === "sim"
-  ) {
-    return niveis.length - 1;
-  }
-
   const salvo = Number(localStorage.getItem(chaveNivelLiberado(modo)) || "0");
 
   if (Number.isNaN(salvo)) return 0;
@@ -4420,8 +4652,7 @@ function getMissaoAtual() {
   return {
     alvo,
     codigo: textoParaMorse(alvo),
-    tipo: nivel.titulo,
-    tipoVisual: nivel.tipoVisual || ""
+    tipo: nivel.titulo
   };
 }
 function nivelEhRecepcaoAvancada(nivel = getNivelAtual()) {
@@ -4581,17 +4812,12 @@ function carregarMissao() {
     `Acertos ${acertosNivel}/${nivel.missoes.length}`;
 
     const usarCodigoComoAlvo = missaoUsaCodigoComoAlvo(nivel);
-  const mostrarMorseComTraducao = nivelIntermediarioMostraMorseComTraducao(nivel);
 
-  textoMissao.classList.toggle(
-    "texto-tecle-codigo",
-    usarCodigoComoAlvo || mostrarMorseComTraducao
-  );
+  textoMissao.classList.toggle("texto-tecle-codigo", usarCodigoComoAlvo);
 
-  textoMissao.textContent =
-    usarCodigoComoAlvo || mostrarMorseComTraducao
-      ? "TECLE:"
-      : `TECLE: ${missao.alvo}`;
+  textoMissao.textContent = usarCodigoComoAlvo
+    ? "TECLE:"
+    : `TECLE: ${missao.alvo}`;
 
   const dicaFonico = getDicaFonico(missao.alvo);
 
@@ -4604,11 +4830,9 @@ function carregarMissao() {
   const labelCodigoEnviado = document.querySelector(".codigo-enviado-card span");
 
   if (labelCodigoEnviado) {
-    if (usarCodigoComoAlvo || mostrarMorseComTraducao) {
-      labelCodigoEnviado.textContent = "Tradução enviada";
-    } else {
-      labelCodigoEnviado.textContent = "Código enviado";
-    }
+    labelCodigoEnviado.textContent = usarCodigoComoAlvo
+      ? "Texto enviado"
+      : "Código enviado";
   }
   contadorMissaoEl.textContent = `${missaoAtualIndex + 1}/${nivel.missoes.length}`;
   faseAtualEl.textContent = missao.tipo;
@@ -4816,6 +5040,10 @@ ultimoResultado.registroCarreira = registroCarreira;
 enviarResultadoRankingGlobal(ultimoResultado);
 
   if (aprovado) liberarProximoNivel(campanhaFinalizada);
+
+  if (aprovado) {
+    processarFragmentoSecretoResultado(ultimoResultado);
+  }
 
   mostrarResultadoNivel(ultimoResultado, campanhaFinalizada);
 }
@@ -5502,12 +5730,7 @@ function decodificarMorseDigitadoParaTexto(codigo) {
 }
 
 function atualizarCodigoNaTela() {
-  const nivel = getNivelAtual();
-  const deveMostrarTraducaoEnviada =
-    missaoUsaCodigoComoAlvo(nivel) ||
-    nivelIntermediarioMostraMorseComTraducao(nivel);
-
-  if (deveMostrarTraducaoEnviada) {
+  if (missaoUsaCodigoComoAlvo()) {
     codigoDigitado.textContent = decodificarMorseDigitadoParaTexto(codigoAtual);
     codigoDigitado.classList.add("texto-decodificado-enviado");
     return;
