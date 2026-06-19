@@ -336,10 +336,8 @@ function renderizarGuiaMorseMissao(missao, dicaFonico, nivel = null) {
         ${gerarHtmlMorseVisualAgrupadoPorLetra(codigo)}
       </div>
 
-      <div class="morse-label-discreta">Tradução</div>
-
-      <div class="morse-traducao-portugues">
-        ${escaparHtml(formatarTraducaoMorseIntermediario(alvo))}
+      <div class="morse-dica-operacional">
+        Tecle o código acima. A tradução aparecerá no painel de tradução enviada.
       </div>
     `;
 
@@ -4606,9 +4604,11 @@ function carregarMissao() {
   const labelCodigoEnviado = document.querySelector(".codigo-enviado-card span");
 
   if (labelCodigoEnviado) {
-    labelCodigoEnviado.textContent = usarCodigoComoAlvo
-      ? "Texto enviado"
-      : "Código enviado";
+    if (usarCodigoComoAlvo || mostrarMorseComTraducao) {
+      labelCodigoEnviado.textContent = "Tradução enviada";
+    } else {
+      labelCodigoEnviado.textContent = "Código enviado";
+    }
   }
   contadorMissaoEl.textContent = `${missaoAtualIndex + 1}/${nivel.missoes.length}`;
   faseAtualEl.textContent = missao.tipo;
@@ -5502,7 +5502,12 @@ function decodificarMorseDigitadoParaTexto(codigo) {
 }
 
 function atualizarCodigoNaTela() {
-  if (missaoUsaCodigoComoAlvo()) {
+  const nivel = getNivelAtual();
+  const deveMostrarTraducaoEnviada =
+    missaoUsaCodigoComoAlvo(nivel) ||
+    nivelIntermediarioMostraMorseComTraducao(nivel);
+
+  if (deveMostrarTraducaoEnviada) {
     codigoDigitado.textContent = decodificarMorseDigitadoParaTexto(codigoAtual);
     codigoDigitado.classList.add("texto-decodificado-enviado");
     return;
