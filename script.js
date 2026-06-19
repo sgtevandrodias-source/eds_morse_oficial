@@ -75,6 +75,7 @@ const textoFimJogoResumo = document.getElementById("textoFimJogoResumo");
 const btnFimJogoRanking = document.getElementById("btnFimJogoRanking");
 const btnFimJogoMapa = document.getElementById("btnFimJogoMapa");
 const btnFimJogoInicio = document.getElementById("btnFimJogoInicio");
+const btnFimJogoSalaSecreta = document.getElementById("btnFimJogoSalaSecreta");
 
 const transicaoFaseBadge = document.getElementById("transicaoFaseBadge");
 const transicaoFaseTitulo = document.getElementById("transicaoFaseTitulo");
@@ -1603,6 +1604,11 @@ if (btnFimJogoMapa) {
 if (btnFimJogoInicio) {
   btnFimJogoInicio.addEventListener("click", voltarInicio);
 }
+if (btnFimJogoSalaSecreta) {
+  btnFimJogoSalaSecreta.addEventListener("click", () => {
+    abrirSalaSecretaFragmentosDireto();
+  });
+}
 if (btnTransicaoContinuar) {
   btnTransicaoContinuar.addEventListener("click", continuarAposTransicaoFase);
 }
@@ -1881,6 +1887,28 @@ function validarSenhaSalaSecreta() {
 }
 
 function abrirTelaFragmentosSalaSecreta() {
+  if (!telaSalaSecretaFragmentos) return;
+
+  preencherFragmentosInterceptadosSalaSecreta();
+
+  document.querySelectorAll("[id^='inputFragmentoSecreto']").forEach((input) => {
+    input.value = "";
+  });
+
+  if (feedbackFragmentosSalaSecreta) {
+    feedbackFragmentosSalaSecreta.textContent = "";
+    feedbackFragmentosSalaSecreta.className = "feedback";
+  }
+
+  mostrarTela(telaSalaSecretaFragmentos);
+
+  setTimeout(() => {
+    const primeiroInput = document.getElementById("inputFragmentoSecreto1");
+    if (primeiroInput) primeiroInput.focus();
+  }, 250);
+}
+
+function abrirSalaSecretaFragmentosDireto() {
   if (!telaSalaSecretaFragmentos) return;
 
   preencherFragmentosInterceptadosSalaSecreta();
