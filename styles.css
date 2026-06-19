@@ -6052,6 +6052,35 @@ body:not(.modo-iniciante) #telaJogo .acoes-apoio {
     .ranking-minha-posicao-detalhes {
       justify-content: center;
     }
+    /* BLOQUEIO TOTAL DE SELEÇÃO NO APP */
+html,
+body,
+body *,
+.tela,
+.tela *,
+button,
+input,
+textarea {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+/* Mantém campos digitáveis funcionando */
+input,
+textarea {
+  -webkit-user-select: text !important;
+  user-select: text !important;
+  touch-action: manipulation;
+}
+
+button,
+.btn,
+.botao-morse,
+.btn-enviar-missao {
+  touch-action: manipulation;
+}
   
     .ranking-busca-linha {
       grid-template-columns: 1fr;
