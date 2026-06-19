@@ -302,6 +302,23 @@ function missaoUsaCodigoComoAlvo(nivel = getNivelAtual()) {
     Number(nivel.numero) >= 18
   );
 }
+
+function nivelIntermediarioMostraMorseComTraducao(nivel = getNivelAtual()) {
+  return (
+    modoAtual === MODO_INTERMEDIARIO &&
+    nivel &&
+    nivel.tipoVisual === "morse_com_traducao"
+  );
+}
+
+function formatarTraducaoMorseIntermediario(texto) {
+  return String(texto || "")
+    .toUpperCase()
+    .split(" ")
+    .map((palavra) => palavra.split("").join(" "))
+    .join("   ");
+}
+
 function renderizarGuiaMorseMissao(missao, dicaFonico, nivel = null) {
   const alvo = String(missao?.alvo || "").toUpperCase();
   const codigo = String(missao?.codigo || "").trim();
@@ -309,6 +326,25 @@ function renderizarGuiaMorseMissao(missao, dicaFonico, nivel = null) {
   const ehCaractereUnico = /^[A-Z0-9]$/.test(alvo);
 
   const usarCodigoComoAlvo = missaoUsaCodigoComoAlvo(nivel);
+  const mostrarMorseComTraducao = nivelIntermediarioMostraMorseComTraducao(nivel);
+
+  if (mostrarMorseComTraducao) {
+    dicaMissaoEl.innerHTML = `
+      <div class="morse-label-discreta">Código Morse</div>
+
+      <div class="morse-simbolos-grandes morse-frase-simbolos">
+        ${gerarHtmlMorseVisualAgrupadoPorLetra(codigo)}
+      </div>
+
+      <div class="morse-label-discreta">Tradução</div>
+
+      <div class="morse-traducao-portugues">
+        ${escaparHtml(formatarTraducaoMorseIntermediario(alvo))}
+      </div>
+    `;
+
+    return;
+  }
 
   if (ehCaractereUnico) {
     dicaMissaoEl.innerHTML = `
@@ -1046,7 +1082,7 @@ function getMensagemNarrativaNivel(resultado) {
   return null;
 }
 
-const NIVEIS_INTERMEDIARIO = [
+const NIVEIS_INTERMEDIARIO_BASE = [
   { numero: 1, patente: "Operador em Treinamento", titulo: "Sem Rodinhas", descricao: "Letras simples sem botões de espaço.", missoes: ["E", "T", "A", "N", "M"] },
   { numero: 2, patente: "Operador Aprendiz", titulo: "Pausa entre Letras", descricao: "A pausa média separa automaticamente as letras.", missoes: ["I", "S", "O", "R", "K"] },
   { numero: 3, patente: "Operador Auxiliar", titulo: "Ritmo Fônico I", descricao: "Reconheça o desenho sonoro das letras.", missoes: ["D", "U", "C", "P", "L"] },
@@ -1058,6 +1094,40 @@ const NIVEIS_INTERMEDIARIO = [
   { numero: 9, patente: "Instrutor Morse", titulo: "Mensagem Operacional", descricao: "Mensagens maiores, sem botão auxiliar.", missoes: ["RADIO BASE QRV", "QTC SINAL 3", "POSTO QSL 2", "BASE RADIO OK", "TORRE SINAL 9"] },
   { numero: 10, patente: "Especialista Morse", titulo: "Missão Final Intermediária", descricao: "Transmissão completa por ritmo e pausa.", missoes: ["OPERADOR QRV", "QTC BASE SINAL", "RADIO POSTO QSL", "SINAL FORTE OK", "MISSAO INTERMEDIARIA"] }
 ];
+
+function gerarNiveisIntermediarioDuplicados(niveisBase) {
+  const niveisDuplicados = [];
+
+  niveisBase.forEach((nivelBase, indice) => {
+    const numeroOriginal = indice + 1;
+    const numeroNormal = indice * 2 + 1;
+    const numeroLeitura = numeroNormal + 1;
+
+    niveisDuplicados.push({
+      ...nivelBase,
+      numero: numeroNormal,
+      faseBaseIntermediaria: numeroOriginal,
+      etapaIntermediaria: "transmissao_normal",
+      titulo: `${String(numeroNormal).padStart(2, "0")} – ${nivelBase.titulo}`,
+      descricao: `${nivelBase.descricao} Transmita vendo o texto da missão.`
+    });
+
+    niveisDuplicados.push({
+      ...nivelBase,
+      numero: numeroLeitura,
+      patente: `${nivelBase.patente} — Leitura Morse`,
+      titulo: `${String(numeroLeitura).padStart(2, "0")} – Leitura Morse: ${nivelBase.titulo}`,
+      descricao: "Leia o código Morse escrito, confira a tradução em português e transmita a mensagem no manipulador.",
+      faseBaseIntermediaria: numeroOriginal,
+      etapaIntermediaria: "leitura_morse",
+      tipoVisual: "morse_com_traducao"
+    });
+  });
+
+  return niveisDuplicados;
+}
+
+const NIVEIS_INTERMEDIARIO = gerarNiveisIntermediarioDuplicados(NIVEIS_INTERMEDIARIO_BASE);
 
 let nomeOperador = "Operador";
 let modoAtual = MODO_INICIANTE;
@@ -1159,6 +1229,41 @@ function chaveAvancadoConcluido() {
   return `operadorMorseAvancadoConcluido_${getChaveOperador()}`;
 }
 
+function chaveMigracaoIntermediarioDuplicado() {
+  return `edsMorseMigracaoIntermediarioDuplicadoV1_${getChaveOperador()}`;
+}
+
+function migrarProgressoIntermediarioDuplicado() {
+  const chaveMigracao = chaveMigracaoIntermediarioDuplicado();
+
+  if (localStorage.getItem(chaveMigracao) === "sim") {
+    return;
+  }
+
+  const chaveIntermediario = chaveNivelLiberado(MODO_INTERMEDIARIO);
+  const valorAntigo = Number(localStorage.getItem(chaveIntermediario) || "0");
+
+  if (modoIntermediarioConcluido()) {
+    localStorage.setItem(
+      chaveIntermediario,
+      String(NIVEIS_INTERMEDIARIO.length - 1)
+    );
+    localStorage.setItem(chaveMigracao, "sim");
+    return;
+  }
+
+  if (!Number.isNaN(valorAntigo) && valorAntigo > 0 && valorAntigo <= 9) {
+    const valorMigrado = Math.min(
+      valorAntigo * 2,
+      NIVEIS_INTERMEDIARIO.length - 1
+    );
+
+    localStorage.setItem(chaveIntermediario, String(valorMigrado));
+  }
+
+  localStorage.setItem(chaveMigracao, "sim");
+}
+
 function chaveCarreiraOperador() {
   return `operadorMorseCarreira_${getChaveOperador()}`;
 }
@@ -1253,12 +1358,16 @@ function obterPremiosDaFase(resultado) {
     });
   }
 
-  if (modo === "Intermediário" && nivel === 10 && aproveitamento >= 80) {
+  if (
+    modo === "Intermediário" &&
+    nivel === NIVEIS_INTERMEDIARIO.length &&
+    aproveitamento >= 80
+  ) {
     premios.push({
       tipo: "titulo",
       id: "titulo_operador_intermediario",
       nome: "Operador Morse Intermediário",
-      descricao: "Título concedido por concluir a etapa intermediária."
+      descricao: "Título concedido por concluir a etapa intermediária completa."
     });
   }
 
@@ -1678,6 +1787,8 @@ function carregarPreferencias() {
     nomeOperador = nomeSalvo;
     inputNomeOperador.value = nomeSalvo;
   }
+
+  migrarProgressoIntermediarioDuplicado();
 
   modoAtual = MODO_INICIANTE;
   nivelAtualIndex = obterNivelLiberado(MODO_INICIANTE);
@@ -4052,6 +4163,28 @@ function atualizarPainelRitmo() {
 
 function obterNivelLiberado(modo = modoAtual) {
   const niveis = getNiveisModo(modo);
+
+  if (
+    modo === MODO_INICIANTE &&
+    localStorage.getItem(chaveInicianteConcluido()) === "sim"
+  ) {
+    return niveis.length - 1;
+  }
+
+  if (
+    modo === MODO_INTERMEDIARIO &&
+    localStorage.getItem(chaveIntermediarioConcluido()) === "sim"
+  ) {
+    return niveis.length - 1;
+  }
+
+  if (
+    modo === MODO_AVANCADO &&
+    localStorage.getItem(chaveAvancadoConcluido()) === "sim"
+  ) {
+    return niveis.length - 1;
+  }
+
   const salvo = Number(localStorage.getItem(chaveNivelLiberado(modo)) || "0");
 
   if (Number.isNaN(salvo)) return 0;
@@ -4289,7 +4422,8 @@ function getMissaoAtual() {
   return {
     alvo,
     codigo: textoParaMorse(alvo),
-    tipo: nivel.titulo
+    tipo: nivel.titulo,
+    tipoVisual: nivel.tipoVisual || ""
   };
 }
 function nivelEhRecepcaoAvancada(nivel = getNivelAtual()) {
@@ -4449,12 +4583,17 @@ function carregarMissao() {
     `Acertos ${acertosNivel}/${nivel.missoes.length}`;
 
     const usarCodigoComoAlvo = missaoUsaCodigoComoAlvo(nivel);
+  const mostrarMorseComTraducao = nivelIntermediarioMostraMorseComTraducao(nivel);
 
-  textoMissao.classList.toggle("texto-tecle-codigo", usarCodigoComoAlvo);
+  textoMissao.classList.toggle(
+    "texto-tecle-codigo",
+    usarCodigoComoAlvo || mostrarMorseComTraducao
+  );
 
-  textoMissao.textContent = usarCodigoComoAlvo
-    ? "TECLE:"
-    : `TECLE: ${missao.alvo}`;
+  textoMissao.textContent =
+    usarCodigoComoAlvo || mostrarMorseComTraducao
+      ? "TECLE:"
+      : `TECLE: ${missao.alvo}`;
 
   const dicaFonico = getDicaFonico(missao.alvo);
 
