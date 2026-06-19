@@ -6458,3 +6458,23 @@ body:not(.modo-iniciante) #telaJogo .acoes-apoio {
   letter-spacing: 0.08em;
   text-align: center;
 }
+/* =========================================
+   BLOQUEIO DE SELEÇÃO ACIDENTAL NO MOBILE
+========================================= */
+
+#telaJogo,
+#telaJogo *,
+#telaManipulador,
+#telaManipulador * {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+button,
+.btn,
+.botao-morse,
+.btn-enviar-missao {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
