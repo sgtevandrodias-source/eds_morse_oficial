@@ -8,6 +8,7 @@ const telaCampanha = document.getElementById("telaCampanha");
 const telaLicao = document.getElementById("telaLicao");
 const telaJogo = document.getElementById("telaJogo");
 const telaFinal = document.getElementById("telaFinal");
+const telaTransicaoFase = document.getElementById("telaTransicaoFase");
 const telaFimJogo = document.getElementById("telaFimJogo");
 const telaRanking = document.getElementById("telaRanking");
 const telaManipulador = document.getElementById("telaManipulador");
@@ -54,6 +55,25 @@ const btnFimJogoRanking = document.getElementById("btnFimJogoRanking");
 const btnFimJogoMapa = document.getElementById("btnFimJogoMapa");
 const btnFimJogoInicio = document.getElementById("btnFimJogoInicio");
 
+const transicaoFaseBadge = document.getElementById("transicaoFaseBadge");
+const transicaoFaseTitulo = document.getElementById("transicaoFaseTitulo");
+const transicaoFaseSubtitulo = document.getElementById("transicaoFaseSubtitulo");
+const transicaoFaseTexto = document.getElementById("transicaoFaseTexto");
+
+const transicaoLinha1 = document.getElementById("transicaoLinha1");
+const transicaoLinha2 = document.getElementById("transicaoLinha2");
+const transicaoLinha3 = document.getElementById("transicaoLinha3");
+
+const transicaoOperador = document.getElementById("transicaoOperador");
+const transicaoPatente = document.getElementById("transicaoPatente");
+const transicaoAproveitamento = document.getElementById("transicaoAproveitamento");
+const transicaoPontos = document.getElementById("transicaoPontos");
+
+const btnTransicaoContinuar = document.getElementById("btnTransicaoContinuar");
+const btnTransicaoMapa = document.getElementById("btnTransicaoMapa");
+const btnTransicaoInicio = document.getElementById("btnTransicaoInicio");
+
+let resultadoTransicaoFaseAtual = null;
 const btnVoltarCampanhaRanking = document.getElementById("btnVoltarCampanhaRanking");
 const btnVoltarInicio = document.getElementById("btnVoltarInicio");
 const btnLimparRanking = document.getElementById("btnLimparRanking");
@@ -1481,11 +1501,23 @@ if (btnFimJogoMapa) {
 if (btnFimJogoInicio) {
   btnFimJogoInicio.addEventListener("click", voltarInicio);
 }
+if (btnTransicaoContinuar) {
+  btnTransicaoContinuar.addEventListener("click", continuarAposTransicaoFase);
+}
+
+if (btnTransicaoMapa) {
+  btnTransicaoMapa.addEventListener("click", entrarCampanha);
+}
+
+if (btnTransicaoInicio) {
+  btnTransicaoInicio.addEventListener("click", voltarInicio);
+}
 
 btnVoltarCampanhaRanking.addEventListener("click", entrarCampanha);
 btnVoltarInicio.addEventListener("click", voltarInicio);
 btnLimparRanking.addEventListener("click", limparRanking);
 btnVoltarInicioRegrasFAQ.addEventListener("click", voltarInicio);
+
 
 btnIniciarTreinoLicao.addEventListener("click", () => {
   iniciarNivel(nivelAtualIndex);
@@ -1661,6 +1693,7 @@ function mostrarTela(tela, registrarHistorico = true) {
   telaLicao.classList.remove("ativa");
   telaJogo.classList.remove("ativa");
   telaFinal.classList.remove("ativa");
+  if (telaTransicaoFase) telaTransicaoFase.classList.remove("ativa");
   telaFimJogo.classList.remove("ativa");
   telaRanking.classList.remove("ativa");
   telaRegrasFAQ.classList.remove("ativa");
@@ -1693,6 +1726,7 @@ const MAPA_TELAS_APP = {
   telaLicao,
   telaJogo,
   telaFinal,
+  telaTransicaoFase,
   telaFimJogo,
   telaRanking,
   telaRegrasFAQ,
@@ -4707,13 +4741,129 @@ function mostrarFimDoJogo(resultado) {
   mostrarTela(telaFimJogo, false);
 }
 
+function getDadosTransicaoFase(resultado) {
+  const modo = resultado?.modo || "";
+
+  if (modo === "Iniciante") {
+    return {
+      classe: "transicao-iniciante",
+      badge: "FORMAÇÃO INICIANTE CONCLUÍDA",
+      titulo: "Iniciante concluído.",
+      subtitulo: "O primeiro sinal atravessou o silêncio.",
+      texto:
+        "Você dominou os fundamentos do Código Morse. A Rede ADR reconhece sua formação inicial e libera o canal intermediário.",
+      linha1: "> CANAL BÁSICO: RESTABELECIDO",
+      linha2: "> FORMAÇÃO INICIAL: VALIDADA",
+      linha3: "> MODO INTERMEDIÁRIO: LIBERADO",
+      botao: "Avançar para o Intermediário"
+    };
+  }
+
+  if (modo === "Intermediário") {
+    return {
+      classe: "transicao-intermediario",
+      badge: "CANAL INTERMEDIÁRIO DOMINADO",
+      titulo: "Intermediário concluído.",
+      subtitulo: "Você não depende mais das rodinhas.",
+      texto:
+        "As pausas, o ritmo e a escuta operacional agora fazem parte da sua transmissão. A rede libera o canal avançado.",
+      linha1: "> PAUSAS AUTOMÁTICAS: DOMINADAS",
+      linha2: "> RITMO OPERACIONAL: ESTÁVEL",
+      linha3: "> MODO AVANÇADO: LIBERADO",
+      botao: "Avançar para o Avançado"
+    };
+  }
+
+  return {
+    classe: "transicao-avancado",
+    badge: "REDE ADR RESTABELECIDA",
+    titulo: "Avançado concluído.",
+    subtitulo: "A última mensagem foi recebida.",
+    texto:
+      "Você concluiu a operação avançada. A comunicação voltou a cruzar o silêncio. O simples prevaleceu.",
+    linha1: "> CANAL GLOBAL: RESTABELECIDO",
+    linha2: "> OPERADOR DE ESCUTA: VALIDADO",
+    linha3: "> TRANSMISSÃO FINAL: QSL",
+    botao: "Ver fim de jogo"
+  };
+}
+
+function mostrarTransicaoFase(resultado) {
+  if (!resultado || !telaTransicaoFase) return;
+
+  resultadoTransicaoFaseAtual = resultado;
+
+  const dados = getDadosTransicaoFase(resultado);
+
+  telaTransicaoFase.classList.remove(
+    "transicao-iniciante",
+    "transicao-intermediario",
+    "transicao-avancado"
+  );
+
+  telaTransicaoFase.classList.add(dados.classe);
+
+  if (transicaoFaseBadge) transicaoFaseBadge.textContent = dados.badge;
+  if (transicaoFaseTitulo) transicaoFaseTitulo.textContent = dados.titulo;
+  if (transicaoFaseSubtitulo) transicaoFaseSubtitulo.textContent = dados.subtitulo;
+  if (transicaoFaseTexto) transicaoFaseTexto.textContent = dados.texto;
+
+  if (transicaoLinha1) transicaoLinha1.textContent = dados.linha1;
+  if (transicaoLinha2) transicaoLinha2.textContent = dados.linha2;
+  if (transicaoLinha3) transicaoLinha3.textContent = dados.linha3;
+
+  if (transicaoOperador) transicaoOperador.textContent = getNomeOperadorAtual();
+  if (transicaoPatente) transicaoPatente.textContent = resultado.patente || "Operador";
+  if (transicaoAproveitamento) transicaoAproveitamento.textContent = `${resultado.aproveitamento}%`;
+  if (transicaoPontos) transicaoPontos.textContent = resultado.pontos || 0;
+
+  if (btnTransicaoContinuar) {
+    btnTransicaoContinuar.textContent = dados.botao;
+  }
+
+  mostrarTela(telaTransicaoFase, false);
+}
+
+function continuarAposTransicaoFase() {
+  const resultado = resultadoTransicaoFaseAtual;
+
+  if (!resultado) {
+    entrarCampanha();
+    return;
+  }
+
+  if (resultado.modo === "Iniciante") {
+    modoAtual = MODO_INTERMEDIARIO;
+    nivelAtualIndex = obterNivelLiberado(MODO_INTERMEDIARIO);
+    document.body.classList.add("visualizando-mapa-modo");
+    renderizarCampanha();
+    mostrarTela(telaCampanha, false);
+    return;
+  }
+
+  if (resultado.modo === "Intermediário") {
+    modoAtual = MODO_AVANCADO;
+    nivelAtualIndex = obterNivelLiberado(MODO_AVANCADO);
+    document.body.classList.add("visualizando-mapa-modo");
+    renderizarCampanha();
+    mostrarTela(telaCampanha, false);
+    return;
+  }
+
+  if (resultado.modo === "Avançado") {
+    mostrarFimDoJogo(resultado);
+    return;
+  }
+
+  entrarCampanha();
+}
 function mostrarResultadoNivel(resultado, campanhaFinalizada = false) {
   if (
     campanhaFinalizada &&
     resultado &&
-    resultado.modo === "Avançado"
+    resultado.aprovado
   ) {
-    mostrarFimDoJogo(resultado);
+    mostrarTransicaoFase(resultado);
     return;
   }
 

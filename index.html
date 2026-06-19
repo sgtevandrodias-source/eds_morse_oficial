@@ -484,6 +484,75 @@
     </div>
   </div>
 </section>
+
+<!-- TELA TRANSIÇÃO DE FASE / MODO CONCLUÍDO -->
+<section id="telaTransicaoFase" class="tela">
+  <div class="transicao-fase-container">
+    <div class="transicao-scanlines"></div>
+    <div class="transicao-radar"></div>
+
+    <div class="card transicao-fase-card">
+      <div class="transicao-sinal">⌁</div>
+
+      <div id="transicaoFaseBadge" class="badge transicao-fase-badge">
+        FASE CONCLUÍDA
+      </div>
+
+      <h1 id="transicaoFaseTitulo">Fase concluída</h1>
+
+      <h2 id="transicaoFaseSubtitulo">
+        A rede recebeu sua transmissão.
+      </h2>
+
+      <p id="transicaoFaseTexto">
+        Você avançou para uma nova etapa da operação.
+      </p>
+
+      <div class="transicao-terminal">
+        <p id="transicaoLinha1">&gt; CANAL: ESTÁVEL</p>
+        <p id="transicaoLinha2">&gt; OPERADOR: VALIDADO</p>
+        <p id="transicaoLinha3">&gt; PRÓXIMA ETAPA: LIBERADA</p>
+      </div>
+
+      <div class="transicao-estatisticas">
+        <div>
+          <span class="label">Operador</span>
+          <strong id="transicaoOperador">Operador</strong>
+        </div>
+
+        <div>
+          <span class="label">Patente</span>
+          <strong id="transicaoPatente">—</strong>
+        </div>
+
+        <div>
+          <span class="label">Aproveitamento</span>
+          <strong id="transicaoAproveitamento">0%</strong>
+        </div>
+
+        <div>
+          <span class="label">Pontuação</span>
+          <strong id="transicaoPontos">0</strong>
+        </div>
+      </div>
+
+      <div class="botoes-resultado transicao-botoes">
+        <button id="btnTransicaoContinuar" class="btn principal">
+          Continuar operação
+        </button>
+
+        <button id="btnTransicaoMapa" class="btn secundario">
+          Mapa do jogo
+        </button>
+
+        <button id="btnTransicaoInicio" class="btn discreto">
+          Início
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- TELA FIM DO JOGO -->
 <section id="telaFimJogo" class="tela">
   <div class="fim-jogo-container">
