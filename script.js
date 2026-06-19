@@ -337,11 +337,22 @@ function gerarHtmlMorseVisualAgrupadoPorLetra(codigoMorse) {
     })
     .join("");
 }
+function nivelIntermediarioCodigoParaTexto(nivel = getNivelAtual()) {
+  return (
+    modoAtual === MODO_INTERMEDIARIO &&
+    nivel &&
+    nivel.tipoMissao === "intermediario_codigo_texto"
+  );
+}
+
 function missaoUsaCodigoComoAlvo(nivel = getNivelAtual()) {
   return (
-    modoAtual === MODO_INICIANTE &&
-    nivel &&
-    Number(nivel.numero) >= 18
+    (
+      modoAtual === MODO_INICIANTE &&
+      nivel &&
+      Number(nivel.numero) >= 18
+    ) ||
+    nivelIntermediarioCodigoParaTexto(nivel)
   );
 }
 function renderizarGuiaMorseMissao(missao, dicaFonico, nivel = null) {
@@ -351,6 +362,19 @@ function renderizarGuiaMorseMissao(missao, dicaFonico, nivel = null) {
   const ehCaractereUnico = /^[A-Z0-9]$/.test(alvo);
 
   const usarCodigoComoAlvo = missaoUsaCodigoComoAlvo(nivel);
+  const faseCodigoParaTexto = nivelIntermediarioCodigoParaTexto(nivel);
+
+  if (faseCodigoParaTexto) {
+    dicaMissaoEl.innerHTML = `
+      <div class="morse-label-discreta">Tradução em português</div>
+
+      <div class="morse-dica-operacional">
+        A tradução aparecerá no painel abaixo conforme você transmitir o código.
+      </div>
+    `;
+
+    return;
+  }
 
   if (ehCaractereUnico) {
     dicaMissaoEl.innerHTML = `
@@ -1088,7 +1112,7 @@ function getMensagemNarrativaNivel(resultado) {
   return null;
 }
 
-const NIVEIS_INTERMEDIARIO = [
+const NIVEIS_INTERMEDIARIO_BASE = [
   { numero: 1, patente: "Operador em Treinamento", titulo: "Sem Rodinhas", descricao: "Letras simples sem botões de espaço.", missoes: ["E", "T", "A", "N", "M"] },
   { numero: 2, patente: "Operador Aprendiz", titulo: "Pausa entre Letras", descricao: "A pausa média separa automaticamente as letras.", missoes: ["I", "S", "O", "R", "K"] },
   { numero: 3, patente: "Operador Auxiliar", titulo: "Ritmo Fônico I", descricao: "Reconheça o desenho sonoro das letras.", missoes: ["D", "U", "C", "P", "L"] },
@@ -1100,6 +1124,37 @@ const NIVEIS_INTERMEDIARIO = [
   { numero: 9, patente: "Instrutor Morse", titulo: "Mensagem Operacional", descricao: "Mensagens maiores, sem botão auxiliar.", missoes: ["RADIO BASE QRV", "QTC SINAL 3", "POSTO QSL 2", "BASE RADIO OK", "TORRE SINAL 9"] },
   { numero: 10, patente: "Especialista Morse", titulo: "Missão Final Intermediária", descricao: "Transmissão completa por ritmo e pausa.", missoes: ["OPERADOR QRV", "QTC BASE SINAL", "RADIO POSTO QSL", "SINAL FORTE OK", "MISSAO INTERMEDIARIA"] }
 ];
+
+function gerarNiveisIntermediarioDuplicados(niveisBase) {
+  const niveis = [];
+
+  niveisBase.forEach((nivelBase, indice) => {
+    const numeroNormal = indice * 2 + 1;
+    const numeroCodigo = indice * 2 + 2;
+
+    niveis.push({
+      ...nivelBase,
+      numero: numeroNormal,
+      titulo: `${nivelBase.titulo}`,
+      descricao: nivelBase.descricao,
+      tipoMissao: "intermediario_normal"
+    });
+
+    niveis.push({
+      ...nivelBase,
+      numero: numeroCodigo,
+      patente: `${nivelBase.patente} — Código`,
+      titulo: `${nivelBase.titulo} — Código para texto`,
+      descricao: "Tecle o código Morse apresentado. A tradução em português só aparecerá depois da sua transmissão.",
+      tipoMissao: "intermediario_codigo_texto",
+      faseDuplicadaDe: numeroNormal
+    });
+  });
+
+  return niveis;
+}
+
+const NIVEIS_INTERMEDIARIO = gerarNiveisIntermediarioDuplicados(NIVEIS_INTERMEDIARIO_BASE);
 
 let nomeOperador = "Operador";
 let modoAtual = MODO_INICIANTE;
@@ -1295,7 +1350,7 @@ function obterPremiosDaFase(resultado) {
     });
   }
 
-  if (modo === "Intermediário" && nivel === 10 && aproveitamento >= 80) {
+  if (modo === "Intermediário" && nivel === 20 && aproveitamento >= 80) {
     premios.push({
       tipo: "titulo",
       id: "titulo_operador_intermediario",
@@ -4840,12 +4895,15 @@ function carregarMissao() {
     `Acertos ${acertosNivel}/${nivel.missoes.length}`;
 
     const usarCodigoComoAlvo = missaoUsaCodigoComoAlvo(nivel);
+  const faseCodigoParaTexto = nivelIntermediarioCodigoParaTexto(nivel);
 
   textoMissao.classList.toggle("texto-tecle-codigo", usarCodigoComoAlvo);
 
-  textoMissao.textContent = usarCodigoComoAlvo
-    ? "TECLE:"
-    : `TECLE: ${missao.alvo}`;
+  textoMissao.textContent = faseCodigoParaTexto
+    ? `TECLE: ${missao.codigo}`
+    : usarCodigoComoAlvo
+      ? "TECLE:"
+      : `TECLE: ${missao.alvo}`;
 
   const dicaFonico = getDicaFonico(missao.alvo);
 
