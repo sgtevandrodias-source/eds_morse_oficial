@@ -5375,6 +5375,7 @@ function mostrarTransicaoFase(resultado) {
   }
 
   mostrarTela(telaTransicaoFase, false);
+  tocarMusicaFimFase(true);
 }
 
 function continuarAposTransicaoFase() {
@@ -5421,6 +5422,7 @@ function mostrarResultadoNivel(resultado, campanhaFinalizada = false) {
   }
 
   mostrarTela(telaFinal, false);
+  tocarMusicaFimFase(resultado.aprovado);
   if (tituloResultado) {
     tituloResultado.style.display = resultado.aprovado ? "none" : "";
   }
@@ -6953,6 +6955,57 @@ function tocarAcerto() {
 function tocarErro() {
   tocarTomCurto(240, 120, 0.11, "sawtooth");
   setTimeout(() => tocarTomCurto(180, 160, 0.1, "sawtooth"), 120);
+}
+function tocarMusicaFimFase(aprovado = true) {
+  try {
+    prepararAudio();
+
+    if (!audioContext) return;
+
+    const agora = audioContext.currentTime;
+
+    const notasVitoria = [
+      { freq: 523.25, inicio: 0.00, duracao: 0.12 },
+      { freq: 659.25, inicio: 0.14, duracao: 0.12 },
+      { freq: 783.99, inicio: 0.28, duracao: 0.16 },
+      { freq: 1046.5, inicio: 0.48, duracao: 0.32 }
+    ];
+
+    const notasFalha = [
+      { freq: 392.0, inicio: 0.00, duracao: 0.16 },
+      { freq: 329.63, inicio: 0.20, duracao: 0.18 },
+      { freq: 261.63, inicio: 0.44, duracao: 0.34 }
+    ];
+
+    const notas = aprovado ? notasVitoria : notasFalha;
+
+    notas.forEach((nota) => {
+      const oscilador = audioContext.createOscillator();
+      const ganho = audioContext.createGain();
+
+      oscilador.type = "sine";
+      oscilador.frequency.setValueAtTime(nota.freq, agora + nota.inicio);
+
+      ganho.gain.setValueAtTime(0.0001, agora + nota.inicio);
+      ganho.gain.exponentialRampToValueAtTime(0.07, agora + nota.inicio + 0.02);
+      ganho.gain.setValueAtTime(
+        0.07,
+        agora + nota.inicio + Math.max(0.03, nota.duracao - 0.04)
+      );
+      ganho.gain.exponentialRampToValueAtTime(
+        0.0001,
+        agora + nota.inicio + nota.duracao
+      );
+
+      oscilador.connect(ganho);
+      ganho.connect(audioContext.destination);
+
+      oscilador.start(agora + nota.inicio);
+      oscilador.stop(agora + nota.inicio + nota.duracao + 0.04);
+    });
+  } catch (erro) {
+    console.warn("Não foi possível tocar a música de fim de fase:", erro);
+  }
 }
 
 let temporizadoresSequenciaMorse = [];
