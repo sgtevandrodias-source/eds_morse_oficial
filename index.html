@@ -688,20 +688,52 @@
         <div id="listaRanking" class="ranking-lista"></div>
     
         <div class="botoes-resultado">
-          <button id="btnVoltarCampanhaRanking" class="btn principal">
+          <button id="btnAbrirRelatorioOperador" class="btn principal">
+            📊 Meu relatório
+          </button>
+        
+          <button id="btnVoltarCampanhaRanking" class="btn secundario">
             Mapa do jogo
           </button>
-    
+        
           <button id="btnVoltarInicio" class="btn secundario">
             Início
           </button>
-    
+        
           <button id="btnLimparRanking" class="btn discreto" style="display:none;">
             Limpar ranking
           </button>
         </div>
       </div>
     </section>
+    <!-- TELA RELATÓRIO DO OPERADOR -->
+<section id="telaRelatorioOperador" class="tela">
+  <div class="card resultado-card relatorio-operador-card">
+    <div class="badge">📊 Desempenho individual</div>
+
+    <h1>Relatório do Operador</h1>
+
+    <p>
+      Comparativo geral do seu desempenho com os melhores resultados do Ranking Global.
+    </p>
+
+    <div id="relatorioOperadorConteudo" class="relatorio-operador-conteudo">
+      <div class="ranking-carregando">
+        Carregando relatório do operador...
+      </div>
+    </div>
+
+    <div class="botoes-resultado">
+      <button id="btnVoltarRankingRelatorio" class="btn principal">
+        Voltar ao ranking
+      </button>
+
+      <button id="btnInicioRelatorioOperador" class="btn secundario">
+        Início
+      </button>
+    </div>
+  </div>
+</section>
     <!-- TELA REGRAS E FAQ -->
     <section id="telaRegrasFAQ" class="tela">
       <div class="card resultado-card regras-faq-card">

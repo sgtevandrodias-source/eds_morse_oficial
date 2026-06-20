@@ -11,6 +11,7 @@ const telaFinal = document.getElementById("telaFinal");
 const telaTransicaoFase = document.getElementById("telaTransicaoFase");
 const telaFimJogo = document.getElementById("telaFimJogo");
 const telaRanking = document.getElementById("telaRanking");
+const telaRelatorioOperador = document.getElementById("telaRelatorioOperador");
 const telaManipulador = document.getElementById("telaManipulador");
 
 const telaSalaSecretaSenha = document.getElementById("telaSalaSecretaSenha");
@@ -96,9 +97,14 @@ const btnTransicaoMapa = document.getElementById("btnTransicaoMapa");
 const btnTransicaoInicio = document.getElementById("btnTransicaoInicio");
 
 let resultadoTransicaoFaseAtual = null;
+const btnAbrirRelatorioOperador = document.getElementById("btnAbrirRelatorioOperador");
 const btnVoltarCampanhaRanking = document.getElementById("btnVoltarCampanhaRanking");
 const btnVoltarInicio = document.getElementById("btnVoltarInicio");
 const btnLimparRanking = document.getElementById("btnLimparRanking");
+
+const relatorioOperadorConteudo = document.getElementById("relatorioOperadorConteudo");
+const btnVoltarRankingRelatorio = document.getElementById("btnVoltarRankingRelatorio");
+const btnInicioRelatorioOperador = document.getElementById("btnInicioRelatorioOperador");
 
 const telaRegrasFAQ = document.getElementById("telaRegrasFAQ");
 const btnAbrirRegrasFAQ = document.getElementById("btnAbrirRegrasFAQ");
@@ -1688,9 +1694,22 @@ if (btnTransicaoInicio) {
   btnTransicaoInicio.addEventListener("click", voltarInicio);
 }
 
+if (btnAbrirRelatorioOperador) {
+  btnAbrirRelatorioOperador.addEventListener("click", abrirRelatorioOperador);
+}
+
 btnVoltarCampanhaRanking.addEventListener("click", entrarCampanha);
 btnVoltarInicio.addEventListener("click", voltarInicio);
 btnLimparRanking.addEventListener("click", limparRanking);
+
+if (btnVoltarRankingRelatorio) {
+  btnVoltarRankingRelatorio.addEventListener("click", abrirRanking);
+}
+
+if (btnInicioRelatorioOperador) {
+  btnInicioRelatorioOperador.addEventListener("click", voltarInicio);
+}
+
 btnVoltarInicioRegrasFAQ.addEventListener("click", voltarInicio);
 
 
@@ -2148,8 +2167,9 @@ function mostrarTela(tela, registrarHistorico = true) {
   if (telaTransicaoFase) telaTransicaoFase.classList.remove("ativa");
   telaFimJogo.classList.remove("ativa");
   telaRanking.classList.remove("ativa");
-  telaRegrasFAQ.classList.remove("ativa");
-  telaManipulador.classList.remove("ativa");
+if (telaRelatorioOperador) telaRelatorioOperador.classList.remove("ativa");
+telaRegrasFAQ.classList.remove("ativa");
+telaManipulador.classList.remove("ativa");
   if (telaSalaSecretaSenha) telaSalaSecretaSenha.classList.remove("ativa");
   if (telaSalaSecretaFragmentos) telaSalaSecretaFragmentos.classList.remove("ativa");
   if (telaSalaSecretaFinal) telaSalaSecretaFinal.classList.remove("ativa");
@@ -2184,8 +2204,9 @@ const MAPA_TELAS_APP = {
   telaTransicaoFase,
   telaFimJogo,
   telaRanking,
-  telaRegrasFAQ,
-  telaManipulador,
+telaRelatorioOperador,
+telaRegrasFAQ,
+telaManipulador,
   telaSalaSecretaSenha,
   telaSalaSecretaFragmentos,
   telaSalaSecretaFinal
@@ -6263,6 +6284,215 @@ function obterRankingCarreira() {
 function abrirRanking() {
   mostrarTela(telaRanking);
   renderizarRankingGlobal();
+}
+function pegarCampoRanking(item, ...nomes) {
+  if (!item) return 0;
+
+  for (const nome of nomes) {
+    if (item[nome] !== undefined && item[nome] !== null) {
+      return item[nome];
+    }
+  }
+
+  return 0;
+}
+
+function calcularPercentualRelatorio(valor, referencia) {
+  const atual = Number(valor || 0);
+  const maximo = Number(referencia || 0);
+
+  if (!maximo || maximo <= 0) return 0;
+
+  return Math.max(0, Math.min(100, Math.round((atual / maximo) * 100)));
+}
+
+function montarLinhaComparativoRelatorio(rotulo, meuValorTexto, liderValorTexto, percentual) {
+  return `
+    <div class="relatorio-comparativo-linha">
+      <div>
+        <span>${escaparHtml(rotulo)}</span>
+        <strong>${escaparHtml(meuValorTexto)}</strong>
+        <small>Líder: ${escaparHtml(liderValorTexto)}</small>
+      </div>
+
+      <div class="barra-comparativo">
+        <div style="width:${percentual}%"></div>
+      </div>
+    </div>
+  `;
+}
+
+function montarDiagnosticoRelatorio(minhaPosicao, lider) {
+  if (!minhaPosicao) {
+    return "Conclua uma missão aprovada para gerar seu primeiro relatório global.";
+  }
+
+  const meusPontos = Number(pegarCampoRanking(minhaPosicao, "pontos_carreira", "pontosCarreira") || 0);
+  const pontosLider = Number(pegarCampoRanking(lider, "pontos_carreira", "pontosCarreira") || 0);
+  const meuWpm = Number(pegarCampoRanking(minhaPosicao, "melhor_wpm", "melhorWpm") || 0);
+  const wpmLider = Number(pegarCampoRanking(lider, "melhor_wpm", "melhorWpm") || 0);
+  const meuAproveitamento = Number(pegarCampoRanking(minhaPosicao, "melhor_aproveitamento", "melhorAproveitamento") || 0);
+
+  if (pontosLider > 0 && meusPontos >= pontosLider) {
+    return "Você está no topo do Ranking Global. Mantenha a regularidade para defender sua posição.";
+  }
+
+  if (meuAproveitamento >= 95 && meuWpm < wpmLider) {
+    return "Seu ponto forte é a precisão. Para subir no ranking, o próximo foco é aumentar o WPM mantendo o aproveitamento.";
+  }
+
+  if (meuWpm >= wpmLider && meuAproveitamento < 90) {
+    return "Você tem boa velocidade. Para evoluir mais, o foco agora é reduzir erros e melhorar o aproveitamento.";
+  }
+
+  return "Você está construindo progresso. Continue concluindo fases e repetindo missões para melhorar seus melhores resultados.";
+}
+
+function montarHtmlRelatorioOperador(dados) {
+  const ranking = dados?.ranking || [];
+  const minhaPosicao = dados?.minhaPosicao || null;
+  const lider = ranking[0] || null;
+
+  if (!minhaPosicao) {
+    return `
+      <div class="ranking-vazio">
+        Ainda não há dados suficientes para gerar seu relatório.
+        Conclua uma missão aprovada e envie seu resultado ao Ranking Global.
+      </div>
+    `;
+  }
+
+  const pontosMeu = Number(pegarCampoRanking(minhaPosicao, "pontos_carreira", "pontosCarreira") || 0);
+  const pontosLider = Number(pegarCampoRanking(lider, "pontos_carreira", "pontosCarreira") || 0);
+
+  const fasesMeu = Number(pegarCampoRanking(minhaPosicao, "fases_concluidas", "fasesConcluidas") || 0);
+  const fasesLider = Number(pegarCampoRanking(lider, "fases_concluidas", "fasesConcluidas") || 0);
+
+  const medalhasMeu = Number(pegarCampoRanking(minhaPosicao, "medalhas") || 0);
+  const medalhasLider = Number(pegarCampoRanking(lider, "medalhas") || 0);
+
+  const aproveitamentoMeu = Number(pegarCampoRanking(minhaPosicao, "melhor_aproveitamento", "melhorAproveitamento") || 0);
+  const aproveitamentoLider = Number(pegarCampoRanking(lider, "melhor_aproveitamento", "melhorAproveitamento") || 0);
+
+  const wpmMeu = Number(pegarCampoRanking(minhaPosicao, "melhor_wpm", "melhorWpm") || 0);
+  const wpmLider = Number(pegarCampoRanking(lider, "melhor_wpm", "melhorWpm") || 0);
+
+  const diferencaPontos = Math.max(0, pontosLider - pontosMeu);
+  const percentualPontos = calcularPercentualRelatorio(pontosMeu, pontosLider);
+  const percentualFases = calcularPercentualRelatorio(fasesMeu, fasesLider);
+  const percentualMedalhas = calcularPercentualRelatorio(medalhasMeu, medalhasLider);
+  const percentualAproveitamento = calcularPercentualRelatorio(aproveitamentoMeu, Math.max(aproveitamentoLider, 100));
+  const percentualWpm = calcularPercentualRelatorio(wpmMeu, wpmLider);
+
+  const diagnostico = montarDiagnosticoRelatorio(minhaPosicao, lider);
+
+  return `
+    <section class="relatorio-operador-topo">
+      <div class="relatorio-operador-posicao">
+        <span>Posição global</span>
+        <strong>#${formatarNumeroRanking(minhaPosicao.posicao || 0)}</strong>
+      </div>
+
+      <div class="relatorio-operador-identidade">
+        <span class="label">Operador</span>
+        <h2>${escaparHtml(minhaPosicao.operador || getNomeOperadorAtual())}</h2>
+        <p>
+          ${formatarNumeroRanking(pontosMeu)} pts acumulados •
+          ${escaparHtml(minhaPosicao.modo || "Modo")} •
+          Nível ${formatarNumeroRanking(minhaPosicao.nivel || 0)}
+        </p>
+      </div>
+    </section>
+
+    <section class="relatorio-operador-resumo">
+      <div>
+        <span>Líder global</span>
+        <strong>${escaparHtml(lider?.operador || "—")}</strong>
+        <small>${formatarNumeroRanking(pontosLider)} pts</small>
+      </div>
+
+      <div>
+        <span>Diferença para o líder</span>
+        <strong>${formatarNumeroRanking(diferencaPontos)}</strong>
+        <small>pontos</small>
+      </div>
+
+      <div>
+        <span>Seu alcance</span>
+        <strong>${percentualPontos}%</strong>
+        <small>do líder em pontos</small>
+      </div>
+    </section>
+
+    <section class="relatorio-operador-comparativo">
+      <h2>Comparativo global</h2>
+
+      ${montarLinhaComparativoRelatorio(
+        "Pontos acumulados",
+        `${formatarNumeroRanking(pontosMeu)} pts`,
+        `${formatarNumeroRanking(pontosLider)} pts`,
+        percentualPontos
+      )}
+
+      ${montarLinhaComparativoRelatorio(
+        "Fases concluídas",
+        `${formatarNumeroRanking(fasesMeu)}`,
+        `${formatarNumeroRanking(fasesLider)}`,
+        percentualFases
+      )}
+
+      ${montarLinhaComparativoRelatorio(
+        "Medalhas",
+        `${formatarNumeroRanking(medalhasMeu)}`,
+        `${formatarNumeroRanking(medalhasLider)}`,
+        percentualMedalhas
+      )}
+
+      ${montarLinhaComparativoRelatorio(
+        "Melhor aproveitamento",
+        `${formatarNumeroRanking(aproveitamentoMeu)}%`,
+        `${formatarNumeroRanking(aproveitamentoLider)}%`,
+        percentualAproveitamento
+      )}
+
+      ${montarLinhaComparativoRelatorio(
+        "Melhor WPM",
+        `${formatarWpmRanking(wpmMeu)} WPM`,
+        `${formatarWpmRanking(wpmLider)} WPM`,
+        percentualWpm
+      )}
+    </section>
+
+    <section class="relatorio-operador-diagnostico">
+      <span class="label">Diagnóstico operacional</span>
+      <strong>${escaparHtml(diagnostico)}</strong>
+    </section>
+  `;
+}
+
+async function abrirRelatorioOperador() {
+  if (!telaRelatorioOperador || !relatorioOperadorConteudo) return;
+
+  mostrarTela(telaRelatorioOperador);
+
+  relatorioOperadorConteudo.innerHTML = `
+    <div class="ranking-carregando">
+      Carregando relatório do operador...
+    </div>
+  `;
+
+  try {
+    const dados = await buscarRankingGlobal(50);
+    relatorioOperadorConteudo.innerHTML = montarHtmlRelatorioOperador(dados);
+  } catch (erro) {
+    console.error("Erro ao carregar relatório do operador:", erro);
+
+    relatorioOperadorConteudo.innerHTML = `
+      <div class="ranking-vazio">
+        Não foi possível carregar o relatório agora. Verifique sua internet e tente novamente.
+      </div>
+    `;
+  }
 }
 
 async function buscarRankingGlobal(limite = 50, busca = "") {
