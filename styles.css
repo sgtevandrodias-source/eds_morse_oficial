@@ -6460,3 +6460,27 @@ button,
     padding: 18px;
   }
 }
+/* =========================
+   AVANÇADO - TEXTO TECLE MAIS COMPACTO
+========================= */
+
+body.modo-avancado #textoMissao.texto-tecle,
+body.modo-avancado #telaJogo #textoMissao {
+  font-size: clamp(2.2rem, 10vw, 4rem) !important;
+  line-height: 1.02 !important;
+  margin: 10px auto 8px !important;
+}
+
+@media (max-width: 720px) {
+  body.modo-avancado #textoMissao.texto-tecle,
+  body.modo-avancado #telaJogo #textoMissao {
+    font-size: clamp(2.1rem, 11vw, 3.5rem) !important;
+  }
+}
+
+@media (max-width: 420px) and (max-height: 760px) {
+  body.modo-avancado #textoMissao.texto-tecle,
+  body.modo-avancado #telaJogo #textoMissao {
+    font-size: clamp(1.9rem, 10vw, 3.1rem) !important;
+  }
+}
