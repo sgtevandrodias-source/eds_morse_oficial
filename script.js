@@ -1468,6 +1468,7 @@ function registrarResultadoNaCarreira(resultado) {
   );
 
   let pontosSomados = 0;
+  let superouMelhorFase = false;
 
   if (!faseJaRegistrada) {
     pontosSomados = pontosComBonusTempo;
@@ -1486,6 +1487,7 @@ function registrarResultadoNaCarreira(resultado) {
       data: resultado.data
     });
   } else if (pontosComBonusTempo > faseJaRegistrada.melhorPontuacao) {
+    superouMelhorFase = true;
     pontosSomados = pontosComBonusTempo - faseJaRegistrada.melhorPontuacao;
 
     faseJaRegistrada.melhorPontuacao = pontosComBonusTempo;
@@ -1556,6 +1558,7 @@ function registrarResultadoNaCarreira(resultado) {
     pontosDaFase,
     bonusTempo,
     pontosComBonusTempo,
+    superouMelhorFase,
     premiosDaFase: premiosNovosDaFase
   };
 }
@@ -6040,14 +6043,19 @@ async function enviarResultadoRankingGlobal(resultado) {
 
     if (retorno && retorno.ok) {
       console.log("Ranking Global:", retorno.mensagem || "Resultado enviado.");
-
+    
       if (typeof mostrarAvisoRapido === "function") {
-        mostrarAvisoRapido(
-          "Ranking Global",
-          retorno.mensagem || "Resultado enviado com sucesso."
-        );
-      }
+        const superouMelhorFase =
+        !!resultado?.registroCarreira?.superouMelhorFase;
 
+      mostrarAvisoRapido(
+        "Ranking Global atualizado",
+        superouMelhorFase
+          ? "Seu progresso geral foi enviado com sucesso. Desta vez você se superou!"
+          : "Seu progresso geral foi enviado com sucesso."
+      );
+      }
+    
       return true;
     }
 
