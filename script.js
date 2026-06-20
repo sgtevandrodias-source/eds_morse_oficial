@@ -4581,7 +4581,7 @@ atualizarCardModo(
   intermediarioConcluido,
   avancadoConcluido ? "Concluído" : intermediarioConcluido ? "Liberado" : "Bloqueado",
   avancadoConcluido
-    ? "Campanha avançada concluída"
+    ? "Modo avançado concluído"
     : intermediarioConcluido
       ? "Modo Avançado liberado"
       : "Conclua o Intermediário para liberar"
@@ -5406,7 +5406,7 @@ function montarCardsPremiosDaFase(premiosDaFase = []) {
           <div>
             <span>${escaparHtml(premio.tipo || "prêmio")}</span>
             <strong>${escaparHtml(premio.nome)}</strong>
-            <small>${escaparHtml(premio.descricao || "Recompensa adicionada à carreira do operador.")}</small>
+            <small>${escaparHtml(premio.descricao || "Recompensa adicionada ao progresso do operador.")}</small>
           </div>
         </article>
       `;
@@ -6443,7 +6443,7 @@ function renderizarRanking() {
 }
 function limparRanking() {
   const confirmar = window.confirm(
-    "Deseja limpar o ranking local e os dados de carreira salvos neste aparelho?"
+    "Deseja limpar o ranking local e os dados de progresso salvos neste aparelho?"
   );
 
   if (!confirmar) return;
@@ -6460,7 +6460,7 @@ function limparRanking() {
 
   mostrarAvisoRapido(
     "Ranking limpo",
-    "Ranking local e dados de carreira foram apagados deste aparelho."
+    "Ranking local e dados de progresso foram apagados deste aparelho."
   );
 }
 function escaparHtml(valor) {
