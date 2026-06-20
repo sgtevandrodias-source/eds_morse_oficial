@@ -4880,7 +4880,22 @@ function confirmarRecepcaoAvancada() {
 
   atualizarPlacar();
 
-  setTimeout(proximaMissao, 1100);
+const nivelAtual = getNivelAtual();
+const ultimaMissaoDoNivel =
+  nivelAtual && missaoAtualIndex >= nivelAtual.missoes.length - 1;
+
+if (btnEnviar) btnEnviar.disabled = true;
+
+setTimeout(() => {
+  if (btnEnviar) btnEnviar.disabled = false;
+
+  if (ultimaMissaoDoNivel) {
+    finalizarNivel();
+    return;
+  }
+
+  proximaMissao();
+}, 1100);
 }
 function carregarMissao() {
   const nivel = getNivelAtual();
@@ -4992,7 +5007,23 @@ function confirmarEnvio() {
   }
 
   atualizarPlacar();
-  setTimeout(proximaMissao, 900);
+
+const nivelAtual = getNivelAtual();
+const ultimaMissaoDoNivel =
+  nivelAtual && missaoAtualIndex >= nivelAtual.missoes.length - 1;
+
+if (btnEnviar) btnEnviar.disabled = true;
+
+setTimeout(() => {
+  if (btnEnviar) btnEnviar.disabled = false;
+
+  if (ultimaMissaoDoNivel) {
+    finalizarNivel();
+    return;
+  }
+
+  proximaMissao();
+}, 900);
 }
 
 function calcularPontosAcerto() {
@@ -5105,7 +5136,9 @@ function finalizarNivel() {
     modo: getNomeModo(modoAtual),
     patente: patenteResultado,
     nivel: nivel.numero,
-    titulo: campanhaFinalizada ? `Campanha ${getNomeModo(modoAtual)} concluída` : nivel.titulo,
+    titulo: campanhaFinalizada
+      ? `Modo ${getNomeModo(modoAtual)} concluído`
+      : nivel.titulo,
     pontos: pontosFinais,
     aproveitamento,
     tempoSegundos,
@@ -5117,23 +5150,57 @@ function finalizarNivel() {
     data: new Date().toLocaleDateString("pt-BR")
   };
 
-  salvarRanking(ultimoResultado);
-
-const registroCarreira = registrarResultadoNaCarreira(ultimoResultado);
-
-ultimoResultado.registroCarreira = registroCarreira;
-
-enviarResultadoRankingGlobal(ultimoResultado);
-
-  if (aprovado) liberarProximoNivel(campanhaFinalizada);
-
-  if (aprovado) {
-    processarFragmentoSecretoResultado(ultimoResultado);
+  try {
+    salvarRanking(ultimoResultado);
+  } catch (erro) {
+    console.warn("Falha ao salvar ranking local:", erro);
   }
 
-  mostrarResultadoNivel(ultimoResultado, campanhaFinalizada);
-}
+  let registroCarreira = null;
 
+  try {
+    registroCarreira = registrarResultadoNaCarreira(ultimoResultado);
+  } catch (erro) {
+    console.warn("Falha ao registrar progresso do operador:", erro);
+  }
+
+  ultimoResultado.registroCarreira = registroCarreira;
+
+  try {
+    enviarResultadoRankingGlobal(ultimoResultado);
+  } catch (erro) {
+    console.warn("Falha ao iniciar envio para Ranking Global:", erro);
+  }
+
+  if (aprovado) {
+    try {
+      liberarProximoNivel(campanhaFinalizada);
+    } catch (erro) {
+      console.warn("Falha ao liberar próximo nível:", erro);
+    }
+  }
+
+  if (aprovado) {
+    try {
+      processarFragmentoSecretoResultado(ultimoResultado);
+    } catch (erro) {
+      console.warn("Falha ao processar fragmento secreto:", erro);
+    }
+  }
+
+  try {
+    mostrarResultadoNivel(ultimoResultado, campanhaFinalizada);
+  } catch (erro) {
+    console.error("Falha ao mostrar resultado do nível:", erro);
+
+    if (campanhaFinalizada && aprovado) {
+      mostrarTransicaoFase(ultimoResultado);
+      return;
+    }
+
+    mostrarTela(telaFinal, false);
+  }
+}
 function liberarProximoNivel(campanhaFinalizada) {
   const niveis = getNiveisModo(modoAtual);
   const nivelLiberadoAtual = obterNivelLiberado(modoAtual);
