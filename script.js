@@ -5388,6 +5388,13 @@ function mostrarResultadoNivel(resultado, campanhaFinalizada = false) {
   }
 
   mostrarTela(telaFinal, false);
+  if (tituloResultado) {
+    tituloResultado.style.display = resultado.aprovado ? "none" : "";
+  }
+  
+  if (resultadoFinal) {
+    resultadoFinal.style.display = resultado.aprovado ? "none" : "";
+  }
 
   const conquistasNovas = verificarConquistasDoNivel(resultado, campanhaFinalizada) || [];
   const mensagemNarrativa = getMensagemNarrativaNivel(resultado);
@@ -5398,12 +5405,19 @@ function mostrarResultadoNivel(resultado, campanhaFinalizada = false) {
   resultadoPontos.textContent = resultado.pontos;
 
   if (!resultado.aprovado) {
-    resultadoBadge.textContent = "Missão não cumprida";
+    resultadoBadge.textContent = "MISSÃO NÃO CUMPRIDA";
+    resultadoBadge.className = "badge erro";
+  
+    tituloResultado.style.display = "";
+    resultadoFinal.style.display = "";
+  
     tituloResultado.textContent = "Tente novamente";
     resultadoFinal.textContent =
       `Você ficou com ${resultado.aproveitamento}% de aproveitamento. O mínimo é 80%. Repita a missão para manter a rede operacional.`;
+  
     btnProximoNivel.style.display = "none";
     btnJogarNovamente.textContent = "Repetir nível";
+  
     renderizarRelatorioOperacional(resultado, mensagemNarrativa, conquistasNovas, campanhaFinalizada);
     return;
   }
@@ -5424,8 +5438,10 @@ function mostrarResultadoNivel(resultado, campanhaFinalizada = false) {
     return;
   }
 
-  resultadoBadge.textContent = "Missão cumprida";
-  tituloResultado.textContent = "Relatório da missão";
+  resultadoBadge.textContent = "MISSÃO CUMPRIDA";
+resultadoBadge.className = "badge sucesso";
+
+tituloResultado.textContent = "Relatório da missão";
 
   resultadoFinal.textContent =
     `Você concluiu a missão com ${resultado.aproveitamento}% de aproveitamento, em ${formatarTempo(resultado.tempoSegundos)}, alcançando ${resultado.wpm.toFixed(1)} WPM aproximado.`;

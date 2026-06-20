@@ -199,6 +199,13 @@ button {
   border-color: rgba(250, 204, 21, 0.2);
 }
 
+.badge.erro {
+  background: rgba(239, 68, 68, 0.16);
+  color: #ff6b6b;
+  border-color: rgba(239, 68, 68, 0.34);
+  box-shadow: 0 0 18px rgba(239, 68, 68, 0.16);
+}
+
 h1 {
   margin: 18px 0 10px;
   font-size: clamp(2.5rem, 7vw, 5rem);
