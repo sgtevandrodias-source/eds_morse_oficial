@@ -363,6 +363,15 @@ function renderizarGuiaMorseMissao(missao, dicaFonico, nivel = null) {
 
   const usarCodigoComoAlvo = missaoUsaCodigoComoAlvo(nivel);
   const faseCodigoParaTexto = nivelIntermediarioCodigoParaTexto(nivel);
+  if (modoAtual === MODO_AVANCADO) {
+    dicaMissaoEl.innerHTML = `
+      <div class="morse-dica-operacional">
+        Transmita no ritmo correto, respeitando pausas entre letras e palavras.
+      </div>
+    `;
+
+    return;
+  }
 
   if (faseCodigoParaTexto) {
     dicaMissaoEl.innerHTML = `
