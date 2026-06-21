@@ -97,6 +97,8 @@ const btnTransicaoMapa = document.getElementById("btnTransicaoMapa");
 const btnTransicaoInicio = document.getElementById("btnTransicaoInicio");
 
 let resultadoTransicaoFaseAtual = null;
+let temporizadorFinalAutomatico = null;
+let temporizadorEfeitoFimJogo = null;
 const btnAbrirRelatorioOperador = document.getElementById("btnAbrirRelatorioOperador");
 const btnVoltarCampanhaRanking = document.getElementById("btnVoltarCampanhaRanking");
 const btnVoltarInicio = document.getElementById("btnVoltarInicio");
@@ -2156,7 +2158,16 @@ function carregarPreferencias() {
 
 function mostrarTela(tela, registrarHistorico = true) {
   pararTodosOsSons();
-
+  if (temporizadorFinalAutomatico) {
+    clearTimeout(temporizadorFinalAutomatico);
+    temporizadorFinalAutomatico = null;
+  }
+  
+  if (temporizadorEfeitoFimJogo && tela !== telaFimJogo) {
+    clearTimeout(temporizadorEfeitoFimJogo);
+    temporizadorEfeitoFimJogo = null;
+    document.body.classList.remove("fim-jogo-celebracao");
+  }
   telaInicial.classList.remove("ativa");
   telaMissao.classList.remove("ativa");
   telaBiblioteca.classList.remove("ativa");
@@ -5183,10 +5194,12 @@ function finalizarNivel() {
     data: new Date().toLocaleDateString("pt-BR")
   };
 
-  try {
-    salvarRanking(ultimoResultado);
-  } catch (erro) {
-    console.warn("Falha ao salvar ranking local:", erro);
+  if (aprovado) {
+    try {
+      salvarRanking(ultimoResultado);
+    } catch (erro) {
+      console.warn("Falha ao salvar ranking local:", erro);
+    }
   }
 
   let registroCarreira = null;
@@ -5292,6 +5305,76 @@ function mostrarFimDoJogo(resultado) {
   }
 
   mostrarTela(telaFimJogo, false);
+  iniciarEfeitoFinalJogo();
+  tocarMusicaFinalJogo();
+}
+function tocarMusicaFinalJogo() {
+  try {
+    prepararAudio();
+
+    if (!audioContext) return;
+
+    const agora = audioContext.currentTime;
+
+    const notas = [
+      { freq: 392.0, inicio: 0.00, duracao: 0.18 },
+      { freq: 523.25, inicio: 0.20, duracao: 0.18 },
+      { freq: 659.25, inicio: 0.40, duracao: 0.22 },
+      { freq: 783.99, inicio: 0.66, duracao: 0.24 },
+      { freq: 1046.5, inicio: 0.98, duracao: 0.42 },
+      { freq: 783.99, inicio: 1.44, duracao: 0.18 },
+      { freq: 1046.5, inicio: 1.66, duracao: 0.55 }
+    ];
+
+    notas.forEach((nota) => {
+      const oscilador = audioContext.createOscillator();
+      const ganho = audioContext.createGain();
+      const filtro = audioContext.createBiquadFilter();
+
+      oscilador.type = "sine";
+      oscilador.frequency.setValueAtTime(nota.freq, agora + nota.inicio);
+
+      filtro.type = "lowpass";
+      filtro.frequency.setValueAtTime(2400, agora + nota.inicio);
+
+      ganho.gain.setValueAtTime(0.0001, agora + nota.inicio);
+      ganho.gain.exponentialRampToValueAtTime(0.085, agora + nota.inicio + 0.025);
+      ganho.gain.setValueAtTime(
+        0.085,
+        agora + nota.inicio + Math.max(0.04, nota.duracao - 0.05)
+      );
+      ganho.gain.exponentialRampToValueAtTime(
+        0.0001,
+        agora + nota.inicio + nota.duracao
+      );
+
+      oscilador.connect(filtro);
+      filtro.connect(ganho);
+      ganho.connect(audioContext.destination);
+
+      oscilador.start(agora + nota.inicio);
+      oscilador.stop(agora + nota.inicio + nota.duracao + 0.05);
+    });
+
+    setTimeout(() => {
+      tocarSequenciaMorse("--.- ... .-..");
+    }, 2300);
+  } catch (erro) {
+    console.warn("Não foi possível tocar a música final:", erro);
+  }
+}
+
+function iniciarEfeitoFinalJogo() {
+  document.body.classList.add("fim-jogo-celebracao");
+
+  if (temporizadorEfeitoFimJogo) {
+    clearTimeout(temporizadorEfeitoFimJogo);
+  }
+
+  temporizadorEfeitoFimJogo = setTimeout(() => {
+    document.body.classList.remove("fim-jogo-celebracao");
+    temporizadorEfeitoFimJogo = null;
+  }, 9500);
 }
 
 function getDadosTransicaoFase(resultado) {
@@ -5344,6 +5427,11 @@ function getDadosTransicaoFase(resultado) {
 function mostrarTransicaoFase(resultado) {
   if (!resultado || !telaTransicaoFase) return;
 
+  if (temporizadorFinalAutomatico) {
+    clearTimeout(temporizadorFinalAutomatico);
+    temporizadorFinalAutomatico = null;
+  }
+
   resultadoTransicaoFaseAtual = resultado;
 
   const dados = getDadosTransicaoFase(resultado);
@@ -5351,10 +5439,15 @@ function mostrarTransicaoFase(resultado) {
   telaTransicaoFase.classList.remove(
     "transicao-iniciante",
     "transicao-intermediario",
-    "transicao-avancado"
+    "transicao-avancado",
+    "transicao-final-automatica"
   );
 
   telaTransicaoFase.classList.add(dados.classe);
+
+  if (resultado.modo === "Avançado" && resultado.aprovado) {
+    telaTransicaoFase.classList.add("transicao-final-automatica");
+  }
 
   if (transicaoFaseBadge) transicaoFaseBadge.textContent = dados.badge;
   if (transicaoFaseTitulo) transicaoFaseTitulo.textContent = dados.titulo;
@@ -5371,13 +5464,26 @@ function mostrarTransicaoFase(resultado) {
   if (transicaoPontos) transicaoPontos.textContent = resultado.pontos || 0;
 
   if (btnTransicaoContinuar) {
-    btnTransicaoContinuar.textContent = dados.botao;
+    btnTransicaoContinuar.textContent =
+      resultado.modo === "Avançado" && resultado.aprovado
+        ? "Abrindo transmissão final..."
+        : dados.botao;
   }
 
   mostrarTela(telaTransicaoFase, false);
+
+  if (resultado.modo === "Avançado" && resultado.aprovado) {
+    tocarMusicaFinalJogo();
+
+    temporizadorFinalAutomatico = setTimeout(() => {
+      mostrarFimDoJogo(resultado);
+    }, 7200);
+
+    return;
+  }
+
   tocarMusicaFimFase(true);
 }
-
 function continuarAposTransicaoFase() {
   const resultado = resultadoTransicaoFaseAtual;
 
@@ -5452,11 +5558,15 @@ function mostrarResultadoNivel(resultado, campanhaFinalizada = false) {
   
     btnProximoNivel.style.display = "none";
     btnJogarNovamente.textContent = "Repetir nível";
+
+    const relatorio = document.getElementById("relatorioOperacionalResultado");
+    if (relatorio) {
+      relatorio.innerHTML = "";
+      relatorio.style.display = "none";
+    }
   
-    renderizarRelatorioOperacional(resultado, mensagemNarrativa, conquistasNovas, campanhaFinalizada);
     return;
   }
-
   if (campanhaFinalizada) {
     resultadoBadge.textContent = `Campanha ${getNomeModo(modoAtual)} concluída`;
     tituloResultado.textContent = "Rede restabelecida";
@@ -6113,6 +6223,10 @@ async function enviarResultadoRankingGlobal(resultado) {
   }
 }
 function salvarRanking(resultado) {
+  if (!resultado || !resultado.aprovado) {
+    return;
+  }
+
   const ranking = obterRanking();
 
   const pontosBase = Number(resultado.pontos || 0);

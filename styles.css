@@ -6647,3 +6647,183 @@ body.modo-avancado #telaJogo #textoMissao {
     font-size: 2rem;
   }
 }
+/* =========================================================
+   FINAL DO JOGO — CELEBRAÇÃO DA REDE ADR
+========================================================= */
+
+#telaTransicaoFase.transicao-final-automatica .transicao-fase-card {
+  position: relative;
+  overflow: hidden;
+  animation: pulsoFinalRede 1.4s ease-in-out infinite alternate;
+}
+
+#telaTransicaoFase.transicao-final-automatica .transicao-fase-card::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background:
+    radial-gradient(circle, rgba(34, 197, 94, 0.20), transparent 36%),
+    radial-gradient(circle at 70% 20%, rgba(250, 204, 21, 0.18), transparent 28%),
+    radial-gradient(circle at 20% 80%, rgba(56, 189, 248, 0.16), transparent 30%);
+  animation: giroSinalFinal 5s linear infinite;
+  pointer-events: none;
+}
+
+#telaTransicaoFase.transicao-final-automatica .transicao-fase-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+#telaTransicaoFase.transicao-final-automatica #btnTransicaoContinuar {
+  opacity: 0.82;
+  pointer-events: none;
+}
+
+body.fim-jogo-celebracao #telaFimJogo {
+  position: relative;
+  overflow: hidden;
+}
+
+body.fim-jogo-celebracao #telaFimJogo::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(250, 204, 21, 0.20), transparent 34%),
+    radial-gradient(circle at 50% 55%, rgba(34, 197, 94, 0.18), transparent 42%),
+    linear-gradient(180deg, rgba(34, 197, 94, 0.08), transparent 72%);
+  animation: claridadeFinal 2.6s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+body.fim-jogo-celebracao #telaFimJogo::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(34, 197, 94, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 197, 94, 0.08) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: radial-gradient(circle at center, black 0%, transparent 76%);
+  animation: gradeFinal 1.8s linear infinite;
+  pointer-events: none;
+}
+
+body.fim-jogo-celebracao #telaFimJogo .fim-jogo-card {
+  position: relative;
+  z-index: 1;
+  animation: entradaFinalHeroica 0.9s ease both, pulsoCardFinal 1.8s ease-in-out infinite alternate;
+}
+
+body.fim-jogo-celebracao #telaFimJogo .fim-jogo-sinal {
+  animation: sinalFinalAtivo 1s ease-in-out infinite alternate;
+}
+
+body.fim-jogo-celebracao #telaFimJogo .fim-jogo-terminal {
+  animation: terminalFinalBrilho 1.4s ease-in-out infinite alternate;
+}
+
+body.fim-jogo-celebracao #telaFimJogo h1,
+body.fim-jogo-celebracao #telaFimJogo h2 {
+  text-shadow:
+    0 0 18px rgba(250, 204, 21, 0.26),
+    0 0 34px rgba(34, 197, 94, 0.18);
+}
+
+@keyframes pulsoFinalRede {
+  from {
+    box-shadow:
+      0 0 0 1px rgba(34, 197, 94, 0.18),
+      0 0 24px rgba(34, 197, 94, 0.12);
+  }
+
+  to {
+    box-shadow:
+      0 0 0 1px rgba(250, 204, 21, 0.28),
+      0 0 42px rgba(250, 204, 21, 0.18);
+  }
+}
+
+@keyframes giroSinalFinal {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+
+  to {
+    transform: rotate(360deg) scale(1.08);
+  }
+}
+
+@keyframes claridadeFinal {
+  from {
+    opacity: 0.52;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes gradeFinal {
+  from {
+    transform: translateY(0);
+    opacity: 0.34;
+  }
+
+  to {
+    transform: translateY(34px);
+    opacity: 0.58;
+  }
+}
+
+@keyframes entradaFinalHeroica {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+    filter: blur(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes pulsoCardFinal {
+  from {
+    box-shadow:
+      0 0 0 1px rgba(34, 197, 94, 0.16),
+      0 0 28px rgba(34, 197, 94, 0.12);
+  }
+
+  to {
+    box-shadow:
+      0 0 0 1px rgba(250, 204, 21, 0.24),
+      0 0 52px rgba(250, 204, 21, 0.16);
+  }
+}
+
+@keyframes sinalFinalAtivo {
+  from {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+
+  to {
+    transform: scale(1.08);
+    filter: brightness(1.22);
+  }
+}
+
+@keyframes terminalFinalBrilho {
+  from {
+    border-color: rgba(34, 197, 94, 0.18);
+  }
+
+  to {
+    border-color: rgba(250, 204, 21, 0.34);
+  }
+}
