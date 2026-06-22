@@ -1777,10 +1777,7 @@ if (btnManipuladorPro) {
   });
 }
 
-btnLimparManipulador.addEventListener("pointerdown", iniciarPressionamentoLimparManipulador);
-btnLimparManipulador.addEventListener("pointerup", finalizarPressionamentoLimparManipulador);
-btnLimparManipulador.addEventListener("pointerleave", cancelarPressionamentoLimparManipulador);
-btnLimparManipulador.addEventListener("pointercancel", cancelarPressionamentoLimparManipulador);
+btnLimparManipulador.addEventListener("click", limparTudoManipuladorLivre);
 btnVoltarInicioManipulador.addEventListener("click", voltarInicio);
 
 document.addEventListener("keydown", (evento) => {
@@ -1798,7 +1795,7 @@ document.addEventListener("keydown", (evento) => {
 
     if (evento.code === "Backspace") {
       evento.preventDefault();
-      limparManipuladorLivre();
+      limparTudoManipuladorLivre();
     }
 
     return;
