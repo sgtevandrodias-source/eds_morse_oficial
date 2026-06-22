@@ -99,6 +99,8 @@ const btnTransicaoInicio = document.getElementById("btnTransicaoInicio");
 let resultadoTransicaoFaseAtual = null;
 let temporizadorFinalAutomatico = null;
 let temporizadorEfeitoFimJogo = null;
+let btnEnviarParentOriginal = null;
+let btnEnviarNextOriginal = null;
 const btnAbrirRelatorioOperador = document.getElementById("btnAbrirRelatorioOperador");
 const btnVoltarCampanhaRanking = document.getElementById("btnVoltarCampanhaRanking");
 const btnVoltarInicio = document.getElementById("btnVoltarInicio");
@@ -4809,6 +4811,9 @@ function restaurarInterfaceTransmissao() {
 
   btnMorse.style.display = "";
   btnEnviar.style.display = "";
+  if (btnEnviarParentOriginal && btnEnviar.parentNode !== btnEnviarParentOriginal) {
+    btnEnviarParentOriginal.insertBefore(btnEnviar, btnEnviarNextOriginal);
+  }
   btnEspacoLetra.style.display = "";
   btnEspacoPalavra.style.display = "";
   btnLimpar.style.display = "";
@@ -4852,12 +4857,22 @@ function configurarInterfaceRecepcaoAvancada(missao) {
         />
       </div>
 
+      <div id="areaBotaoConfirmarRecepcao" class="area-confirmar-recepcao"></div>
       <small>
         Dica: use espaço entre palavras quando houver pausa longa.
       </small>
     </div>
   `;
+  const areaBotaoConfirmar = document.getElementById("areaBotaoConfirmarRecepcao");
 
+  if (areaBotaoConfirmar && btnEnviar) {
+    if (!btnEnviarParentOriginal) {
+      btnEnviarParentOriginal = btnEnviar.parentNode;
+      btnEnviarNextOriginal = btnEnviar.nextSibling;
+    }
+  
+    areaBotaoConfirmar.appendChild(btnEnviar);
+  }
   const btnOuvir = document.getElementById("btnOuvirRecepcaoAvancada");
   const input = document.getElementById("inputRecepcaoAvancada");
 
@@ -6741,13 +6756,50 @@ function renderizarLinhaRankingGlobal(item, indice = 0) {
     </article>
   `;
 }
+function renderizarPodioRankingGlobal(ranking = []) {
+  const top3 = ranking.slice(0, 3);
 
+  if (top3.length < 1) return "";
+
+  const medalhas = ["🥇", "🥈", "🥉"];
+
+  return `
+    <section class="ranking-podio-global">
+      <div class="ranking-podio-titulo">
+        <span>🏆 Pódio Global</span>
+        <small>Os operadores no topo da rede</small>
+      </div>
+
+      <div class="ranking-podio-grid">
+        ${top3.map((item, indice) => `
+          <article class="ranking-podio-card ranking-podio-${indice + 1}">
+            <div class="ranking-podio-medalha">${medalhas[indice]}</div>
+
+            <span class="ranking-podio-posicao">#${formatarNumeroRanking(item.posicao || indice + 1)}</span>
+
+            <strong>${escaparHtml(item.operador || "Operador")}</strong>
+
+            <small>
+              ${escaparHtml(item.modo || "Modo")} • Nível ${formatarNumeroRanking(item.nivel)}
+            </small>
+
+            <div class="ranking-podio-pontos">
+              ${formatarNumeroRanking(item.pontos_carreira)}
+              <span>pts</span>
+            </div>
+          </article>
+        `).join("")}
+      </div>
+    </section>
+  `;
+}
 function montarHtmlRankingGlobal(dados, busca = "") {
   const ranking = dados?.ranking || [];
   const minhaPosicao = dados?.minhaPosicao || null;
   const temBusca = busca && busca.trim();
 
   const htmlMinhaPosicao = renderizarCardMinhaPosicao(minhaPosicao);
+  const htmlPodio = !temBusca ? renderizarPodioRankingGlobal(ranking) : "";
 
   const htmlBusca = `
     <section class="ranking-busca-operador">
@@ -6808,9 +6860,11 @@ function montarHtmlRankingGlobal(dados, busca = "") {
 
   return `
     <div class="ranking-global-painel">
-      ${htmlMinhaPosicao}
+    ${htmlMinhaPosicao}
 
-      ${htmlBusca}
+    ${htmlPodio}
+    
+    ${htmlBusca}
 
       <section class="ranking-lista-global">
         <div class="ranking-lista-titulo">
@@ -7658,4 +7712,44 @@ function decodificarMorseLivre(codigo) {
     })
     .join(" ")
     .trim();
+}
+function atualizarPainelInicialOperador() {
+  const nomeEl = document.getElementById("homeOperadorNome");
+  const patenteEl = document.getElementById("homeOperadorPatente");
+  const posicaoEl = document.getElementById("homeOperadorPosicao");
+  const wpmEl = document.getElementById("homeOperadorWpm");
+  const fasesEl = document.getElementById("homeOperadorFases");
+  const medalhasEl = document.getElementById("homeOperadorMedalhas");
+
+  if (!nomeEl) return;
+
+  const nome = getNomeOperadorAtual();
+  const carreira = obterCarreiraOperador();
+
+  const fases = carreira?.fasesConcluidas?.length || 0;
+  const medalhas = carreira?.medalhas?.length || 0;
+  const titulos = carreira?.titulos || [];
+  const melhorWpm = Number(carreira?.melhorWpm || 0);
+
+  const ultimoTitulo = titulos.length
+    ? titulos[titulos.length - 1].nome
+    : "Operador em formação";
+
+    if (nome && nome !== "Operador") {
+      nomeEl.textContent = nome;
+      patenteEl.textContent = ultimoTitulo || "Operador registrado";
+    } else {
+      nomeEl.textContent = "—";
+      patenteEl.textContent = "Aguardando registro do operador";
+    }
+  fasesEl.textContent = fases;
+  medalhasEl.textContent = medalhas;
+  wpmEl.textContent = melhorWpm.toFixed(1);
+  posicaoEl.textContent = "—";
+}
+
+setTimeout(atualizarPainelInicialOperador, 300);
+
+if (inputNomeOperador) {
+  inputNomeOperador.addEventListener("input", atualizarPainelInicialOperador);
 }
