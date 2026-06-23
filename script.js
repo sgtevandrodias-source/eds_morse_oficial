@@ -6653,7 +6653,32 @@ async function buscarRankingGlobal(limite = 50, busca = "") {
 
   return dados;
 }
+async function atualizarPosicaoGlobalTelaInicial() {
+  const posicaoEl = document.getElementById("homeOperadorPosicao");
 
+  if (!posicaoEl) return;
+
+  const operadorAtual = getNomeOperadorAtual();
+
+  if (!operadorAtual || operadorAtual.trim().length < 2) {
+    posicaoEl.textContent = "—";
+    return;
+  }
+
+  try {
+    const dados = await buscarRankingGlobal(50);
+    const minhaPosicao = dados?.minhaPosicao || null;
+
+    if (minhaPosicao && minhaPosicao.posicao) {
+      posicaoEl.textContent = `#${formatarNumeroRanking(minhaPosicao.posicao)}`;
+    } else {
+      posicaoEl.textContent = "—";
+    }
+  } catch (erro) {
+    console.warn("Não foi possível atualizar posição global na tela inicial:", erro);
+    posicaoEl.textContent = "—";
+  }
+}
 function formatarDataRankingGlobal(valor) {
   if (!valor) return "";
 
@@ -7746,6 +7771,7 @@ function atualizarPainelInicialOperador() {
   medalhasEl.textContent = medalhas;
   wpmEl.textContent = melhorWpm.toFixed(1);
   posicaoEl.textContent = "—";
+  atualizarPosicaoGlobalTelaInicial();
 }
 
 setTimeout(atualizarPainelInicialOperador, 300);
@@ -7753,3 +7779,4 @@ setTimeout(atualizarPainelInicialOperador, 300);
 if (inputNomeOperador) {
   inputNomeOperador.addEventListener("input", atualizarPainelInicialOperador);
 }
+
