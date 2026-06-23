@@ -33,9 +33,53 @@
 <p class="boot-subtitulo">-... .-. .- ... .. .-..</p>
   </div>
 </div>
-  <main class="app">
-    <!-- TELA INICIAL -->
-<section id="telaInicial" class="tela ativa">
+<main class="app">
+
+  <!-- TELA DE ENTRADA DO OPERADOR -->
+  <section id="telaEntradaOperador" class="tela ativa">
+    <div class="card entrada-operador-card">
+      <div class="marca-jogo entrada-marca">
+        <div class="icone-radio"></div>
+        <div>
+          <span>DIVIRTA-SE COM</span>
+          <h1>EDS MORSE</h1>
+        </div>
+      </div>
+      
+      <p class="subtitulo-hero entrada-subtitulo">
+        Quando o complexo falha, o simples prevalece.
+      </p>
+      
+      <p class="entrada-instrucao">
+        Escolha o idioma e informe seu nome de operador para iniciar.
+      </p>
+  
+      <div class="seletor-idioma">
+        <button id="btnIdiomaPt" class="btn-idioma ativo" type="button">🇧🇷 Português</button>
+        <button id="btnIdiomaEn" class="btn-idioma" type="button">🇺🇸 English</button>
+      </div>
+  
+      <div class="campo-operador campo-entrada-operador">
+        <label for="inputNomeOperador">Nome do operador</label>
+        <input
+          id="inputNomeOperador"
+          type="text"
+          maxlength="24"
+          placeholder="Digite um nome ou codinome..."
+          autocomplete="off"
+        />
+      </div>
+  
+      <button id="btnConfirmarEntradaOperador" class="btn principal btn-entrada-operador" type="button">
+        Entrar
+      </button>
+  
+      <div id="feedbackEntradaOperador" class="feedback entrada-feedback"></div>
+    </div>
+  </section>
+  
+      <!-- TELA INICIAL -->
+  <section id="telaInicial" class="tela">
   <div class="hero-game hero-abertura-estilo">
     <div class="marca-jogo">
       <div class="icone-radio"></div>
@@ -110,19 +154,7 @@
         📡 Regras e FAQ
       </button>
     </div>
-
-    <div class="card painel-inicial card-operador">
-      <div class="campo-operador">
-      <label for="inputNomeOperador">Nome do operador</label>
-      <input
-        id="inputNomeOperador"
-        type="text"
-        maxlength="24"
-        placeholder="Digite um nome ou codinome aqui..."
-      />
-    </div>
-  </div>
-
+   
   <div class="assinatura-inicial">
     <div>Desenvolvido por</div>
     <span>. ...- .- -. -.. .-. ---</span>

@@ -1,6 +1,7 @@
 const RANKING_GLOBAL_API_URL = "https://eds-morse-ranking-api.sgtevandrodias.workers.dev/ranking";
 const VERSAO_APP_EDS_MORSE = "1.0.0";
 
+const telaEntradaOperador = document.getElementById("telaEntradaOperador");
 const telaInicial = document.getElementById("telaInicial");
 const telaMissao = document.getElementById("telaMissao");
 const telaBiblioteca = document.getElementById("telaBiblioteca");
@@ -19,6 +20,11 @@ const telaSalaSecretaFragmentos = document.getElementById("telaSalaSecretaFragme
 const telaSalaSecretaFinal = document.getElementById("telaSalaSecretaFinal");
 
 const inputNomeOperador = document.getElementById("inputNomeOperador");
+const btnConfirmarEntradaOperador = document.getElementById("btnConfirmarEntradaOperador");
+const feedbackEntradaOperador = document.getElementById("feedbackEntradaOperador");
+const btnIdiomaPt = document.getElementById("btnIdiomaPt");
+const btnIdiomaEn = document.getElementById("btnIdiomaEn");
+let idiomaAtual = localStorage.getItem("edsMorseIdioma") || "pt";
 
 const inputSenhaSalaSecreta = document.getElementById("inputSenhaSalaSecreta");
 const feedbackSenhaSalaSecreta = document.getElementById("feedbackSenhaSalaSecreta");
@@ -1633,6 +1639,36 @@ document.querySelectorAll("[id^='inputFragmentoSecreto']").forEach((input, indic
   });
 });
 
+if (btnIdiomaPt) {
+  btnIdiomaPt.addEventListener("click", () => {
+    idiomaAtual = "pt";
+    localStorage.setItem("edsMorseIdioma", idiomaAtual);
+    btnIdiomaPt.classList.add("ativo");
+    btnIdiomaEn.classList.remove("ativo");
+  });
+}
+
+if (btnIdiomaEn) {
+  btnIdiomaEn.addEventListener("click", () => {
+    idiomaAtual = "en";
+    localStorage.setItem("edsMorseIdioma", idiomaAtual);
+    btnIdiomaEn.classList.add("ativo");
+    btnIdiomaPt.classList.remove("ativo");
+  });
+}
+
+if (btnConfirmarEntradaOperador) {
+  btnConfirmarEntradaOperador.addEventListener("click", confirmarEntradaOperador);
+}
+
+if (inputNomeOperador) {
+  inputNomeOperador.addEventListener("keydown", (evento) => {
+    if (evento.code === "Enter") {
+      evento.preventDefault();
+      confirmarEntradaOperador();
+    }
+  });
+}
 btnAbrirMissao.addEventListener("click", abrirMissao);
 btnVoltarInicioMissao.addEventListener("click", voltarInicio);
 btnIniciarPelaMissao.addEventListener("click", entrarCampanha);
@@ -2142,13 +2178,37 @@ function mostrarAvisoFragmentoSecreto(fragmento, totalColetado) {
   }, 7200);
 }
 
+function confirmarEntradaOperador() {
+  const nomeDigitado = inputNomeOperador.value.trim();
 
+  if (!nomeDigitado || nomeDigitado.length < 2) {
+    if (feedbackEntradaOperador) {
+      feedbackEntradaOperador.textContent = "Digite um nome de operador.";
+      feedbackEntradaOperador.className = "feedback entrada-feedback erro";
+    }
+
+    inputNomeOperador.focus();
+    return;
+  }
+
+  nomeOperador = nomeDigitado;
+  localStorage.setItem("operadorMorseNome", nomeDigitado);
+  localStorage.setItem("edsMorseIdioma", idiomaAtual);
+
+  if (feedbackEntradaOperador) {
+    feedbackEntradaOperador.textContent = "";
+    feedbackEntradaOperador.className = "feedback entrada-feedback";
+  }
+
+  atualizarPainelInicialOperador();
+  mostrarTela(telaInicial);
+}
 function carregarPreferencias() {
   const nomeSalvo = localStorage.getItem("operadorMorseNome");
 
   if (nomeSalvo) {
     nomeOperador = nomeSalvo;
-    inputNomeOperador.value = nomeSalvo;
+    inputNomeOperador.value = "";
   }
 
   modoAtual = MODO_INICIANTE;
@@ -2167,6 +2227,7 @@ function mostrarTela(tela, registrarHistorico = true) {
     temporizadorEfeitoFimJogo = null;
     document.body.classList.remove("fim-jogo-celebracao");
   }
+  if (telaEntradaOperador) telaEntradaOperador.classList.remove("ativa");
   telaInicial.classList.remove("ativa");
   telaMissao.classList.remove("ativa");
   telaBiblioteca.classList.remove("ativa");
@@ -2204,6 +2265,7 @@ telaManipulador.classList.remove("ativa");
 }
 
 const MAPA_TELAS_APP = {
+  telaEntradaOperador,
   telaInicial,
   telaMissao,
   telaBiblioteca,
@@ -2297,6 +2359,7 @@ function voltarInicio() {
     "",
     ""
   );
+
   history.pushState(
     {
       telaId: "telaInicial",
