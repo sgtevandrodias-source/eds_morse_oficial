@@ -25,6 +25,124 @@ const feedbackEntradaOperador = document.getElementById("feedbackEntradaOperador
 const btnIdiomaPt = document.getElementById("btnIdiomaPt");
 const btnIdiomaEn = document.getElementById("btnIdiomaEn");
 let idiomaAtual = localStorage.getItem("edsMorseIdioma") || "pt";
+const IDIOMAS = {
+  pt: {
+    idioma_portugues: "🇧🇷 Português",
+    idioma_ingles: "🇺🇸 English",
+    entrada_instrucao: "Escolha o idioma e informe seu nome de operador para iniciar.",
+    entrada_nome_label: "Nome do operador",
+    entrada_nome_placeholder: "Digite um nome ou codinome...",
+    entrada_botao: "Entrar",
+    entrada_erro_nome: "Digite um nome de operador.",
+  
+    marca_chamada: "DIVIRTA-SE COM",
+    slogan: "Quando o complexo falha, o simples prevalece.",
+  
+    operador_label: "OPERADOR",
+    operador_formacao: "Operador em formação",
+    canal_restrito: "CANAL RESTRITO",
+  
+    posicao: "🌍 Posição",
+    wpm: "⚡ WPM",
+    fases: "🎯 Fases",
+    medalhas: "🏅 Medalhas",
+  
+    jogar: "🎮 Jogar",
+    missao: "📡 Missão",
+    treino_livre: "Treino Livre",
+    biblioteca: "📖 Biblioteca",
+    ranking: "🏆 Ranking",
+    regras_faq: "📡 Regras e FAQ",
+  
+    campanha_progresso: "Progresso",
+    campanha_titulo: "Formação do Operador Morse",
+    inicio: "Início",
+    modo_liberado: "Liberado",
+    modo_bloqueado: "Bloqueado",
+    modo_iniciante: "Iniciante",
+    modo_iniciante_desc: "Aprenda letras, números, palavras e frases usando botões de apoio para separar letras e palavras.",
+    modo_iniciante_status: "Nível atual: 1",
+    modo_intermediario: "Intermediário",
+    modo_intermediario_desc: "Sem botões de espaço. O sistema interpretará a pausa entre sinais, letras e palavras.",
+    modo_intermediario_status: "Conclua o Iniciante para liberar",
+    modo_avancado: "Avançado",
+    modo_avancado_desc: "Mensagens operacionais, menos dicas, ritmo rígido, tempo limite e cobrança real de transmissão.",
+    modo_avancado_status: "Conclua o Intermediário para liberar",
+    modo_atual_iniciante: "Modo Iniciante",
+    mapa_progresso: "Mapa de progresso",
+    continuar: "Continuar",
+  
+    biblioteca_titulo: "Biblioteca Morse",
+    alfabeto: "Alfabeto",
+    numeros: "Números",
+    codigo_q: "Código Q",
+    sinais_servico: "Sinais de Serviço",
+    abreviacoes: "Abreviações",
+    caracteres_especiais: "Caracteres Especiais",
+    treino_auditivo: "Treino Auditivo",
+    voltar_inicio: "Voltar ao início"
+  },
+  
+  en: {
+    idioma_portugues: "🇧🇷 Português",
+    idioma_ingles: "🇺🇸 English",
+    entrada_instrucao: "Choose your language and enter your operator name to start.",
+    entrada_nome_label: "Operator name",
+    entrada_nome_placeholder: "Enter a name or codename...",
+    entrada_botao: "Enter",
+    entrada_erro_nome: "Enter an operator name.",
+  
+    marca_chamada: "HAVE FUN WITH",
+    slogan: "When complex systems fail, simple ones prevail.",
+  
+    operador_label: "OPERATOR",
+    operador_formacao: "Operator in training",
+    canal_restrito: "RESTRICTED CHANNEL",
+  
+    posicao: "🌍 Position",
+    wpm: "⚡ WPM",
+    fases: "🎯 Stages",
+    medalhas: "🏅 Medals",
+  
+    jogar: "🎮 Play",
+    missao: "📡 Mission",
+    treino_livre: "Free Practice",
+    biblioteca: "📖 Library",
+    ranking: "🏆 Ranking",
+    regras_faq: "📡 Rules & FAQ",
+  
+    campanha_progresso: "Progress",
+    campanha_titulo: "Morse Operator Training",
+    inicio: "Home",
+    modo_liberado: "Unlocked",
+    modo_bloqueado: "Locked",
+    modo_iniciante: "Beginner",
+    modo_iniciante_desc: "Learn letters, numbers, words and phrases using support buttons to separate letters and words.",
+    modo_iniciante_status: "Current level: 1",
+    modo_intermediario: "Intermediate",
+    modo_intermediario_desc: "No space buttons. The system interprets pauses between signals, letters and words.",
+    modo_intermediario_status: "Complete Beginner mode to unlock",
+    modo_avancado: "Advanced",
+    modo_avancado_desc: "Operational messages, fewer hints, strict rhythm, time limits and realistic transmission demands.",
+    modo_avancado_status: "Complete Intermediate mode to unlock",
+    modo_atual_iniciante: "Beginner Mode",
+    mapa_progresso: "Progress Map",
+    continuar: "Continue",
+  
+    biblioteca_titulo: "Morse Library",
+    alfabeto: "Alphabet",
+    numeros: "Numbers",
+    codigo_q: "Q Codes",
+    sinais_servico: "Service Signals",
+    abreviacoes: "Abbreviations",
+    caracteres_especiais: "Special Characters",
+    treino_auditivo: "Listening Practice",
+    voltar_inicio: "Back to Home"
+  }
+  };
+function t(chave) {
+  return IDIOMAS[idiomaAtual]?.[chave] || IDIOMAS.pt[chave] || chave;
+}
 
 const inputSenhaSalaSecreta = document.getElementById("inputSenhaSalaSecreta");
 const feedbackSenhaSalaSecreta = document.getElementById("feedbackSenhaSalaSecreta");
@@ -1643,8 +1761,7 @@ if (btnIdiomaPt) {
   btnIdiomaPt.addEventListener("click", () => {
     idiomaAtual = "pt";
     localStorage.setItem("edsMorseIdioma", idiomaAtual);
-    btnIdiomaPt.classList.add("ativo");
-    btnIdiomaEn.classList.remove("ativo");
+    aplicarIdiomaInterface();
   });
 }
 
@@ -1652,8 +1769,7 @@ if (btnIdiomaEn) {
   btnIdiomaEn.addEventListener("click", () => {
     idiomaAtual = "en";
     localStorage.setItem("edsMorseIdioma", idiomaAtual);
-    btnIdiomaEn.classList.add("ativo");
-    btnIdiomaPt.classList.remove("ativo");
+    aplicarIdiomaInterface();
   });
 }
 
@@ -1889,6 +2005,7 @@ document.addEventListener("keyup", (evento) => {
 });
 
 carregarPreferencias();
+aplicarIdiomaInterface();
 recalcularTemposPorWpm();
 atualizarPainelRitmo();
 
@@ -2177,7 +2294,159 @@ function mostrarAvisoFragmentoSecreto(fragmento, totalColetado) {
     setTimeout(() => aviso.remove(), 450);
   }, 7200);
 }
+function aplicarIdiomaInterface() {
+  document.documentElement.lang = idiomaAtual === "en" ? "en" : "pt-BR";
 
+  const btnPt = document.getElementById("btnIdiomaPt");
+  const btnEn = document.getElementById("btnIdiomaEn");
+
+  if (btnPt) btnPt.textContent = t("idioma_portugues");
+  if (btnEn) btnEn.textContent = t("idioma_ingles");
+
+  if (btnIdiomaPt && btnIdiomaEn) {
+    btnIdiomaPt.classList.toggle("ativo", idiomaAtual === "pt");
+    btnIdiomaEn.classList.toggle("ativo", idiomaAtual === "en");
+  }
+
+  const entradaInstrucao = document.querySelector("#telaEntradaOperador .entrada-instrucao");
+  if (entradaInstrucao) entradaInstrucao.textContent = t("entrada_instrucao");
+
+  const labelNomeEntrada = document.querySelector("#telaEntradaOperador label[for='inputNomeOperador']");
+  if (labelNomeEntrada) labelNomeEntrada.textContent = t("entrada_nome_label");
+
+  if (inputNomeOperador) inputNomeOperador.placeholder = t("entrada_nome_placeholder");
+
+  if (btnConfirmarEntradaOperador) btnConfirmarEntradaOperador.textContent = t("entrada_botao");
+
+  const slogans = document.querySelectorAll(".subtitulo-hero");
+  slogans.forEach((el) => {
+    el.textContent = t("slogan");
+  });
+
+  const chamadasMarca = document.querySelectorAll(".marca-jogo span");
+  chamadasMarca.forEach((el) => {
+    if (el.textContent.trim() === "DIVIRTA-SE COM" || el.textContent.trim() === "HAVE FUN WITH") {
+      el.textContent = t("marca_chamada");
+    }
+  });
+
+  const labelOperador = document.querySelector(".label-operador-impacto");
+  if (labelOperador) labelOperador.textContent = t("operador_label");
+
+  const canalOperador = document.querySelector(".canal-operador");
+  if (canalOperador) canalOperador.textContent = t("canal_restrito");
+
+  const homePatente = document.getElementById("homeOperadorPatente");
+  if (homePatente && homePatente.textContent.trim() === "Operador em formação") {
+    homePatente.textContent = t("operador_formacao");
+  }
+
+  const stats = document.querySelectorAll(".painel-operador-stats span");
+  if (stats[0]) stats[0].textContent = t("posicao");
+  if (stats[1]) stats[1].textContent = t("wpm");
+  if (stats[2]) stats[2].textContent = t("fases");
+  if (stats[3]) stats[3].textContent = t("medalhas");
+
+  if (btnEntrarCampanha) btnEntrarCampanha.textContent = t("jogar");
+  if (btnAbrirMissao) btnAbrirMissao.textContent = t("missao");
+
+  if (btnAbrirManipulador) {
+    btnAbrirManipulador.innerHTML = `
+      <span class="icone-chave-telegrafica" aria-hidden="true"></span>
+      <span>${t("treino_livre")}</span>
+    `;
+  }
+
+  if (btnAbrirBiblioteca) btnAbrirBiblioteca.textContent = t("biblioteca");
+  if (btnAbrirRanking) btnAbrirRanking.textContent = t("ranking");
+  if (btnAbrirRegrasFAQ) btnAbrirRegrasFAQ.textContent = t("regras_faq");
+  const labelProgresso = document.querySelector("#telaCampanha .label");
+  if (labelProgresso) {
+    labelProgresso.textContent = t("campanha_progresso");
+  }
+
+  const tituloCampanha = document.querySelector("#telaCampanha .cabecalho-app strong");
+  if (tituloCampanha) {
+    tituloCampanha.textContent = t("campanha_titulo");
+  }
+
+  if (btnVoltarInicioCampanha) {
+    btnVoltarInicioCampanha.textContent = t("inicio");
+  }
+
+  const cardIniciante = document.querySelector("#cardModoIniciante h2");
+  if (cardIniciante) cardIniciante.textContent = t("modo_iniciante");
+
+  const cardIntermediario = document.querySelector("#cardModoIntermediario h2");
+  if (cardIntermediario) cardIntermediario.textContent = t("modo_intermediario");
+
+  const cardAvancado = document.querySelector("#cardModoAvancado h2");
+  if (cardAvancado) cardAvancado.textContent = t("modo_avancado");
+
+  const btnContinuarNivel = document.getElementById("btnContinuarNivel");
+  if (btnContinuarNivel) {
+    btnContinuarNivel.textContent = t("continuar");
+  }
+
+  const tituloMapa = document.querySelector(".mapa-campanha .titulo-secao h2");
+  if (tituloMapa) {
+    tituloMapa.textContent = t("mapa_progresso");
+  }
+  const badges = document.querySelectorAll(".modo-topo .badge");
+
+if (badges[0]) badges[0].textContent = t("modo_liberado");
+if (badges[1]) badges[1].textContent = t("modo_bloqueado");
+if (badges[2]) badges[2].textContent = t("modo_bloqueado");
+
+const descricoes = document.querySelectorAll(".modo-card p");
+
+if (descricoes[0]) descricoes[0].textContent = t("modo_iniciante_desc");
+if (descricoes[1]) descricoes[1].textContent = t("modo_intermediario_desc");
+if (descricoes[2]) descricoes[2].textContent = t("modo_avancado_desc");
+if (tituloBiblioteca) {
+  tituloBiblioteca.textContent = `📚 ${t("biblioteca_titulo")}`;
+}
+
+if (btnBibAlfabeto) {
+  btnBibAlfabeto.textContent = `🔤 ${t("alfabeto")}`;
+}
+
+if (btnBibNumeros) {
+  btnBibNumeros.textContent = `🔢 ${t("numeros")}`;
+}
+
+if (btnBibCodigoQ) {
+  btnBibCodigoQ.textContent = `📡 ${t("codigo_q")}`;
+}
+
+if (btnBibSinaisServico) {
+  btnBibSinaisServico.textContent = `⚡ ${t("sinais_servico")}`;
+}
+
+if (btnBibAbreviacoes) {
+  btnBibAbreviacoes.textContent = `📚 ${t("abreviacoes")}`;
+}
+
+if (btnBibCaracteresEspeciais) {
+  btnBibCaracteresEspeciais.textContent = `🔣 ${t("caracteres_especiais")}`;
+}
+
+if (btnBibTreinoAuditivo) {
+  btnBibTreinoAuditivo.textContent = `🎧 ${t("treino_auditivo")}`;
+}
+
+if (btnVoltarInicioBiblioteca) {
+  btnVoltarInicioBiblioteca.textContent = t("voltar_inicio");
+}
+
+if (btnVoltarMenuBiblioteca) {
+  btnVoltarMenuBiblioteca.textContent = idiomaAtual === "en" ? "Back to Library" : "Voltar à Biblioteca";
+}
+
+if (btnVoltarCodigoQ) {
+  btnVoltarCodigoQ.textContent = idiomaAtual === "en" ? "Back to Q Codes" : "Voltar ao Código Q";
+}
+}
 function confirmarEntradaOperador() {
   const nomeDigitado = inputNomeOperador.value.trim();
 
@@ -4620,10 +4889,16 @@ function renderizarCampanha() {
   const intermediarioConcluido = modoIntermediarioConcluido();
 
   statusIniciante.textContent =
-    `${operador}: ${getNomeModo(modoAtual)} — nível liberado ${nivelLiberado + 1}`;
+    `${operador}: ${getNomeModo(modoAtual)} — ${idiomaAtual === "en" ? "unlocked level" : "nível liberado"} ${nivelLiberado + 1}`;
 
   if (labelModoAtual) {
-    labelModoAtual.textContent = `Modo ${getNomeModo(modoAtual)}`;
+    if (modoAtual === MODO_INICIANTE) {
+      labelModoAtual.textContent = idiomaAtual === "en" ? "Beginner Mode" : "Modo Iniciante";
+    } else if (modoAtual === MODO_INTERMEDIARIO) {
+      labelModoAtual.textContent = idiomaAtual === "en" ? "Intermediate Mode" : "Modo Intermediário";
+    } else if (modoAtual === MODO_AVANCADO) {
+      labelModoAtual.textContent = idiomaAtual === "en" ? "Advanced Mode" : "Modo Avançado";
+    }
   }
 
   const tituloSecao = document.querySelector(".titulo-secao");
@@ -4639,7 +4914,7 @@ function renderizarCampanha() {
       const botaoVoltarModos = document.createElement("button");
       botaoVoltarModos.id = "btnVoltarModos";
       botaoVoltarModos.className = "btn secundario compacto";
-      botaoVoltarModos.textContent = "← Modos";
+      botaoVoltarModos.textContent = idiomaAtual === "en" ? "← Modes" : "← Modos";
 
       botaoVoltarModos.addEventListener("click", () => {
         document.body.classList.remove("visualizando-mapa-modo");
@@ -4660,38 +4935,48 @@ function renderizarCampanha() {
   }
 
   const avancadoConcluido =
-  localStorage.getItem(chaveAvancadoConcluido()) === "sim";
+    localStorage.getItem(chaveAvancadoConcluido()) === "sim";
 
-atualizarCardModo(
-  "cardModoIniciante",
-  true,
-  inicianteConcluido ? "Concluído" : "Liberado",
-  inicianteConcluido
-    ? "Formação inicial concluída"
-    : "Clique para iniciar sua formação"
-);
+  atualizarCardModo(
+    "cardModoIniciante",
+    true,
+    inicianteConcluido
+      ? (idiomaAtual === "en" ? "Completed" : "Concluído")
+      : t("modo_liberado"),
+    inicianteConcluido
+      ? (idiomaAtual === "en" ? "Initial training completed" : "Formação inicial concluída")
+      : (idiomaAtual === "en" ? "Click to start your training" : "Clique para iniciar sua formação")
+  );
 
-atualizarCardModo(
-  "cardModoIntermediario",
-  inicianteConcluido,
-  modoIntermediarioConcluido() ? "Concluído" : inicianteConcluido ? "Liberado" : "Bloqueado",
-  modoIntermediarioConcluido()
-    ? "Etapa intermediária concluída"
-    : inicianteConcluido
-      ? "Clique para treinar sem botões de espaço"
-      : "Conclua o Iniciante para liberar"
-);
+  atualizarCardModo(
+    "cardModoIntermediario",
+    inicianteConcluido,
+    modoIntermediarioConcluido()
+      ? (idiomaAtual === "en" ? "Completed" : "Concluído")
+      : inicianteConcluido
+        ? t("modo_liberado")
+        : t("modo_bloqueado"),
+    modoIntermediarioConcluido()
+      ? (idiomaAtual === "en" ? "Intermediate stage completed" : "Etapa intermediária concluída")
+      : inicianteConcluido
+        ? (idiomaAtual === "en" ? "Click to train without space buttons" : "Clique para treinar sem botões de espaço")
+        : t("modo_intermediario_status")
+  );
 
-atualizarCardModo(
-  "cardModoAvancado",
-  intermediarioConcluido,
-  avancadoConcluido ? "Concluído" : intermediarioConcluido ? "Liberado" : "Bloqueado",
-  avancadoConcluido
-    ? "Modo avançado concluído"
-    : intermediarioConcluido
-      ? "Modo Avançado liberado"
-      : "Conclua o Intermediário para liberar"
-);
+  atualizarCardModo(
+    "cardModoAvancado",
+    intermediarioConcluido,
+    avancadoConcluido
+      ? (idiomaAtual === "en" ? "Completed" : "Concluído")
+      : intermediarioConcluido
+        ? t("modo_liberado")
+        : t("modo_bloqueado"),
+    avancadoConcluido
+      ? (idiomaAtual === "en" ? "Advanced mode completed" : "Modo avançado concluído")
+      : intermediarioConcluido
+        ? (idiomaAtual === "en" ? "Advanced mode unlocked" : "Modo Avançado liberado")
+        : t("modo_avancado_status")
+  );
 
   gridNiveis.innerHTML = niveis
     .map((nivel, index) => {
