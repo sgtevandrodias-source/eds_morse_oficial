@@ -7079,11 +7079,13 @@ body.fim-jogo-celebracao #telaFimJogo h2 {
   }
 }
 .area-confirmar-recepcao {
-  margin-top: 14px;
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .area-confirmar-recepcao #btnEnviar {
-  width: 100%;
-  min-height: 58px;
-  border-radius: 18px;
+  width: auto;
+  min-width: 220px;
 }
