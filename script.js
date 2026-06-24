@@ -54,6 +54,14 @@ const IDIOMAS = {
     biblioteca: "📖 Biblioteca",
     ranking: "🏆 Ranking",
     regras_faq: "📡 Regras e FAQ",
+    missao_colapso_titulo: "📡 O COLAPSO",
+missao_colapso_botao_voltar: "Voltar ao início",
+missao_colapso_botao_iniciar: "Iniciar Missão",
+missao_colapso_textos: [
+  "Após um grande bug nos sistemas de telecomunicações, a única forma de se comunicar é por meio de equipamentos simples de rádio usando código Morse.",
+  "Para sobreviver ao caos, você precisa dominar o código, transmitir mensagens e manter contato com outros operadores.",
+  "Avance pelas missões mantendo rendimento acima de 80% e alcance a meta operacional de 12 palavras por minuto."
+],
   
     campanha_progresso: "Progresso",
     campanha_titulo: "Formação do Operador Morse",
@@ -227,7 +235,14 @@ desc_frase_curta: "Ouça a frase completa e digite o que recebeu.",
     biblioteca: "📖 Library",
     ranking: "🏆 Ranking",
     regras_faq: "📡 Rules & FAQ",
-  
+    missao_colapso_titulo: "📡 THE COLLAPSE",
+    missao_colapso_botao_voltar: "Back to Home",
+    missao_colapso_botao_iniciar: "Start Mission",
+    missao_colapso_textos: [
+      "After a major bug in telecommunications systems, the only way to communicate is through simple radio equipment using Morse code.",
+      "To survive the chaos, you must master the code, transmit messages and keep contact with other operators.",
+      "Advance through the missions by keeping your performance above 80% and reach the operational target of 12 words per minute."
+    ],
     campanha_progresso: "Progress",
     campanha_titulo: "Morse Operator Training",
     inicio: "Home",
@@ -2766,6 +2781,19 @@ const assinaturaInicialTexto = document.querySelector(".assinatura-inicial div")
 if (assinaturaInicialTexto) {
   assinaturaInicialTexto.textContent = t("desenvolvido_por");
 }
+const tituloMissaoColapso = document.querySelector("#telaMissao .badge");
+
+if (tituloMissaoColapso) {
+  tituloMissaoColapso.textContent = t("missao_colapso_titulo");
+}
+
+if (btnVoltarInicioMissao) {
+  btnVoltarInicioMissao.textContent = t("missao_colapso_botao_voltar");
+}
+
+if (btnIniciarPelaMissao) {
+  btnIniciarPelaMissao.textContent = t("missao_colapso_botao_iniciar");
+}
 }
 function confirmarEntradaOperador() {
   const nomeDigitado = inputNomeOperador.value.trim();
@@ -2972,11 +3000,11 @@ function abrirMissao() {
 let temporizadorDigitacaoMissao = null;
 let osciladoresMissaoAnimada = [];
 
-const TEXTO_MISSAO_COLAPSO = [
-  "Após um grande bug nos sistemas de telecomunicações, a única forma de se comunicar é por meio de equipamentos simples de rádio usando código Morse.",
-  "Para sobreviver ao caos, você precisa dominar o código, transmitir mensagens e manter contato com outros operadores.",
-  "Avance pelas missões mantendo rendimento acima de 80% e alcance a meta operacional de 12 palavras por minuto."
-];
+function getTextoMissaoColapso() {
+  return IDIOMAS[idiomaAtual]?.missao_colapso_textos ||
+    IDIOMAS.pt.missao_colapso_textos ||
+    [];
+}
 
 function animarTextoMissao() {
   const areaTexto = document.getElementById("textoMissaoAnimado");
@@ -2989,7 +3017,9 @@ function animarTextoMissao() {
 
   areaTexto.innerHTML = "";
 
-  const paragrafos = TEXTO_MISSAO_COLAPSO.map(() => {
+  const textosMissao = getTextoMissaoColapso();
+
+  const paragrafos = textosMissao.map(() => {
     const p = document.createElement("p");
     areaTexto.appendChild(p);
     return p;
@@ -2999,12 +3029,12 @@ function animarTextoMissao() {
   let indiceLetra = 0;
 
   function digitarProximoCaractere() {
-    if (indiceParagrafo >= TEXTO_MISSAO_COLAPSO.length) {
+    if (indiceParagrafo >= textosMissao.length) {
       temporizadorDigitacaoMissao = null;
       return;
     }
 
-    const textoAtual = TEXTO_MISSAO_COLAPSO[indiceParagrafo];
+    const textoAtual = textosMissao[indiceParagrafo];
     const caractere = textoAtual[indiceLetra];
 
     paragrafos[indiceParagrafo].textContent += caractere;
