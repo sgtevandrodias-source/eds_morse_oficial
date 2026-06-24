@@ -3317,6 +3317,58 @@ const CODIGO_Q = {
     { codigo: "QSJ", significado: "Valor ou taxa da comunicação." }
   ]
 };
+const CODIGO_Q_EN = {
+  operacao: [
+    { codigo: "QRL", significado: "The frequency is busy." },
+    { codigo: "QRM", significado: "I am experiencing interference from another station." },
+    { codigo: "QRN", significado: "I am experiencing atmospheric interference." },
+    { codigo: "QRO", significado: "Increase transmitter power." },
+    { codigo: "QRP", significado: "Decrease transmitter power." },
+    { codigo: "QRQ", significado: "Send faster." },
+    { codigo: "QRS", significado: "Send more slowly." },
+    { codigo: "QRT", significado: "Stop transmitting." },
+    { codigo: "QRV", significado: "I am ready." },
+    { codigo: "QRX", significado: "Wait. I will call again." },
+    { codigo: "QSY", significado: "Change to another frequency." }
+  ],
+
+  estacao: [
+    { codigo: "QRA", significado: "What is the name of your station?" },
+    { codigo: "QRB", significado: "What is the distance between our stations?" },
+    { codigo: "QRG", significado: "What is my exact frequency?" },
+    { codigo: "QRH", significado: "Does my frequency vary?" },
+    { codigo: "QRZ", significado: "Who is calling me?" },
+    { codigo: "QTH", significado: "What is your location?" },
+    { codigo: "QTR", significado: "What is the correct time?" }
+  ],
+
+  qualidade: [
+    { codigo: "QRI", significado: "What is the tone of my transmission?" },
+    { codigo: "QRK", significado: "What is the readability of my signals?" },
+    { codigo: "QSA", significado: "What is the strength of my signals?" },
+    { codigo: "QSB", significado: "Your signals are fading." },
+    { codigo: "QSD", significado: "Is my transmission defective?" },
+    { codigo: "QSK", significado: "I can hear between your signals." }
+  ],
+
+  trafego: [
+    { codigo: "QSL", significado: "I acknowledge receipt." },
+    { codigo: "QSM", significado: "Repeat the last message." },
+    { codigo: "QSN", significado: "Did you hear me?" },
+    { codigo: "QSO", significado: "I can communicate directly." },
+    { codigo: "QSP", significado: "I will relay the message." },
+    { codigo: "QSR", significado: "Repeat your call." },
+    { codigo: "QSS", significado: "Working frequency." },
+    { codigo: "QSU", significado: "Send or reply on this frequency." },
+    { codigo: "QSV", significado: "Send a series of V." },
+    { codigo: "QSW", significado: "I will transmit on this frequency." },
+    { codigo: "QSX", significado: "I will listen on another frequency." },
+    { codigo: "QTA", significado: "Cancel the previous message." },
+    { codigo: "QTC", significado: "I have a message to send." },
+    { codigo: "QRU", significado: "I have nothing for you." },
+    { codigo: "QSJ", significado: "Communication charge or fee." }
+  ]
+};
 const MORSE_SINAIS_SERVICO = {
   AR: ".-.-.",
   AS: ".-...",
@@ -3357,6 +3409,26 @@ const SINAIS_SERVICO = [
   { codigo: "WA", significado: "Palavra após." },
   { codigo: "WB", significado: "Palavra antes." }
 ];
+const SINAIS_SERVICO_EN = [
+  { codigo: "AR", significado: "End of transmission." },
+  { codigo: "AS", significado: "Wait." },
+  { codigo: "BT", significado: "Separation between parts of the message." },
+  { codigo: "C", significado: "Correct. Affirmative." },
+  { codigo: "DE", significado: "From. Indicates the station that is transmitting." },
+  { codigo: "HH", significado: "Error. I will correct it." },
+  { codigo: "IMI", significado: "Repeat. Question or request for repetition." },
+  { codigo: "K", significado: "Over. Transmit." },
+  { codigo: "KN", significado: "Over only to the called station." },
+  { codigo: "NR", significado: "Number." },
+  { codigo: "R", significado: "Received." },
+  { codigo: "RPT", significado: "Repeat." },
+  { codigo: "SK", significado: "End of contact." },
+  { codigo: "VA", significado: "End of work." },
+  { codigo: "U", significado: "Urgent." },
+  { codigo: "UU", significado: "Very urgent." },
+  { codigo: "WA", significado: "Word after." },
+  { codigo: "WB", significado: "Word before." }
+];
 
 const ABREVIACOES_MORSE = [
   { codigo: "AGN", significado: "Novamente." },
@@ -3393,6 +3465,41 @@ const ABREVIACOES_MORSE = [
   { codigo: "73", significado: "Saudações / cordial abraço." },
   { codigo: "88", significado: "Abraços e beijos." }
 ];
+const ABREVIACOES_MORSE_EN = [
+  { codigo: "AGN", significado: "Again." },
+  { codigo: "ANT", significado: "Antenna." },
+  { codigo: "BK", significado: "Break / back to transmission." },
+  { codigo: "CQ", significado: "Calling any station." },
+  { codigo: "CUL", significado: "See you later." },
+  { codigo: "DE", significado: "From. Indicates who is transmitting." },
+  { codigo: "DX", significado: "Long-distance communication." },
+  { codigo: "FER", significado: "For." },
+  { codigo: "GA", significado: "Good afternoon." },
+  { codigo: "GB", significado: "Goodbye." },
+  { codigo: "GE", significado: "Good evening." },
+  { codigo: "GL", significado: "Good luck." },
+  { codigo: "GM", significado: "Good morning." },
+  { codigo: "GUD", significado: "Good." },
+  { codigo: "HI", significado: "Laughter in telegraphy." },
+  { codigo: "HR", significado: "Here." },
+  { codigo: "HW", significado: "How do you copy?" },
+  { codigo: "OM", significado: "Operator / fellow operator." },
+  { codigo: "OP", significado: "Operator." },
+  { codigo: "PSE", significado: "Please." },
+  { codigo: "RIG", significado: "Radio equipment." },
+  { codigo: "RPT", significado: "Repeat." },
+  { codigo: "RST", significado: "Signal report: readability, strength and tone." },
+  { codigo: "RX", significado: "Receiver / receive." },
+  { codigo: "TX", significado: "Transmitter / transmit." },
+  { codigo: "TNX", significado: "Thanks." },
+  { codigo: "TU", significado: "Thank you." },
+  { codigo: "UR", significado: "Your." },
+  { codigo: "WX", significado: "Weather." },
+  { codigo: "YL", significado: "Young lady / female operator." },
+  { codigo: "XYL", significado: "Wife." },
+  { codigo: "73", significado: "Best regards." },
+  { codigo: "88", significado: "Hugs and kisses." }
+];
 
 const CARACTERES_ESPECIAIS_MORSE = [
   { codigo: ".", significado: "Ponto final." },
@@ -3402,6 +3509,15 @@ const CARACTERES_ESPECIAIS_MORSE = [
   { codigo: "=", significado: "Igual / separação." },
   { codigo: "+", significado: "Mais." },
   { codigo: "@", significado: "Arroba." }
+];
+const CARACTERES_ESPECIAIS_MORSE_EN = [
+  { codigo: ".", significado: "Period." },
+  { codigo: ",", significado: "Comma." },
+  { codigo: "?", significado: "Question mark." },
+  { codigo: "/", significado: "Slash." },
+  { codigo: "=", significado: "Equal sign / separator." },
+  { codigo: "+", significado: "Plus sign." },
+  { codigo: "@", significado: "At sign." }
 ];
 
 const PALAVRAS_COMUNS_MORSE = [
@@ -3575,6 +3691,100 @@ const BASE_FRASES_TREINO_AUDITIVO = [
   "QRX AGUARDE",
   "QSL COPIADO"
 ];
+const BASE_FRASES_TREINO_AUDITIVO_EN = [
+  "GOOD MORNING",
+  "GOOD NIGHT",
+  "ALL OK",
+  "SEE YOU",
+  "THANK YOU",
+  "I AM HERE",
+  "LETS GO",
+  "IT WORKED",
+  "BASE QRV",
+  "QSL RECEIVED",
+  "RADIO BASE",
+  "POST 2 OK",
+  "STRONG SIGNAL",
+  "WEAK SIGNAL",
+  "KEEP LISTENING",
+  "CLEAR CHANNEL",
+  "QTC BASE",
+  "TOWER QRV",
+  "BASE QSL",
+  "RADIO QRV",
+  "POST QSL",
+  "TOWER OK",
+  "STRONG QRM",
+  "WEAK QRN",
+  "QTC SIGNAL",
+  "BASE 1",
+  "POST 3",
+  "RADIO BASE",
+  "OPERATOR QRV",
+  "QTC RECEIVED",
+  "MESSAGE OK",
+  "CHANNEL OK",
+  "NETWORK ACTIVE",
+  "NETWORK OPERATIONAL",
+  "STATION ALPHA",
+  "STATION BRAVO",
+  "STATION DELTA",
+  "COMMUNICATION OK",
+  "TRANSMISSION OK",
+  "WAIT FOR QTC",
+  "QAP LISTENING",
+  "QRV TO TRANSMIT",
+  "QTH BRASILIA",
+  "HELP IS COMING",
+  "TEAM EN ROUTE",
+  "SAFE ROUTE",
+  "OPERATIONAL BASE",
+  "CONTROL POINT",
+  "OBSERVATION POST",
+  "TARGET LOCATED",
+  "SEARCH STARTED",
+  "SEARCH FINISHED",
+  "MATERIAL RECEIVED",
+  "MATERIAL DELIVERED",
+  "VEHICLE READY",
+  "OPERATION STARTED",
+  "OPERATION COMPLETED",
+  "REQUEST SUPPORT",
+  "REQUEST REPORTS",
+  "HOLD POSITION",
+  "CONTINUE MISSION",
+  "RETURN TO BASE",
+  "ARRIVAL CONFIRMED",
+  "DEPARTURE CONFIRMED",
+  "RADIO TEST",
+  "CONTACT ESTABLISHED",
+  "CONTACT LOST",
+  "FREQUENCY CLEAR",
+  "FREQUENCY BUSY",
+  "STRONG INTERFERENCE",
+  "REPEAT MESSAGE",
+  "COPY MESSAGE",
+  "SEND QTC",
+  "WAIT FOR REPLY",
+  "CLEAR SIGNAL",
+  "CLEAN SIGNAL",
+  "SECURE CHANNEL",
+  "BASE ON ALERT",
+  "POST NO SIGNAL",
+  "ROUTE BLOCKED",
+  "TEAM QRV",
+  "RADIO FAILURE",
+  "KEEP CHANNEL",
+  "TRANSMIT NOW",
+  "COPIED BASE",
+  "FINAL OVER",
+  "END OF TRANSMISSION",
+  "QRU AT THIS TIME",
+  "TEMPORARY QRT",
+  "QSY CHANNEL 2",
+  "QRX WAIT",
+  "QSL COPIED"
+];
 
 function gerarBancoFrasesCurtasTreinoAuditivo(qtd = 300) {
   const frases = new Set(BASE_FRASES_TREINO_AUDITIVO);
@@ -3632,9 +3842,67 @@ function gerarBancoFrasesCurtasTreinoAuditivo(qtd = 300) {
 
   return Array.from(frases).slice(0, qtd);
 }
+function gerarBancoFrasesCurtasTreinoAuditivoEn(qtd = 300) {
+  const frases = new Set(BASE_FRASES_TREINO_AUDITIVO_EN);
 
+  const sujeitos = [
+    "BASE",
+    "POST",
+    "RADIO",
+    "TOWER",
+    "TEAM",
+    "OPERATOR",
+    "STATION",
+    "NETWORK",
+    "CHANNEL",
+    "ROUTE"
+  ];
+
+  const acoes = [
+    "QRV",
+    "QSL",
+    "OK",
+    "WAIT",
+    "COPY",
+    "TRANSMIT",
+    "CONFIRM",
+    "RETURN",
+    "PROCEED",
+    "HOLD"
+  ];
+
+  const complementos = [
+    "NOW",
+    "BASE",
+    "POST 1",
+    "POST 2",
+    "SECTOR 3",
+    "CHANNEL 4",
+    "SIGNAL 5",
+    "ROUTE 6",
+    "QTC 7",
+    "RADIO 9"
+  ];
+
+  for (const sujeito of sujeitos) {
+    for (const acao of acoes) {
+      for (const complemento of complementos) {
+        frases.add(`${sujeito} ${acao} ${complemento}`);
+
+        if (frases.size >= qtd) {
+          return Array.from(frases).slice(0, qtd);
+        }
+      }
+    }
+  }
+
+  return Array.from(frases).slice(0, qtd);
+}
 const BANCO_FRASES_CURTAS_TREINO_AUDITIVO =
   gerarBancoFrasesCurtasTreinoAuditivo(300);
+ 
+const BANCO_FRASES_CURTAS_TREINO_AUDITIVO_EN =
+  gerarBancoFrasesCurtasTreinoAuditivoEn(300);
 
 const ESCUTA_OPERACIONAL_BIBLIOTECA = [
   "QSL RECEBIDO",
@@ -3688,7 +3956,63 @@ const ESCUTA_OPERACIONAL_BIBLIOTECA = [
   "CONTATO ESTABELECIDO",
   "CONTATO PERDIDO"
 ];
-
+const ESCUTA_OPERACIONAL_BIBLIOTECA_EN = [
+  "QSL RECEIVED",
+  "QTH BRASILIA",
+  "QRV TO TRANSMIT",
+  "QAP LISTENING",
+  "SOS NEED SUPPORT",
+  "NETWORK OPERATIONAL",
+  "STATION ALPHA",
+  "STATION BRAVO",
+  "STATION CHARLIE",
+  "STATION DELTA",
+  "COMMUNICATION ESTABLISHED",
+  "TRANSMISSION FINISHED",
+  "WAITING FOR INSTRUCTIONS",
+  "MESSAGE RECEIVED",
+  "MESSAGE CONFIRMED",
+  "OPERATOR READY",
+  "FREQUENCY CLEAR",
+  "FREQUENCY BUSY",
+  "START TRANSMISSION",
+  "END TRANSMISSION",
+  "QSL COPIED",
+  "QAP PERMANENT",
+  "QTH CONFIRMED",
+  "QRV IMMEDIATE",
+  "HELP IS COMING",
+  "TEAM MOVING",
+  "SAFE ROUTE",
+  "OPERATIONAL BASE",
+  "CONTROL POINT",
+  "OBSERVATION POST",
+  "TARGET LOCATED",
+  "SEARCH STARTED",
+  "SEARCH FINISHED",
+  "MATERIAL RECEIVED",
+  "MATERIAL DELIVERED",
+  "FUEL OK",
+  "VEHICLE READY",
+  "OPERATION STARTED",
+  "OPERATION COMPLETED",
+  "REQUEST SUPPORT",
+  "REQUEST INFORMATION",
+  "KEEP LISTENING",
+  "HOLD POSITION",
+  "CONTINUE MISSION",
+  "RETURN TO BASE",
+  "ARRIVAL CONFIRMED",
+  "DEPARTURE CONFIRMED",
+  "COMMUNICATION TEST",
+  "CONTACT ESTABLISHED",
+  "CONTACT LOST"
+];
+function getBancoEscutaOperacional() {
+  return idiomaAtual === "en"
+    ? ESCUTA_OPERACIONAL_BIBLIOTECA_EN
+    : ESCUTA_OPERACIONAL_BIBLIOTECA;
+}
 function embaralharArray(array) {
   const copia = [...array];
 
@@ -3762,21 +4086,24 @@ function mostrarCategoriaQ(titulo, itens) {
 }
 
 function abrirQOperacao() {
-  mostrarCategoriaQ(`📡 ${t("q_operacao_titulo")}`, CODIGO_Q.operacao);
+  const itens = idiomaAtual === "en" ? CODIGO_Q_EN.operacao : CODIGO_Q.operacao;
+  mostrarCategoriaQ(`📡 ${t("q_operacao_titulo")}`, itens);
 }
 
 function abrirQEstacao() {
-  mostrarCategoriaQ(`🏠 ${t("q_estacao_titulo")}`, CODIGO_Q.estacao);
+  const itens = idiomaAtual === "en" ? CODIGO_Q_EN.estacao : CODIGO_Q.estacao;
+  mostrarCategoriaQ(`🏠 ${t("q_estacao_titulo")}`, itens);
 }
 
 function abrirQQualidade() {
-  mostrarCategoriaQ(`📶 ${t("q_qualidade_titulo")}`, CODIGO_Q.qualidade);
+  const itens = idiomaAtual === "en" ? CODIGO_Q_EN.qualidade : CODIGO_Q.qualidade;
+  mostrarCategoriaQ(`📶 ${t("q_qualidade_titulo")}`, itens);
 }
 
 function abrirQTrafego() {
-  mostrarCategoriaQ(`📨 ${t("q_trafego_titulo")}`, CODIGO_Q.trafego);
+  const itens = idiomaAtual === "en" ? CODIGO_Q_EN.trafego : CODIGO_Q.trafego;
+  mostrarCategoriaQ(`📨 ${t("q_trafego_titulo")}`, itens);
 }
-
 function abrirBibliotecaSinaisServico() {
   tituloBiblioteca.textContent = `⚡ ${t("sinais_servico_titulo")}`;
   descricaoBiblioteca.textContent = t("sinais_servico_desc");
@@ -3785,7 +4112,11 @@ function abrirBibliotecaSinaisServico() {
   btnVoltarCodigoQ.style.display = "none";
   menuBiblioteca.style.display = "none";
 
-  gridBibliotecaMorse.innerHTML = SINAIS_SERVICO
+  const listaSinais = idiomaAtual === "en"
+    ? SINAIS_SERVICO_EN
+    : SINAIS_SERVICO;
+
+  gridBibliotecaMorse.innerHTML = listaSinais
     .map((item) => {
       const morse = obterMorseSinalServico(item.codigo);
 
@@ -3811,7 +4142,6 @@ function abrirBibliotecaSinaisServico() {
     behavior: "smooth"
   });
 }
-
 function abrirBibliotecaAbreviacoes() {
   tituloBiblioteca.textContent = `📚 ${t("abreviacoes_titulo")}`;
   descricaoBiblioteca.textContent = t("abreviacoes_desc");
@@ -3820,7 +4150,11 @@ function abrirBibliotecaAbreviacoes() {
   btnVoltarCodigoQ.style.display = "none";
   menuBiblioteca.style.display = "none";
 
-  gridBibliotecaMorse.innerHTML = ABREVIACOES_MORSE
+  const listaAbreviacoes = idiomaAtual === "en"
+    ? ABREVIACOES_MORSE_EN
+    : ABREVIACOES_MORSE;
+
+  gridBibliotecaMorse.innerHTML = listaAbreviacoes
     .map((item) => {
       const morse = textoParaMorse(item.codigo);
 
@@ -3846,7 +4180,6 @@ function abrirBibliotecaAbreviacoes() {
     behavior: "smooth"
   });
 }
-
 function abrirBibliotecaCaracteresEspeciais() {
   tituloBiblioteca.textContent = `🔣 ${t("caracteres_especiais_titulo")}`;
   descricaoBiblioteca.textContent = "";
@@ -3855,7 +4188,11 @@ function abrirBibliotecaCaracteresEspeciais() {
   btnVoltarCodigoQ.style.display = "none";
   menuBiblioteca.style.display = "none";
 
-  gridBibliotecaMorse.innerHTML = CARACTERES_ESPECIAIS_MORSE
+  const listaCaracteres = idiomaAtual === "en"
+    ? CARACTERES_ESPECIAIS_MORSE_EN
+    : CARACTERES_ESPECIAIS_MORSE;
+
+  gridBibliotecaMorse.innerHTML = listaCaracteres
     .map((item) => {
       const morse = textoParaMorse(item.codigo);
 
@@ -3881,7 +4218,6 @@ function abrirBibliotecaCaracteresEspeciais() {
     behavior: "smooth"
   });
 }
-
 function abrirBibliotecaTreinoAuditivo() {
   tituloBiblioteca.textContent = "";
   descricaoBiblioteca.textContent = "";
@@ -3901,7 +4237,7 @@ function abrirBibliotecaTreinoAuditivo() {
 }
 function iniciarOuvirDigitar() {
   const sorteadas = embaralharArray(
-    ESCUTA_OPERACIONAL_BIBLIOTECA
+    getBancoEscutaOperacional()
   ).slice(0, 5);
 
   ouvirDigitar = {
@@ -4123,7 +4459,7 @@ function finalizarOuvirDigitar() {
 
 function iniciarEscutaOperacional() {
   const sorteadas = embaralharArray(
-    ESCUTA_OPERACIONAL_BIBLIOTECA
+    getBancoEscutaOperacional()
   ).slice(0, 5);
 
   escutaOperacional = {
@@ -4146,7 +4482,7 @@ function renderizarEscutaOperacional() {
   }
 
   const distratores = embaralharArray(
-    ESCUTA_OPERACIONAL_BIBLIOTECA.filter((item) => item !== mensagemCorreta)
+    getBancoEscutaOperacional().filter((item) => item !== mensagemCorreta)
   ).slice(0, 3);
 
   const opcoes = embaralharArray([
@@ -4505,9 +4841,13 @@ function obterItensTreinoAuditivo(categoria) {
     criarItemTreino(item, "Grupo de 5", "Ouça o grupo completo e digite os cinco caracteres.")
   );
 
-  const frasesCurtas = BANCO_FRASES_CURTAS_TREINO_AUDITIVO.map((item) =>
-    criarItemTreino(item, "Frase curta", "Ouça a frase completa e digite o que recebeu.")
-  );
+  const bancoFrasesCurtas = idiomaAtual === "en"
+  ? BANCO_FRASES_CURTAS_TREINO_AUDITIVO_EN
+  : BANCO_FRASES_CURTAS_TREINO_AUDITIVO;
+
+const frasesCurtas = bancoFrasesCurtas.map((item) =>
+  criarItemTreino(item, t("tipo_frase_curta"), t("desc_frase_curta"))
+);
 
   const todos = [
     ...caracteresIsolados,
