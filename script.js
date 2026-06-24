@@ -98,6 +98,71 @@ treinos_realizados: "Treinos realizados",
 caracteres_isolados: "Caracteres isolados",
 caracteres_isolados_desc: "Letras, números e sinais simples. Ideal para começar a reconhecer sons individuais.",
 iniciar_treino: "Iniciar treino",
+treino_auditivo_desc: "Ouça Código Morse, digite o que recebeu e treine sua escuta progressivamente.",
+grupos_5: "Grupos de 5",
+grupos_5_desc: "Sequências aleatórias com cinco caracteres. Treino operacional de escuta e memória.",
+frases_curtas: "Frases curtas",
+frases_curtas_desc: "Mensagens operacionais e cotidianas para um treino mais realista.",
+sala_escuta: "SALA DE ESCUTA",
+voltar_biblioteca: "Voltar para Biblioteca",
+
+desafio: "Desafio",
+escuta_livre: "Escuta Livre",
+ouvir: "Ouvir",
+mostrar_resposta: "Mostrar resposta",
+digite_o_que_ouviu: "Digite o que você ouviu",
+confirmar: "Confirmar",
+resposta: "Resposta",
+sem_observacao: "Sem observação cadastrada.",
+erro_resposta_vazia: "Digite uma resposta antes de confirmar.",
+correto: "Correto!",
+incorreto: "Incorreto.",
+resposta_correta_era: "A resposta correta era",
+voce_digitou: "Você digitou",
+
+resultado_auditivo: "Resultado Auditivo",
+treino_concluido: "Treino concluído",
+treino_concluido_msg: "Você concluiu o desafio auditivo. Continue treinando para fortalecer sua escuta.",
+escuta_elite: "Escuta de elite",
+escuta_elite_msg: "Excelente desempenho. Seu ouvido já está reconhecendo os sinais com muita precisão.",
+escuta_operacional: "Escuta operacional",
+escuta_operacional_msg: "Bom desempenho. Você já consegue operar com segurança nessa categoria.",
+escuta_formacao: "Escuta em formação",
+escuta_formacao_msg: "Você concluiu o treino, mas ainda precisa reforçar essa categoria.",
+
+categoria: "Categoria",
+aproveitamento: "Aproveitamento",
+acertos: "Acertos",
+pontos: "Pontos",
+situacao_escuta: "Situação da escuta",
+treino_auditivo_registrado: "Treino Auditivo registrado",
+treino_auditivo_registrado_msg: "Esse resultado prepara o operador para as missões avançadas com mensagens recebidas por áudio.",
+medalhas_distintivos: "Medalhas e Distintivos",
+escuta_ativa: "Escuta Ativa",
+nenhuma_nova_medalha: "Nenhuma nova medalha nesta rodada.",
+refazer_desafio: "Refazer desafio",
+voltar_treino_auditivo: "Voltar ao Treino Auditivo",
+
+categoria_caracteres_isolados: "Caracteres isolados",
+categoria_grupos_5: "Grupos de 5",
+categoria_frases_curtas: "Frases curtas",
+categoria_letras: "Letras",
+categoria_numeros: "Números",
+categoria_codigo_q: "Código Q",
+categoria_sinais: "Sinais de Serviço",
+categoria_abreviacoes: "Abreviações",
+categoria_caracteres: "Caracteres Especiais",
+categoria_palavras: "Palavras comuns",
+categoria_frases: "Frases operacionais",
+categoria_mensagens: "Mensagens operacionais",
+categoria_misto: "Treino misto",
+
+tipo_caractere_isolado: "Caractere isolado",
+tipo_grupo_5: "Grupo de 5",
+tipo_frase_curta: "Frase curta",
+desc_caractere_isolado: "Ouça e reconheça o sinal.",
+desc_grupo_5: "Ouça o grupo completo e digite os cinco caracteres.",
+desc_frase_curta: "Ouça a frase completa e digite o que recebeu.",
       },
   
   en: {
@@ -180,7 +245,66 @@ grupos_5_desc: "Random sequences with five characters. Operational listening and
 frases_curtas: "Short Phrases",
 frases_curtas_desc: "Operational and everyday messages for realistic training.",
 
-sala_escuta: "LISTENING ROOM"
+sala_escuta: "LISTENING ROOM",
+voltar_biblioteca: "Back to Library",
+
+desafio: "Challenge",
+escuta_livre: "Free Listening",
+ouvir: "Listen",
+mostrar_resposta: "Show answer",
+digite_o_que_ouviu: "Type what you heard",
+confirmar: "Confirm",
+resposta: "Answer",
+sem_observacao: "No note registered.",
+erro_resposta_vazia: "Type an answer before confirming.",
+correto: "Correct!",
+incorreto: "Incorrect.",
+resposta_correta_era: "The correct answer was",
+voce_digitou: "You typed",
+
+resultado_auditivo: "Listening Result",
+treino_concluido: "Practice completed",
+treino_concluido_msg: "You completed the listening challenge. Keep practicing to strengthen your ear.",
+escuta_elite: "Elite Listening",
+escuta_elite_msg: "Excellent performance. Your ear is already recognizing the signals with high precision.",
+escuta_operacional: "Operational Listening",
+escuta_operacional_msg: "Good performance. You can already operate safely in this category.",
+escuta_formacao: "Listening in Training",
+escuta_formacao_msg: "You completed the practice, but this category still needs reinforcement.",
+
+categoria: "Category",
+aproveitamento: "Accuracy",
+acertos: "Correct",
+pontos: "Points",
+situacao_escuta: "Listening Status",
+treino_auditivo_registrado: "Listening Practice Registered",
+treino_auditivo_registrado_msg: "This result prepares the operator for advanced missions with audio-received messages.",
+medalhas_distintivos: "Medals and Badges",
+escuta_ativa: "Active Listening",
+nenhuma_nova_medalha: "No new medal this round.",
+refazer_desafio: "Retry challenge",
+voltar_treino_auditivo: "Back to Listening Practice",
+
+categoria_caracteres_isolados: "Single Characters",
+categoria_grupos_5: "Groups of 5",
+categoria_frases_curtas: "Short Phrases",
+categoria_letras: "Letters",
+categoria_numeros: "Numbers",
+categoria_codigo_q: "Q Codes",
+categoria_sinais: "Service Signals",
+categoria_abreviacoes: "Abbreviations",
+categoria_caracteres: "Special Characters",
+categoria_palavras: "Common Words",
+categoria_frases: "Operational Phrases",
+categoria_mensagens: "Operational Messages",
+categoria_misto: "Mixed Practice",
+
+tipo_caractere_isolado: "Single Character",
+tipo_grupo_5: "Group of 5",
+tipo_frase_curta: "Short Phrase",
+desc_caractere_isolado: "Listen and recognize the signal.",
+desc_grupo_5: "Listen to the full group and type the five characters.",
+desc_frase_curta: "Listen to the full phrase and type what you received.",
   }
   };
 function t(chave) {
@@ -4189,9 +4313,9 @@ function montarMenuTreinoAuditivo() {
       </div>
 
       <div class="botoes-resultado bloco-voltar-treino">
-        <button id="btnVoltarBibliotecaTreinoMenu" class="btn secundario">
-          Voltar para Biblioteca
-        </button>
+      <button id="btnVoltarBibliotecaTreinoMenu" class="btn secundario">
+      ${t("voltar_biblioteca")}
+      </button>
       </div>
     </div>
   `;
@@ -4322,7 +4446,10 @@ function renderizarTelaTreinoAuditivo(mostrarResposta = false, mensagem = "") {
   const item = treinoAuditivo.itemAtual;
   const ehDesafio = treinoAuditivo.modo === "desafio";
 
-  const tituloTela = ehDesafio ? "Desafio" : "Escuta Livre";
+  const tituloTela = ehDesafio ? t("desafio") : t("escuta_livre");
+  const mensagemTraduzida = mensagem
+  ? (IDIOMAS[idiomaAtual]?.[mensagem] || IDIOMAS.pt[mensagem] || mensagem)
+  : "";
 
   gridBibliotecaMorse.innerHTML = `
     <div class="painel-treino-auditivo tela-escuta-clean">
@@ -4333,7 +4460,7 @@ function renderizarTelaTreinoAuditivo(mostrarResposta = false, mensagem = "") {
 
       <div class="botoes-escuta-clean">
         <button id="btnOuvirTreino" class="btn principal">
-          Ouvir
+          ${t("ouvir")}
         </button>
 
         ${
@@ -4341,7 +4468,7 @@ function renderizarTelaTreinoAuditivo(mostrarResposta = false, mensagem = "") {
             ? ""
             : `
               <button id="btnMostrarRespostaTreino" class="btn secundario">
-                Mostrar resposta
+                ${t("mostrar_resposta")}
               </button>
             `
         }
@@ -4351,41 +4478,47 @@ function renderizarTelaTreinoAuditivo(mostrarResposta = false, mensagem = "") {
         ehDesafio
           ? `
             <div class="campo-resposta-auditiva campo-clean">
-              <label for="inputRespostaAuditiva">Digite o que você ouviu</label>
+              <label for="inputRespostaAuditiva">${t("digite_o_que_ouviu")}</label>
               <input
                 id="inputRespostaAuditiva"
                 type="text"
                 autocomplete="off"
                 placeholder="Ex: A, 7, QSL, BASE"
               />
-
-              <button id="btnConfirmarRespostaAuditiva" class="btn principal">
-                Confirmar
-              </button>
             </div>
+
+            <button id="btnConfirmarRespostaAuditiva" class="btn principal">
+              ${t("confirmar")}
+            </button>
           `
           : ""
       }
 
-      <div id="areaRespostaTreino" class="resposta-treino resposta-clean">
+      <div class="resposta-auditiva-box ${mostrarResposta ? "visivel" : ""}">
+        <span>${t("resposta")}</span>
+
+        <strong>
+          ${
+            mostrarResposta
+              ? escaparHtml(item.resposta)
+              : "—"
+          }
+        </strong>
+
+        <small>
         ${
           mostrarResposta
-            ? `
-              <span class="label">Resposta</span>
-              <strong>${escaparHtml(item.resposta)}</strong>
-              <div class="morse-resposta">${escaparHtml(item.morse)}</div>
-              <p>${escaparHtml(item.significado || "Sem observação cadastrada.")}</p>
-            `
-            : `
-              <span class="label">Resposta</span>
-              <strong>—</strong>
-            `
+            ? escaparHtml(traduzirObservacaoAuditiva(item.significado))
+            : ""
         }
+      </small>
       </div>
 
-      <div id="feedbackTreinoAuditivo" class="feedback ${mensagem ? "alerta" : ""}">
-        ${escaparHtml(mensagem)}
-      </div>
+      ${
+        mensagemTraduzida
+          ? `<div class="feedback ${mostrarResposta ? "sucesso" : "alerta"}">${escaparHtml(mensagemTraduzida)}</div>`
+          : ""
+      }
     </div>
   `;
 
@@ -4393,39 +4526,35 @@ function renderizarTelaTreinoAuditivo(mostrarResposta = false, mensagem = "") {
     .getElementById("btnOuvirTreino")
     .addEventListener("click", ouvirItemTreinoAuditivo);
 
-  const btnMostrarResposta = document.getElementById("btnMostrarRespostaTreino");
+  if (!ehDesafio) {
+    const btnMostrarResposta = document.getElementById("btnMostrarRespostaTreino");
 
-  if (btnMostrarResposta) {
-    btnMostrarResposta.addEventListener("click", () => {
-      renderizarTelaTreinoAuditivo(true);
-
-      setTimeout(() => {
-        proximoItemTreinoAuditivo();
-      }, 1000);
-    });
+    if (btnMostrarResposta) {
+      btnMostrarResposta.addEventListener("click", () => {
+        renderizarTelaTreinoAuditivo(true);
+      });
+    }
   }
 
-  const inputResposta = document.getElementById("inputRespostaAuditiva");
-  const btnConfirmar = document.getElementById("btnConfirmarRespostaAuditiva");
-  
-  if (inputResposta && btnConfirmar) {
-    if (!mostrarResposta && !mensagem) {
-      setTimeout(() => {
-        inputResposta.focus();
-      }, 250);
+  if (ehDesafio) {
+    const input = document.getElementById("inputRespostaAuditiva");
+    const btnConfirmar = document.getElementById("btnConfirmarRespostaAuditiva");
+
+    if (input) {
+      input.focus();
+
+      input.addEventListener("keydown", (evento) => {
+        if (evento.key === "Enter") {
+          confirmarRespostaAuditiva();
+        }
+      });
     }
 
-    btnConfirmar.addEventListener("click", confirmarRespostaAuditiva);
-
-    inputResposta.addEventListener("keydown", (evento) => {
-      if (evento.code === "Enter") {
-        evento.preventDefault();
-        confirmarRespostaAuditiva();
-      }
-    });
+    if (btnConfirmar) {
+      btnConfirmar.addEventListener("click", confirmarRespostaAuditiva);
+    }
   }
 }
-
 function ouvirItemTreinoAuditivo() {
   if (!treinoAuditivo.itemAtual) return;
 
@@ -4447,7 +4576,7 @@ setTimeout(() => {
   const respostaCorreta = normalizarRespostaAuditiva(treinoAuditivo.itemAtual.resposta);
 
   if (!respostaUsuario) {
-    renderizarTelaTreinoAuditivo(false, "Digite uma resposta antes de confirmar.");
+    renderizarTelaTreinoAuditivo(false, "erro_resposta_vazia");
   
     setTimeout(() => {
       const novoInput = document.getElementById("inputRespostaAuditiva");
@@ -4474,7 +4603,7 @@ setTimeout(() => {
     tocarAcerto();
 
     setTimeout(() => {
-      renderizarTelaTreinoAuditivo(true, "Correto!");
+      renderizarTelaTreinoAuditivo(true, "correto");
 
       setTimeout(() => {
         proximoItemTreinoAuditivo();
@@ -4490,7 +4619,7 @@ setTimeout(() => {
   tocarErro();
 
   setTimeout(() => {
-    renderizarTelaTreinoAuditivo(true, "Incorreto.");
+    renderizarTelaTreinoAuditivo(true, "incorreto");
 
     setTimeout(() => {
       proximoItemTreinoAuditivo();
@@ -4686,23 +4815,41 @@ function normalizarRespostaAuditiva(valor) {
 
 function nomeCategoriaTreino(categoria) {
   const nomes = {
-    caracteres_isolados: "Caracteres isolados",
-    grupos_5: "Grupos de 5",
-    frases_curtas: "Frases curtas",
+    caracteres_isolados: t("categoria_caracteres_isolados"),
+    grupos_5: t("categoria_grupos_5"),
+    frases_curtas: t("categoria_frases_curtas"),
 
-    letras: "Letras",
-    numeros: "Números",
-    codigoQ: "Código Q",
-    sinais: "Sinais de Serviço",
-    abreviacoes: "Abreviações",
-    caracteres: "Caracteres Especiais",
-    palavras: "Palavras comuns",
-    frases: "Frases operacionais",
-    mensagens: "Mensagens operacionais",
-    misto: "Treino misto"
+    letras: t("categoria_letras"),
+    numeros: t("categoria_numeros"),
+    codigoQ: t("categoria_codigo_q"),
+    sinais: t("categoria_sinais"),
+    abreviacoes: t("categoria_abreviacoes"),
+    caracteres: t("categoria_caracteres"),
+    palavras: t("categoria_palavras"),
+    frases: t("categoria_frases"),
+    mensagens: t("categoria_mensagens"),
+    misto: t("categoria_misto")
   };
 
-  return nomes[categoria] || "Treino Auditivo";
+  return nomes[categoria] || t("treino_auditivo_titulo");
+}
+function traduzirObservacaoAuditiva(texto) {
+  const bruto = String(texto || "").trim();
+
+  const mapa = {
+    "Ouça e reconheça o sinal.": "desc_caractere_isolado",
+    "Ouça o grupo completo e digite os cinco caracteres.": "desc_grupo_5",
+    "Ouça a frase completa e digite o que recebeu.": "desc_frase_curta",
+    "Sem observação cadastrada.": "sem_observacao"
+  };
+
+  const chave = mapa[bruto];
+
+  if (chave) {
+    return t(chave);
+  }
+
+  return bruto || t("sem_observacao");
 }
 function salvarNomeOperador() {
   nomeOperador = getNomeOperadorAtual();
