@@ -74,21 +74,53 @@ const IDIOMAS = {
     continuar: "Continuar",
   
     biblioteca_titulo: "Biblioteca Morse",
-    alfabeto: "Alfabeto",
-    numeros: "Números",
-    codigo_q: "Código Q",
-    sinais_servico: "Sinais de Serviço",
-    abreviacoes: "Abreviações",
-    caracteres_especiais: "Caracteres Especiais",
-    treino_auditivo: "Treino Auditivo",
-    voltar_inicio: "Voltar ao início",
-    toque_para_ouvir: "Toque para ouvir",
+biblioteca_desc: "Escolha uma área de estudo. Consulte, ouça e pratique os sinais.",
+
+alfabeto: "Alfabeto",
+numeros: "Números",
+codigo_q: "Código Q",
+sinais_servico: "Sinais de Serviço",
+abreviacoes: "Abreviações",
+caracteres_especiais: "Caracteres Especiais",
+treino_auditivo: "Treino Auditivo",
+
+alfabeto_morse_titulo: "Alfabeto Morse",
+numeros_morse_titulo: "Números em Morse",
+codigo_q_titulo: "Código Q",
+sinais_servico_titulo: "Sinais de Serviço",
+abreviacoes_titulo: "Abreviações Morse",
+caracteres_especiais_titulo: "Caracteres Especiais",
+
+alfabeto_desc: "Consulte as letras, seus códigos e mnemônicos fônicos. Toque em um card para ouvir.",
+numeros_desc: "Consulte os números e seus códigos. Toque em um card para ouvir.",
+codigo_q_desc: "Selecione uma categoria do Código Q.",
+categoria_q_desc: "Toque em um cartão para ouvir o código e consultar o significado.",
+sinais_servico_desc: "Sinais usados para controlar, corrigir e organizar a comunicação Morse.",
+abreviacoes_desc: "Abreviações comuns usadas em comunicação Morse e rádio.",
+
+q_operacao: "Operação",
+q_operacao_desc: "Comunicação entre operadores",
+q_estacao: "Estação",
+q_estacao_desc: "Localização e identificação",
+q_qualidade: "Qualidade",
+q_qualidade_desc: "Sinais, ruídos e interferências",
+q_trafego: "Tráfego",
+q_trafego_desc: "Mensagens e radiogramas",
+
+q_operacao_titulo: "Código Q — Operação",
+q_estacao_titulo: "Código Q — Estação",
+q_qualidade_titulo: "Código Q — Qualidade",
+q_trafego_titulo: "Código Q — Tráfego",
+
+voltar_inicio: "Voltar ao início",
+voltar_codigo_q: "Voltar ao Código Q",
+toque_para_ouvir: "Toque para ouvir",
     treino_livre_titulo: "Treino Livre",
-codigo_transmitido: "Código Transmitido",
-decodificacao_aproximada: "Decodificação Aproximada",
-modo_interpretacao: "Modo de Interpretação",
-iniciante: "Iniciante",
-transmitir: "Transmitir",
+    codigo_transmitido: "Código Transmitido",
+     decodificacao_aproximada: "Decodificação Aproximada",
+     modo_interpretacao: "Modo de Interpretação",
+     iniciante: "Iniciante",
+     transmitir: "Transmitir",
 limpar: "Limpar",
 modo_livre_desc_iniciante: "Ritmo confortável para treino inicial.",
 modo_livre_desc_pro: "Resposta mais rápida para operador experiente.",
@@ -215,15 +247,47 @@ desc_frase_curta: "Ouça a frase completa e digite o que recebeu.",
     continuar: "Continue",
   
     biblioteca_titulo: "Morse Library",
-    alfabeto: "Alphabet",
-    numeros: "Numbers",
-    codigo_q: "Q Codes",
-    sinais_servico: "Service Signals",
-    abreviacoes: "Abbreviations",
-    caracteres_especiais: "Special Characters",
-    treino_auditivo: "Listening Practice",
-    voltar_inicio: "Back to Home",
-    toque_para_ouvir: "Tap to listen",
+biblioteca_desc: "Choose a study area. Read, listen and practice the signals.",
+
+alfabeto: "Alphabet",
+numeros: "Numbers",
+codigo_q: "Q Codes",
+sinais_servico: "Service Signals",
+abreviacoes: "Abbreviations",
+caracteres_especiais: "Special Characters",
+treino_auditivo: "Listening Practice",
+
+alfabeto_morse_titulo: "Morse Alphabet",
+numeros_morse_titulo: "Morse Numbers",
+codigo_q_titulo: "Q Codes",
+sinais_servico_titulo: "Service Signals",
+abreviacoes_titulo: "Morse Abbreviations",
+caracteres_especiais_titulo: "Special Characters",
+
+alfabeto_desc: "Check the letters, their codes and sound mnemonics. Tap a card to listen.",
+numeros_desc: "Check the numbers and their Morse codes. Tap a card to listen.",
+codigo_q_desc: "Select a Q Code category.",
+categoria_q_desc: "Tap a card to listen to the code and check its meaning.",
+sinais_servico_desc: "Signals used to control, correct and organize Morse communication.",
+abreviacoes_desc: "Common abbreviations used in Morse and radio communication.",
+
+q_operacao: "Operation",
+q_operacao_desc: "Communication between operators",
+q_estacao: "Station",
+q_estacao_desc: "Location and identification",
+q_qualidade: "Signal Quality",
+q_qualidade_desc: "Signals, noise and interference",
+q_trafego: "Traffic",
+q_trafego_desc: "Messages and radiograms",
+
+q_operacao_titulo: "Q Codes — Operation",
+q_estacao_titulo: "Q Codes — Station",
+q_qualidade_titulo: "Q Codes — Signal Quality",
+q_trafego_titulo: "Q Codes — Traffic",
+
+voltar_inicio: "Back to Home",
+voltar_codigo_q: "Back to Q Codes",
+toque_para_ouvir: "Tap to listen",
     treino_livre_titulo: "Free Practice",
 codigo_transmitido: "Transmitted Code",
 decodificacao_aproximada: "Approximate Decoding",
@@ -3086,8 +3150,8 @@ function pararTodosOsSons() {
   }
 }
 function abrirBiblioteca() {
-  tituloBiblioteca.textContent = "📚 Biblioteca Morse";
-  descricaoBiblioteca.textContent = "Escolha uma área de estudo. Consulte, ouça e pratique os sinais.";
+  tituloBiblioteca.textContent = `📚 ${t("biblioteca_titulo")}`;
+  descricaoBiblioteca.textContent = t("biblioteca_desc");
 
   gridBibliotecaMorse.innerHTML = "";
   btnVoltarMenuBiblioteca.style.display = "none";
@@ -3127,8 +3191,8 @@ function montarCardsBiblioteca(itens) {
 }
 
 function abrirBibliotecaAlfabeto() {
-  tituloBiblioteca.textContent = "🔤 Alfabeto Morse";
-  descricaoBiblioteca.textContent = "Consulte as letras, seus códigos e mnemônicos fônicos. Toque em um card para ouvir.";
+  tituloBiblioteca.textContent = `🔤 ${t("alfabeto_morse_titulo")}`;
+  descricaoBiblioteca.textContent = t("alfabeto_desc");
 
   const letras = Object.keys(TABELA_MORSE).filter((item) => /^[A-Z]$/.test(item));
   montarCardsBiblioteca(letras);
@@ -3141,10 +3205,9 @@ function abrirBibliotecaAlfabeto() {
     block: "start"
   });
 }
-
 function abrirBibliotecaNumeros() {
-  tituloBiblioteca.textContent = "🔢 Números em Morse";
-  descricaoBiblioteca.textContent = "Consulte os números, seus códigos e mnemônicos fônicos. Toque em um card para ouvir.";
+  tituloBiblioteca.textContent = `🔢 ${t("numeros_morse_titulo")}`;
+  descricaoBiblioteca.textContent = t("numeros_desc");
 
   const numeros = Object.keys(TABELA_MORSE).filter((item) => /^[0-9]$/.test(item));
   montarCardsBiblioteca(numeros);
@@ -3157,34 +3220,33 @@ function abrirBibliotecaNumeros() {
     block: "start"
   });
 }
-
 function abrirBibliotecaCodigoQ() {
-  tituloBiblioteca.textContent = "📡 Código Q";
-  descricaoBiblioteca.textContent = "Selecione uma categoria do Código Q.";
+  tituloBiblioteca.textContent = `📡 ${t("codigo_q_titulo")}`;
+  descricaoBiblioteca.textContent = t("codigo_q_desc");
 
   gridBibliotecaMorse.innerHTML = `
     <button class="cartao-caractere categoria-q" id="btnQOperacao">
       <span class="letra">📡</span>
-      <span class="morse">Operação</span>
-      <span class="fonico">Comunicação entre operadores</span>
+      <span class="morse">${t("q_operacao")}</span>
+      <span class="fonico">${t("q_operacao_desc")}</span>
     </button>
 
     <button class="cartao-caractere categoria-q" id="btnQEstacao">
       <span class="letra">🏠</span>
-      <span class="morse">Estação</span>
-      <span class="fonico">Localização e identificação</span>
+      <span class="morse">${t("q_estacao")}</span>
+      <span class="fonico">${t("q_estacao_desc")}</span>
     </button>
 
     <button class="cartao-caractere categoria-q" id="btnQQualidade">
       <span class="letra">📶</span>
-      <span class="morse">Qualidade</span>
-      <span class="fonico">Sinais, ruídos e interferências</span>
+      <span class="morse">${t("q_qualidade")}</span>
+      <span class="fonico">${t("q_qualidade_desc")}</span>
     </button>
 
     <button class="cartao-caractere categoria-q" id="btnQTrafego">
       <span class="letra">📨</span>
-      <span class="morse">Tráfego</span>
-      <span class="fonico">Mensagens e radiogramas</span>
+      <span class="morse">${t("q_trafego")}</span>
+      <span class="fonico">${t("q_trafego_desc")}</span>
     </button>
   `;
 
@@ -3671,7 +3733,7 @@ let treinoAuditivo = {
 
 function mostrarCategoriaQ(titulo, itens) {
   tituloBiblioteca.textContent = titulo;
-  descricaoBiblioteca.textContent = "Toque em um cartão para ouvir o código e consultar o significado.";
+  descricaoBiblioteca.textContent = t("categoria_q_desc");
 
   btnVoltarMenuBiblioteca.style.display = "none";
   btnVoltarCodigoQ.style.display = "inline-block";
@@ -3700,24 +3762,24 @@ function mostrarCategoriaQ(titulo, itens) {
 }
 
 function abrirQOperacao() {
-  mostrarCategoriaQ("📡 Código Q — Operação", CODIGO_Q.operacao);
+  mostrarCategoriaQ(`📡 ${t("q_operacao_titulo")}`, CODIGO_Q.operacao);
 }
 
 function abrirQEstacao() {
-  mostrarCategoriaQ("🏠 Código Q — Estação", CODIGO_Q.estacao);
+  mostrarCategoriaQ(`🏠 ${t("q_estacao_titulo")}`, CODIGO_Q.estacao);
 }
 
 function abrirQQualidade() {
-  mostrarCategoriaQ("📶 Código Q — Qualidade", CODIGO_Q.qualidade);
+  mostrarCategoriaQ(`📶 ${t("q_qualidade_titulo")}`, CODIGO_Q.qualidade);
 }
 
 function abrirQTrafego() {
-  mostrarCategoriaQ("📨 Código Q — Tráfego", CODIGO_Q.trafego);
+  mostrarCategoriaQ(`📨 ${t("q_trafego_titulo")}`, CODIGO_Q.trafego);
 }
 
 function abrirBibliotecaSinaisServico() {
-  tituloBiblioteca.textContent = "⚡ Sinais de Serviço";
-  descricaoBiblioteca.textContent = "Sinais usados para controlar, corrigir e organizar a comunicação Morse.";
+  tituloBiblioteca.textContent = `⚡ ${t("sinais_servico_titulo")}`;
+  descricaoBiblioteca.textContent = t("sinais_servico_desc");
 
   btnVoltarMenuBiblioteca.style.display = "inline-block";
   btnVoltarCodigoQ.style.display = "none";
@@ -3751,8 +3813,8 @@ function abrirBibliotecaSinaisServico() {
 }
 
 function abrirBibliotecaAbreviacoes() {
-  tituloBiblioteca.textContent = "📚 Abreviações Morse";
-  descricaoBiblioteca.textContent = "Abreviações comuns usadas em comunicação Morse e rádio.";
+  tituloBiblioteca.textContent = `📚 ${t("abreviacoes_titulo")}`;
+  descricaoBiblioteca.textContent = t("abreviacoes_desc");
 
   btnVoltarMenuBiblioteca.style.display = "inline-block";
   btnVoltarCodigoQ.style.display = "none";
@@ -3786,7 +3848,7 @@ function abrirBibliotecaAbreviacoes() {
 }
 
 function abrirBibliotecaCaracteresEspeciais() {
-  tituloBiblioteca.textContent = "🔣 Caracteres Especiais";
+  tituloBiblioteca.textContent = `🔣 ${t("caracteres_especiais_titulo")}`;
   descricaoBiblioteca.textContent = "";
 
   btnVoltarMenuBiblioteca.style.display = "inline-block";
