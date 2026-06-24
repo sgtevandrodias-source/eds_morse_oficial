@@ -131,6 +131,17 @@ toque_para_ouvir: "Toque para ouvir",
      transmitir: "Transmitir",
 limpar: "Limpar",
 modo_livre_desc_iniciante: "Ritmo confortável para treino inicial.",
+jogo_missao: "MISSÃO",
+jogo_acertos: "ACERTOS",
+jogo_tecle: "TECLE:",
+jogo_codigo_enviado: "CÓDIGO ENVIADO",
+jogo_transmitir: "TRANSMITIR",
+jogo_enviar: "ENVIAR",
+jogo_espaco_letra: "Espaço letra",
+jogo_espaco_palavra: "Espaço palavra",
+jogo_limpar: "Limpar",
+jogo_reiniciar_nivel: "Reiniciar nível",
+jogo_mapa_jogo: "Mapa do jogo",
 modo_livre_desc_pro: "Resposta mais rápida para operador experiente.",
 letra: "Letra",
 palavra: "Palavra",
@@ -311,6 +322,17 @@ iniciante: "Beginner",
 transmitir: "Transmit",
 limpar: "Clear",
 modo_livre_desc_iniciante: "Comfortable pace for initial training.",
+jogo_missao: "MISSION",
+jogo_acertos: "CORRECT",
+jogo_tecle: "KEY:",
+jogo_codigo_enviado: "SENT CODE",
+jogo_transmitir: "TRANSMIT",
+jogo_enviar: "SEND",
+jogo_espaco_letra: "Letter space",
+jogo_espaco_palavra: "Word space",
+jogo_limpar: "Clear",
+jogo_reiniciar_nivel: "Restart level",
+jogo_mapa_jogo: "Game map",
 modo_livre_desc_pro: "Faster response for experienced operators.",
 letra: "Letter",
 palavra: "Word",
@@ -1446,6 +1468,148 @@ const NIVEIS_INICIANTE = [
     titulo: "Missão 20 – O Último Sinal",
     descricao: "A sobrevivência da rede depende de você. Prove que domina o código Morse.",
     missoes: ["OPERADOR MORSE QRV", "QTC BASE SINAL 12", "RADIO POSTO QSL 9", "TRANSMISSAO OK 5"]
+  }
+];
+const NIVEIS_INICIANTE_EN = [
+  {
+    numero: 1,
+    patente: "Noob",
+    titulo: "Mission 01 – First Contact",
+    descricao: "You are still a Noob. After the communications collapse, you found a working radio. Learn the first signals.",
+    missoes: ["F", "G", "H", "J", "M", "R", "U"]
+  },
+  {
+    numero: 2,
+    patente: "Rookie",
+    titulo: "Mission 02 – Safe Channel",
+    descricao: "Now you are a Rookie. A safe frequency has been found and needs to be explored.",
+    missoes: ["B", "D", "K", "N", "T", "V", "Y"]
+  },
+  {
+    numero: 3,
+    patente: "Apprentice",
+    titulo: "Mission 03 – Emergency Network",
+    descricao: "Other survivors started responding. Expand your communication skills.",
+    missoes: ["C", "E", "I", "L", "S", "W", "O"]
+  },
+  {
+    numero: 4,
+    patente: "Explorer",
+    titulo: "Mission 04 – Priority Message",
+    descricao: "The first important messages are coming in. A mistake can cost a lot.",
+    missoes: ["A", "P", "Q", "X", "Z", "4", "5"]
+  },
+  {
+    numero: 5,
+    patente: "Connected",
+    titulo: "Mission 05 – Last Signal",
+    descricao: "Numbers are essential for coordinates and schedules. Master them to stay connected.",
+    missoes: ["1", "2", "3", "6", "7", "8", "9", "0"]
+  },
+  {
+    numero: 6,
+    patente: "Decoder",
+    titulo: "Mission 06 – Operator Test",
+    descricao: "It is time to prove that you can recognize and transmit the signals you have learned.",
+    missoes: ["F", "B", "C", "A", "J", "K", "O", "X"]
+  },
+  {
+    numero: 7,
+    patente: "Junior Operator",
+    titulo: "Mission 07 – Number Test",
+    descricao: "Transmissions now include operational numbers. Precision is essential.",
+    missoes: ["1", "5", "9", "0", "2", "6", "8", "3"]
+  },
+  {
+    numero: 8,
+    patente: "Signal Hunter",
+    titulo: "Mission 08 – Tactical Groups I",
+    descricao: "The signals are getting more complex. Identify patterns quickly.",
+    missoes: ["FGH", "JMR", "BDK", "NTV", "CEI"]
+  },
+  {
+    numero: 9,
+    patente: "Radio Hacker",
+    titulo: "Mission 09 – Tactical Groups II",
+    descricao: "Larger signal blocks require memory, attention and speed.",
+    missoes: ["LWS", "APQ", "XYZ", "MOR", "RUT"]
+  },
+  {
+    numero: 10,
+    patente: "Network Technician",
+    titulo: "Mission 10 – Encrypted Channel",
+    descricao: "Mix letters and numbers to keep the network safe and organized.",
+    missoes: ["A1", "B2", "C3", "D4", "E5", "F6"]
+  },
+  {
+    numero: 11,
+    patente: "Emergency Operator",
+    titulo: "Mission 11 – Radio Protocols",
+    descricao: "Learn the codes used by operators to speed up communication.",
+    missoes: ["QRA", "QTH", "QSL", "QTC", "QRV", "QRM"]
+  },
+  {
+    numero: 12,
+    patente: "Messenger",
+    titulo: "Mission 12 – Short Messages",
+    descricao: "It is time to transmit complete words to other operators.",
+    missoes: ["SOS", "SEA", "SUN", "NET", "SIGNAL", "BASE"]
+  },
+  {
+    numero: 13,
+    patente: "Specialist",
+    titulo: "Mission 13 – Regional Network",
+    descricao: "The messages are getting longer. Keep your rhythm and precision.",
+    missoes: ["MORSE", "RADIO", "TOWER", "POST", "BASE", "FOCUS"]
+  },
+  {
+    numero: 14,
+    patente: "Pro",
+    titulo: "Mission 14 – Communications Center",
+    descricao: "You are now operating an important station in the survivors network.",
+    missoes: ["MISSION", "COMMAND", "ANTENNA", "STATION", "OPERATOR"]
+  },
+  {
+    numero: 15,
+    patente: "Elite",
+    titulo: "Mission 15 – Priority Traffic",
+    descricao: "Urgent messages are circulating. There is no room for distraction.",
+    missoes: ["QSL OK", "BASE QRV", "SIGNAL OK", "RADIO 1", "POST 2"]
+  },
+  {
+    numero: 16,
+    patente: "Signal Master",
+    titulo: "Mission 16 – Coordinated Operation",
+    descricao: "Coordinate information using words and numbers with fluency.",
+    missoes: ["BASE 1", "POST 2", "TOWER 3", "QTC 5", "RADIO 9"]
+  },
+  {
+    numero: 17,
+    patente: "Network Guardian",
+    titulo: "Mission 17 – Advanced Post",
+    descricao: "The network depends on your ability to keep distant posts connected.",
+    missoes: ["QTC BASE", "QSL RADIO", "QRV POST", "STRONG SIGNAL", "BASE QRV"]
+  },
+  {
+    numero: 18,
+    patente: "Digital Legend",
+    titulo: "Mission 18 – National Network",
+    descricao: "Transmissions are crossing long distances. The margin for error has disappeared.",
+    missoes: ["RADIO BASE 1", "POST QRV 2", "QTC SIGNAL 3", "BASE QSL 4", "TOWER QRV 5"]
+  },
+  {
+    numero: 19,
+    patente: "Signal Hero",
+    titulo: "Mission 19 – Strategic Operator",
+    descricao: "Long messages require total focus. Your concentration will be tested.",
+    missoes: ["MORSE OPERATOR", "RADIO BASE QRV", "QTC STRONG SIGNAL", "POST QSL 123"]
+  },
+  {
+    numero: 20,
+    patente: "Morse Master",
+    titulo: "Mission 20 – The Last Signal",
+    descricao: "The survival of the network depends on you. Prove that you master Morse code.",
+    missoes: ["MORSE OPERATOR QRV", "QTC BASE SIGNAL 12", "RADIO POST QSL 9", "TRANSMISSION OK 5"]
   }
 ];
 
@@ -2793,6 +2957,52 @@ if (btnVoltarInicioMissao) {
 
 if (btnIniciarPelaMissao) {
   btnIniciarPelaMissao.textContent = t("missao_colapso_botao_iniciar");
+}
+if (btnMorse) {
+  btnMorse.textContent = t("jogo_transmitir");
+}
+
+if (btnEnviar) {
+  btnEnviar.innerHTML = `
+    <span>➤</span>
+    <span>${t("jogo_enviar")}</span>
+  `;
+}
+
+if (btnEspacoLetra) {
+  btnEspacoLetra.textContent = t("jogo_espaco_letra");
+}
+
+if (btnEspacoPalavra) {
+  btnEspacoPalavra.textContent = t("jogo_espaco_palavra");
+}
+
+if (btnLimpar) {
+  btnLimpar.textContent = t("jogo_limpar");
+}
+
+if (btnReiniciar) {
+  btnReiniciar.textContent = t("jogo_reiniciar_nivel");
+}
+
+if (btnVoltarCampanha) {
+  btnVoltarCampanha.textContent = t("jogo_mapa_jogo");
+}
+
+const labelsTopoJogo = document.querySelectorAll("#telaJogo .topo-jogo .label");
+
+if (labelsTopoJogo[0]) {
+  labelsTopoJogo[0].textContent = idiomaAtual === "en" ? "Level" : "Nível";
+}
+
+if (labelsTopoJogo[1]) {
+  labelsTopoJogo[1].textContent = idiomaAtual === "en" ? "Score" : "Pontuação";
+}
+
+const labelCodigoEnviadoJogo = document.querySelector(".codigo-enviado-card span");
+
+if (labelCodigoEnviadoJogo) {
+  labelCodigoEnviadoJogo.textContent = t("jogo_codigo_enviado");
 }
 }
 function confirmarEntradaOperador() {
@@ -5414,15 +5624,31 @@ async function entrarCampanha() {
   mostrarTela(telaCampanha);
 }
 function getNiveisModo(modo = modoAtual) {
-  if (modo === MODO_AVANCADO) return NIVEIS_AVANCADO;
-  if (modo === MODO_INTERMEDIARIO) return NIVEIS_INTERMEDIARIO;
+  if (modo === MODO_AVANCADO) {
+    return NIVEIS_AVANCADO;
+  }
+
+  if (modo === MODO_INTERMEDIARIO) {
+    return NIVEIS_INTERMEDIARIO;
+  }
+
+  if (idiomaAtual === "en") {
+    return NIVEIS_INICIANTE_EN;
+  }
+
   return NIVEIS_INICIANTE;
 }
 
 function getNomeModo(modo = modoAtual) {
-  if (modo === MODO_AVANCADO) return "Avançado";
-  if (modo === MODO_INTERMEDIARIO) return "Intermediário";
-  return "Iniciante";
+  if (modo === MODO_AVANCADO) {
+    return idiomaAtual === "en" ? "Advanced" : "Avançado";
+  }
+
+  if (modo === MODO_INTERMEDIARIO) {
+    return idiomaAtual === "en" ? "Intermediate" : "Intermediário";
+  }
+
+  return idiomaAtual === "en" ? "Beginner" : "Iniciante";
 }
 
 function modoInicianteConcluido() {
@@ -6023,10 +6249,10 @@ function carregarMissao() {
   nomeOperadorEl.textContent = `${getNomeModo(modoAtual)} ${nivel.numero}`;
 
   badgeNivel.textContent =
-    `Missão ${missaoAtualIndex + 1}/${nivel.missoes.length}`;
+  `${t("jogo_missao")} ${missaoAtualIndex + 1}/${nivel.missoes.length}`;
 
   badgePatente.textContent =
-    `Acertos ${acertosNivel}/${nivel.missoes.length}`;
+  `${t("jogo_acertos")} ${acertosNivel}/${nivel.missoes.length}`;
 
     const usarCodigoComoAlvo = missaoUsaCodigoComoAlvo(nivel);
   const faseCodigoParaTexto = nivelIntermediarioCodigoParaTexto(nivel);
@@ -6034,10 +6260,10 @@ function carregarMissao() {
   textoMissao.classList.toggle("texto-tecle-codigo", usarCodigoComoAlvo);
 
   textoMissao.textContent = faseCodigoParaTexto
-    ? `TECLE: ${missao.codigo}`
-    : usarCodigoComoAlvo
-      ? "TECLE:"
-      : `TECLE: ${missao.alvo}`;
+  ? `${t("jogo_tecle")} ${missao.codigo}`
+  : usarCodigoComoAlvo
+    ? t("jogo_tecle")
+    : `${t("jogo_tecle")} ${missao.alvo}`;
 
   const dicaFonico = getDicaFonico(missao.alvo);
 
@@ -6203,7 +6429,7 @@ function atualizarPlacar() {
 
   if (badgePatente && nivel) {
     badgePatente.textContent =
-      `Acertos ${acertosNivel}/${nivel.missoes.length}`;
+  `${t("jogo_acertos")} ${acertosNivel}/${nivel.missoes.length}`;
   }
 }
 
