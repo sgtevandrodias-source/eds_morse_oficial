@@ -80,8 +80,25 @@ const IDIOMAS = {
     abreviacoes: "Abreviações",
     caracteres_especiais: "Caracteres Especiais",
     treino_auditivo: "Treino Auditivo",
-    voltar_inicio: "Voltar ao início"
-  },
+    voltar_inicio: "Voltar ao início",
+    treino_livre_titulo: "Treino Livre",
+codigo_transmitido: "Código Transmitido",
+decodificacao_aproximada: "Decodificação Aproximada",
+modo_interpretacao: "Modo de Interpretação",
+iniciante: "Iniciante",
+transmitir: "Transmitir",
+limpar: "Limpar",
+modo_livre_desc_iniciante: "Ritmo confortável para treino inicial.",
+modo_livre_desc_pro: "Resposta mais rápida para operador experiente.",
+letra: "Letra",
+palavra: "Palavra",
+treino_auditivo_titulo: "Treino Auditivo",
+melhor_aproveitamento: "Melhor aproveitamento",
+treinos_realizados: "Treinos realizados",
+caracteres_isolados: "Caracteres isolados",
+caracteres_isolados_desc: "Letras, números e sinais simples. Ideal para começar a reconhecer sons individuais.",
+iniciar_treino: "Iniciar treino",
+      },
   
   en: {
     idioma_portugues: "🇧🇷 Português",
@@ -137,7 +154,33 @@ const IDIOMAS = {
     abreviacoes: "Abbreviations",
     caracteres_especiais: "Special Characters",
     treino_auditivo: "Listening Practice",
-    voltar_inicio: "Back to Home"
+    voltar_inicio: "Back to Home",
+    treino_livre_titulo: "Free Practice",
+codigo_transmitido: "Transmitted Code",
+decodificacao_aproximada: "Approximate Decoding",
+modo_interpretacao: "Interpretation Mode",
+iniciante: "Beginner",
+transmitir: "Transmit",
+limpar: "Clear",
+modo_livre_desc_iniciante: "Comfortable pace for initial training.",
+modo_livre_desc_pro: "Faster response for experienced operators.",
+letra: "Letter",
+palavra: "Word",
+treino_auditivo_titulo: "Listening Practice",
+melhor_aproveitamento: "Best Accuracy",
+treinos_realizados: "Sessions Completed",
+caracteres_isolados: "Single Characters",
+caracteres_isolados_desc: "Letters, numbers and simple signals. Ideal for learning to recognize individual sounds.",
+iniciar_treino: "Start Practice",
+treino_auditivo_desc: "Listen to Morse Code, type what you receive and train your ear progressively.",
+
+grupos_5: "Groups of 5",
+grupos_5_desc: "Random sequences with five characters. Operational listening and memory training.",
+
+frases_curtas: "Short Phrases",
+frases_curtas_desc: "Operational and everyday messages for realistic training.",
+
+sala_escuta: "LISTENING ROOM"
   }
   };
 function t(chave) {
@@ -2446,6 +2489,45 @@ if (btnVoltarMenuBiblioteca) {
 if (btnVoltarCodigoQ) {
   btnVoltarCodigoQ.textContent = idiomaAtual === "en" ? "Back to Q Codes" : "Voltar ao Código Q";
 }
+const badgeTreinoLivre = document.querySelector(".badge-treino-livre");
+if (badgeTreinoLivre) {
+  badgeTreinoLivre.textContent = t("treino_livre_titulo").toUpperCase();
+}
+
+const labelCodigoManipulador = document.querySelector(".painel-manipulador span");
+if (labelCodigoManipulador) {
+  labelCodigoManipulador.textContent = t("codigo_transmitido");
+}
+
+const labelDecodificacao = document.querySelector(".painel-decodificado .label");
+if (labelDecodificacao) {
+  labelDecodificacao.textContent = t("decodificacao_aproximada");
+}
+
+const labelModoManipulador = document.querySelector(".painel-modo-manipulador > span");
+if (labelModoManipulador) {
+  labelModoManipulador.textContent = t("modo_interpretacao");
+}
+
+if (btnManipuladorIniciante) {
+  btnManipuladorIniciante.textContent = t("iniciante");
+}
+
+if (btnManipuladorPro) {
+  btnManipuladorPro.textContent = "Pro";
+}
+
+if (btnMorseManipulador) {
+  btnMorseManipulador.textContent = t("transmitir").toUpperCase();
+}
+
+if (btnLimparManipulador) {
+  btnLimparManipulador.textContent = t("limpar");
+}
+
+if (btnVoltarInicioManipulador) {
+  btnVoltarInicioManipulador.textContent = t("inicio");
+}
 }
 function confirmarEntradaOperador() {
   const nomeDigitado = inputNomeOperador.value.trim();
@@ -4009,16 +4091,16 @@ function montarMenuTreinoAuditivo() {
       <div class="treino-premium-topo">
         <span class="badge badge-sala-escuta">
           <span class="icone-ondas-mini"></span>
-          SALA DE ESCUTA
+          ${t("sala_escuta")}
         </span>
 
         <div class="titulo-treino-premium">
           <span class="icone-fone-premium" aria-hidden="true"></span>
 
           <div>
-            <h2>Treino Auditivo</h2>
+          <h2>${t("treino_auditivo_titulo")}</h2>
             <p>
-              Ouça o Código Morse, digite o que recebeu e treine seu ouvido de forma progressiva.
+            ${t("treino_auditivo_desc")}
             </p>
           </div>
         </div>
@@ -4029,7 +4111,7 @@ function montarMenuTreinoAuditivo() {
           <div class="icone-stat-auditivo trofeu-css"></div>
 
           <div>
-            <span>Melhor aproveitamento</span>
+            <span>${t("melhor_aproveitamento")}</span>
             <strong>${progressoAuditivo.melhor}%</strong>
           </div>
         </div>
@@ -4040,7 +4122,7 @@ function montarMenuTreinoAuditivo() {
           </div>
 
           <div>
-            <span>Treinos realizados</span>
+            <span>${t("treinos_realizados")}</span>
             <strong>${progressoAuditivo.total}</strong>
           </div>
         </div>
@@ -4055,14 +4137,14 @@ function montarMenuTreinoAuditivo() {
           </div>
 
           <div class="conteudo-card-auditivo">
-            <h3>Caracteres isolados</h3>
+            <h3>${t("caracteres_isolados")}</h3>
             <p>
-              Letras, números e sinais simples. Ideal para começar a reconhecer sons individuais.
+            ${t("caracteres_isolados_desc")}
             </p>
           </div>
 
           <button class="btn principal btn-iniciar-treino-auditivo btn-treino-premium" data-categoria="caracteres_isolados">
-            <span>Iniciar treino</span>
+            <span>${t("iniciar_treino")}</span>
             <strong>→</strong>
           </button>
         </article>
@@ -4073,14 +4155,14 @@ function montarMenuTreinoAuditivo() {
           </div>
 
           <div class="conteudo-card-auditivo">
-            <h3>Grupos de 5</h3>
+            <h3>${t("grupos_5")}</h3>
             <p>
-              Sequências aleatórias com cinco caracteres. Treino operacional de ouvido e memória.
+            ${t("grupos_5_desc")}
             </p>
           </div>
 
           <button class="btn principal btn-iniciar-treino-auditivo btn-treino-premium" data-categoria="grupos_5">
-            <span>Iniciar treino</span>
+            <span>${t("iniciar_treino")}</span>
             <strong>→</strong>
           </button>
         </article>
@@ -4093,14 +4175,14 @@ function montarMenuTreinoAuditivo() {
           </div>
 
           <div class="conteudo-card-auditivo">
-            <h3>Frases curtas</h3>
+            <h3>${t("frases_curtas")}</h3>
             <p>
-              Mensagens operacionais e do dia a dia para preparar o operador para escuta real.
+            ${t("frases_curtas_desc")}
             </p>
           </div>
 
           <button class="btn principal btn-iniciar-treino-auditivo btn-treino-premium" data-categoria="frases_curtas">
-            <span>Iniciar treino</span>
+            <span>${t("iniciar_treino")}</span>
             <strong>→</strong>
           </button>
         </article>
@@ -7762,8 +7844,13 @@ function atualizarVisualModoManipuladorLivre() {
   }
 
   if (statusModoManipulador) {
+    const descricao =
+      modoManipuladorLivre === "pro"
+        ? t("modo_livre_desc_pro")
+        : t("modo_livre_desc_iniciante");
+  
     statusModoManipulador.textContent =
-      `${config.descricao} Letra: ${Math.round(config.pausaLetraMs)} ms • Palavra: ${Math.round(config.pausaPalavraMs)} ms.`;
+      `${descricao} ${t("letra")}: ${Math.round(config.pausaLetraMs)} ms • ${t("palavra")}: ${Math.round(config.pausaPalavraMs)} ms.`;
   }
 }
 setTimeout(() => {
@@ -7779,11 +7866,8 @@ function selecionarModoManipuladorLivre(novoModo) {
 
   const config = getConfigManipuladorLivre();
 
-  feedbackManipulador.textContent =
-    `Modo ${config.nome} ativado. ${config.descricao}`;
-
-  feedbackManipulador.className =
-    modoManipuladorLivre === "pro" ? "feedback alerta" : "feedback sucesso";
+  feedbackManipulador.textContent = "";
+feedbackManipulador.style.display = "none";
 }
 
 function iniciarPressionamentoManipulador(evento) {
