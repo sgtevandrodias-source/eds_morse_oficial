@@ -4643,21 +4643,21 @@ function finalizarDesafioAuditivo() {
     : 0;
 
   let estrelas = "⭐";
-  let titulo = "Treino concluído";
-  let mensagem = "Você concluiu o desafio auditivo. Continue treinando para fortalecer sua escuta.";
+  let titulo = t("treino_concluido");
+  let mensagem = t("treino_concluido_msg");
 
   if (aproveitamento >= 90) {
     estrelas = "⭐⭐⭐";
-    titulo = "Escuta de elite";
-    mensagem = "Excelente desempenho. Seu ouvido já está reconhecendo os sinais com muita precisão.";
+    titulo = t("escuta_elite");
+    mensagem = t("escuta_elite_msg");
   } else if (aproveitamento >= 80) {
     estrelas = "⭐⭐";
-    titulo = "Escuta operacional";
-    mensagem = "Bom desempenho. Você já consegue operar com segurança nessa categoria.";
+    titulo = t("escuta_operacional");
+    mensagem = t("escuta_operacional_msg");
   } else if (aproveitamento >= 70) {
     estrelas = "⭐";
-    titulo = "Escuta em formação";
-    mensagem = "Você concluiu o treino, mas ainda precisa reforçar essa categoria.";
+    titulo = t("escuta_formacao");
+    mensagem = t("escuta_formacao_msg");
   }
 
   salvarResultadoTreinoAuditivo(aproveitamento);
@@ -4666,7 +4666,7 @@ function finalizarDesafioAuditivo() {
 
   gridBibliotecaMorse.innerHTML = `
     <div class="painel-treino-auditivo treino-finalizado">
-      <span class="badge">Resultado Auditivo</span>
+      <span class="badge">${t("resultado_auditivo")}</span>
 
       <h2>${estrelas}</h2>
 
@@ -4676,40 +4676,40 @@ function finalizarDesafioAuditivo() {
 
       <div class="quadro-treino-status">
         <div>
-          <span class="label">Categoria</span>
+          <span class="label">${t("categoria")}</span>
           <strong>${escaparHtml(nomeCategoriaTreino(treinoAuditivo.categoria))}</strong>
         </div>
 
         <div>
-          <span class="label">Aproveitamento</span>
+          <span class="label">${t("aproveitamento")}</span>
           <strong>${aproveitamento}%</strong>
         </div>
 
         <div>
-          <span class="label">Acertos</span>
+          <span class="label">${t("acertos")}</span>
           <strong>${treinoAuditivo.acertos}</strong>
         </div>
 
         <div>
-          <span class="label">Pontos</span>
+          <span class="label">${t("pontos")}</span>
           <strong>${treinoAuditivo.pontos}</strong>
         </div>
       </div>
 
       <div class="relatorio-operacional">
         <div class="relatorio-bloco">
-          <span class="label">Situação da escuta</span>
-          <h2>🎧 Treino Auditivo registrado</h2>
-          <p>Esse resultado prepara o operador para as missões avançadas com mensagens recebidas por áudio.</p>
+          <span class="label">${t("situacao_escuta")}</span>
+          <h2>🎧 ${t("treino_auditivo_registrado")}</h2>
+          <p>${t("treino_auditivo_registrado_msg")}</p>
         </div>
 
         <div class="relatorio-bloco">
-          <span class="label">Medalhas e Distintivos</span>
+          <span class="label">${t("medalhas_distintivos")}</span>
           <ul>
             ${
               novaConquista
-                ? "<li>🎧 Escuta Ativa</li>"
-                : "<li>Nenhuma nova medalha nesta rodada.</li>"
+                ? `<li>🎧 ${t("escuta_ativa")}</li>`
+                : `<li>${t("nenhuma_nova_medalha")}</li>`
             }
           </ul>
         </div>
@@ -4717,15 +4717,15 @@ function finalizarDesafioAuditivo() {
 
       <div class="botoes-resultado">
         <button id="btnRefazerDesafioAuditivo" class="btn principal">
-          Refazer desafio
+          ${t("refazer_desafio")}
         </button>
 
         <button id="btnVoltarMenuTreinoFinal" class="btn secundario">
-          Voltar ao Treino Auditivo
+          ${t("voltar_treino_auditivo")}
         </button>
 
         <button id="btnVoltarBibliotecaTreinoFinal" class="btn discreto">
-          Voltar à Biblioteca
+          ${t("voltar_biblioteca")}
         </button>
       </div>
     </div>
