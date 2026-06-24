@@ -37,6 +37,7 @@ const IDIOMAS = {
   
     marca_chamada: "DIVIRTA-SE COM",
     slogan: "Quando o complexo falha, o simples prevalece.",
+    desenvolvido_por: "Desenvolvido por",
   
     operador_label: "OPERADOR",
     operador_formacao: "Operador em formação",
@@ -81,6 +82,7 @@ const IDIOMAS = {
     caracteres_especiais: "Caracteres Especiais",
     treino_auditivo: "Treino Auditivo",
     voltar_inicio: "Voltar ao início",
+    toque_para_ouvir: "Toque para ouvir",
     treino_livre_titulo: "Treino Livre",
 codigo_transmitido: "Código Transmitido",
 decodificacao_aproximada: "Decodificação Aproximada",
@@ -176,6 +178,7 @@ desc_frase_curta: "Ouça a frase completa e digite o que recebeu.",
   
     marca_chamada: "HAVE FUN WITH",
     slogan: "When complex systems fail, simple ones prevail.",
+    desenvolvido_por: "Developed by",
   
     operador_label: "OPERATOR",
     operador_formacao: "Operator in training",
@@ -220,6 +223,7 @@ desc_frase_curta: "Ouça a frase completa e digite o que recebeu.",
     caracteres_especiais: "Special Characters",
     treino_auditivo: "Listening Practice",
     voltar_inicio: "Back to Home",
+    toque_para_ouvir: "Tap to listen",
     treino_livre_titulo: "Free Practice",
 codigo_transmitido: "Transmitted Code",
 decodificacao_aproximada: "Approximate Decoding",
@@ -561,15 +565,56 @@ const DICAS_FONICAS = {
   9: "VAL DE MAR NA ri",
   0: "VAL DE MAR MA RE"
 };
-
+const DICAS_FONICAS_EN = {
+  A: "a-PU",
+  B: "BOB is the man",
+  C: "CO-ca CO-la",
+  D: "DAD did it",
+  E: "eh!",
+  F: "did i FAIL it?",
+  G: "GOOD GRAV-y",
+  H: "ha ha ha ha",
+  I: "did it",
+  J: "let's JUMP, JUMP, JUMP",
+  K: "KICK the CAN",
+  L: "a LIGHT is lit",
+  M: "MA-MA",
+  N: "NAME it",
+  O: "OH MY GOD",
+  P: "is PA-PA in?",
+  Q: "GOD SAVE the QUEEN",
+  R: "a RABB-it",
+  S: "ss-ss-ss",
+  T: "TALL",
+  U: "u-ni-FORM",
+  V: "vee-vee-vee VAH",
+  W: "the WORLD WAR",
+  X: "X marks the SPOT",
+  Y: "YELL-ow YO-YO",
+  Z: "ZSA ZSA did it"
+};
 function getDicaFonico(alvo) {
   const texto = String(alvo).toUpperCase();
 
-  if (/^[A-Z0-9]$/.test(texto)) {
+  if (/^[A-Z]$/.test(texto)) {
+    if (idiomaAtual === "en") {
+      return DICAS_FONICAS_EN[texto] || "";
+    }
+
     return DICAS_FONICAS[texto] || "Dica em cadastro";
   }
 
-  return "Transmita no ritmo correto, usando as pausas naturais.";
+  if (/^[0-9]$/.test(texto)) {
+    if (idiomaAtual === "en") {
+      return "";
+    }
+
+    return DICAS_FONICAS[texto] || "Dica em cadastro";
+  }
+
+  return idiomaAtual === "en"
+    ? "Transmit with the correct rhythm, respecting natural pauses."
+    : "Transmita no ritmo correto, usando as pausas naturais.";
 }
 function gerarHtmlMorseVisual(codigoMorse) {
   const codigo = String(codigoMorse || "").trim();
@@ -2652,6 +2697,11 @@ if (btnLimparManipulador) {
 if (btnVoltarInicioManipulador) {
   btnVoltarInicioManipulador.textContent = t("inicio");
 }
+const assinaturaInicialTexto = document.querySelector(".assinatura-inicial div");
+
+if (assinaturaInicialTexto) {
+  assinaturaInicialTexto.textContent = t("desenvolvido_por");
+}
 }
 function confirmarEntradaOperador() {
   const nomeDigitado = inputNomeOperador.value.trim();
@@ -3052,14 +3102,18 @@ function montarCardsBiblioteca(itens) {
   gridBibliotecaMorse.innerHTML = itens
     .map((item) => {
       const morse = TABELA_MORSE[item];
-      const fonico = DICAS_FONICAS[item] || "Dica em cadastro";
+      const fonico = getDicaFonico(item);
 
       return `
         <button class="cartao-caractere cartao-clicavel" data-morse="${escaparHtml(morse)}">
           <span class="letra">${escaparHtml(item)}</span>
           <span class="morse">${escaparHtml(morse)}</span>
-          <span class="fonico">${escaparHtml(fonico)}</span>
-          <span class="ouvir">Toque para ouvir</span>
+          ${
+            fonico
+              ? `<span class="fonico">${escaparHtml(fonico)}</span>`
+              : ""
+          }
+          <span class="ouvir">${t("toque_para_ouvir")}</span>
         </button>
       `;
     })
@@ -3632,7 +3686,7 @@ function mostrarCategoriaQ(titulo, itens) {
           <span class="letra">${escaparHtml(item.codigo)}</span>
           <span class="morse">${escaparHtml(morse)}</span>
           <span class="fonico">${escaparHtml(item.significado)}</span>
-          <span class="ouvir">Toque para ouvir</span>
+          <span class="ouvir">${t("toque_para_ouvir")}</span>
         </button>
       `;
     })
@@ -3678,7 +3732,7 @@ function abrirBibliotecaSinaisServico() {
           <span class="letra">${escaparHtml(item.codigo)}</span>
           <span class="morse">${escaparHtml(morse)}</span>
           <span class="fonico">${escaparHtml(item.significado)}</span>
-          <span class="ouvir">Toque para ouvir</span>
+          <span class="ouvir">${t("toque_para_ouvir")}</span>
         </button>
       `;
     })
@@ -3713,7 +3767,7 @@ function abrirBibliotecaAbreviacoes() {
           <span class="letra">${escaparHtml(item.codigo)}</span>
           <span class="morse">${escaparHtml(morse)}</span>
           <span class="fonico">${escaparHtml(item.significado)}</span>
-          <span class="ouvir">Toque para ouvir</span>
+          <span class="ouvir">${t("toque_para_ouvir")}</span>
         </button>
       `;
     })
@@ -3748,7 +3802,7 @@ function abrirBibliotecaCaracteresEspeciais() {
           <span class="letra">${escaparHtml(item.codigo)}</span>
           <span class="morse">${escaparHtml(morse)}</span>
           <span class="fonico">${escaparHtml(item.significado)}</span>
-          <span class="ouvir">Toque para ouvir</span>
+          <span class="ouvir">${t("toque_para_ouvir")}</span>
         </button>
       `;
     })
@@ -5263,7 +5317,7 @@ function abrirCartaoLicao(index) {
             <span class="letra">${escaparHtml(texto)}</span>
             <span class="morse">${escaparHtml(morse)}</span>
             <span class="fonico">${escaparHtml(getDicaFonico(texto))}</span>
-            <span class="ouvir">Toque para ouvir</span>
+            <span class="ouvir">${t("toque_para_ouvir")}</span>
           </button>
         `;
       }
@@ -5273,7 +5327,7 @@ function abrirCartaoLicao(index) {
           <span class="letra">${escaparHtml(texto)}</span>
           <span class="morse">${escaparHtml(morse)}</span>
           <span class="fonico">Treino de grupo</span>
-          <span class="ouvir">Toque para ouvir</span>
+          <span class="ouvir">${t("toque_para_ouvir")}</span>
         </button>
       `;
     })
