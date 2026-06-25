@@ -7815,3 +7815,163 @@ body.fim-jogo-celebracao #telaFimJogo h2 {
     max-width: 760px;
   }
 }
+/* ============================= */
+/* ÁRVORE MORSE - CELULAR DEITADO AJUSTADO */
+/* ============================= */
+
+@media (max-width: 950px) and (orientation: landscape) {
+  #telaBiblioteca {
+    padding: 8px !important;
+  }
+
+  #telaBiblioteca .card {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px !important;
+    box-sizing: border-box;
+  }
+
+  #telaBiblioteca h1 {
+    font-size: clamp(1.8rem, 6vw, 2.8rem);
+    margin-bottom: 8px;
+  }
+
+  .painel-arvore-morse {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .aviso-girar-arvore {
+    display: none !important;
+  }
+
+  .arvore-morse-layout {
+    display: grid !important;
+    grid-template-columns: 1fr 250px;
+    gap: 10px;
+    align-items: start;
+    width: 100%;
+  }
+
+  .arvore-morse-completa {
+    width: 100%;
+    max-width: 100%;
+    height: 250px;
+    overflow: hidden;
+    padding: 6px;
+    box-sizing: border-box;
+  }
+
+  .nivel-arvore {
+    min-width: 100% !important;
+    width: 100%;
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+
+  .no-arvore-morse {
+    min-height: 27px;
+    font-size: 0.7rem;
+    padding: 2px 4px;
+  }
+
+  .nivel-0 {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .nivel-1 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .nivel-2 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .nivel-3 {
+    grid-template-columns: repeat(8, 1fr);
+  }
+
+  .nivel-4 {
+    grid-template-columns: repeat(16, 1fr);
+  }
+
+  .nivel-5 {
+    grid-template-columns: repeat(32, 1fr);
+  }
+
+  .painel-controle-arvore {
+    width: 100%;
+    max-width: 250px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .quadro-arvore {
+    padding: 7px;
+    border-radius: 12px;
+  }
+
+  .quadro-arvore span {
+    font-size: 0.58rem;
+    margin-bottom: 3px;
+  }
+
+  .quadro-arvore strong {
+    font-size: 0.95rem;
+    line-height: 1.1;
+  }
+
+  .caminho-arvore-box {
+    min-height: 60px;
+  }
+
+  .caminho-arvore-morse {
+    gap: 4px;
+    font-size: 0.72rem;
+  }
+
+  .caminho-arvore-morse span {
+    padding: 3px 6px;
+    font-size: 0.72rem;
+  }
+
+  .botoes-arvore-morse {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .botoes-arvore-morse .btn {
+    min-height: 34px;
+    font-size: 0.72rem;
+    padding: 6px;
+  }
+
+  #btnVoltarMenuBiblioteca,
+  #btnVoltarInicioBiblioteca {
+    min-height: 34px;
+    font-size: 0.75rem;
+    padding: 6px 12px;
+    margin-top: 6px;
+  }
+}
+/* Ajuste extra do título da Árvore Morse no celular deitado */
+@media (max-width: 950px) and (orientation: landscape) {
+  #telaBiblioteca .marca-jogo,
+  #telaBiblioteca .marca-jogo-com-logo {
+    margin-bottom: 6px;
+  }
+
+  #telaBiblioteca .logo-eds-morse,
+  #telaBiblioteca .marca-jogo img {
+    width: 42px;
+    height: 42px;
+  }
+
+  #telaBiblioteca .marca-jogo-texto h1,
+  #telaBiblioteca h1 {
+    font-size: 2rem !important;
+    line-height: 1;
+  }
+}
