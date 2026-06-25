@@ -62,7 +62,47 @@ missao_colapso_textos: [
   "Para sobreviver ao caos, você precisa dominar o código, transmitir mensagens e manter contato com outros operadores.",
   "Avance pelas missões mantendo rendimento acima de 80% e alcance a meta operacional de 12 palavras por minuto."
 ],
-  
+regras_badge: "Manual do operador",
+regras_titulo: "📘 Regras e FAQ",
+regras_subtitulo: "Entenda como jogar, pontuar e participar do Ranking Global do EDS MORSE.",
+
+regras_como_jogar_titulo: "🎮 Como jogar",
+regras_como_jogar_p1: "O EDS MORSE é um jogo de Código Morse. Em cada fase, o operador precisa transmitir ou reconhecer sinais usando pontos e traços.",
+regras_como_jogar_p2: "Pressionamentos curtos representam pontos. Pressionamentos longos representam traços. Complete as missões com atenção, ritmo e precisão.",
+
+regras_aprovacao_titulo: "✅ Aprovação nas fases",
+regras_aprovacao_p1: "Para concluir uma fase, o operador precisa alcançar pelo menos <strong>80% de aproveitamento</strong>.",
+regras_aprovacao_p2: "Abaixo de 80%, a fase precisa ser repetida. Com 90% ou mais, o operador pode receber bônus e recompensas adicionais.",
+
+regras_pontuacao_titulo: "🏆 Pontuação",
+regras_pontuacao_p1: "Cada missão gera uma pontuação própria. Acertos seguidos aumentam a pontuação, enquanto erros reduzem o desempenho.",
+regras_pontuacao_p2: "O tempo, o aproveitamento e o WPM também podem influenciar o resultado final da missão.",
+
+regras_progresso_titulo: "📈 Progresso do operador",
+regras_progresso_p1: "O progresso do operador é a soma dos melhores resultados alcançados nas fases concluídas.",
+regras_progresso_p2: "Repetir uma fase só aumenta o progresso se o novo resultado for melhor que o anterior.",
+
+regras_ranking_titulo: "🌍 Ranking Global",
+regras_ranking_p1: "O Ranking Global mostra o melhor desempenho de cada operador.",
+regras_ranking_p2: "Cada nome de operador fica vinculado ao primeiro aparelho que usou esse nome. Outro aparelho não poderá usar o mesmo nome.",
+regras_ranking_p3: "A ordem do ranking considera: pontos acumulados, modo mais avançado, nível alcançado, aproveitamento, WPM e tempo.",
+
+regras_faq_titulo: "❓ FAQ",
+faq_nome_bloqueado_q: "Por que meu nome foi bloqueado?",
+faq_nome_bloqueado_a: "Porque esse nome já foi usado em outro aparelho. Cada nome de operador é único no Ranking Global.",
+faq_tempo_q: "Por que estou atrás de outro jogador mesmo tendo melhor tempo?",
+faq_tempo_a: "Porque o primeiro critério do Ranking Global é o progresso acumulado do operador. O tempo é usado como critério de desempate.",
+faq_pontuacao_q: "Minha pontuação sempre aumenta quando repito uma fase?",
+faq_pontuacao_a: "Não. O progresso só aumenta se você superar seu melhor resultado naquela fase.",
+faq_internet_q: "O ranking funciona sem internet?",
+faq_internet_a: "O jogo pode funcionar instalado como PWA, mas o Ranking Global precisa de internet para enviar e carregar resultados.",
+faq_wpm_q: "O que é WPM?",
+faq_wpm_a: "WPM significa Words Per Minute, ou palavras por minuto. É uma medida de velocidade usada em Código Morse.",
+
+regras_acompanhe_titulo: "📡 Acompanhe o projeto",
+regras_instagram: "Instagram oficial:",
+regras_email: "E-mail:",
+regras_assinatura: "EDS MORSE — Quando o complexo falha, o simples prevalece.",
     campanha_progresso: "Progresso",
     campanha_titulo: "Formação do Operador Morse",
     inicio: "Início",
@@ -254,6 +294,47 @@ desc_frase_curta: "Ouça a frase completa e digite o que recebeu.",
       "To survive the chaos, you must master the code, transmit messages and keep contact with other operators.",
       "Advance through the missions by keeping your performance above 80% and reach the operational target of 12 words per minute."
     ],
+    regras_badge: "Operator Manual",
+regras_titulo: "📘 Rules & FAQ",
+regras_subtitulo: "Learn how to play, score points and join the EDS MORSE Global Ranking.",
+
+regras_como_jogar_titulo: "🎮 How to play",
+regras_como_jogar_p1: "EDS MORSE is a Morse Code game. In each stage, the operator must transmit or recognize signals using dots and dashes.",
+regras_como_jogar_p2: "Short presses represent dots. Long presses represent dashes. Complete the missions with attention, rhythm and precision.",
+
+regras_aprovacao_titulo: "✅ Stage approval",
+regras_aprovacao_p1: "To complete a stage, the operator must reach at least <strong>80% accuracy</strong>.",
+regras_aprovacao_p2: "Below 80%, the stage must be repeated. With 90% or more, the operator may receive bonuses and additional rewards.",
+
+regras_pontuacao_titulo: "🏆 Score",
+regras_pontuacao_p1: "Each mission generates its own score. Consecutive correct answers increase the score, while mistakes reduce performance.",
+regras_pontuacao_p2: "Time, accuracy and WPM may also influence the final mission result.",
+
+regras_progresso_titulo: "📈 Operator progress",
+regras_progresso_p1: "Operator progress is the sum of the best results achieved in completed stages.",
+regras_progresso_p2: "Repeating a stage only increases progress if the new result is better than the previous one.",
+
+regras_ranking_titulo: "🌍 Global Ranking",
+regras_ranking_p1: "The Global Ranking shows the best performance of each operator.",
+regras_ranking_p2: "Each operator name is linked to the first device that used that name. Another device cannot use the same name.",
+regras_ranking_p3: "The ranking order considers: accumulated points, most advanced mode, highest level reached, accuracy, WPM and time.",
+
+regras_faq_titulo: "❓ FAQ",
+faq_nome_bloqueado_q: "Why was my name blocked?",
+faq_nome_bloqueado_a: "Because that name has already been used on another device. Each operator name is unique in the Global Ranking.",
+faq_tempo_q: "Why am I behind another player even with a better time?",
+faq_tempo_a: "Because the first Global Ranking criterion is the operator's accumulated progress. Time is used as a tiebreaker.",
+faq_pontuacao_q: "Does my score always increase when I repeat a stage?",
+faq_pontuacao_a: "No. Progress only increases if you beat your best result in that stage.",
+faq_internet_q: "Does the ranking work without internet?",
+faq_internet_a: "The game can work when installed as a PWA, but the Global Ranking needs internet to send and load results.",
+faq_wpm_q: "What is WPM?",
+faq_wpm_a: "WPM means Words Per Minute. It is a speed measurement used in Morse Code.",
+
+regras_acompanhe_titulo: "📡 Follow the project",
+regras_instagram: "Official Instagram:",
+regras_email: "E-mail:",
+regras_assinatura: "EDS MORSE — When complex systems fail, simple ones prevail.",
     campanha_progresso: "Progress",
     campanha_titulo: "Morse Operator Training",
     inicio: "Home",
@@ -3004,6 +3085,13 @@ const labelCodigoEnviadoJogo = document.querySelector(".codigo-enviado-card span
 if (labelCodigoEnviadoJogo) {
   labelCodigoEnviadoJogo.textContent = t("jogo_codigo_enviado");
 }
+document.querySelectorAll("[data-i18n]").forEach((el) => {
+  el.textContent = t(el.dataset.i18n);
+});
+
+document.querySelectorAll("[data-i18n-html]").forEach((el) => {
+  el.innerHTML = t(el.dataset.i18nHtml);
+});
 }
 function confirmarEntradaOperador() {
   const nomeDigitado = inputNomeOperador.value.trim();
