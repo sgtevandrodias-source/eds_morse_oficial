@@ -7975,3 +7975,121 @@ body.fim-jogo-celebracao #telaFimJogo h2 {
     line-height: 1;
   }
 }
+/* ============================= */
+/* ÁRVORE MORSE - MODO TELA CHEIA PAISAGEM */
+/* ============================= */
+
+@media (max-width: 950px) and (orientation: landscape) {
+  body.modo-arvore-morse #telaBiblioteca {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    min-height: 100vh !important;
+    padding: 4px !important;
+    margin: 0 !important;
+  }
+
+  body.modo-arvore-morse #telaBiblioteca .card,
+  body.modo-arvore-morse #telaBiblioteca .card-biblioteca,
+  body.modo-arvore-morse #telaBiblioteca .painel,
+  body.modo-arvore-morse #telaBiblioteca .container {
+    width: calc(100vw - 16px) !important;
+    max-width: calc(100vw - 16px) !important;
+    min-height: calc(100vh - 16px) !important;
+    margin: 0 auto !important;
+    padding: 8px !important;
+    box-sizing: border-box !important;
+  }
+
+  body.modo-arvore-morse #telaBiblioteca h1 {
+    font-size: 1.6rem !important;
+    line-height: 1 !important;
+    margin: 0 0 6px !important;
+    text-align: center !important;
+  }
+
+  body.modo-arvore-morse #telaBiblioteca .subtitulo,
+  body.modo-arvore-morse #telaBiblioteca p {
+    display: none !important;
+  }
+
+  body.modo-arvore-morse .painel-arvore-morse {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  body.modo-arvore-morse .arvore-morse-layout {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 230px !important;
+    gap: 8px !important;
+    align-items: start !important;
+  }
+
+  body.modo-arvore-morse .arvore-morse-completa {
+    width: 100% !important;
+    height: 255px !important;
+    max-height: 255px !important;
+    overflow: hidden !important;
+    padding: 6px !important;
+  }
+
+  body.modo-arvore-morse .nivel-arvore {
+    width: 100% !important;
+    min-width: 100% !important;
+    gap: 3px !important;
+    margin-bottom: 3px !important;
+  }
+
+  body.modo-arvore-morse .no-arvore-morse {
+    min-height: 25px !important;
+    font-size: 0.66rem !important;
+    padding: 1px 3px !important;
+  }
+
+  body.modo-arvore-morse .painel-controle-arvore {
+    max-width: 230px !important;
+    width: 230px !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 6px !important;
+  }
+
+  body.modo-arvore-morse .quadro-arvore {
+    padding: 7px !important;
+    border-radius: 12px !important;
+  }
+
+  body.modo-arvore-morse .quadro-arvore span {
+    font-size: 0.55rem !important;
+    margin-bottom: 2px !important;
+  }
+
+  body.modo-arvore-morse .quadro-arvore strong {
+    font-size: 0.9rem !important;
+    line-height: 1.05 !important;
+  }
+
+  body.modo-arvore-morse .caminho-arvore-box {
+    min-height: 54px !important;
+  }
+
+  body.modo-arvore-morse .botoes-arvore-morse {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px !important;
+  }
+
+  body.modo-arvore-morse .botoes-arvore-morse .btn {
+    min-height: 32px !important;
+    font-size: 0.7rem !important;
+    padding: 5px !important;
+  }
+
+  body.modo-arvore-morse #btnVoltarMenuBiblioteca,
+  body.modo-arvore-morse #btnVoltarInicioBiblioteca {
+    min-height: 30px !important;
+    font-size: 0.68rem !important;
+    padding: 4px 10px !important;
+    margin-top: 4px !important;
+  }
+}

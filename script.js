@@ -3468,6 +3468,7 @@ window.addEventListener("popstate", (evento) => {
 
 function voltarInicio() {
   document.body.classList.remove("visualizando-mapa-modo");
+  document.body.classList.remove("modo-arvore-morse");
 
   mostrarTela(telaInicial, false);
 
@@ -3684,6 +3685,8 @@ function pararTodosOsSons() {
   }
 }
 function abrirBiblioteca() {
+  document.body.classList.remove("modo-arvore-morse");
+
   tituloBiblioteca.textContent = `📚 ${t("biblioteca_titulo")}`;
   descricaoBiblioteca.textContent = t("biblioteca_desc");
 
@@ -5276,6 +5279,8 @@ function ouvirArvoreMorse() {
   tocarSequenciaMorse(codigoAtualArvoreMorse);
 }
 function abrirBibliotecaArvoreMorse() {
+  document.body.classList.add("modo-arvore-morse");
+
   codigoAtualArvoreMorse = "";
 
   tituloBiblioteca.textContent = `🌳 ${t("arvore_morse_titulo")}`;
