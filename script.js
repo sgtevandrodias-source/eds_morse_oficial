@@ -217,11 +217,13 @@ jogo_missao: "MISSÃO",
 jogo_acertos: "ACERTOS",
 jogo_tecle: "TECLE:",
 jogo_codigo_enviado: "CÓDIGO ENVIADO",
+jogo_texto_enviado: "TEXTO ENVIADO",
 jogo_transmitir: "TRANSMITIR",
 jogo_enviar: "ENVIAR",
 jogo_espaco_letra: "Espaço letra",
 jogo_espaco_palavra: "Espaço palavra",
 jogo_limpar: "Limpar",
+jogo_erro_sem_codigo: "Transmita pelo menos um ponto ou traço antes de confirmar.",
 jogo_reiniciar_nivel: "Reiniciar nível",
 jogo_mapa_jogo: "Mapa do jogo",
 jogo_ponto_transmitido: "Dot transmitted",
@@ -521,11 +523,13 @@ jogo_missao: "MISSION",
 jogo_acertos: "CORRECT",
 jogo_tecle: "KEY:",
 jogo_codigo_enviado: "SENT CODE",
+jogo_texto_enviado: "SENT TEXT",
 jogo_transmitir: "TRANSMIT",
 jogo_enviar: "SEND",
 jogo_espaco_letra: "Letter space",
 jogo_espaco_palavra: "Word space",
 jogo_limpar: "Clear",
+jogo_erro_sem_codigo: "Transmit at least one dot or dash before confirming.",
 jogo_reiniciar_nivel: "Restart level",
 jogo_mapa_jogo: "Game map",
 jogo_ponto_transmitido: "Dot transmitted",
@@ -3193,7 +3197,7 @@ if (btnMorse) {
 
 if (btnEnviar) {
   btnEnviar.innerHTML = `
-    <span>➤</span>
+    <span class="icone-enviar-missao">➤</span>
     <span>${t("jogo_enviar")}</span>
   `;
 }
@@ -6656,9 +6660,9 @@ function restaurarInterfaceTransmissao() {
   btnLimpar.style.display = "";
 
   btnEnviar.innerHTML = `
-    <span class="icone-enviar-missao">➤</span>
-    <span>ENVIAR</span>
-  `;
+  <span class="icone-enviar-missao">➤</span>
+  <span>${t("jogo_enviar")}</span>
+`;
 }
 
 function configurarInterfaceRecepcaoAvancada(missao) {
@@ -6821,13 +6825,13 @@ function carregarMissao() {
     restaurarInterfaceTransmissao();
     renderizarGuiaMorseMissao(missao, dicaFonico, nivel);
   }
-  const labelCodigoEnviado = document.querySelector(".codigo-enviado-card span");
+  const labelCodigoEnviado = document.querySelector("#telaJogo .codigo-enviado-card span");
 
-  if (labelCodigoEnviado) {
-    labelCodigoEnviado.textContent = usarCodigoComoAlvo
-      ? "Texto enviado"
-      : "Código enviado";
-  }
+if (labelCodigoEnviado) {
+  labelCodigoEnviado.textContent = usarCodigoComoAlvo
+    ? t("jogo_texto_enviado")
+    : t("jogo_codigo_enviado");
+}
   contadorMissaoEl.textContent = `${missaoAtualIndex + 1}/${nivel.missoes.length}`;
   faseAtualEl.textContent = missao.tipo;
 
@@ -6861,9 +6865,9 @@ function confirmarEnvio() {
 
   const missao = getMissaoAtual();
 
-  if (!codigoAtual.trim()) {
+  if (!codigoAtual.trim()) {a
     tocarErro();
-    feedback.textContent = "Transmita pelo menos um ponto ou traço antes de confirmar.";
+    feedback.textContent = t("jogo_erro_sem_codigo");
     feedback.className = "feedback erro";
     return;
   }
