@@ -160,6 +160,7 @@ codigo_q: "Código Q",
 sinais_servico: "Sinais de Serviço",
 abreviacoes: "Abreviações",
 caracteres_especiais: "Caracteres Especiais",
+arvore_morse: "Árvore Morse",
 treino_auditivo: "Treino Auditivo",
 
 alfabeto_morse_titulo: "Alfabeto Morse",
@@ -168,7 +169,18 @@ codigo_q_titulo: "Código Q",
 sinais_servico_titulo: "Sinais de Serviço",
 abreviacoes_titulo: "Abreviações Morse",
 caracteres_especiais_titulo: "Caracteres Especiais",
-
+arvore_morse_titulo: "Árvore Morse",
+arvore_morse_desc: "Use ponto e traço para caminhar pela árvore. Cada ponto vai para a esquerda. Cada traço vai para a direita.",
+arvore_aviso_girar: "Vire o celular para usar a árvore Morse completa.",
+arvore_start: "INÍCIO",
+arvore_codigo: "Código",
+arvore_caminho: "Caminho",
+arvore_resultado: "Resultado",
+arvore_ponto: "Ponto",
+arvore_traco: "Traço",
+arvore_ouvir: "Ouvir",
+arvore_limpar: "Limpar",
+arvore_sem_resultado: "Nenhum caractere encontrado.",
 alfabeto_desc: "Consulte as letras, seus códigos e mnemônicos fônicos. Toque em um card para ouvir.",
 numeros_desc: "Consulte os números e seus códigos. Toque em um card para ouvir.",
 codigo_q_desc: "Selecione uma categoria do Código Q.",
@@ -212,9 +224,38 @@ jogo_espaco_palavra: "Espaço palavra",
 jogo_limpar: "Limpar",
 jogo_reiniciar_nivel: "Reiniciar nível",
 jogo_mapa_jogo: "Mapa do jogo",
+jogo_ponto_transmitido: "Dot transmitted",
+jogo_traco_transmitido: "Dash transmitted",
+jogo_incorreto_curto: "Incorrect.",
+jogo_correto_curto: "Correct:",
+jogo_missao_nao_cumprida: "Mission failed",
+jogo_missao_cumprida: "Mission accomplished",
+jogo_relatorio_missao: "Mission report",
+jogo_nivel_concluido: "Level completed",
+jogo_resultado: "Result",
+jogo_repetir_missao: "Retry mission",
+jogo_repetir_nivel: "Retry level",
+jogo_proximo_nivel: "Next level",
+jogo_ver_ranking: "View ranking",
+jogo_aproveitamento: "Accuracy",
+jogo_tempo: "Time",
+jogo_wpm_aprox: "Approx. WPM",
+jogo_pontuacao: "Score",
+jogo_resultado_aprovado_msg: "You completed the mission with {aproveitamento}% accuracy, in {tempo}, reaching approximately {wpm} WPM.",
+jogo_resultado_reprovado_msg: "You did not reach the minimum 80% accuracy. Retry the mission to advance.",
+jogo_tente_novamente: "Tente novamente",
+jogo_resultado_reprovado_msg: "Você ficou com {aproveitamento}% de aproveitamento. O mínimo é 80%. Repita a missão para manter a rede operacional.",
 modo_livre_desc_pro: "Resposta mais rápida para operador experiente.",
 letra: "Letra",
 palavra: "Palavra",
+modo_livre_desc_pro: "Resposta mais rápida para operador experiente.",
+letra: "Letra",
+palavra: "Palavra",
+
+manipulador_letra_fechada_auto: "Letra fechada automaticamente.",
+manipulador_palavra_fechada_auto: "Palavra fechada automaticamente.",
+
+treino_auditivo_titulo: "Treino Auditivo",
 treino_auditivo_titulo: "Treino Auditivo",
 melhor_aproveitamento: "Melhor aproveitamento",
 treinos_realizados: "Treinos realizados",
@@ -422,6 +463,7 @@ codigo_q: "Q Codes",
 sinais_servico: "Service Signals",
 abreviacoes: "Abbreviations",
 caracteres_especiais: "Special Characters",
+arvore_morse: "Morse Tree",
 treino_auditivo: "Listening Practice",
 
 alfabeto_morse_titulo: "Morse Alphabet",
@@ -430,6 +472,18 @@ codigo_q_titulo: "Q Codes",
 sinais_servico_titulo: "Service Signals",
 abreviacoes_titulo: "Morse Abbreviations",
 caracteres_especiais_titulo: "Special Characters",
+arvore_morse_titulo: "Morse Tree",
+arvore_morse_desc: "Use dots and dashes to move through the tree. Each dot goes left. Each dash goes right.",
+arvore_aviso_girar: "Rotate your phone to use the full Morse tree.",
+arvore_start: "START",
+arvore_codigo: "Code",
+arvore_caminho: "Path",
+arvore_resultado: "Result",
+arvore_ponto: "Dot",
+arvore_traco: "Dash",
+arvore_ouvir: "Listen",
+arvore_limpar: "Clear",
+arvore_sem_resultado: "No character found.",
 
 alfabeto_desc: "Check the letters, their codes and sound mnemonics. Tap a card to listen.",
 numeros_desc: "Check the numbers and their Morse codes. Tap a card to listen.",
@@ -474,9 +528,38 @@ jogo_espaco_palavra: "Word space",
 jogo_limpar: "Clear",
 jogo_reiniciar_nivel: "Restart level",
 jogo_mapa_jogo: "Game map",
+jogo_ponto_transmitido: "Dot transmitted",
+jogo_traco_transmitido: "Dash transmitted",
+jogo_incorreto_curto: "Incorrect.",
+jogo_correto_curto: "Correct:",
+jogo_missao_nao_cumprida: "Mission failed",
+jogo_missao_cumprida: "Mission accomplished",
+jogo_relatorio_missao: "Mission report",
+jogo_nivel_concluido: "Level completed",
+jogo_resultado: "Result",
+jogo_repetir_missao: "Retry mission",
+jogo_repetir_nivel: "Retry level",
+jogo_proximo_nivel: "Next level",
+jogo_ver_ranking: "View ranking",
+jogo_aproveitamento: "Accuracy",
+jogo_tempo: "Time",
+jogo_wpm_aprox: "Approx. WPM",
+jogo_pontuacao: "Score",
+jogo_resultado_aprovado_msg: "You completed the mission with {aproveitamento}% accuracy, in {tempo}, reaching approximately {wpm} WPM.",
+jogo_resultado_reprovado_msg: "You did not reach the minimum 80% accuracy. Retry the mission to advance.",
+jogo_tente_novamente: "Try again",
+jogo_resultado_reprovado_msg: "You got {aproveitamento}% accuracy. The minimum is 80%. Retry the mission to keep the network operational.",
 modo_livre_desc_pro: "Faster response for experienced operators.",
 letra: "Letter",
 palavra: "Word",
+modo_livre_desc_pro: "Faster response for experienced operators.",
+letra: "Letter",
+palavra: "Word",
+
+manipulador_letra_fechada_auto: "Letter closed automatically.",
+manipulador_palavra_fechada_auto: "Word closed automatically.",
+
+treino_auditivo_titulo: "Listening Practice",
 treino_auditivo_titulo: "Listening Practice",
 melhor_aproveitamento: "Best Accuracy",
 treinos_realizados: "Sessions Completed",
@@ -585,6 +668,7 @@ const btnBibCodigoQ = document.getElementById("btnBibCodigoQ");
 const btnBibSinaisServico = document.getElementById("btnBibSinaisServico");
 const btnBibAbreviacoes = document.getElementById("btnBibAbreviacoes");
 const btnBibCaracteresEspeciais = document.getElementById("btnBibCaracteresEspeciais");
+const btnBibArvoreMorse = document.getElementById("btnBibArvoreMorse");
 const btnBibTreinoAuditivo = document.getElementById("btnBibTreinoAuditivo");
 const btnAbrirRanking = document.getElementById("btnAbrirRanking");
 const btnAbrirManipulador = document.getElementById("btnAbrirManipulador");
@@ -2392,6 +2476,7 @@ btnBibCodigoQ.addEventListener("click", abrirBibliotecaCodigoQ);
 btnBibSinaisServico.addEventListener("click", abrirBibliotecaSinaisServico);
 btnBibAbreviacoes.addEventListener("click", abrirBibliotecaAbreviacoes);
 btnBibCaracteresEspeciais.addEventListener("click", abrirBibliotecaCaracteresEspeciais);
+btnBibArvoreMorse.addEventListener("click", abrirBibliotecaArvoreMorse);
 btnBibTreinoAuditivo.addEventListener("click", abrirBibliotecaTreinoAuditivo);
 btnAbrirRanking.addEventListener("click", abrirRanking);
 btnAbrirRegrasFAQ.addEventListener("click", abrirRegrasFAQ);
@@ -3027,10 +3112,13 @@ if (btnBibCaracteresEspeciais) {
   btnBibCaracteresEspeciais.textContent = `🔣 ${t("caracteres_especiais")}`;
 }
 
+if (btnBibArvoreMorse) {
+  btnBibArvoreMorse.textContent = `🌳 ${t("arvore_morse")}`;
+}
+
 if (btnBibTreinoAuditivo) {
   btnBibTreinoAuditivo.textContent = `🎧 ${t("treino_auditivo")}`;
 }
-
 if (btnVoltarInicioBiblioteca) {
   btnVoltarInicioBiblioteca.textContent = t("voltar_inicio");
 }
@@ -3180,6 +3268,36 @@ const subtituloRanking = document.querySelector("#telaRanking .subtitulo-ranking
 
 if (subtituloRanking) {
   subtituloRanking.textContent = t("ranking_subtitulo");
+  if (resultadoBadge) {
+    resultadoBadge.textContent = t("jogo_resultado");
+  }
+  
+  if (tituloResultado) {
+    tituloResultado.textContent = t("jogo_nivel_concluido");
+  }
+  
+  if (btnProximoNivel) {
+    btnProximoNivel.textContent = t("jogo_proximo_nivel");
+  }
+  
+  if (btnJogarNovamente) {
+    btnJogarNovamente.textContent = t("jogo_repetir_nivel");
+  }
+  
+  if (btnMapaResultado) {
+    btnMapaResultado.textContent = t("jogo_mapa_jogo");
+  }
+  
+  if (btnRankingFinal) {
+    btnRankingFinal.textContent = t("jogo_ver_ranking");
+  }
+  
+  const labelsResultado = document.querySelectorAll("#telaFinal .quadro-resultado .label");
+  
+  if (labelsResultado[0]) labelsResultado[0].textContent = t("jogo_aproveitamento");
+  if (labelsResultado[1]) labelsResultado[1].textContent = t("jogo_tempo");
+  if (labelsResultado[2]) labelsResultado[2].textContent = t("jogo_wpm_aprox");
+  if (labelsResultado[3]) labelsResultado[3].textContent = t("jogo_pontuacao");
 }
 function confirmarEntradaOperador() {
   const nomeDigitado = inputNomeOperador.value.trim();
@@ -4470,6 +4588,8 @@ let treinoAuditivo = {
   repeticoesItem: 0,
   historico: []
 };
+let codigoAtualArvoreMorse = "";
+let caminhoAtualArvoreMorse = [];
 
 function mostrarCategoriaQ(titulo, itens) {
   tituloBiblioteca.textContent = titulo;
@@ -5071,7 +5191,241 @@ function finalizarEscutaOperacional() {
     .getElementById("btnVoltarTreinoEscutaFinal")
     .addEventListener("click", montarMenuTreinoAuditivo);
 }
+function getMapaMorseParaTexto() {
+  const mapa = {};
 
+  Object.entries(TABELA_MORSE).forEach(([caractere, codigo]) => {
+    mapa[codigo] = caractere;
+  });
+
+  return mapa;
+}
+
+function getCaractereDaArvoreMorse(codigo) {
+  const mapa = getMapaMorseParaTexto();
+  return mapa[codigo] || "";
+}
+
+function getCaminhoArvoreMorse(codigo) {
+  const mapa = getMapaMorseParaTexto();
+  const caminho = [t("arvore_start")];
+
+  let parcial = "";
+
+  String(codigo || "")
+    .split("")
+    .forEach((simbolo) => {
+      parcial += simbolo;
+      caminho.push(mapa[parcial] || parcial);
+    });
+
+  return caminho;
+}
+
+function renderizarEstadoArvoreMorse() {
+  const codigo = codigoAtualArvoreMorse;
+  const resultado = getCaractereDaArvoreMorse(codigo);
+  const caminho = getCaminhoArvoreMorse(codigo);
+
+  const codigoEl = document.getElementById("codigoAtualArvoreMorse");
+  const caminhoEl = document.getElementById("caminhoAtualArvoreMorse");
+  const resultadoEl = document.getElementById("resultadoAtualArvoreMorse");
+
+  if (codigoEl) {
+    codigoEl.textContent = codigo || "—";
+  }
+
+  if (caminhoEl) {
+    caminhoEl.innerHTML = caminho
+      .map((item) => `<span>${escaparHtml(item)}</span>`)
+      .join("<b>→</b>");
+  }
+
+  if (resultadoEl) {
+    resultadoEl.textContent = resultado || t("arvore_sem_resultado");
+  }
+
+  document.querySelectorAll(".no-arvore-morse").forEach((no) => {
+    const codigoNo = no.dataset.codigo || "";
+    no.classList.toggle("ativo", codigoNo === codigo);
+    no.classList.toggle("no-caminho", codigo && codigo.startsWith(codigoNo) && codigoNo !== "");
+  });
+}
+
+function adicionarSimboloArvoreMorse(simbolo) {
+  if (codigoAtualArvoreMorse.length >= 5) {
+    return;
+  }
+
+  codigoAtualArvoreMorse += simbolo;
+
+  tocarSequenciaMorse(simbolo);
+  renderizarEstadoArvoreMorse();
+}
+
+function limparArvoreMorse() {
+  codigoAtualArvoreMorse = "";
+  renderizarEstadoArvoreMorse();
+}
+
+function ouvirArvoreMorse() {
+  if (!codigoAtualArvoreMorse) {
+    return;
+  }
+
+  tocarSequenciaMorse(codigoAtualArvoreMorse);
+}
+function abrirBibliotecaArvoreMorse() {
+  codigoAtualArvoreMorse = "";
+
+  tituloBiblioteca.textContent = `🌳 ${t("arvore_morse_titulo")}`;
+  descricaoBiblioteca.textContent = t("arvore_morse_desc");
+
+  btnVoltarMenuBiblioteca.style.display = "inline-block";
+  btnVoltarCodigoQ.style.display = "none";
+  menuBiblioteca.style.display = "none";
+
+  gridBibliotecaMorse.innerHTML = `
+    <div class="painel-arvore-morse">
+      <div class="aviso-girar-arvore">
+        <div class="icone-girar-arvore">📱↔️</div>
+        <strong>${t("arvore_aviso_girar")}</strong>
+      </div>
+
+      <div class="arvore-morse-layout">
+        <div class="arvore-morse-completa">
+          <div class="nivel-arvore nivel-0">
+            <button class="no-arvore-morse no-start" data-codigo="">${t("arvore_start")}</button>
+          </div>
+
+          <div class="nivel-arvore nivel-1">
+            <button class="no-arvore-morse" data-codigo=".">E</button>
+            <button class="no-arvore-morse" data-codigo="-">T</button>
+          </div>
+
+          <div class="nivel-arvore nivel-2">
+            <button class="no-arvore-morse" data-codigo="..">I</button>
+            <button class="no-arvore-morse" data-codigo=".-">A</button>
+            <button class="no-arvore-morse" data-codigo="-.">N</button>
+            <button class="no-arvore-morse" data-codigo="--">M</button>
+          </div>
+
+          <div class="nivel-arvore nivel-3">
+            <button class="no-arvore-morse" data-codigo="...">S</button>
+            <button class="no-arvore-morse" data-codigo="..-">U</button>
+            <button class="no-arvore-morse" data-codigo=".-.">R</button>
+            <button class="no-arvore-morse" data-codigo=".--">W</button>
+            <button class="no-arvore-morse" data-codigo="-..">D</button>
+            <button class="no-arvore-morse" data-codigo="-.-">K</button>
+            <button class="no-arvore-morse" data-codigo="--.">G</button>
+            <button class="no-arvore-morse" data-codigo="---">O</button>
+          </div>
+
+          <div class="nivel-arvore nivel-4">
+            <button class="no-arvore-morse" data-codigo="....">H</button>
+            <button class="no-arvore-morse" data-codigo="...-">V</button>
+            <button class="no-arvore-morse" data-codigo="..-.">F</button>
+            <button class="no-arvore-morse no-vazio" data-codigo="..--">·</button>
+
+            <button class="no-arvore-morse" data-codigo=".-..">L</button>
+            <button class="no-arvore-morse no-vazio" data-codigo=".-.-">·</button>
+            <button class="no-arvore-morse" data-codigo=".--.">P</button>
+            <button class="no-arvore-morse" data-codigo=".---">J</button>
+
+            <button class="no-arvore-morse" data-codigo="-...">B</button>
+            <button class="no-arvore-morse" data-codigo="-..-">X</button>
+            <button class="no-arvore-morse" data-codigo="-.-.">C</button>
+            <button class="no-arvore-morse" data-codigo="-.--">Y</button>
+
+            <button class="no-arvore-morse" data-codigo="--..">Z</button>
+            <button class="no-arvore-morse" data-codigo="--.-">Q</button>
+            <button class="no-arvore-morse no-vazio" data-codigo="---.">·</button>
+            <button class="no-arvore-morse no-vazio" data-codigo="----">·</button>
+          </div>
+
+          <div class="nivel-arvore nivel-5">
+            <button class="no-arvore-morse" data-codigo=".....">5</button>
+            <button class="no-arvore-morse" data-codigo="....-">4</button>
+            <button class="no-arvore-morse no-vazio" data-codigo="...-.">·</button>
+            <button class="no-arvore-morse" data-codigo="...--">3</button>
+
+            <button class="no-arvore-morse no-vazio" data-codigo="..-..">·</button>
+            <button class="no-arvore-morse no-vazio" data-codigo="..-.-">·</button>
+            <button class="no-arvore-morse no-vazio" data-codigo="..--.">·</button>
+            <button class="no-arvore-morse" data-codigo="..---">2</button>
+
+            <button class="no-arvore-morse no-vazio" data-codigo=".-...">·</button>
+            <button class="no-arvore-morse no-vazio" data-codigo=".-..-">·</button>
+            <button class="no-arvore-morse no-vazio" data-codigo=".-.-.">+</button>
+            <button class="no-arvore-morse no-vazio" data-codigo=".--.-">@</button>
+
+            <button class="no-arvore-morse no-vazio" data-codigo=".---.">·</button>
+            <button class="no-arvore-morse no-vazio" data-codigo=".----">1</button>
+            <button class="no-arvore-morse no-vazio" data-codigo="-....">6</button>
+            <button class="no-arvore-morse no-vazio" data-codigo="-...-">=</button>
+
+            <button class="no-arvore-morse no-vazio" data-codigo="-..-.">/</button>
+            <button class="no-arvore-morse no-vazio" data-codigo="-.-.-">·</button>
+            <button class="no-arvore-morse no-vazio" data-codigo="-.--.">·</button>
+            <button class="no-arvore-morse no-vazio" data-codigo="-.---">·</button>
+
+            <button class="no-arvore-morse" data-codigo="--...">7</button>
+            <button class="no-arvore-morse no-vazio" data-codigo="--..-">·</button>
+            <button class="no-arvore-morse no-vazio" data-codigo="--.-.">·</button>
+            <button class="no-arvore-morse no-vazio" data-codigo="--.--">·</button>
+
+            <button class="no-arvore-morse" data-codigo="---..">8</button>
+            <button class="no-arvore-morse no-vazio" data-codigo="---.-">·</button>
+            <button class="no-arvore-morse" data-codigo="----.">9</button>
+            <button class="no-arvore-morse" data-codigo="-----">0</button>
+          </div>
+        </div>
+
+        <div class="painel-controle-arvore">
+          <div class="quadro-arvore">
+            <span>${t("arvore_codigo")}</span>
+            <strong id="codigoAtualArvoreMorse">—</strong>
+          </div>
+
+          <div class="quadro-arvore">
+            <span>${t("arvore_resultado")}</span>
+            <strong id="resultadoAtualArvoreMorse">—</strong>
+          </div>
+
+          <div class="quadro-arvore caminho-arvore-box">
+            <span>${t("arvore_caminho")}</span>
+            <div id="caminhoAtualArvoreMorse" class="caminho-arvore-morse"></div>
+          </div>
+
+          <div class="botoes-arvore-morse">
+            <button id="btnArvorePonto" class="btn principal">${t("arvore_ponto")}</button>
+            <button id="btnArvoreTraco" class="btn principal">${t("arvore_traco")}</button>
+            <button id="btnArvoreOuvir" class="btn secundario">${t("arvore_ouvir")}</button>
+            <button id="btnArvoreLimpar" class="btn secundario">${t("arvore_limpar")}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById("btnArvorePonto").addEventListener("click", () => {
+    adicionarSimboloArvoreMorse(".");
+  });
+
+  document.getElementById("btnArvoreTraco").addEventListener("click", () => {
+    adicionarSimboloArvoreMorse("-");
+  });
+
+  document.getElementById("btnArvoreOuvir").addEventListener("click", ouvirArvoreMorse);
+  document.getElementById("btnArvoreLimpar").addEventListener("click", limparArvoreMorse);
+
+  renderizarEstadoArvoreMorse();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
 function montarMenuTreinoAuditivo() {
   const progressoAuditivo = obterProgressoAuditivo();
 
@@ -6393,8 +6747,8 @@ function confirmarRecepcaoAvancada() {
     pontuacao = Math.max(0, pontuacao - 35);
 
     tocarErro();
-    feedback.textContent = `Incorreto. Correto: ${missao.alvo}`;
-    feedback.className = "feedback erro";
+feedback.textContent = `${t("jogo_incorreto_curto")} ${t("jogo_correto_curto")} ${missao.alvo}`;
+feedback.className = "feedback erro";
   }
 
   input.setAttribute("readonly", "readonly");
@@ -6523,7 +6877,7 @@ function confirmarEnvio() {
     }
 
     tocarErro();
-    feedback.textContent = `Incorreto. Correto: ${missao.codigo}`;
+    feedback.textContent = `${t("jogo_incorreto_curto")} ${t("jogo_correto_curto")} ${missao.codigo}`;
     feedback.className = "feedback erro";
   }
 
@@ -7023,19 +7377,35 @@ function mostrarResultadoNivel(resultado, campanhaFinalizada = false) {
   resultadoPontos.textContent = resultado.pontos;
 
   if (!resultado.aprovado) {
-    resultadoBadge.textContent = "MISSÃO NÃO CUMPRIDA";
+    resultadoBadge.textContent = t("jogo_missao_nao_cumprida");
     resultadoBadge.className = "badge erro";
   
     tituloResultado.style.display = "";
     resultadoFinal.style.display = "";
   
-    tituloResultado.textContent = "Tente novamente";
-    resultadoFinal.textContent =
-      `Você ficou com ${resultado.aproveitamento}% de aproveitamento. O mínimo é 80%. Repita a missão para manter a rede operacional.`;
+    tituloResultado.textContent = t("jogo_tente_novamente");
+  
+    resultadoFinal.textContent = t("jogo_resultado_reprovado_msg")
+      .replace("{aproveitamento}", resultado.aproveitamento);
   
     btnProximoNivel.style.display = "none";
-    btnJogarNovamente.textContent = "Repetir nível";
-
+    btnJogarNovamente.textContent = t("jogo_repetir_nivel");
+  
+    if (btnMapaResultado) {
+      btnMapaResultado.textContent = t("jogo_mapa_jogo");
+    }
+  
+    if (btnRankingFinal) {
+      btnRankingFinal.textContent = t("jogo_ver_ranking");
+    }
+  
+    const labelsResultado = document.querySelectorAll("#telaFinal .quadro-resultado .label");
+  
+    if (labelsResultado[0]) labelsResultado[0].textContent = t("jogo_aproveitamento");
+    if (labelsResultado[1]) labelsResultado[1].textContent = t("jogo_tempo");
+    if (labelsResultado[2]) labelsResultado[2].textContent = t("jogo_wpm_aprox");
+    if (labelsResultado[3]) labelsResultado[3].textContent = t("jogo_pontuacao");
+  
     const relatorio = document.getElementById("relatorioOperacionalResultado");
     if (relatorio) {
       relatorio.innerHTML = "";
@@ -7542,9 +7912,9 @@ function limparCodigo() {
 
 function mostrarFeedbackManipulacao(simbolo, duracao) {
   if (simbolo === ".") {
-    feedback.innerHTML = `<span class="feedback-ponto">●</span> Ponto transmitido`;
+    feedback.innerHTML = `<span class="feedback-ponto">●</span> ${t("jogo_ponto_transmitido")}`;
   } else {
-    feedback.innerHTML = `<span class="feedback-traco">▬</span> Traço transmitido`;
+    feedback.innerHTML = `<span class="feedback-traco">▬</span> ${t("jogo_traco_transmitido")}`;
   }
 
   feedback.className = "feedback feedback-jogo alerta";
@@ -9073,9 +9443,9 @@ const simbolo = duracao < configManipulador.limitePontoTracoMs ? "." : "-";
   codigoLivre += simbolo;
 
   feedbackManipulador.textContent =
-    simbolo === "."
-      ? `Ponto transmitido (${Math.round(duracao)} ms).`
-      : `Traço transmitido (${Math.round(duracao)} ms).`;
+  simbolo === "."
+    ? `${t("jogo_ponto_transmitido")} (${Math.round(duracao)} ms).`
+    : `${t("jogo_traco_transmitido")} (${Math.round(duracao)} ms).`;
 
   feedbackManipulador.className = "feedback";
 
@@ -9109,7 +9479,7 @@ function agendarPausasManipulador() {
 
     if (!codigoLivre.endsWith(" ") && !codigoLivre.endsWith("/")) {
       codigoLivre += " ";
-      feedbackManipulador.textContent = "Letra fechada automaticamente.";
+      feedbackManipulador.textContent = t("manipulador_letra_fechada_auto");
       feedbackManipulador.className = "feedback sucesso";
       atualizarManipuladorLivre();
     }
@@ -9122,7 +9492,7 @@ function agendarPausasManipulador() {
 
     if (!codigoLivre.endsWith("/")) {
       codigoLivre += " / ";
-      feedbackManipulador.textContent = "Palavra fechada automaticamente.";
+      feedbackManipulador.textContent = t("manipulador_palavra_fechada_auto");
       feedbackManipulador.className = "feedback sucesso";
       atualizarManipuladorLivre();
     }

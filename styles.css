@@ -7399,3 +7399,244 @@ body.fim-jogo-celebracao #telaFimJogo h2 {
   height: clamp(68px, 18vw, 88px);
   flex-shrink: 0;
 }
+/* ============================= */
+/* ÁRVORE MORSE - BIBLIOTECA */
+/* ============================= */
+
+.painel-arvore-morse {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.aviso-girar-arvore {
+  display: none;
+  text-align: center;
+  padding: 20px;
+  margin-bottom: 18px;
+  border-radius: 18px;
+  background: rgba(255, 220, 80, 0.12);
+  border: 1px solid rgba(255, 220, 80, 0.35);
+  color: #ffe680;
+}
+
+.icone-girar-arvore {
+  font-size: 2.4rem;
+  margin-bottom: 8px;
+}
+
+.arvore-morse-layout {
+  display: grid;
+  grid-template-columns: minmax(720px, 1fr) 280px;
+  gap: 18px;
+  align-items: start;
+}
+
+.arvore-morse-completa {
+  width: 100%;
+  overflow-x: auto;
+  padding: 12px;
+  border-radius: 20px;
+  background: rgba(4, 24, 14, 0.72);
+  border: 1px solid rgba(98, 255, 167, 0.22);
+  box-shadow: inset 0 0 22px rgba(0, 0, 0, 0.25);
+}
+
+.nivel-arvore {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 8px;
+  min-width: 700px;
+}
+
+.nivel-0 {
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.nivel-1 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.nivel-2 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.nivel-3 {
+  grid-template-columns: repeat(8, 1fr);
+}
+
+.nivel-4 {
+  grid-template-columns: repeat(16, 1fr);
+}
+
+.nivel-5 {
+  grid-template-columns: repeat(32, 1fr);
+}
+
+.no-arvore-morse {
+  min-height: 38px;
+  border-radius: 999px;
+  border: 1px solid rgba(128, 255, 185, 0.35);
+  background: rgba(9, 58, 34, 0.88);
+  color: #eafff3;
+  font-weight: 800;
+  font-size: 0.95rem;
+  box-shadow: 0 0 10px rgba(40, 255, 160, 0.08);
+}
+
+.no-arvore-morse.no-start {
+  max-width: 160px;
+  margin: 0 auto;
+  background: rgba(255, 220, 80, 0.15);
+  color: #ffe680;
+  border-color: rgba(255, 220, 80, 0.45);
+}
+
+.no-arvore-morse.no-vazio {
+  opacity: 0.38;
+  color: rgba(234, 255, 243, 0.6);
+}
+
+.no-arvore-morse.no-caminho {
+  background: rgba(255, 220, 80, 0.18);
+  border-color: rgba(255, 220, 80, 0.65);
+  color: #ffe680;
+}
+
+.no-arvore-morse.ativo {
+  background: rgba(73, 255, 160, 0.28);
+  border-color: rgba(73, 255, 160, 0.95);
+  color: #ffffff;
+  box-shadow:
+    0 0 12px rgba(73, 255, 160, 0.45),
+    0 0 28px rgba(73, 255, 160, 0.18);
+  transform: scale(1.05);
+}
+
+.painel-controle-arvore {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.quadro-arvore {
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(7, 36, 23, 0.9);
+  border: 1px solid rgba(98, 255, 167, 0.22);
+}
+
+.quadro-arvore span {
+  display: block;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  opacity: 0.78;
+  margin-bottom: 6px;
+}
+
+.quadro-arvore strong {
+  display: block;
+  font-size: 1.6rem;
+  color: #eafff3;
+}
+
+.caminho-arvore-box {
+  min-height: 110px;
+}
+
+.caminho-arvore-morse {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+.caminho-arvore-morse span {
+  display: inline-flex;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(73, 255, 160, 0.12);
+  border: 1px solid rgba(73, 255, 160, 0.25);
+  color: #eafff3;
+  margin: 0;
+  letter-spacing: normal;
+  text-transform: none;
+  opacity: 1;
+}
+
+.caminho-arvore-morse b {
+  color: #ffe680;
+}
+
+.botoes-arvore-morse {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.botoes-arvore-morse .btn {
+  width: 100%;
+  min-height: 48px;
+}
+
+/* Celular em pé: mostra aviso para virar */
+@media (max-width: 900px) and (orientation: portrait) {
+  .aviso-girar-arvore {
+    display: block;
+  }
+
+  .arvore-morse-layout {
+    display: none;
+  }
+}
+
+/* Celular deitado */
+@media (max-width: 950px) and (orientation: landscape) {
+  .painel-arvore-morse {
+    max-width: 100%;
+  }
+
+  .arvore-morse-layout {
+    grid-template-columns: minmax(620px, 1fr) 230px;
+    gap: 10px;
+  }
+
+  .arvore-morse-completa {
+    padding: 8px;
+  }
+
+  .nivel-arvore {
+    min-width: 620px;
+    gap: 5px;
+    margin-bottom: 5px;
+  }
+
+  .no-arvore-morse {
+    min-height: 30px;
+    font-size: 0.78rem;
+  }
+
+  .quadro-arvore {
+    padding: 10px;
+    border-radius: 14px;
+  }
+
+  .quadro-arvore strong {
+    font-size: 1.2rem;
+  }
+
+  .caminho-arvore-box {
+    min-height: 82px;
+  }
+
+  .botoes-arvore-morse {
+    gap: 7px;
+  }
+
+  .botoes-arvore-morse .btn {
+    min-height: 40px;
+    font-size: 0.82rem;
+  }
+}
