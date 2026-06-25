@@ -7727,3 +7727,91 @@ body.fim-jogo-celebracao #telaFimJogo h2 {
     padding: 8px;
   }
 }
+/* ============================= */
+/* CORREÇÃO FINAL - ÁRVORE MORSE NO CELULAR */
+/* ============================= */
+
+/* Mesmo em celular em pé, mostra o aviso, mas NÃO bloqueia a árvore */
+@media (max-width: 900px) and (orientation: portrait) {
+  .aviso-girar-arvore {
+    display: block;
+    max-width: 320px;
+    margin: 0 auto 16px;
+    padding: 16px;
+  }
+
+  .arvore-morse-layout {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .arvore-morse-completa {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 8px;
+  }
+
+  .nivel-arvore {
+    min-width: 720px;
+  }
+
+  .painel-controle-arvore {
+    width: 100%;
+    max-width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .caminho-arvore-box {
+    grid-column: 1 / -1;
+    min-height: auto;
+  }
+
+  .botoes-arvore-morse {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .botoes-arvore-morse .btn {
+    min-height: 48px;
+    font-size: 0.9rem;
+  }
+
+  .no-arvore-morse {
+    min-height: 34px;
+    font-size: 0.82rem;
+  }
+
+  .quadro-arvore {
+    padding: 10px;
+  }
+
+  .quadro-arvore strong {
+    font-size: 1.15rem;
+  }
+}
+
+/* Ajuste geral para o computador não ficar desconfigurado */
+@media (min-width: 951px) {
+  .painel-arvore-morse {
+    max-width: 1000px;
+  }
+
+  .arvore-morse-completa {
+    max-width: 100%;
+  }
+
+  .nivel-arvore {
+    min-width: 760px;
+  }
+
+  .painel-controle-arvore {
+    max-width: 760px;
+  }
+}
