@@ -5417,9 +5417,22 @@ function abrirBibliotecaArvoreMorse() {
   });
 
   document.getElementById("btnArvoreOuvir").addEventListener("click", ouvirArvoreMorse);
-  document.getElementById("btnArvoreLimpar").addEventListener("click", limparArvoreMorse);
+document.getElementById("btnArvoreLimpar").addEventListener("click", limparArvoreMorse);
 
-  renderizarEstadoArvoreMorse();
+document.querySelectorAll(".no-arvore-morse").forEach((no) => {
+  no.addEventListener("click", () => {
+    const codigoNo = no.dataset.codigo || "";
+
+    codigoAtualArvoreMorse = codigoNo;
+    renderizarEstadoArvoreMorse();
+
+    if (codigoNo) {
+      tocarSequenciaMorse(codigoNo);
+    }
+  });
+});
+
+renderizarEstadoArvoreMorse();
 
   window.scrollTo({
     top: 0,

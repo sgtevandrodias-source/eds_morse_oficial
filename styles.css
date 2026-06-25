@@ -7640,3 +7640,90 @@ body.fim-jogo-celebracao #telaFimJogo h2 {
     font-size: 0.82rem;
   }
 }
+/* ============================= */
+/* CORREÇÃO ÁRVORE MORSE - LAYOUT */
+/* ============================= */
+
+.arvore-morse-layout {
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.arvore-morse-completa {
+  max-width: 100%;
+}
+
+.painel-controle-arvore {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.botoes-arvore-morse {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.botoes-arvore-morse .btn {
+  min-height: 52px;
+}
+
+.no-arvore-morse {
+  cursor: pointer;
+}
+
+/* Celular deitado: árvore em cima, controles embaixo */
+@media (max-width: 950px) and (orientation: landscape) {
+  .arvore-morse-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .arvore-morse-completa {
+    padding: 6px;
+    max-height: 260px;
+    overflow-x: auto;
+    overflow-y: auto;
+  }
+
+  .painel-controle-arvore {
+    max-width: 100%;
+    grid-template-columns: 1fr 1fr 1.5fr;
+    gap: 8px;
+  }
+
+  .quadro-arvore {
+    padding: 8px;
+  }
+
+  .quadro-arvore span {
+    font-size: 0.62rem;
+    margin-bottom: 4px;
+  }
+
+  .quadro-arvore strong {
+    font-size: 1rem;
+  }
+
+  .caminho-arvore-box {
+    min-height: auto;
+  }
+
+  .botoes-arvore-morse {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .botoes-arvore-morse .btn {
+    min-height: 38px;
+    font-size: 0.78rem;
+    padding: 8px;
+  }
+}
