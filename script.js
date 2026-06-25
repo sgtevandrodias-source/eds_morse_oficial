@@ -54,6 +54,36 @@ const IDIOMAS = {
     biblioteca: "📖 Biblioteca",
     ranking: "🏆 Ranking",
     regras_faq: "📡 Regras e FAQ",
+    ranking_badge: "COMPETIÇÃO GLOBAL",
+ranking_titulo: "Ranking Global",
+ranking_subtitulo: "Classificação dos operadores.",
+ranking_minha_posicao: "Minha posição",
+ranking_fora: "Fora do ranking",
+ranking_fora_msg: "Conclua uma missão aprovada com este nome de operador para aparecer no Ranking Global.",
+ranking_podio_titulo: "🏆 Pódio Global",
+ranking_podio_subtitulo: "Os operadores no topo da rede",
+ranking_buscar_operador: "BUSCAR OPERADOR",
+ranking_placeholder_busca: "Digite o nome do operador...",
+ranking_botao_buscar: "Buscar",
+ranking_botao_limpar: "Limpar",
+ranking_busca_desc: "Busque um amigo pelo nome ou codinome usado no Ranking Global.",
+ranking_top_global: "🌍 Top Global",
+ranking_resultados_busca: "Resultados da busca",
+ranking_operador_singular: "operador",
+ranking_operador_plural: "operadores",
+ranking_encontrado_singular: "encontrado",
+ranking_encontrado_plural: "encontrados",
+ranking_nivel: "Nível",
+ranking_fase_singular: "fase",
+ranking_fase_plural: "fases",
+ranking_medalha_singular: "medalha",
+ranking_medalha_plural: "medalhas",
+ranking_pontos: "pts",
+ranking_carregando: "Carregando Ranking Global...",
+ranking_erro_carregar: "Não foi possível carregar o Ranking Global agora.",
+ranking_meu_relatorio: "📊 Meu relatório",
+ranking_mapa_jogo: "Mapa do jogo",
+ranking_inicio: "Início",
     missao_colapso_titulo: "📡 O COLAPSO",
 missao_colapso_botao_voltar: "Voltar ao início",
 missao_colapso_botao_iniciar: "Iniciar Missão",
@@ -286,6 +316,36 @@ desc_frase_curta: "Ouça a frase completa e digite o que recebeu.",
     biblioteca: "📖 Library",
     ranking: "🏆 Ranking",
     regras_faq: "📡 Rules & FAQ",
+    ranking_badge: "GLOBAL COMPETITION",
+ranking_titulo: "Global Ranking",
+ranking_subtitulo: "Operator standings.",
+ranking_minha_posicao: "My position",
+ranking_fora: "Out of ranking",
+ranking_fora_msg: "Complete an approved mission with this operator name to appear in the Global Ranking.",
+ranking_podio_titulo: "🏆 Global Podium",
+ranking_podio_subtitulo: "The operators at the top of the network",
+ranking_buscar_operador: "SEARCH OPERATOR",
+ranking_placeholder_busca: "Enter the operator name...",
+ranking_botao_buscar: "Search",
+ranking_botao_limpar: "Clear",
+ranking_busca_desc: "Search for a friend by the name or codename used in the Global Ranking.",
+ranking_top_global: "🌍 Global Top",
+ranking_resultados_busca: "Search results",
+ranking_operador_singular: "operator",
+ranking_operador_plural: "operators",
+ranking_encontrado_singular: "result",
+ranking_encontrado_plural: "results",
+ranking_nivel: "Level",
+ranking_fase_singular: "stage",
+ranking_fase_plural: "stages",
+ranking_medalha_singular: "medal",
+ranking_medalha_plural: "medals",
+ranking_pontos: "pts",
+ranking_carregando: "Loading Global Ranking...",
+ranking_erro_carregar: "The Global Ranking could not be loaded right now.",
+ranking_meu_relatorio: "📊 My report",
+ranking_mapa_jogo: "Game map",
+ranking_inicio: "Home",
     missao_colapso_titulo: "📡 THE COLLAPSE",
     missao_colapso_botao_voltar: "Back to Home",
     missao_colapso_botao_iniciar: "Start Mission",
@@ -2859,7 +2919,7 @@ function aplicarIdiomaInterface() {
     el.textContent = t("slogan");
   });
 
-  const chamadasMarca = document.querySelectorAll(".marca-jogo span");
+  const chamadasMarca = document.querySelectorAll(".marca-jogo-texto span");
   chamadasMarca.forEach((el) => {
     if (el.textContent.trim() === "DIVIRTA-SE COM" || el.textContent.trim() === "HAVE FUN WITH") {
       el.textContent = t("marca_chamada");
@@ -3092,6 +3152,34 @@ document.querySelectorAll("[data-i18n]").forEach((el) => {
 document.querySelectorAll("[data-i18n-html]").forEach((el) => {
   el.innerHTML = t(el.dataset.i18nHtml);
 });
+if (btnAbrirRelatorioOperador) {
+  btnAbrirRelatorioOperador.textContent = t("ranking_meu_relatorio");
+}
+
+if (btnVoltarCampanhaRanking) {
+  btnVoltarCampanhaRanking.textContent = t("ranking_mapa_jogo");
+}
+
+if (btnVoltarInicio) {
+  btnVoltarInicio.textContent = t("ranking_inicio");
+}
+}
+const badgeRanking = document.querySelector("#telaRanking .badge");
+
+if (badgeRanking) {
+  badgeRanking.textContent = t("ranking_badge");
+}
+
+const tituloRanking = document.querySelector("#telaRanking h1");
+
+if (tituloRanking) {
+  tituloRanking.textContent = t("ranking_titulo");
+}
+
+const subtituloRanking = document.querySelector("#telaRanking .subtitulo-ranking");
+
+if (subtituloRanking) {
+  subtituloRanking.textContent = t("ranking_subtitulo");
 }
 function confirmarEntradaOperador() {
   const nomeDigitado = inputNomeOperador.value.trim();
@@ -8085,16 +8173,102 @@ function formatarWpmRanking(valor) {
 
   return numero.toFixed(1);
 }
+function traduzirModoRanking(modo) {
+  const texto = String(modo || "").toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 
+  if (texto.includes("avancado") || texto.includes("advanced")) {
+    return t("modo_avancado");
+  }
+
+  if (texto.includes("intermediario") || texto.includes("intermediate")) {
+    return t("modo_intermediario");
+  }
+
+  if (texto.includes("iniciante") || texto.includes("beginner")) {
+    return t("modo_iniciante");
+  }
+
+  return modo || "Modo";
+}
+
+function pluralRanking(valor, chaveSingular, chavePlural) {
+  return Number(valor) === 1 ? t(chaveSingular) : t(chavePlural);
+}
+function traduzirTituloNivelRanking(titulo) {
+  const textoOriginal = String(titulo || "").trim();
+
+  if (idiomaAtual !== "en" || !textoOriginal) {
+    return textoOriginal;
+  }
+
+  const mapa = {
+    "Primeiro Contato": "First Contact",
+    "Canal Seguro": "Safe Channel",
+    "Rede de Emergência": "Emergency Network",
+    "Mensagem Prioritária": "Priority Message",
+    "Último Sinal": "Last Signal",
+    "Teste de Operador": "Operator Test",
+    "Teste Numérico": "Number Test",
+    "Grupos Táticos I": "Tactical Groups I",
+    "Grupos Táticos II": "Tactical Groups II",
+    "Canal Criptografado": "Encrypted Channel",
+    "Protocolos de Rádio": "Radio Protocols",
+    "Mensagens Curtas": "Short Messages",
+    "Rede Regional": "Regional Network",
+    "Centro de Comunicações": "Communications Center",
+    "Tráfego Prioritário": "Priority Traffic",
+    "Operação Coordenada": "Coordinated Operation",
+    "Posto Avançado": "Advanced Post",
+    "Rede Nacional": "National Network",
+    "Operador Estratégico": "Strategic Operator",
+    "O Último Sinal": "The Last Signal",
+
+    "Sem Rodinhas": "No Training Wheels",
+    "Pausa entre Letras": "Letter Pause",
+    "Ritmo Fônico I": "Sound Rhythm I",
+    "Ritmo Fônico II": "Sound Rhythm II",
+    "Palavras Curtas": "Short Words",
+    "Palavras Médias": "Medium Words",
+    "Frases Curtas": "Short Phrases",
+    "Frases Operacionais": "Operational Phrases",
+    "Mensagem Operacional": "Operational Message",
+    "Missão Final Intermediária": "Final Intermediate Mission",
+
+    "Código para texto": "Code to text",
+    "Campanha Intermediário concluída": "Intermediate Campaign Completed",
+    "Campanha Iniciante concluída": "Beginner Campaign Completed",
+    "Campanha Avançado concluída": "Advanced Campaign Completed"
+  };
+
+  let traduzido = textoOriginal;
+
+  Object.entries(mapa).forEach(([pt, en]) => {
+    traduzido = traduzido.replaceAll(pt, en);
+  });
+
+  traduzido = traduzido
+    .replaceAll("Missão", "Mission")
+    .replaceAll("Avançada", "Advanced")
+    .replaceAll("Intermediária", "Intermediate")
+    .replaceAll("concluída", "completed")
+    .replaceAll("—", "—");
+
+  return traduzido;
+}
+function detalheNivelRanking(item) {
+  return `${traduzirModoRanking(item.modo || "Modo")} • ${t("ranking_nivel")} ${formatarNumeroRanking(item.nivel)}`;
+}
 function renderizarCardMinhaPosicao(minhaPosicao) {
   if (!minhaPosicao) {
     return `
       <section class="ranking-minha-posicao vazio">
         <div>
-          <span class="label">Minha posição</span>
-          <strong>Fora do ranking</strong>
+          <span class="label">${t("ranking_minha_posicao")}</span>
+          <strong>${t("ranking_fora")}</strong>
           <p>
-            Conclua uma missão aprovada com este nome de operador para aparecer no Ranking Global.
+            ${t("ranking_fora_msg")}
           </p>
         </div>
       </section>
@@ -8108,23 +8282,33 @@ function renderizarCardMinhaPosicao(minhaPosicao) {
       </div>
 
       <div class="ranking-minha-posicao-info">
-        <span class="label">Minha posição</span>
+        <span class="label">${t("ranking_minha_posicao")}</span>
 
-        <strong>${escaparHtml(minhaPosicao.operador || "Operador")}</strong>
+        <strong>${escaparHtml(minhaPosicao.operador || "Operator")}</strong>
 
         <div class="ranking-minha-posicao-detalhes">
-          <span>${formatarNumeroRanking(minhaPosicao.pontos_carreira)} pts</span>
-          <span>${escaparHtml(minhaPosicao.modo || "Modo")} • Nível ${formatarNumeroRanking(minhaPosicao.nivel)}</span>
-          <span>${formatarNumeroRanking(minhaPosicao.melhor_aproveitamento)}% • ${formatarWpmRanking(minhaPosicao.melhor_wpm)} WPM</span>
+          <span>
+            ${formatarNumeroRanking(minhaPosicao.pontos_carreira)} ${t("ranking_pontos")}
+          </span>
+
+          <span>
+            ${detalheNivelRanking(minhaPosicao)}
+          </span>
+
+          <span>
+            ${formatarNumeroRanking(minhaPosicao.melhor_aproveitamento)}% • ${formatarWpmRanking(minhaPosicao.melhor_wpm)} WPM
+          </span>
         </div>
       </div>
     </section>
   `;
 }
-
 function renderizarLinhaRankingGlobal(item, indice = 0) {
   const posicao = item.posicao || indice + 1;
   const dataAtualizacao = formatarDataRankingGlobal(item.atualizado_em);
+
+  const fases = Number(item.fases_concluidas || 0);
+  const medalhas = Number(item.medalhas || 0);
 
   return `
     <article class="ranking-item ranking-item-global">
@@ -8134,17 +8318,17 @@ function renderizarLinhaRankingGlobal(item, indice = 0) {
 
       <div>
         <div class="ranking-nome">
-          ${escaparHtml(item.operador || "Operador")}
+          ${escaparHtml(item.operador || "Operator")}
         </div>
 
         <div class="ranking-detalhes">
-          ${escaparHtml(item.modo || "Modo")} • Nível ${formatarNumeroRanking(item.nivel)}
-          ${item.titulo_nivel ? `• ${escaparHtml(item.titulo_nivel)}` : ""}
+          ${detalheNivelRanking(item)}
+          ${item.titulo_nivel ? `• ${escaparHtml(traduzirTituloNivelRanking(item.titulo_nivel))}` : ""}
         </div>
 
         <div class="ranking-detalhes ranking-detalhes-extra">
-          ${formatarNumeroRanking(item.fases_concluidas)} fases •
-          ${formatarNumeroRanking(item.medalhas)} medalhas •
+          ${formatarNumeroRanking(fases)} ${pluralRanking(fases, "ranking_fase_singular", "ranking_fase_plural")} •
+          ${formatarNumeroRanking(medalhas)} ${pluralRanking(medalhas, "ranking_medalha_singular", "ranking_medalha_plural")} •
           ${formatarNumeroRanking(item.melhor_aproveitamento)}% •
           ${formatarWpmRanking(item.melhor_wpm)} WPM
           ${dataAtualizacao ? `• ${dataAtualizacao}` : ""}
@@ -8153,7 +8337,7 @@ function renderizarLinhaRankingGlobal(item, indice = 0) {
 
       <div class="ranking-pontos">
         ${formatarNumeroRanking(item.pontos_carreira)}
-        <small>pts</small>
+        <small>${t("ranking_pontos")}</small>
       </div>
     </article>
   `;
@@ -8161,36 +8345,50 @@ function renderizarLinhaRankingGlobal(item, indice = 0) {
 function renderizarPodioRankingGlobal(ranking = []) {
   const top3 = ranking.slice(0, 3);
 
-  if (top3.length < 1) return "";
+  if (!top3.length) {
+    return "";
+  }
 
   const medalhas = ["🥇", "🥈", "🥉"];
 
   return `
     <section class="ranking-podio-global">
       <div class="ranking-podio-titulo">
-        <span>🏆 Pódio Global</span>
-        <small>Os operadores no topo da rede</small>
+        <h2>${t("ranking_podio_titulo")}</h2>
+        <p>${t("ranking_podio_subtitulo")}</p>
       </div>
 
-      <div class="ranking-podio-grid">
-        ${top3.map((item, indice) => `
-          <article class="ranking-podio-card ranking-podio-${indice + 1}">
-            <div class="ranking-podio-medalha">${medalhas[indice]}</div>
+      <div class="ranking-podio-lista">
+        ${top3
+          .map((item, indice) => {
+            const posicao = item.posicao || indice + 1;
 
-            <span class="ranking-podio-posicao">#${formatarNumeroRanking(item.posicao || indice + 1)}</span>
+            return `
+              <article class="ranking-podio-card ranking-podio-${indice + 1}">
+                <div class="ranking-podio-medalha">
+                  ${medalhas[indice] || "🏅"}
+                </div>
 
-            <strong>${escaparHtml(item.operador || "Operador")}</strong>
+                <div class="ranking-podio-posicao">
+                  #${formatarNumeroRanking(posicao)}
+                </div>
 
-            <small>
-              ${escaparHtml(item.modo || "Modo")} • Nível ${formatarNumeroRanking(item.nivel)}
-            </small>
+                <strong>
+                  ${escaparHtml(item.operador || "Operator")}
+                </strong>
 
-            <div class="ranking-podio-pontos">
-              ${formatarNumeroRanking(item.pontos_carreira)}
-              <span>pts</span>
-            </div>
-          </article>
-        `).join("")}
+                <span>
+                  ${detalheNivelRanking(item)}
+                </span>
+
+                <div class="ranking-podio-pontos">
+                  ${formatarNumeroRanking(item.pontos_carreira)}
+                  <small>${t("ranking_pontos")}</small>
+                </div>
+              </article>
+            `;
+          })
+          .join("")}
       </div>
     </section>
   `;
@@ -8203,10 +8401,18 @@ function montarHtmlRankingGlobal(dados, busca = "") {
   const htmlMinhaPosicao = renderizarCardMinhaPosicao(minhaPosicao);
   const htmlPodio = !temBusca ? renderizarPodioRankingGlobal(ranking) : "";
 
+  const totalLista = temBusca
+    ? Number(dados.totalEncontrados || ranking.length || 0)
+    : Number(ranking.length || 0);
+
+  const textoContador = temBusca
+    ? `${formatarNumeroRanking(totalLista)} ${pluralRanking(totalLista, "ranking_encontrado_singular", "ranking_encontrado_plural")}`
+    : `${formatarNumeroRanking(totalLista)} ${pluralRanking(totalLista, "ranking_operador_singular", "ranking_operador_plural")}`;
+
   const htmlBusca = `
     <section class="ranking-busca-operador">
       <label for="inputBuscaOperadorRanking">
-        Buscar operador
+        ${t("ranking_buscar_operador")}
       </label>
 
       <div class="ranking-busca-linha">
@@ -8214,43 +8420,47 @@ function montarHtmlRankingGlobal(dados, busca = "") {
           id="inputBuscaOperadorRanking"
           type="text"
           maxlength="24"
-          placeholder="Digite o nome do operador..."
+          placeholder="${escaparHtml(t("ranking_placeholder_busca"))}"
           value="${escaparHtml(busca || "")}"
           autocomplete="off"
         />
 
         <button id="btnExecutarBuscaRanking" class="btn principal compacto">
-          Buscar
+          ${t("ranking_botao_buscar")}
         </button>
 
         <button id="btnLimparBuscaRanking" class="btn secundario compacto" ${temBusca ? "" : "style='display:none;'"}>
-          Limpar
+          ${t("ranking_botao_limpar")}
         </button>
       </div>
 
       <p>
-        ${temBusca
-          ? `Resultado da busca por: <strong>${escaparHtml(busca)}</strong>`
-          : "Busque um amigo pelo nome ou codinome usado no Ranking Global."
+        ${
+          temBusca
+            ? `${t("ranking_resultados_busca")}: <strong>${escaparHtml(busca)}</strong>`
+            : t("ranking_busca_desc")
         }
       </p>
     </section>
   `;
 
-  let tituloLista = "🌍 Top Global";
-
-  if (temBusca) {
-    tituloLista = `🔎 Resultado da busca`;
-  }
+  const tituloLista = temBusca
+    ? `🔎 ${t("ranking_resultados_busca")}`
+    : t("ranking_top_global");
 
   let htmlLista = "";
 
   if (!ranking.length) {
     htmlLista = `
       <div class="ranking-vazio">
-        ${temBusca
-          ? "Nenhum operador encontrado com esse nome."
-          : "O Ranking Global ainda não possui registros."
+        ${
+          temBusca
+            ? (idiomaAtual === "en"
+                ? "No operator found with that name."
+                : "Nenhum operador encontrado com esse nome.")
+            : (idiomaAtual === "en"
+                ? "The Global Ranking does not have any records yet."
+                : "O Ranking Global ainda não possui registros.")
         }
       </div>
     `;
@@ -8262,21 +8472,18 @@ function montarHtmlRankingGlobal(dados, busca = "") {
 
   return `
     <div class="ranking-global-painel">
-    ${htmlMinhaPosicao}
+      ${htmlMinhaPosicao}
 
-    ${htmlPodio}
-    
-    ${htmlBusca}
+      ${htmlPodio}
+      
+      ${htmlBusca}
 
       <section class="ranking-lista-global">
         <div class="ranking-lista-titulo">
           <h2>${tituloLista}</h2>
 
           <span>
-            ${temBusca
-              ? `${formatarNumeroRanking(dados.totalEncontrados || ranking.length)} encontrado(s)`
-              : `${formatarNumeroRanking(ranking.length)} operador(es)`
-            }
+            ${textoContador}
           </span>
         </div>
 
@@ -8285,14 +8492,12 @@ function montarHtmlRankingGlobal(dados, busca = "") {
     </div>
   `;
 }
-
 async function renderizarRankingGlobal(busca = "") {
   listaRanking.innerHTML = `
-    <div class="ranking-carregando">
-      Carregando Ranking Global...
-    </div>
-  `;
-
+  <div class="ranking-carregando">
+    ${t("ranking_carregando")}
+  </div>
+`;
   try {
     const dados = await buscarRankingGlobal(50, busca);
 
@@ -8330,10 +8535,10 @@ async function renderizarRankingGlobal(busca = "") {
     console.warn("Falha ao carregar Ranking Global:", erro);
 
     listaRanking.innerHTML = `
-      <div class="ranking-vazio">
-        Não foi possível carregar o Ranking Global agora.
-      </div>
-    `;
+  <div class="ranking-vazio">
+    ${t("ranking_erro_carregar")}
+  </div>
+`;
   }
 }
 
