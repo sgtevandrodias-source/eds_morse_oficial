@@ -7696,6 +7696,21 @@ function getDadosTransicaoFase(resultado) {
   const modo = resultado?.modo || "";
 
   if (modo === "Iniciante") {
+    if (idiomaAtual === "en") {
+      return {
+        classe: "transicao-iniciante",
+        badge: "BEGINNER TRAINING COMPLETED",
+        titulo: "Beginner completed.",
+        subtitulo: "The first signal crossed the silence.",
+        texto:
+          "You mastered the fundamentals of Morse Code. The ADR Network recognizes your initial training and opens the intermediate channel.",
+        linha1: "> BASIC CHANNEL: RESTORED",
+        linha2: "> INITIAL TRAINING: VALIDATED",
+        linha3: "> INTERMEDIATE MODE: UNLOCKED",
+        botao: "Advance to Intermediate"
+      };
+    }
+
     return {
       classe: "transicao-iniciante",
       badge: "FORMAÇÃO INICIANTE CONCLUÍDA",
@@ -7711,6 +7726,21 @@ function getDadosTransicaoFase(resultado) {
   }
 
   if (modo === "Intermediário") {
+    if (idiomaAtual === "en") {
+      return {
+        classe: "transicao-intermediario",
+        badge: "INTERMEDIATE CHANNEL MASTERED",
+        titulo: "Intermediate completed.",
+        subtitulo: "You no longer depend on training wheels.",
+        texto:
+          "Pauses, rhythm and operational listening are now part of your transmission. The network opens the advanced channel.",
+        linha1: "> AUTOMATIC PAUSES: MASTERED",
+        linha2: "> OPERATIONAL RHYTHM: STABLE",
+        linha3: "> ADVANCED MODE: UNLOCKED",
+        botao: "Advance to Advanced"
+      };
+    }
+
     return {
       classe: "transicao-intermediario",
       badge: "CANAL INTERMEDIÁRIO DOMINADO",
@@ -7722,6 +7752,21 @@ function getDadosTransicaoFase(resultado) {
       linha2: "> RITMO OPERACIONAL: ESTÁVEL",
       linha3: "> MODO AVANÇADO: LIBERADO",
       botao: "Avançar para o Avançado"
+    };
+  }
+
+  if (idiomaAtual === "en") {
+    return {
+      classe: "transicao-avancado",
+      badge: "ADR NETWORK RESTORED",
+      titulo: "Advanced completed.",
+      subtitulo: "The final message was received.",
+      texto:
+        "You completed the advanced operation. Communication crossed the silence again. The simple prevailed.",
+      linha1: "> GLOBAL CHANNEL: RESTORED",
+      linha2: "> LISTENING OPERATOR: VALIDATED",
+      linha3: "> FINAL TRANSMISSION: QSL",
+      botao: "View end game"
     };
   }
 
@@ -7738,7 +7783,6 @@ function getDadosTransicaoFase(resultado) {
     botao: "Ver fim de jogo"
   };
 }
-
 function mostrarTransicaoFase(resultado) {
   if (!resultado || !telaTransicaoFase) return;
 
@@ -7768,23 +7812,52 @@ function mostrarTransicaoFase(resultado) {
   if (transicaoFaseTitulo) transicaoFaseTitulo.textContent = dados.titulo;
   if (transicaoFaseSubtitulo) transicaoFaseSubtitulo.textContent = dados.subtitulo;
   if (transicaoFaseTexto) transicaoFaseTexto.textContent = dados.texto;
-
   if (transicaoLinha1) transicaoLinha1.textContent = dados.linha1;
   if (transicaoLinha2) transicaoLinha2.textContent = dados.linha2;
   if (transicaoLinha3) transicaoLinha3.textContent = dados.linha3;
+  const labelsTransicao = document.querySelectorAll("#telaTransicaoFase .quadro-resultado .label");
+
+if (labelsTransicao[0]) labelsTransicao[0].textContent = t("operador_label");
+if (labelsTransicao[1]) labelsTransicao[1].textContent = idiomaAtual === "en" ? "Rank" : "Patente";
+if (labelsTransicao[2]) labelsTransicao[2].textContent = t("jogo_aproveitamento");
+if (labelsTransicao[3]) labelsTransicao[3].textContent = t("jogo_pontuacao");
 
   if (transicaoOperador) transicaoOperador.textContent = getNomeOperadorAtual();
-  if (transicaoPatente) transicaoPatente.textContent = resultado.patente || "Operador";
+  if (transicaoPatente) {
+    if (idiomaAtual === "en") {
+      if (resultado.patente === "Mestre Morse") {
+        transicaoPatente.textContent = "Morse Master";
+      } else if (resultado.patente === "Operador Intermediário") {
+        transicaoPatente.textContent = "Intermediate Operator";
+      } else if (resultado.patente === "Operador de Escuta Avançada") {
+        transicaoPatente.textContent = "Advanced Listening Operator";
+      } else {
+        transicaoPatente.textContent = resultado.patente || "Operator";
+      }
+    } else {
+      transicaoPatente.textContent = resultado.patente || "Operador";
+    }
+  }
   if (transicaoAproveitamento) transicaoAproveitamento.textContent = `${resultado.aproveitamento}%`;
   if (transicaoPontos) transicaoPontos.textContent = resultado.pontos || 0;
-
+  
   if (btnTransicaoContinuar) {
     btnTransicaoContinuar.textContent =
       resultado.modo === "Avançado" && resultado.aprovado
-        ? "Abrindo transmissão final..."
+        ? idiomaAtual === "en"
+          ? "Opening final transmission..."
+          : "Abrindo transmissão final..."
         : dados.botao;
   }
-
+  
+  if (btnTransicaoMapa) {
+    btnTransicaoMapa.textContent = t("jogo_mapa_jogo");
+  }
+  
+  if (btnTransicaoInicio) {
+    btnTransicaoInicio.textContent = t("inicio");
+  }
+  
   mostrarTela(telaTransicaoFase, false);
 
   if (resultado.modo === "Avançado" && resultado.aprovado) {
