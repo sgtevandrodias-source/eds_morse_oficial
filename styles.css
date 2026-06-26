@@ -7404,6 +7404,74 @@ body.fim-jogo-celebracao #telaFimJogo h2 {
   height: clamp(68px, 18vw, 88px);
   flex-shrink: 0;
 }
+/* =========================
+   AJUSTE FINAL - BLOCO LOGO + SLOGAN
+========================= */
+
+#telaEntradaOperador .entrada-marca {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0 12px;
+  box-sizing: border-box;
+}
+
+#telaEntradaOperador .marca-jogo-com-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  max-width: 100%;
+  overflow: visible;
+}
+
+#telaEntradaOperador .logo-eds-morse {
+  width: clamp(68px, 18vw, 88px);
+  height: clamp(68px, 18vw, 88px);
+  flex-shrink: 0;
+}
+
+#telaEntradaOperador .marca-jogo-texto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#telaEntradaOperador .marca-jogo-texto span {
+  font-size: clamp(0.68rem, 2.8vw, 0.86rem);
+  letter-spacing: 0.18em;
+  white-space: nowrap;
+  text-align: left;
+}
+
+#telaEntradaOperador .marca-jogo-texto h1 {
+  margin: 0;
+  font-size: clamp(2.6rem, 11vw, 4rem);
+  line-height: 0.95;
+  white-space: nowrap;
+}
+
+#telaEntradaOperador .entrada-subtitulo {
+  margin-top: 10px;
+  margin-bottom: 24px;
+  padding-top: 12px;
+  position: relative;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+#telaEntradaOperador .entrada-subtitulo::before {
+  content: "";
+  display: block;
+  width: min(260px, 62vw);
+  height: 1px;
+  margin: 0 auto 12px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(34, 197, 94, 0.9),
+    transparent
+  );
+}
 /* ============================= */
 /* ÁRVORE MORSE - BIBLIOTECA */
 /* ============================= */
