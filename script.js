@@ -24,9 +24,7 @@ const btnConfirmarEntradaOperador = document.getElementById("btnConfirmarEntrada
 const feedbackEntradaOperador = document.getElementById("feedbackEntradaOperador");
 const btnIdiomaPt = document.getElementById("btnIdiomaPt");
 const btnIdiomaEn = document.getElementById("btnIdiomaEn");
-
-const btnHomeIdiomaPt = document.getElementById("btnHomeIdiomaPt");
-const btnHomeIdiomaEn = document.getElementById("btnHomeIdiomaEn");
+const btnAbrirConfiguracoesEntrada = document.getElementById("btnAbrirConfiguracoesEntrada");
 
 let idiomaAtual = localStorage.getItem("edsMorseIdioma") || "pt";
 const IDIOMAS = {
@@ -97,6 +95,11 @@ ranking_aviso_nome_bloqueado: "Nome de operador bloqueado",
 ranking_aviso_nome_bloqueado_msg: "Este nome já está sendo usado por outro aparelho.",
 ranking_aviso_resultado_nao_enviado: "Resultado não enviado.",
 ranking_aviso_falha_conexao: "Falha de conexão com o Ranking Global.",
+relatorio_operador_badge: "📊 Desempenho individual",
+relatorio_operador_titulo: "Relatório do Operador",
+relatorio_operador_subtitulo: "Comparativo geral do seu desempenho com os melhores resultados do Ranking Global.",
+relatorio_operador_carregando: "Carregando relatório do operador...",
+relatorio_operador_voltar_ranking: "Voltar ao ranking",
     missao_colapso_titulo: "📡 O COLAPSO",
 missao_colapso_botao_voltar: "Voltar ao início",
 missao_colapso_botao_iniciar: "Iniciar Missão",
@@ -269,6 +272,32 @@ relatorio_recompensas: "Recompensas",
 relatorio_recompensa_singular: "recompensa conquistada",
 relatorio_recompensa_plural: "recompensas conquistadas",
 relatorio_pts: "pts",
+relatorio_posicao_global: "Posição global",
+relatorio_pts_acumulados: "pts acumulados",
+relatorio_lider_global: "Líder global",
+relatorio_diferenca_lider: "Diferença para o líder",
+relatorio_pontos: "pontos",
+relatorio_seu_alcance: "Seu alcance",
+relatorio_do_lider_em_pontos: "do líder em pontos",
+relatorio_comparativo_global: "Comparativo global",
+relatorio_pontos_acumulados: "Pontos acumulados",
+relatorio_fases_concluidas: "Fases concluídas",
+relatorio_melhor_wpm: "Melhor WPM",
+relatorio_lider: "Líder",
+relatorio_diagnostico_operacional: "Diagnóstico operacional",
+diagnostico_sem_relatorio: "Ainda não há dados suficientes para gerar seu relatório operacional.",
+diagnostico_topo: "Você está no topo do Ranking Global. Continue defendendo sua posição com novas missões e melhorando seus resultados.",
+diagnostico_precisao: "Seu ponto forte é a precisão. Para se aproximar do líder, o próximo avanço deve ser aumentar sua velocidade em WPM.",
+diagnostico_velocidade: "Sua velocidade está competitiva. O foco agora deve ser melhorar o aproveitamento e reduzir erros nas missões.",
+diagnostico_evolucao: "Você está em evolução operacional. Continue concluindo fases, acumulando pontos e melhorando seu desempenho geral.",
+relatorio_erro_carregar: "Não foi possível carregar o relatório agora. Verifique sua internet e tente novamente.",
+relatorio_sem_dados: "Ainda não há dados suficientes para gerar seu relatório. Conclua uma missão aprovada e envie seu resultado ao Ranking Global.",
+sala_senha_badge: "CANAL RESTRITO DETECTADO",
+sala_senha_titulo: "Sala Secreta",
+sala_senha_dica: "A CHAVE PARA A SALVAÇÃO É...",
+sala_senha_label: "Senha de acesso",
+sala_senha_placeholder: "Digite a senha...",
+sala_senha_botao_validar: "Validar senha",
 
 jogo_resultado_aprovado_msg: "Você concluiu a missão com {aproveitamento}% de aproveitamento, em {tempo}, alcançando {wpm} WPM aproximado.",
 jogo_resultado_reprovado_msg: "Você ficou com {aproveitamento}% de aproveitamento. O mínimo é 80%. Repita a missão para manter a rede operacional.",
@@ -357,6 +386,18 @@ tipo_frase_curta: "Frase curta",
 desc_caractere_isolado: "Ouça e reconheça o sinal.",
 desc_grupo_5: "Ouça o grupo completo e digite os cinco caracteres.",
 desc_frase_curta: "Ouça a frase completa e digite o que recebeu.",
+
+sala_fragmentos_badge: "ARQUIVOS FRAGMENTADOS",
+sala_fragmentos_titulo: "Reconstrua a mensagem",
+sala_fragmentos_desc: "Durante o jogo, seis grupos foram interceptados. Coloque-os na ordem correta para liberar a transmissão final.",
+sala_grupo_1: "Grupo 1",
+sala_grupo_2: "Grupo 2",
+sala_grupo_3: "Grupo 3",
+sala_grupo_4: "Grupo 4",
+sala_grupo_5: "Grupo 5",
+sala_grupo_6: "Grupo 6",
+sala_fragmentos_botao_liberar: "Liberar transmissão final",
+sala_fragmentos_botao_voltar: "Voltar",
       },
   
   en: {
@@ -427,6 +468,19 @@ ranking_aviso_nome_bloqueado: "Operator name blocked",
 ranking_aviso_nome_bloqueado_msg: "This name is already being used on another device.",
 ranking_aviso_resultado_nao_enviado: "Result not sent.",
 ranking_aviso_falha_conexao: "Connection failure with the Global Ranking.",
+relatorio_operador_badge: "📊 Individual Performance",
+relatorio_operador_titulo: "Operator Report",
+relatorio_operador_subtitulo: "A general comparison of your performance against the best results in the Global Ranking.",
+relatorio_operador_carregando: "Loading operator report...",
+relatorio_operador_voltar_ranking: "Back to ranking",
+relatorio_posicao_global: "Global position",
+relatorio_pts_acumulados: "accumulated pts",
+relatorio_lider_global: "Global leader",
+relatorio_diferenca_lider: "Gap to leader",
+relatorio_pontos: "points",
+relatorio_seu_alcance: "Your reach",
+relatorio_do_lider_em_pontos: "of the leader's points",
+relatorio_comparativo_global: "Global comparison",
     missao_colapso_titulo: "📡 THE COLLAPSE",
     missao_colapso_botao_voltar: "Back to Home",
     missao_colapso_botao_iniciar: "Start Mission",
@@ -599,6 +653,30 @@ relatorio_recompensas: "Rewards",
 relatorio_recompensa_singular: "reward earned",
 relatorio_recompensa_plural: "rewards earned",
 relatorio_pts: "pts",
+relatorio_operador_badge: "📊 Individual Performance",
+relatorio_operador_titulo: "Operator Report",
+relatorio_operador_subtitulo: "A general comparison of your performance against the best results in the Global Ranking.",
+relatorio_operador_carregando: "Loading operator report...",
+relatorio_operador_voltar_ranking: "Back to ranking",
+relatorio_pontos_acumulados: "Accumulated points",
+relatorio_fases_concluidas: "Completed stages",
+relatorio_melhor_wpm: "Best WPM",
+relatorio_lider: "Leader",
+relatorio_diagnostico_operacional: "Operational diagnosis",
+diagnostico_sem_relatorio: "There is not enough data yet to generate your operational report.",
+diagnostico_topo: "You are at the top of the Global Ranking. Keep defending your position by completing new missions and improving your results.",
+diagnostico_precisao: "Your strongest point is accuracy. To get closer to the leader, your next step should be increasing your WPM speed.",
+diagnostico_velocidade: "Your speed is competitive. The focus now should be improving accuracy and reducing mistakes during missions.",
+diagnostico_evolucao: "You are making operational progress. Keep completing stages, accumulating points and improving your overall performance.",
+relatorio_erro_carregar: "The report could not be loaded right now. Check your internet connection and try again.",
+relatorio_sem_dados: "There is not enough data yet to generate your report. Complete an approved mission and send your result to the Global Ranking.",
+sala_senha_badge: "RESTRICTED CHANNEL DETECTED",
+sala_senha_titulo: "Secret Room",
+sala_senha_dica: "THE KEY TO SALVATION IS...",
+sala_senha_label: "Access password",
+sala_senha_placeholder: "Enter the password...",
+sala_senha_botao_validar: "Validate password",
+
 jogo_resultado_aprovado_msg: "You completed the mission with {aproveitamento}% accuracy, in {tempo}, reaching approximately {wpm} WPM.",
 jogo_resultado_reprovado_msg: "You did not reach the minimum 80% accuracy. Retry the mission to advance.",
 jogo_tente_novamente: "Try again",
@@ -688,6 +766,17 @@ tipo_frase_curta: "Short Phrase",
 desc_caractere_isolado: "Listen and recognize the signal.",
 desc_grupo_5: "Listen to the full group and type the five characters.",
 desc_frase_curta: "Listen to the full phrase and type what you received.",
+sala_fragmentos_badge: "FRAGMENTED FILES",
+sala_fragmentos_titulo: "Rebuild the message",
+sala_fragmentos_desc: "During the game, six groups were intercepted. Put them in the correct order to unlock the final transmission.",
+sala_grupo_1: "Group 1",
+sala_grupo_2: "Group 2",
+sala_grupo_3: "Group 3",
+sala_grupo_4: "Group 4",
+sala_grupo_5: "Group 5",
+sala_grupo_6: "Group 6",
+sala_fragmentos_botao_liberar: "Unlock final transmission",
+sala_fragmentos_botao_voltar: "Back",
   }
   };
 function t(chave) {
@@ -2674,16 +2763,12 @@ if (btnIdiomaEn) {
   btnIdiomaEn.addEventListener("click", () => selecionarIdiomaApp("en"));
 }
 
-if (btnHomeIdiomaPt) {
-  btnHomeIdiomaPt.addEventListener("click", () => selecionarIdiomaApp("pt"));
-}
-
-if (btnHomeIdiomaEn) {
-  btnHomeIdiomaEn.addEventListener("click", () => selecionarIdiomaApp("en"));
-}
 
 if (btnConfirmarEntradaOperador) {
   btnConfirmarEntradaOperador.addEventListener("click", confirmarEntradaOperador);
+}
+if (btnAbrirConfiguracoesEntrada) {
+  btnAbrirConfiguracoesEntrada.addEventListener("click", abrirConfiguracoesEntradaOperador);
 }
 
 if (inputNomeOperador) {
@@ -3252,16 +3337,7 @@ function aplicarIdiomaInterface() {
     btnIdiomaPt.classList.toggle("ativo", idiomaAtual === "pt");
     btnIdiomaEn.classList.toggle("ativo", idiomaAtual === "en");
   }
-  if (btnHomeIdiomaPt) {
-    btnHomeIdiomaPt.textContent = t("idioma_portugues");
-    btnHomeIdiomaPt.classList.toggle("ativo", idiomaAtual === "pt");
-  }
-
-  if (btnHomeIdiomaEn) {
-    btnHomeIdiomaEn.textContent = t("idioma_ingles");
-    btnHomeIdiomaEn.classList.toggle("ativo", idiomaAtual === "en");
-  }
-
+ 
   const entradaInstrucao = document.querySelector("#telaEntradaOperador .entrada-instrucao");
   if (entradaInstrucao) entradaInstrucao.textContent = t("entrada_instrucao");
 
@@ -3535,6 +3611,10 @@ document.querySelectorAll("[data-i18n]").forEach((el) => {
 document.querySelectorAll("[data-i18n-html]").forEach((el) => {
   el.innerHTML = t(el.dataset.i18nHtml);
 });
+
+document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+  el.placeholder = t(el.dataset.i18nPlaceholder);
+});
 if (btnAbrirRelatorioOperador) {
   btnAbrirRelatorioOperador.textContent = t("ranking_meu_relatorio");
 }
@@ -3617,7 +3697,44 @@ function confirmarEntradaOperador() {
   }
 
   atualizarPainelInicialOperador();
-  mostrarTela(telaInicial);
+  mostrarTela(telaInicial, false);
+
+history.replaceState(
+  {
+    telaId: "telaInicial",
+    modo: MODO_INICIANTE,
+    visualizandoMapaModo: false
+  },
+  "",
+  ""
+);
+}
+function abrirConfiguracoesEntradaOperador() {
+  pararTodosOsSons();
+
+  if (inputNomeOperador) {
+    inputNomeOperador.value = nomeOperador && nomeOperador !== "Operador"
+      ? nomeOperador
+      : "";
+  }
+
+  if (feedbackEntradaOperador) {
+    feedbackEntradaOperador.textContent = "";
+    feedbackEntradaOperador.className = "feedback entrada-feedback";
+  }
+
+  aplicarIdiomaInterface();
+  mostrarTela(telaEntradaOperador, false);
+
+  history.replaceState(
+    {
+      telaId: "telaEntradaOperador",
+      modo: modoAtual,
+      visualizandoMapaModo: false
+    },
+    "",
+    ""
+  );
 }
 function carregarPreferencias() {
   const nomeSalvo = localStorage.getItem("operadorMorseNome");
@@ -8648,7 +8765,7 @@ function montarLinhaComparativoRelatorio(rotulo, meuValorTexto, liderValorTexto,
       <div>
         <span>${escaparHtml(rotulo)}</span>
         <strong>${escaparHtml(meuValorTexto)}</strong>
-        <small>Líder: ${escaparHtml(liderValorTexto)}</small>
+        <small>${t("relatorio_lider")}: ${escaparHtml(liderValorTexto)}</small>
       </div>
 
       <div class="barra-comparativo">
@@ -8660,7 +8777,7 @@ function montarLinhaComparativoRelatorio(rotulo, meuValorTexto, liderValorTexto,
 
 function montarDiagnosticoRelatorio(minhaPosicao, lider) {
   if (!minhaPosicao) {
-    return "Conclua uma missão aprovada para gerar seu primeiro relatório global.";
+    return t("diagnostico_sem_relatorio");
   }
 
   const meusPontos = Number(pegarCampoRanking(minhaPosicao, "pontos_carreira", "pontosCarreira") || 0);
@@ -8670,18 +8787,18 @@ function montarDiagnosticoRelatorio(minhaPosicao, lider) {
   const meuAproveitamento = Number(pegarCampoRanking(minhaPosicao, "melhor_aproveitamento", "melhorAproveitamento") || 0);
 
   if (pontosLider > 0 && meusPontos >= pontosLider) {
-    return "Você está no topo do Ranking Global. Mantenha a regularidade para defender sua posição.";
+    return t("diagnostico_topo");
   }
 
   if (meuAproveitamento >= 95 && meuWpm < wpmLider) {
-    return "Seu ponto forte é a precisão. Para subir no ranking, o próximo foco é aumentar o WPM mantendo o aproveitamento.";
+    return t("diagnostico_precisao");
   }
 
   if (meuWpm >= wpmLider && meuAproveitamento < 90) {
-    return "Você tem boa velocidade. Para evoluir mais, o foco agora é reduzir erros e melhorar o aproveitamento.";
+    return t("diagnostico_velocidade");
   }
 
-  return "Você está construindo progresso. Continue concluindo fases e repetindo missões para melhorar seus melhores resultados.";
+  return t("diagnostico_evolucao");
 }
 
 function montarHtmlRelatorioOperador(dados) {
@@ -8692,8 +8809,7 @@ function montarHtmlRelatorioOperador(dados) {
   if (!minhaPosicao) {
     return `
       <div class="ranking-vazio">
-        Ainda não há dados suficientes para gerar seu relatório.
-        Conclua uma missão aprovada e envie seu resultado ao Ranking Global.
+        ${t("relatorio_sem_dados")}
       </div>
     `;
   }
@@ -8725,84 +8841,83 @@ function montarHtmlRelatorioOperador(dados) {
   return `
     <section class="relatorio-operador-topo">
       <div class="relatorio-operador-posicao">
-        <span>Posição global</span>
+        <span>${t("relatorio_posicao_global")}</span>
         <strong>#${formatarNumeroRanking(minhaPosicao.posicao || 0)}</strong>
       </div>
 
       <div class="relatorio-operador-identidade">
-        <span class="label">Operador</span>
+        <span class="label">${t("operador_label")}</span>
         <h2>${escaparHtml(minhaPosicao.operador || getNomeOperadorAtual())}</h2>
         <p>
-          ${formatarNumeroRanking(pontosMeu)} pts acumulados •
-          ${escaparHtml(minhaPosicao.modo || "Modo")} •
-          Nível ${formatarNumeroRanking(minhaPosicao.nivel || 0)}
+          ${formatarNumeroRanking(pontosMeu)} ${t("relatorio_pts_acumulados")} •
+          ${escaparHtml(formatarModoRanking(minhaPosicao.modo))} •
+          ${t("ranking_nivel")} ${formatarNumeroRanking(minhaPosicao.nivel || 0)}
         </p>
       </div>
     </section>
 
     <section class="relatorio-operador-resumo">
       <div>
-        <span>Líder global</span>
+        <span>${t("relatorio_lider_global")}</span>
         <strong>${escaparHtml(lider?.operador || "—")}</strong>
-        <small>${formatarNumeroRanking(pontosLider)} pts</small>
+        <small>${formatarNumeroRanking(pontosLider)} ${t("ranking_pontos")}</small>
       </div>
-
       <div>
-        <span>Diferença para o líder</span>
-        <strong>${formatarNumeroRanking(diferencaPontos)}</strong>
-        <small>pontos</small>
-      </div>
+      <span>${t("relatorio_diferenca_lider")}</span>
+      <strong>${formatarNumeroRanking(diferencaPontos)}</strong>
+      <small>${t("relatorio_pontos")}</small>
+    </div>
 
-      <div>
-        <span>Seu alcance</span>
-        <strong>${percentualPontos}%</strong>
-        <small>do líder em pontos</small>
-      </div>
-    </section>
+    <div>
+      <span>${t("relatorio_seu_alcance")}</span>
+      <strong>${percentualPontos}%</strong>
+      <small>${t("relatorio_do_lider_em_pontos")}</small>
+    </div>
+  </section>
 
-    <section class="relatorio-operador-comparativo">
-      <h2>Comparativo global</h2>
+  <section class="relatorio-operador-comparativo">
+    <h2>${t("relatorio_comparativo_global")}</h2>
 
-      ${montarLinhaComparativoRelatorio(
-        "Pontos acumulados",
-        `${formatarNumeroRanking(pontosMeu)} pts`,
-        `${formatarNumeroRanking(pontosLider)} pts`,
-        percentualPontos
-      )}
-
-      ${montarLinhaComparativoRelatorio(
-        "Fases concluídas",
-        `${formatarNumeroRanking(fasesMeu)}`,
-        `${formatarNumeroRanking(fasesLider)}`,
-        percentualFases
-      )}
-
-      ${montarLinhaComparativoRelatorio(
-        "Medalhas",
-        `${formatarNumeroRanking(medalhasMeu)}`,
-        `${formatarNumeroRanking(medalhasLider)}`,
-        percentualMedalhas
-      )}
-
-      ${montarLinhaComparativoRelatorio(
-        "Melhor aproveitamento",
-        `${formatarNumeroRanking(aproveitamentoMeu)}%`,
-        `${formatarNumeroRanking(aproveitamentoLider)}%`,
-        percentualAproveitamento
-      )}
-
-      ${montarLinhaComparativoRelatorio(
-        "Melhor WPM",
-        `${formatarWpmRanking(wpmMeu)} WPM`,
-        `${formatarWpmRanking(wpmLider)} WPM`,
-        percentualWpm
-      )}
+    ${montarLinhaComparativoRelatorio(
+      t("relatorio_pontos_acumulados"),
+      `${formatarNumeroRanking(pontosMeu)} ${t("ranking_pontos")}`,
+      `${formatarNumeroRanking(pontosLider)} ${t("ranking_pontos")}`,
+      percentualPontos
+    )}
+    
+    ${montarLinhaComparativoRelatorio(
+      t("relatorio_fases_concluidas"),
+      `${formatarNumeroRanking(fasesMeu)}`,
+      `${formatarNumeroRanking(fasesLider)}`,
+      percentualFases
+    )}
+    
+    ${montarLinhaComparativoRelatorio(
+      t("medalhas"),
+      `${formatarNumeroRanking(medalhasMeu)}`,
+      `${formatarNumeroRanking(medalhasLider)}`,
+      percentualMedalhas
+    )}
+    
+    ${montarLinhaComparativoRelatorio(
+      t("melhor_aproveitamento"),
+      `${formatarNumeroRanking(aproveitamentoMeu)}%`,
+      `${formatarNumeroRanking(aproveitamentoLider)}%`,
+      percentualAproveitamento
+    )}
+    
+    ${montarLinhaComparativoRelatorio(
+      t("relatorio_melhor_wpm"),
+      `${formatarWpmRanking(wpmMeu)} WPM`,
+      `${formatarWpmRanking(wpmLider)} WPM`,
+      percentualWpm
+    )}
     </section>
 
     <section class="relatorio-operador-diagnostico">
-      <span class="label">Diagnóstico operacional</span>
-      <strong>${escaparHtml(diagnostico)}</strong>
-    </section>
+  <span class="label">${t("relatorio_diagnostico_operacional")}</span>
+  <strong>${escaparHtml(diagnostico)}</strong>
+</section>
   `;
 }
 
@@ -8812,10 +8927,10 @@ async function abrirRelatorioOperador() {
   mostrarTela(telaRelatorioOperador);
 
   relatorioOperadorConteudo.innerHTML = `
-    <div class="ranking-carregando">
-      Carregando relatório do operador...
-    </div>
-  `;
+  <div class="ranking-carregando">
+    ${t("relatorio_operador_carregando")}
+  </div>
+`;
 
   try {
     const dados = await buscarRankingGlobal(50);
@@ -8824,10 +8939,10 @@ async function abrirRelatorioOperador() {
     console.error("Erro ao carregar relatório do operador:", erro);
 
     relatorioOperadorConteudo.innerHTML = `
-      <div class="ranking-vazio">
-        Não foi possível carregar o relatório agora. Verifique sua internet e tente novamente.
-      </div>
-    `;
+  <div class="ranking-vazio">
+    ${t("relatorio_erro_carregar")}
+  </div>
+`;
   }
 }
 
@@ -8906,7 +9021,23 @@ function formatarDataRankingGlobal(valor) {
 function formatarNumeroRanking(valor) {
   return Number(valor || 0).toLocaleString("pt-BR");
 }
+function formatarModoRanking(modo) {
+  const texto = String(modo || "").trim();
 
+  if (idiomaAtual !== "en") {
+    return texto || "Modo";
+  }
+
+  if (texto === "Iniciante") return "Beginner";
+  if (texto === "Intermediário") return "Intermediate";
+  if (texto === "Avançado") return "Advanced";
+
+  if (texto === "iniciante") return "Beginner";
+  if (texto === "intermediario") return "Intermediate";
+  if (texto === "avancado") return "Advanced";
+
+  return texto || "Mode";
+}
 function formatarWpmRanking(valor) {
   const numero = Number(valor || 0);
 

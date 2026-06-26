@@ -8253,51 +8253,44 @@ body.modo-arvore-morse .painel-arvore-morse {
   }
 }
 /* =========================================================
-   SELETOR DE IDIOMA — TELA INICIAL
+   BOTÃO CONFIGURAÇÕES — TELA INICIAL
 ========================================================= */
 
-.seletor-idioma-home {
-  width: min(760px, 100%);
-  margin: 16px auto 12px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+#telaInicial {
+  position: relative;
 }
 
-.btn-idioma-home {
-  min-height: 48px;
+.btn-config-operador {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 20;
+  width: 46px;
+  height: 46px;
   border-radius: 999px;
-  border: 1px solid rgba(43, 255, 173, 0.18);
-  background: rgba(15, 28, 48, 0.92);
+  border: 1px solid rgba(43, 255, 173, 0.20);
+  background: rgba(15, 28, 48, 0.86);
   color: #f8fafc;
-  font-weight: 900;
-  font-size: 0.95rem;
+  font-size: 1.25rem;
   cursor: pointer;
-  letter-spacing: 0.02em;
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
-}
-
-.btn-idioma-home.ativo {
-  background: linear-gradient(135deg, #39e06d, #facc15);
-  color: #07161f;
-  border-color: rgba(250, 204, 21, 0.32);
+  display: grid;
+  place-items: center;
   box-shadow:
-    0 10px 22px rgba(57, 224, 109, 0.12),
-    0 6px 16px rgba(250, 204, 21, 0.08);
+    0 10px 22px rgba(0, 0, 0, 0.22),
+    inset 0 0 0 1px rgba(255,255,255,0.02);
 }
 
-.btn-idioma-home:hover {
-  filter: brightness(1.06);
+.btn-config-operador:hover {
+  filter: brightness(1.08);
+  border-color: rgba(57, 224, 109, 0.36);
 }
 
 @media (max-width: 520px) {
-  .seletor-idioma-home {
-    grid-template-columns: 1fr;
-    margin-top: 12px;
-  }
-
-  .btn-idioma-home {
-    min-height: 46px;
-    font-size: 0.9rem;
+  .btn-config-operador {
+    top: 8px;
+    right: 8px;
+    width: 42px;
+    height: 42px;
+    font-size: 1.1rem;
   }
 }

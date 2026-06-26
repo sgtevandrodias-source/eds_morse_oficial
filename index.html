@@ -88,8 +88,12 @@
   </section>
   
       <!-- TELA INICIAL -->
-  <section id="telaInicial" class="tela">
-  <div class="hero-game hero-abertura-estilo">
+      <section id="telaInicial" class="tela">
+        <button id="btnAbrirConfiguracoesEntrada" class="btn-config-operador" type="button" aria-label="Configurações">
+          ⚙️
+        </button>
+      
+        <div class="hero-game hero-abertura-estilo">
     <div class="marca-jogo marca-jogo-com-logo">
       <img
         src="icons/icon-192-v2.png"
@@ -142,17 +146,7 @@
     </div>
   </div>
 
-  <div class="seletor-idioma-home">
-    <button id="btnHomeIdiomaPt" class="btn-idioma-home ativo" type="button">
-      🇧🇷 Português
-    </button>
-
-    <button id="btnHomeIdiomaEn" class="btn-idioma-home" type="button">
-      🇺🇸 English
-    </button>
-  </div>
-
-      <div class="botoes-inicio">
+        <div class="botoes-inicio">
       <button id="btnEntrarCampanha" class="btn principal">
         🎮 Jogar
       </button>
@@ -770,13 +764,13 @@
     <!-- TELA RANKING -->
     <section id="telaRanking" class="tela">
       <div class="card resultado-card">
-        <div class="badge">Competição global</div>
-    
-        <h1>Ranking Global</h1>
-    
-        <p>
-          Classificação dos operadores.
-        </p>
+        <div class="badge" data-i18n="ranking_badge">Competição global</div>
+
+<h1 data-i18n="ranking_titulo">Ranking Global</h1>
+
+<p data-i18n="ranking_subtitulo">
+  Classificação dos operadores.
+</p>
     
         <div id="listaRanking" class="ranking-lista"></div>
     
@@ -802,26 +796,26 @@
     <!-- TELA RELATÓRIO DO OPERADOR -->
 <section id="telaRelatorioOperador" class="tela">
   <div class="card resultado-card relatorio-operador-card">
-    <div class="badge">📊 Desempenho individual</div>
+    <div class="badge" data-i18n="relatorio_operador_badge">📊 Desempenho individual</div>
 
-    <h1>Relatório do Operador</h1>
+    <h1 data-i18n="relatorio_operador_titulo">Relatório do Operador</h1>
 
-    <p>
+    <p data-i18n="relatorio_operador_subtitulo">
       Comparativo geral do seu desempenho com os melhores resultados do Ranking Global.
     </p>
 
     <div id="relatorioOperadorConteudo" class="relatorio-operador-conteudo">
-      <div class="ranking-carregando">
+      <div class="ranking-carregando" data-i18n="relatorio_operador_carregando">
         Carregando relatório do operador...
       </div>
     </div>
 
     <div class="botoes-resultado">
-      <button id="btnVoltarRankingRelatorio" class="btn principal">
+      <button id="btnVoltarRankingRelatorio" class="btn principal" data-i18n="relatorio_operador_voltar_ranking">
         Voltar ao ranking
       </button>
 
-      <button id="btnInicioRelatorioOperador" class="btn secundario">
+      <button id="btnInicioRelatorioOperador" class="btn secundario" data-i18n="inicio">
         Início
       </button>
     </div>
@@ -969,15 +963,45 @@
     <div class="card sala-secreta-card">
       <div class="sala-secreta-sinal">⌁</div>
 
-      <div class="badge sala-secreta-badge">
+      <div class="badge sala-secreta-badge" data-i18n="sala_senha_badge">
         CANAL RESTRITO DETECTADO
       </div>
 
-      <h1>Sala Secreta</h1>
+      <h1 data-i18n="sala_senha_titulo">Sala Secreta</h1>
 
-      <p class="sala-secreta-dica">
+      <p class="sala-secreta-dica" data-i18n="sala_senha_dica">
         A CHAVE PARA A SALVAÇÃO É...
       </p>
+
+      <div class="campo-sala-secreta">
+        <label for="inputSenhaSalaSecreta" data-i18n="sala_senha_label">
+          Senha de acesso
+        </label>
+
+        <input
+          id="inputSenhaSalaSecreta"
+          type="text"
+          autocomplete="off"
+          maxlength="12"
+          placeholder="Digite a senha..."
+          data-i18n-placeholder="sala_senha_placeholder"
+        />
+      </div>
+
+      <div id="feedbackSenhaSalaSecreta" class="feedback"></div>
+
+      <div class="botoes-resultado sala-secreta-botoes">
+        <button id="btnValidarSenhaSalaSecreta" class="btn principal" data-i18n="sala_senha_botao_validar">
+          Validar senha
+        </button>
+
+        <button id="btnVoltarInicioSalaSecretaSenha" class="btn secundario" data-i18n="inicio">
+          Início
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
 
       <div class="campo-sala-secreta">
         <label for="inputSenhaSalaSecreta">Senha de acesso</label>
@@ -1011,13 +1035,13 @@
     <div class="sala-secreta-scanlines"></div>
 
     <div class="card sala-secreta-card sala-secreta-fragmentos-card">
-      <div class="badge sala-secreta-badge">
+      <div class="badge sala-secreta-badge" data-i18n="sala_fragmentos_badge">
         ARQUIVOS FRAGMENTADOS
       </div>
 
-      <h1>Reconstrua a mensagem</h1>
+      <h1 data-i18n="sala_fragmentos_titulo">Reconstrua a mensagem</h1>
 
-      <p>
+      <p data-i18n="sala_fragmentos_desc">
         Durante o jogo, seis grupos foram interceptados. Coloque-os na ordem correta para liberar a transmissão final.
       </p>
 
@@ -1027,32 +1051,32 @@
 
       <div class="grid-inputs-fragmentos">
         <div class="campo-sala-secreta">
-          <label for="inputFragmentoSecreto1">Grupo 1</label>
+          <label for="inputFragmentoSecreto1" data-i18n="sala_grupo_1">Grupo 1</label>
           <input id="inputFragmentoSecreto1" type="text" maxlength="5" autocomplete="off" />
         </div>
-
+      
         <div class="campo-sala-secreta">
-          <label for="inputFragmentoSecreto2">Grupo 2</label>
+          <label for="inputFragmentoSecreto2" data-i18n="sala_grupo_2">Grupo 2</label>
           <input id="inputFragmentoSecreto2" type="text" maxlength="5" autocomplete="off" />
         </div>
-
+      
         <div class="campo-sala-secreta">
-          <label for="inputFragmentoSecreto3">Grupo 3</label>
+          <label for="inputFragmentoSecreto3" data-i18n="sala_grupo_3">Grupo 3</label>
           <input id="inputFragmentoSecreto3" type="text" maxlength="5" autocomplete="off" />
         </div>
-
+      
         <div class="campo-sala-secreta">
-          <label for="inputFragmentoSecreto4">Grupo 4</label>
+          <label for="inputFragmentoSecreto4" data-i18n="sala_grupo_4">Grupo 4</label>
           <input id="inputFragmentoSecreto4" type="text" maxlength="5" autocomplete="off" />
         </div>
-
+      
         <div class="campo-sala-secreta">
-          <label for="inputFragmentoSecreto5">Grupo 5</label>
+          <label for="inputFragmentoSecreto5" data-i18n="sala_grupo_5">Grupo 5</label>
           <input id="inputFragmentoSecreto5" type="text" maxlength="5" autocomplete="off" />
         </div>
-
+      
         <div class="campo-sala-secreta">
-          <label for="inputFragmentoSecreto6">Grupo 6</label>
+          <label for="inputFragmentoSecreto6" data-i18n="sala_grupo_6">Grupo 6</label>
           <input id="inputFragmentoSecreto6" type="text" maxlength="5" autocomplete="off" />
         </div>
       </div>
@@ -1060,15 +1084,15 @@
       <div id="feedbackFragmentosSalaSecreta" class="feedback"></div>
 
       <div class="botoes-resultado sala-secreta-botoes">
-        <button id="btnValidarFragmentosSalaSecreta" class="btn principal">
+        <button id="btnValidarFragmentosSalaSecreta" class="btn principal" data-i18n="sala_fragmentos_botao_liberar">
           Liberar transmissão final
         </button>
-
-        <button id="btnVoltarSenhaSalaSecreta" class="btn secundario">
+        
+        <button id="btnVoltarSenhaSalaSecreta" class="btn secundario" data-i18n="sala_fragmentos_botao_voltar">
           Voltar
         </button>
-
-        <button id="btnVoltarInicioSalaSecretaFragmentos" class="btn discreto">
+        
+        <button id="btnVoltarInicioSalaSecretaFragmentos" class="btn discreto" data-i18n="inicio">
           Início
         </button>
       </div>
