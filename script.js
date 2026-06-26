@@ -85,6 +85,14 @@ ranking_erro_carregar: "Não foi possível carregar o Ranking Global agora.",
 ranking_meu_relatorio: "📊 Meu relatório",
 ranking_mapa_jogo: "Mapa do jogo",
 ranking_inicio: "Início",
+
+ranking_aviso_atualizado_titulo: "Ranking Global atualizado",
+ranking_aviso_sucesso: "Seu progresso geral foi enviado com sucesso.",
+ranking_aviso_superou: "Seu progresso geral foi enviado com sucesso. Desta vez você se superou!",
+ranking_aviso_nome_bloqueado: "Nome de operador bloqueado",
+ranking_aviso_nome_bloqueado_msg: "Este nome já está sendo usado por outro aparelho.",
+ranking_aviso_resultado_nao_enviado: "Resultado não enviado.",
+ranking_aviso_falha_conexao: "Falha de conexão com o Ranking Global.",
     missao_colapso_titulo: "📡 O COLAPSO",
 missao_colapso_botao_voltar: "Voltar ao início",
 missao_colapso_botao_iniciar: "Iniciar Missão",
@@ -227,25 +235,40 @@ jogo_limpar: "Limpar",
 jogo_erro_sem_codigo: "Transmita pelo menos um ponto ou traço antes de confirmar.",
 jogo_reiniciar_nivel: "Reiniciar nível",
 jogo_mapa_jogo: "Mapa do jogo",
-jogo_ponto_transmitido: "Dot transmitted",
-jogo_traco_transmitido: "Dash transmitted",
-jogo_incorreto_curto: "Incorrect.",
-jogo_correto_curto: "Correct:",
-jogo_missao_nao_cumprida: "Mission failed",
-jogo_missao_cumprida: "Mission accomplished",
-jogo_relatorio_missao: "Mission report",
-jogo_nivel_concluido: "Level completed",
-jogo_resultado: "Result",
-jogo_repetir_missao: "Retry mission",
-jogo_repetir_nivel: "Retry level",
-jogo_proximo_nivel: "Next level",
-jogo_ver_ranking: "View ranking",
-jogo_aproveitamento: "Accuracy",
-jogo_tempo: "Time",
-jogo_wpm_aprox: "Approx. WPM",
-jogo_pontuacao: "Score",
-jogo_resultado_aprovado_msg: "You completed the mission with {aproveitamento}% accuracy, in {tempo}, reaching approximately {wpm} WPM.",
-jogo_resultado_reprovado_msg: "You did not reach the minimum 80% accuracy. Retry the mission to advance.",
+jogo_ponto_transmitido: "Ponto transmitido",
+jogo_traco_transmitido: "Traço transmitido",
+jogo_incorreto_curto: "Incorreto.",
+jogo_correto_curto: "Correto:",
+jogo_missao_nao_cumprida: "Missão não cumprida",
+jogo_missao_cumprida: "Missão cumprida",
+jogo_relatorio_missao: "Relatório da missão",
+jogo_nivel_concluido: "Nível concluído",
+jogo_resultado: "Resultado",
+jogo_repetir_missao: "Repetir missão",
+jogo_repetir_nivel: "Repetir nível",
+jogo_proximo_nivel: "Próximo nível",
+jogo_ver_ranking: "Ver ranking",
+jogo_aproveitamento: "Aproveitamento",
+jogo_tempo: "Tempo",
+jogo_wpm_aprox: "WPM aprox.",
+jogo_pontuacao: "Pontuação",
+
+relatorio_promocao: "Promoção",
+relatorio_promovido_a: "Você foi promovido a",
+relatorio_situacao_rede: "Situação da Rede",
+relatorio_seu_progresso: "Seu progresso",
+relatorio_pontos_missao: "Pontos da missão",
+relatorio_bonus: "Bônus",
+relatorio_ganho_missao: "Ganho nesta missão",
+relatorio_progresso_total: "Progresso Total",
+relatorio_recompensas: "Recompensas",
+relatorio_recompensa_singular: "recompensa conquistada",
+relatorio_recompensa_plural: "recompensas conquistadas",
+relatorio_pts: "pts",
+
+jogo_resultado_aprovado_msg: "Você concluiu a missão com {aproveitamento}% de aproveitamento, em {tempo}, alcançando {wpm} WPM aproximado.",
+jogo_resultado_reprovado_msg: "Você ficou com {aproveitamento}% de aproveitamento. O mínimo é 80%. Repita a missão para manter a rede operacional.",
+jogo_tente_novamente: "Tente novamente",
 jogo_tente_novamente: "Tente novamente",
 jogo_resultado_reprovado_msg: "Você ficou com {aproveitamento}% de aproveitamento. O mínimo é 80%. Repita a missão para manter a rede operacional.",
 modo_livre_desc_pro: "Resposta mais rápida para operador experiente.",
@@ -392,6 +415,14 @@ ranking_erro_carregar: "The Global Ranking could not be loaded right now.",
 ranking_meu_relatorio: "📊 My report",
 ranking_mapa_jogo: "Game map",
 ranking_inicio: "Home",
+
+ranking_aviso_atualizado_titulo: "Global Ranking updated",
+ranking_aviso_sucesso: "Your overall progress was sent successfully.",
+ranking_aviso_superou: "Your overall progress was sent successfully. This time you beat your best result!",
+ranking_aviso_nome_bloqueado: "Operator name blocked",
+ranking_aviso_nome_bloqueado_msg: "This name is already being used on another device.",
+ranking_aviso_resultado_nao_enviado: "Result not sent.",
+ranking_aviso_falha_conexao: "Connection failure with the Global Ranking.",
     missao_colapso_titulo: "📡 THE COLLAPSE",
     missao_colapso_botao_voltar: "Back to Home",
     missao_colapso_botao_iniciar: "Start Mission",
@@ -552,6 +583,18 @@ jogo_aproveitamento: "Accuracy",
 jogo_tempo: "Time",
 jogo_wpm_aprox: "Approx. WPM",
 jogo_pontuacao: "Score",
+relatorio_promocao: "Promotion",
+relatorio_promovido_a: "You were promoted to",
+relatorio_situacao_rede: "Network Status",
+relatorio_seu_progresso: "Your progress",
+relatorio_pontos_missao: "Mission points",
+relatorio_bonus: "Bonus",
+relatorio_ganho_missao: "Gain in this mission",
+relatorio_progresso_total: "Total Progress",
+relatorio_recompensas: "Rewards",
+relatorio_recompensa_singular: "reward earned",
+relatorio_recompensa_plural: "rewards earned",
+relatorio_pts: "pts",
 jogo_resultado_aprovado_msg: "You completed the mission with {aproveitamento}% accuracy, in {tempo}, reaching approximately {wpm} WPM.",
 jogo_resultado_reprovado_msg: "You did not reach the minimum 80% accuracy. Retry the mission to advance.",
 jogo_tente_novamente: "Try again",
@@ -829,21 +872,80 @@ const TABELA_MORSE = {
 ;
 
 const SALA_SECRETA_SENHA = "JESUS";
-const SALA_SECRETA_CHAVE_CORRETA = ["DISCI", "PLINA", "EFOCO", "SUPER", "AMLIM", "ITES@"];
-const SALA_SECRETA_FRAGMENTOS_EMBARALHADOS = ["SUPER", "DISCI", "ITES@", "EFOCO", "AMLIM", "PLINA"];
 
-const SALA_SECRETA_PONTOS_CAMPANHA = [
-  { modo: "Iniciante", nivel: 1, fragmento: "SUPER" },
-  { modo: "Iniciante", nivel: 20, fragmento: "DISCI" },
-  { modo: "Intermediário", nivel: 1, fragmento: "ITES@" },
-  { modo: "Intermediário", nivel: 20, fragmento: "EFOCO" },
-  { modo: "Avançado", nivel: 1, fragmento: "AMLIM" },
-  { modo: "Avançado", nivel: 12, fragmento: "PLINA" }
+const SALA_SECRETA_CHAVE_CORRETA_PT = [
+  "DISCI",
+  "PLINA",
+  "EFOCO",
+  "SUPER",
+  "AMLIM",
+  "ITES@"
 ];
 
-const SALA_SECRETA_MENSAGEM_FINAL =
+const SALA_SECRETA_CHAVE_CORRETA_EN = [
+  "FOCUS",
+  "ANDDI",
+  "SCIPL",
+  "INEBR",
+  "EAKLI",
+  "MITS@"
+];
+
+const SALA_SECRETA_FRAGMENTOS_EMBARALHADOS_PT = [
+  "SUPER",
+  "DISCI",
+  "ITES@",
+  "EFOCO",
+  "AMLIM",
+  "PLINA"
+];
+
+const SALA_SECRETA_FRAGMENTOS_EMBARALHADOS_EN = [
+  "EAKLI",
+  "FOCUS",
+  "MITS@",
+  "SCIPL",
+  "ANDDI",
+  "INEBR"
+];
+
+const SALA_SECRETA_PONTOS_CAMPANHA = [
+  { modo: "Iniciante", nivel: 1, indice: 0 },
+  { modo: "Iniciante", nivel: 20, indice: 1 },
+  { modo: "Intermediário", nivel: 1, indice: 2 },
+  { modo: "Intermediário", nivel: 20, indice: 3 },
+  { modo: "Avançado", nivel: 1, indice: 4 },
+  { modo: "Avançado", nivel: 12, indice: 5 }
+];
+
+const SALA_SECRETA_MENSAGEM_FINAL_PT =
   "PARABENS. VOCE DEMONSTROU PERSISTENCIA FOCO CORAGEM E INTELIGENCIA. BEM VINDO AO SELETO GRUPO DE TELEGRAFISTAS DO EDS MORSE.";
 
+const SALA_SECRETA_MENSAGEM_FINAL_EN =
+  "CONGRATULATIONS. YOU SHOWED PERSISTENCE FOCUS COURAGE AND INTELLIGENCE. WELCOME TO THE SELECT GROUP OF EDS MORSE TELEGRAPHISTS.";
+
+function getChaveCorretaSalaSecreta() {
+  return idiomaAtual === "en"
+    ? SALA_SECRETA_CHAVE_CORRETA_EN
+    : SALA_SECRETA_CHAVE_CORRETA_PT;
+}
+
+function getFragmentosEmbaralhadosSalaSecreta() {
+  return idiomaAtual === "en"
+    ? SALA_SECRETA_FRAGMENTOS_EMBARALHADOS_EN
+    : SALA_SECRETA_FRAGMENTOS_EMBARALHADOS_PT;
+}
+
+function getMensagemFinalSalaSecreta() {
+  return idiomaAtual === "en"
+    ? SALA_SECRETA_MENSAGEM_FINAL_EN
+    : SALA_SECRETA_MENSAGEM_FINAL_PT;
+}
+
+function getFragmentoSalaSecretaPorIndice(indice) {
+  const chave = getChaveCorretaSalaSecreta();
+  return chave[indice] || "";
+}
 let contadorToquesLogoSalaSecreta = 0;
 let temporizadorToquesLogoSalaSecreta = null;
 
@@ -1927,12 +2029,96 @@ const MENSAGENS_NARRATIVAS_INICIANTE = {
     texto: "As comunicações básicas voltaram a funcionar. O treinamento inicial foi concluído."
   }
 };
+const MENSAGENS_NARRATIVAS_INICIANTE_EN = {
+  1: {
+    titulo: "📡 First contact confirmed",
+    texto: "The radio answered. There is still a signal in the middle of the chaos."
+  },
+  2: {
+    titulo: "📡 Safe channel opened",
+    texto: "The frequency has been stabilized. The network begins to breathe again."
+  },
+  3: {
+    titulo: "🚨 Emergency network activated",
+    texto: "New stations started responding to your signals."
+  },
+  4: {
+    titulo: "📨 Priority message delivered",
+    texto: "Your transmission arrived clean. Trust in the network increased."
+  },
+  5: {
+    titulo: "🔢 Coordinates received",
+    texto: "Numbers now make it possible to locate posts and routes."
+  },
+  6: {
+    titulo: "📻 Operator test approved",
+    texto: "You proved that you can recognize and transmit varied signals."
+  },
+  7: {
+    titulo: "🧭 Numerical data confirmed",
+    texto: "Number transmissions can now be used for times, routes and references."
+  },
+  8: {
+    titulo: "🧠 Tactical groups recognized",
+    texto: "Your brain is starting to identify blocks of signals, not just isolated letters."
+  },
+  9: {
+    titulo: "📶 Complex signal decoded",
+    texto: "Larger messages were transmitted without breaking the network rhythm."
+  },
+  10: {
+    titulo: "🔐 Organized channel",
+    texto: "Letters and numbers now travel together through the network with more security."
+  },
+  11: {
+    titulo: "📡 Radio protocols started",
+    texto: "The first Q codes entered operation. Communication became faster."
+  },
+  12: {
+    titulo: "✉️ Short messages delivered",
+    texto: "You can now transmit complete words to other operators."
+  },
+  13: {
+    titulo: "🌐 Regional network expanding",
+    texto: "The network reaches new stations and begins to form a communication mesh."
+  },
+  14: {
+    titulo: "🏢 Communications center active",
+    texto: "You have taken an important position inside the survivors' network."
+  },
+  15: {
+    titulo: "🚨 Priority traffic controlled",
+    texto: "Urgent messages circulated with precision. The network trusts you more."
+  },
+  16: {
+    titulo: "🧩 Coordinated operation",
+    texto: "Words and numbers were combined to guide posts and teams."
+  },
+  17: {
+    titulo: "🛡️ Advanced post connected",
+    texto: "The network reached a distant area. New operators can receive support."
+  },
+  18: {
+    titulo: "📡 Long-range network",
+    texto: "Transmissions crossed long distances and kept the network alive."
+  },
+  19: {
+    titulo: "🎯 Strategic operator",
+    texto: "You handled long messages while maintaining focus, rhythm and precision."
+  },
+  20: {
+    titulo: "🚨 Network restored",
+    texto: "Basic communications are working again. Initial training has been completed."
+  }
+};
 
 function getMensagemNarrativaNivel(resultado) {
   if (!resultado) return null;
 
   if (resultado.modo === "Iniciante") {
-    return MENSAGENS_NARRATIVAS_INICIANTE[resultado.nivel] || null;
+    return idiomaAtual === "en"
+      ? MENSAGENS_NARRATIVAS_INICIANTE_EN[resultado.nivel] || null
+      : MENSAGENS_NARRATIVAS_INICIANTE[resultado.nivel] || null;
   }
 
   if (resultado.modo === "Avançado") {
@@ -2139,8 +2325,12 @@ function obterPremiosDaFase(resultado) {
     premios.push({
       tipo: "medalha",
       id: `${modo}_${nivel}_conclusao`,
-      nome: `Medalha de Conclusão — ${modo} ${nivel}`,
-      descricao: "Concedida por concluir a fase com aproveitamento mínimo operacional."
+      nome: idiomaAtual === "en"
+        ? `Completion Medal — ${resultado.modoExibicao || "Beginner"} ${nivel}`
+        : `Medalha de Conclusão — ${modo} ${nivel}`,
+      descricao: idiomaAtual === "en"
+        ? "Awarded for completing the stage with minimum operational accuracy."
+        : "Concedida por concluir a fase com aproveitamento mínimo operacional."
     });
   }
 
@@ -2148,8 +2338,12 @@ function obterPremiosDaFase(resultado) {
     premios.push({
       tipo: "medalha",
       id: `${modo}_${nivel}_excelencia`,
-      nome: `Medalha de Excelência — ${modo} ${nivel}`,
-      descricao: "Concedida por concluir a fase com desempenho superior a 90%."
+      nome: idiomaAtual === "en"
+        ? `Excellence Medal — ${resultado.modoExibicao || "Beginner"} ${nivel}`
+        : `Medalha de Excelência — ${modo} ${nivel}`,
+      descricao: idiomaAtual === "en"
+        ? "Awarded for completing the stage with performance above 90%."
+        : "Concedida por concluir a fase com desempenho superior a 90%."
     });
   }
 
@@ -2157,17 +2351,24 @@ function obterPremiosDaFase(resultado) {
     premios.push({
       tipo: "medalha",
       id: `${modo}_${nivel}_perfeita`,
-      nome: `Transmissão Perfeita — ${modo} ${nivel}`,
-      descricao: "Concedida por concluir a fase sem erros."
+      nome: idiomaAtual === "en"
+        ? `Perfect Transmission — ${resultado.modoExibicao || "Beginner"} ${nivel}`
+        : `Transmissão Perfeita — ${modo} ${nivel}`,
+      descricao: idiomaAtual === "en"
+        ? "Awarded for completing the stage without errors."
+        : "Concedida por concluir a fase sem erros."
     });
   }
-
   if (tempoSegundos > 0 && tempoSegundos <= 60) {
     premios.push({
       tipo: "distintivo",
       id: `${modo}_${nivel}_rapidez`,
-      nome: `Distintivo de Rapidez — ${modo} ${nivel}`,
-      descricao: "Concedido por concluir a fase em até 60 segundos."
+      nome: idiomaAtual === "en"
+        ? `Speed Badge — ${resultado.modoExibicao || "Beginner"} ${nivel}`
+        : `Distintivo de Rapidez — ${modo} ${nivel}`,
+      descricao: idiomaAtual === "en"
+        ? "Awarded for completing the stage in up to 60 seconds."
+        : "Concedido por concluir a fase em até 60 segundos."
     });
   }
 
@@ -2863,7 +3064,9 @@ function preencherFragmentosInterceptadosSalaSecreta() {
 
   const coletados = obterFragmentosSalaSecreta();
 
-  const lista = SALA_SECRETA_FRAGMENTOS_EMBARALHADOS.map((fragmento) => {
+  const fragmentosEmbaralhados = getFragmentosEmbaralhadosSalaSecreta();
+
+const lista = fragmentosEmbaralhados.map((fragmento) => {
     const jaInterceptado = coletados.includes(fragmento);
 
     return `
@@ -2874,24 +3077,32 @@ function preencherFragmentosInterceptadosSalaSecreta() {
   }).join("");
 
   fragmentosInterceptadosSalaSecreta.innerHTML = `
-    <span class="label">Fragmentos interceptados</span>
-    <div class="fragmentos-linha">
-      ${lista}
-    </div>
-    <small>
-      Dica: os grupos podem aparecer fora da ordem. Reconstrua a mensagem original.
-    </small>
-  `;
+  <span class="label">
+    ${idiomaAtual === "en" ? "Intercepted fragments" : "Fragmentos interceptados"}
+  </span>
+  <div class="fragmentos-linha">
+    ${lista}
+  </div>
+  <small>
+    ${
+      idiomaAtual === "en"
+        ? "Hint: the groups may appear out of order. Rebuild the original message."
+        : "Dica: os grupos podem aparecer fora da ordem. Reconstrua a mensagem original."
+    }
+  </small>
+`;
 }
 
 function validarFragmentosSalaSecreta() {
-  const respostas = SALA_SECRETA_CHAVE_CORRETA.map((_, indice) => {
+  const chaveCorreta = getChaveCorretaSalaSecreta();
+
+  const respostas = chaveCorreta.map((_, indice) => {
     const input = document.getElementById(`inputFragmentoSecreto${indice + 1}`);
     return normalizarEntradaSalaSecreta(input?.value || "");
   });
 
   const acertou = respostas.every((valor, indice) => {
-    return valor === SALA_SECRETA_CHAVE_CORRETA[indice];
+    return valor === chaveCorreta[indice];
   });
 
   if (!acertou) {
@@ -2899,7 +3110,10 @@ function validarFragmentosSalaSecreta() {
 
     if (feedbackFragmentosSalaSecreta) {
       feedbackFragmentosSalaSecreta.textContent =
-        "Chave incompleta ou incorreta. Reorganize os fragmentos interceptados.";
+        idiomaAtual === "en"
+          ? "Incomplete or incorrect key. Reorganize the intercepted fragments."
+          : "Chave incompleta ou incorreta. Reorganize os fragmentos interceptados.";
+
       feedbackFragmentosSalaSecreta.className = "feedback erro";
     }
 
@@ -2911,31 +3125,36 @@ function validarFragmentosSalaSecreta() {
 
   if (feedbackFragmentosSalaSecreta) {
     feedbackFragmentosSalaSecreta.textContent =
-      "Acesso autorizado. Transmissão final liberada.";
+      idiomaAtual === "en"
+        ? "Access authorized. Final transmission unlocked."
+        : "Acesso autorizado. Transmissão final liberada.";
+
     feedbackFragmentosSalaSecreta.className = "feedback sucesso";
   }
 
   setTimeout(abrirTelaFinalSalaSecreta, 800);
 }
-
 function abrirTelaFinalSalaSecreta() {
   if (!telaSalaSecretaFinal) return;
 
+  const mensagemFinal = getMensagemFinalSalaSecreta();
+
   if (textoTransmissaoFinalSecreta) {
     textoTransmissaoFinalSecreta.textContent =
-      "Parabéns. Você demonstrou persistência, foco, coragem e inteligência. Bem-vindo ao seleto grupo de telegrafistas do EDS MORSE.";
+      idiomaAtual === "en"
+        ? "Congratulations. You showed persistence, focus, courage and intelligence. Welcome to the select group of EDS MORSE telegraphists."
+        : "Parabéns. Você demonstrou persistência, foco, coragem e inteligência. Bem-vindo ao seleto grupo de telegrafistas do EDS MORSE.";
   }
 
   if (codigoTransmissaoFinalSecreta) {
-    codigoTransmissaoFinalSecreta.textContent = textoParaMorse(SALA_SECRETA_MENSAGEM_FINAL);
+    codigoTransmissaoFinalSecreta.textContent = textoParaMorse(mensagemFinal);
   }
 
   mostrarTela(telaSalaSecretaFinal);
 }
-
 function tocarTransmissaoFinalSalaSecreta() {
   prepararAudio();
-  tocarSequenciaMorse(textoParaMorse(SALA_SECRETA_MENSAGEM_FINAL));
+  tocarSequenciaMorse(textoParaMorse(getMensagemFinalSalaSecreta()));
 }
 
 function processarFragmentoSecretoResultado(resultado) {
@@ -2947,15 +3166,19 @@ function processarFragmentoSecretoResultado(resultado) {
 
   if (!ponto) return;
 
+  const fragmento = getFragmentoSalaSecretaPorIndice(ponto.indice);
+
+  if (!fragmento) return;
+
   const fragmentos = obterFragmentosSalaSecreta();
 
-  if (!fragmentos.includes(ponto.fragmento)) {
-    fragmentos.push(ponto.fragmento);
+  if (!fragmentos.includes(fragmento)) {
+    fragmentos.push(fragmento);
     salvarFragmentosSalaSecreta(fragmentos);
   }
 
   setTimeout(() => {
-    mostrarAvisoFragmentoSecreto(ponto.fragmento, fragmentos.length);
+    mostrarAvisoFragmentoSecreto(fragmento, fragmentos.length);
   }, 900);
 }
 
@@ -2965,10 +3188,23 @@ function mostrarAvisoFragmentoSecreto(fragmento, totalColetado) {
 
   const aviso = document.createElement("div");
   aviso.className = "aviso-fragmento-secreto";
+
+  const titulo = idiomaAtual === "en"
+    ? "FRAGMENTED TRANSMISSION"
+    : "TRANSMISSÃO FRAGMENTADA";
+
+  const anote = idiomaAtual === "en"
+    ? "WRITE DOWN"
+    : "ANOTE";
+
+  const descricao = idiomaAtual === "en"
+    ? `Fragment ${Math.min(totalColetado, 6)}/6 intercepted. Save this group.`
+    : `Fragmento ${Math.min(totalColetado, 6)}/6 interceptado. Guarde este grupo.`;
+
   aviso.innerHTML = `
-    <span>TRANSMISSÃO FRAGMENTADA</span>
-    <strong>ANOTE: ${escaparHtml(fragmento)}</strong>
-    <small>Fragmento ${Math.min(totalColetado, 6)}/6 interceptado. Guarde este grupo.</small>
+    <span>${titulo}</span>
+    <strong>${anote}: ${escaparHtml(fragmento)}</strong>
+    <small>${descricao}</small>
   `;
 
   document.body.appendChild(aviso);
@@ -6227,6 +6463,30 @@ function getNomeModo(modo = modoAtual) {
 
   return idiomaAtual === "en" ? "Beginner" : "Iniciante";
 }
+function normalizarModoCanonico(modo = modoAtual) {
+  const texto = String(modo || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+  if (
+    modo === MODO_AVANCADO ||
+    texto.includes("avancado") ||
+    texto.includes("advanced")
+  ) {
+    return "Avançado";
+  }
+
+  if (
+    modo === MODO_INTERMEDIARIO ||
+    texto.includes("intermediario") ||
+    texto.includes("intermediate")
+  ) {
+    return "Intermediário";
+  }
+
+  return "Iniciante";
+}
 
 function modoInicianteConcluido() {
   return localStorage.getItem(chaveInicianteConcluido()) === "sim";
@@ -7055,12 +7315,17 @@ function finalizarNivel() {
   ultimoResultado = {
     nome: nomeOperador,
     chaveOperador: getChaveOperador(),
-    modo: getNomeModo(modoAtual),
+    modo: normalizarModoCanonico(modoAtual),
+    modoExibicao: getNomeModo(modoAtual),
     patente: patenteResultado,
     nivel: nivel.numero,
     titulo: campanhaFinalizada
-      ? `Modo ${getNomeModo(modoAtual)} concluído`
-      : nivel.titulo,
+  ? (
+      idiomaAtual === "en"
+        ? `${getNomeModo(modoAtual)} Mode completed`
+        : `Modo ${getNomeModo(modoAtual)} concluído`
+    )
+  : nivel.titulo,
     pontos: pontosFinais,
     aproveitamento,
     tempoSegundos,
@@ -7477,18 +7742,37 @@ function mostrarResultadoNivel(resultado, campanhaFinalizada = false) {
     return;
   }
 
-  resultadoBadge.textContent = "MISSÃO CUMPRIDA";
+  resultadoBadge.textContent = t("jogo_missao_cumprida").toUpperCase();
 resultadoBadge.className = "badge sucesso";
 
-tituloResultado.textContent = "Relatório da missão";
+tituloResultado.textContent = t("jogo_relatorio_missao");
 
-  resultadoFinal.textContent =
-    `Você concluiu a missão com ${resultado.aproveitamento}% de aproveitamento, em ${formatarTempo(resultado.tempoSegundos)}, alcançando ${resultado.wpm.toFixed(1)} WPM aproximado.`;
+resultadoFinal.textContent = t("jogo_resultado_aprovado_msg")
+  .replace("{aproveitamento}", resultado.aproveitamento)
+  .replace("{tempo}", resultado.tempo)
+  .replace("{wpm}", resultado.wpm);
 
   btnProximoNivel.style.display = "inline-block";
-  btnJogarNovamente.textContent = "Repetir missão";
+btnProximoNivel.textContent = t("jogo_proximo_nivel");
 
-  renderizarRelatorioOperacional(resultado, mensagemNarrativa, conquistasNovas, campanhaFinalizada);
+btnJogarNovamente.textContent = t("jogo_repetir_missao");
+
+if (btnMapaResultado) {
+  btnMapaResultado.textContent = t("jogo_mapa_jogo");
+}
+
+if (btnRankingFinal) {
+  btnRankingFinal.textContent = t("jogo_ver_ranking");
+}
+
+const labelsResultado = document.querySelectorAll("#telaFinal .quadro-resultado .label");
+
+if (labelsResultado[0]) labelsResultado[0].textContent = t("jogo_aproveitamento");
+if (labelsResultado[1]) labelsResultado[1].textContent = t("jogo_tempo");
+if (labelsResultado[2]) labelsResultado[2].textContent = t("jogo_wpm_aprox");
+if (labelsResultado[3]) labelsResultado[3].textContent = t("jogo_pontuacao");
+
+renderizarRelatorioOperacional(resultado, mensagemNarrativa, conquistasNovas, campanhaFinalizada);
 }
 function getIconePremio(tipo) {
   if (tipo === "titulo") return "🎖️";
@@ -7569,92 +7853,102 @@ function renderizarRelatorioOperacional(resultado, mensagemNarrativa, conquistas
   const premiosDaFase = registroCarreira?.premiosDaFase || [];
 
   const htmlPromocao = resultado.aprovado
-    ? `
-      <div class="relatorio-bloco relatorio-destaque-promocao">
-        <span class="label">Promoção</span>
-        <h2>🎖️ Você foi promovido a ${escaparHtml(proximaPromocao)}</h2>
-      </div>
-    `
-    : "";
+  ? `
+    <div class="relatorio-bloco relatorio-destaque-promocao">
+      <span class="label">${t("relatorio_promocao")}</span>
+      <h2>🎖️ ${t("relatorio_promovido_a")} ${escaparHtml(proximaPromocao)}</h2>
+    </div>
+  `
+  : "";
 
   const htmlPontuacao = registroCarreira
-    ? `
-      <div class="relatorio-bloco relatorio-pontuacao-simples">
-        <span class="label">Seu progresso</span>
-        <h2>🏆 Pontuação</h2>
+  ? `
+    <div class="relatorio-bloco relatorio-pontuacao-simples">
+      <span class="label">${t("relatorio_seu_progresso")}</span>
+      <h2>🏆 ${t("jogo_pontuacao")}</h2>
 
-        <div class="pontuacao-linhas">
-          <div>
-            <span>Pontos da missão</span>
-            <strong>${pontosMissao} pts</strong>
-          </div>
+      <div class="pontuacao-linhas">
+        <div>
+          <span>${t("relatorio_pontos_missao")}</span>
+          <strong>${pontosMissao} ${t("relatorio_pts")}</strong>
+        </div>
 
-          <div>
-            <span>Bônus</span>
-            <strong>+${bonusTempo} pts</strong>
-          </div>
+        <div>
+          <span>${t("relatorio_bonus")}</span>
+          <strong>+${bonusTempo} ${t("relatorio_pts")}</strong>
+        </div>
 
-          <div>
-            <span>Ganho nesta missão</span>
-            <strong>+${ganhoMissao} pts</strong>
-          </div>
+        <div>
+          <span>${t("relatorio_ganho_missao")}</span>
+          <strong>+${ganhoMissao} ${t("relatorio_pts")}</strong>
+        </div>
 
-          <div>
-            <span>Progresso Total</span>
-            <strong>${totalAcumulado} pts</strong>
-          </div>
+        <div>
+          <span>${t("relatorio_progresso_total")}</span>
+          <strong>${totalAcumulado} ${t("relatorio_pts")}</strong>
         </div>
       </div>
-    `
-    : "";
+    </div>
+  `
+  : "";
 
-  const htmlRecompensas = premiosDaFase.length
-    ? `
-      <div class="relatorio-bloco relatorio-recompensas-simples">
-        <span class="label">Recompensas</span>
-        <h2>🎁 ${premiosDaFase.length} recompensa${premiosDaFase.length > 1 ? "s" : ""} conquistada${premiosDaFase.length > 1 ? "s" : ""}</h2>
+  const textoRecompensas = premiosDaFase.length === 1
+  ? t("relatorio_recompensa_singular")
+  : t("relatorio_recompensa_plural");
 
-        <div class="lista-recompensas-simples">
-          ${premiosDaFase
-            .map((premio) => {
-              const icone = premio.tipo === "distintivo"
-                ? "⚡"
-                : premio.tipo === "titulo"
-                  ? "🎖️"
-                  : "🏅";
+const htmlRecompensas = premiosDaFase.length
+  ? `
+    <div class="relatorio-bloco relatorio-recompensas-simples">
+      <span class="label">${t("relatorio_recompensas")}</span>
+      <h2>🎁 ${premiosDaFase.length} ${textoRecompensas}</h2>
 
-              const nomeLimpo = String(premio.nome || "Recompensa")
-                .replace(/\s+—\s+Iniciante\s+\d+/gi, "")
-                .replace(/\s+—\s+Intermediário\s+\d+/gi, "")
-                .replace(/\s+—\s+Avançado\s+\d+/gi, "")
-                .replace(/\s+—\s+Fase\s+\d+/gi, "");
+      <div class="lista-recompensas-simples">
+        ${premiosDaFase
+          .map((premio) => {
+            const icone = premio.tipo === "distintivo"
+              ? "⚡"
+              : premio.tipo === "titulo"
+                ? "🎖️"
+                : "🏅";
 
-              return `
-                <div class="recompensa-linha">
-                  <span>${icone}</span>
-                  <strong>${escaparHtml(nomeLimpo)}</strong>
-                </div>
-              `;
-            })
-            .join("")}
-        </div>
+            const nomePadraoRecompensa = idiomaAtual === "en" ? "Reward" : "Recompensa";
+
+            const nomeLimpo = String(premio.nome || nomePadraoRecompensa)
+              .replace(/\s+—\s+Iniciante\s+\d+/gi, "")
+              .replace(/\s+—\s+Intermediário\s+\d+/gi, "")
+              .replace(/\s+—\s+Avançado\s+\d+/gi, "")
+              .replace(/\s+—\s+Beginner\s+\d+/gi, "")
+              .replace(/\s+—\s+Intermediate\s+\d+/gi, "")
+              .replace(/\s+—\s+Advanced\s+\d+/gi, "")
+              .replace(/\s+—\s+Fase\s+\d+/gi, "")
+              .replace(/\s+—\s+Stage\s+\d+/gi, "");
+
+            return `
+              <div class="recompensa-linha">
+                <span>${icone}</span>
+                <strong>${escaparHtml(nomeLimpo)}</strong>
+              </div>
+            `;
+          })
+          .join("")}
       </div>
-    `
-    : "";
+    </div>
+  `
+  : "";
 
   relatorio.innerHTML = `
-    ${htmlPromocao}
+  ${htmlPromocao}
 
-    <div class="relatorio-bloco relatorio-rede-simples">
-      <span class="label">Situação da Rede</span>
-      <h2>${escaparHtml(tituloRede)}</h2>
-      <p>${escaparHtml(textoRede)}</p>
-    </div>
+  <div class="relatorio-bloco relatorio-rede-simples">
+    <span class="label">${t("relatorio_situacao_rede")}</span>
+    <h2>${escaparHtml(tituloRede)}</h2>
+    <p>${escaparHtml(textoRede)}</p>
+  </div>
 
-    ${htmlPontuacao}
+  ${htmlPontuacao}
 
-    ${htmlRecompensas}
-  `;
+  ${htmlRecompensas}
+`;
 }
 function verificarConquistasDoNivel(resultado, campanhaFinalizada) {
   if (!resultado || !resultado.aprovado) return [];
@@ -8030,7 +8324,9 @@ async function enviarResultadoRankingGlobal(resultado) {
     operador: resultado.nome || getNomeOperadorAtual(),
     operadorLocalId: obterIdOperadorLocal(),
 
-    modo: resultado.modo,
+    modo: normalizarModoCanonico(resultado.modo),
+    modoExibicao: resultado.modoExibicao || getNomeModo(modoAtual),
+    idioma: idiomaAtual,
     nivel: resultado.nivel,
     tituloNivel: resultado.titulo,
 
@@ -8070,19 +8366,19 @@ async function enviarResultadoRankingGlobal(resultado) {
 
     if (retorno && retorno.ok) {
       console.log("Ranking Global:", retorno.mensagem || "Resultado enviado.");
-    
+
       if (typeof mostrarAvisoRapido === "function") {
         const superouMelhorFase =
-        !!resultado?.registroCarreira?.superouMelhorFase;
+          !!resultado?.registroCarreira?.superouMelhorFase;
 
-      mostrarAvisoRapido(
-        "Ranking Global atualizado",
-        superouMelhorFase
-          ? "Seu progresso geral foi enviado com sucesso. Desta vez você se superou!"
-          : "Seu progresso geral foi enviado com sucesso."
-      );
+        mostrarAvisoRapido(
+          t("ranking_aviso_atualizado_titulo"),
+          superouMelhorFase
+            ? t("ranking_aviso_superou")
+            : t("ranking_aviso_sucesso")
+        );
       }
-    
+
       return true;
     }
 
@@ -8091,8 +8387,8 @@ async function enviarResultadoRankingGlobal(resultado) {
       retorno.codigo === "NOME_EM_USO_OUTRO_APARELHO"
     ) {
       mostrarAvisoRapido(
-        "Nome de operador bloqueado",
-        retorno.erro || "Este nome já está sendo usado por outro aparelho."
+        t("ranking_aviso_nome_bloqueado"),
+        retorno.erro || t("ranking_aviso_nome_bloqueado_msg")
       );
 
       return false;
@@ -8100,7 +8396,7 @@ async function enviarResultadoRankingGlobal(resultado) {
 
     mostrarAvisoRapido(
       "Ranking Global",
-      retorno?.erro || "Resultado não enviado."
+      retorno?.erro || t("ranking_aviso_resultado_nao_enviado")
     );
 
     console.warn("Ranking Global recusou o envio:", retorno);
@@ -8110,7 +8406,7 @@ async function enviarResultadoRankingGlobal(resultado) {
 
     mostrarAvisoRapido(
       "Ranking Global",
-      "Falha de conexão com o Ranking Global."
+      t("ranking_aviso_falha_conexao")
     );
 
     return false;
