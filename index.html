@@ -1002,33 +1002,7 @@
     </div>
   </div>
 </section>
-
-      <div class="campo-sala-secreta">
-        <label for="inputSenhaSalaSecreta">Senha de acesso</label>
-        <input
-          id="inputSenhaSalaSecreta"
-          type="text"
-          autocomplete="off"
-          maxlength="12"
-          placeholder="Digite a senha..."
-        />
-      </div>
-
-      <div id="feedbackSenhaSalaSecreta" class="feedback"></div>
-
-      <div class="botoes-resultado sala-secreta-botoes">
-        <button id="btnValidarSenhaSalaSecreta" class="btn principal">
-          Validar senha
-        </button>
-
-        <button id="btnVoltarInicioSalaSecretaSenha" class="btn secundario">
-          Início
-        </button>
-      </div>
-    </div>
-  </div>
-</section>
-
+      
 <!-- TELA DOS FRAGMENTOS SECRETOS -->
 <section id="telaSalaSecretaFragmentos" class="tela">
   <div class="sala-secreta-container">
@@ -1108,16 +1082,16 @@
     <div class="card sala-secreta-card sala-secreta-final-card">
       <div class="sala-secreta-sinal">⌁</div>
 
-      <div class="badge sala-secreta-badge">
+      <div class="badge sala-secreta-badge" data-i18n="sala_final_badge">
         CANAL 73 LIBERADO
       </div>
 
-      <h1>Transmissão final recebida</h1>
+      <h1 data-i18n="sala_final_titulo">Transmissão final recebida</h1>
 
       <div class="mensagem-reconstruida">
-        <span class="label">Mensagem reconstruída</span>
-        <strong>DISCIPLINA E FOCO SUPERAM LIMITES</strong>
-        <small>DISCI PLINA EFOCO SUPER AMLIM ITES@</small>
+        <span class="label" data-i18n="sala_final_mensagem_reconstruida">Mensagem reconstruída</span>
+        <strong id="salaFinalMensagemReconstruida">DISCIPLINA E FOCO SUPERAM LIMITES</strong>
+        <small id="salaFinalGruposReconstruidos">DISCI PLINA EFOCO SUPER AMLIM ITES@</small>
       </div>
 
       <p id="textoTransmissaoFinalSecreta" class="texto-transmissao-final-secreta">
@@ -1125,22 +1099,23 @@
       </p>
 
       <div class="morse-final-secreto">
-        <span class="label">Código Morse</span>
+        <span class="label" data-i18n="sala_final_codigo_morse">Código Morse</span>
         <code id="codigoTransmissaoFinalSecreta"></code>
       </div>
-
+      
       <div class="botoes-resultado sala-secreta-botoes">
-        <button id="btnOuvirTransmissaoFinalSecreta" class="btn principal">
+        <button id="btnOuvirTransmissaoFinalSecreta" class="btn principal" data-i18n="sala_final_botao_ouvir">
           Ouvir transmissão final
         </button>
-
-        <button id="btnSalaSecretaRanking" class="btn secundario">
+      
+        <button id="btnSalaSecretaRanking" class="btn secundario" data-i18n="jogo_ver_ranking">
           Ver ranking
         </button>
-
-        <button id="btnSalaSecretaInicio" class="btn discreto">
+      
+        <button id="btnSalaSecretaInicio" class="btn discreto" data-i18n="inicio">
           Início
         </button>
+      </div>
       </div>
     </div>
   </div>

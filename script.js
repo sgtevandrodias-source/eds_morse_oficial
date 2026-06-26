@@ -398,6 +398,11 @@ sala_grupo_5: "Grupo 5",
 sala_grupo_6: "Grupo 6",
 sala_fragmentos_botao_liberar: "Liberar transmissão final",
 sala_fragmentos_botao_voltar: "Voltar",
+sala_final_badge: "CANAL 73 LIBERADO",
+sala_final_titulo: "Transmissão final recebida",
+sala_final_mensagem_reconstruida: "Mensagem reconstruída",
+sala_final_codigo_morse: "Código Morse",
+sala_final_botao_ouvir: "Ouvir transmissão final",
       },
   
   en: {
@@ -777,6 +782,11 @@ sala_grupo_5: "Group 5",
 sala_grupo_6: "Group 6",
 sala_fragmentos_botao_liberar: "Unlock final transmission",
 sala_fragmentos_botao_voltar: "Back",
+sala_final_badge: "CHANNEL 73 UNLOCKED",
+sala_final_titulo: "Final transmission received",
+sala_final_mensagem_reconstruida: "Rebuilt message",
+sala_final_codigo_morse: "Morse Code",
+sala_final_botao_ouvir: "Listen to final transmission",
   }
   };
 function t(chave) {
@@ -813,6 +823,8 @@ const btnVoltarInicioSalaSecretaFragmentos = document.getElementById("btnVoltarI
 
 const textoTransmissaoFinalSecreta = document.getElementById("textoTransmissaoFinalSecreta");
 const codigoTransmissaoFinalSecreta = document.getElementById("codigoTransmissaoFinalSecreta");
+const salaFinalMensagemReconstruida = document.getElementById("salaFinalMensagemReconstruida");
+const salaFinalGruposReconstruidos = document.getElementById("salaFinalGruposReconstruidos");
 const btnOuvirTransmissaoFinalSecreta = document.getElementById("btnOuvirTransmissaoFinalSecreta");
 const btnSalaSecretaRanking = document.getElementById("btnSalaSecretaRanking");
 const btnSalaSecretaInicio = document.getElementById("btnSalaSecretaInicio");
@@ -3244,6 +3256,19 @@ function abrirTelaFinalSalaSecreta() {
   if (!telaSalaSecretaFinal) return;
 
   const mensagemFinal = getMensagemFinalSalaSecreta();
+  if (salaFinalMensagemReconstruida) {
+    salaFinalMensagemReconstruida.textContent =
+      idiomaAtual === "en"
+        ? "FOCUS AND DISCIPLINE BREAK LIMITS"
+        : "DISCIPLINA E FOCO SUPERAM LIMITES";
+  }
+  
+  if (salaFinalGruposReconstruidos) {
+    salaFinalGruposReconstruidos.textContent =
+      idiomaAtual === "en"
+        ? "FOCUS ANDDI SCIPL INEBR EAKLI MITS@"
+        : "DISCI PLINA EFOCO SUPER AMLIM ITES@";
+  }
 
   if (textoTransmissaoFinalSecreta) {
     textoTransmissaoFinalSecreta.textContent =
