@@ -24,6 +24,10 @@ const btnConfirmarEntradaOperador = document.getElementById("btnConfirmarEntrada
 const feedbackEntradaOperador = document.getElementById("feedbackEntradaOperador");
 const btnIdiomaPt = document.getElementById("btnIdiomaPt");
 const btnIdiomaEn = document.getElementById("btnIdiomaEn");
+
+const btnHomeIdiomaPt = document.getElementById("btnHomeIdiomaPt");
+const btnHomeIdiomaEn = document.getElementById("btnHomeIdiomaEn");
+
 let idiomaAtual = localStorage.getItem("edsMorseIdioma") || "pt";
 const IDIOMAS = {
   pt: {
@@ -689,7 +693,24 @@ desc_frase_curta: "Listen to the full phrase and type what you received.",
 function t(chave) {
   return IDIOMAS[idiomaAtual]?.[chave] || IDIOMAS.pt[chave] || chave;
 }
+function selecionarIdiomaApp(novoIdioma) {
+  idiomaAtual = novoIdioma === "en" ? "en" : "pt";
+  localStorage.setItem("edsMorseIdioma", idiomaAtual);
 
+  aplicarIdiomaInterface();
+
+  if (typeof atualizarPainelInicialOperador === "function") {
+    atualizarPainelInicialOperador();
+  }
+
+  if (
+    typeof renderizarCampanha === "function" &&
+    telaCampanha &&
+    telaCampanha.classList.contains("ativa")
+  ) {
+    renderizarCampanha();
+  }
+}
 const inputSenhaSalaSecreta = document.getElementById("inputSenhaSalaSecreta");
 const feedbackSenhaSalaSecreta = document.getElementById("feedbackSenhaSalaSecreta");
 const btnValidarSenhaSalaSecreta = document.getElementById("btnValidarSenhaSalaSecreta");
@@ -2646,19 +2667,19 @@ document.querySelectorAll("[id^='inputFragmentoSecreto']").forEach((input, indic
 });
 
 if (btnIdiomaPt) {
-  btnIdiomaPt.addEventListener("click", () => {
-    idiomaAtual = "pt";
-    localStorage.setItem("edsMorseIdioma", idiomaAtual);
-    aplicarIdiomaInterface();
-  });
+  btnIdiomaPt.addEventListener("click", () => selecionarIdiomaApp("pt"));
 }
 
 if (btnIdiomaEn) {
-  btnIdiomaEn.addEventListener("click", () => {
-    idiomaAtual = "en";
-    localStorage.setItem("edsMorseIdioma", idiomaAtual);
-    aplicarIdiomaInterface();
-  });
+  btnIdiomaEn.addEventListener("click", () => selecionarIdiomaApp("en"));
+}
+
+if (btnHomeIdiomaPt) {
+  btnHomeIdiomaPt.addEventListener("click", () => selecionarIdiomaApp("pt"));
+}
+
+if (btnHomeIdiomaEn) {
+  btnHomeIdiomaEn.addEventListener("click", () => selecionarIdiomaApp("en"));
 }
 
 if (btnConfirmarEntradaOperador) {
@@ -3231,6 +3252,15 @@ function aplicarIdiomaInterface() {
     btnIdiomaPt.classList.toggle("ativo", idiomaAtual === "pt");
     btnIdiomaEn.classList.toggle("ativo", idiomaAtual === "en");
   }
+  if (btnHomeIdiomaPt) {
+    btnHomeIdiomaPt.textContent = t("idioma_portugues");
+    btnHomeIdiomaPt.classList.toggle("ativo", idiomaAtual === "pt");
+  }
+
+  if (btnHomeIdiomaEn) {
+    btnHomeIdiomaEn.textContent = t("idioma_ingles");
+    btnHomeIdiomaEn.classList.toggle("ativo", idiomaAtual === "en");
+  }
 
   const entradaInstrucao = document.querySelector("#telaEntradaOperador .entrada-instrucao");
   if (entradaInstrucao) entradaInstrucao.textContent = t("entrada_instrucao");
@@ -3569,7 +3599,7 @@ function confirmarEntradaOperador() {
 
   if (!nomeDigitado || nomeDigitado.length < 2) {
     if (feedbackEntradaOperador) {
-      feedbackEntradaOperador.textContent = "Digite um nome de operador.";
+      feedbackEntradaOperador.textContent = t("entrada_erro_nome");
       feedbackEntradaOperador.className = "feedback entrada-feedback erro";
     }
 
