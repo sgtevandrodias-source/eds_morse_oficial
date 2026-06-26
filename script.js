@@ -259,6 +259,9 @@ jogo_aproveitamento: "Aproveitamento",
 jogo_tempo: "Tempo",
 jogo_wpm_aprox: "WPM aprox.",
 jogo_pontuacao: "Pontuação",
+jogo_correto_pontos: "Correto! +{pontos} pontos.",
+jogo_correto_mensagem_pontos: "Correto! Mensagem copiada. +{pontos} pontos.",
+jogo_erro_mensagem_vazia: "Digite a mensagem recebida antes de confirmar.",
 painel_velocidade: "Velocidade",
 painel_entre_letras: "Entre letras",
 painel_entre_palavras: "Entre palavras",
@@ -649,6 +652,9 @@ jogo_aproveitamento: "Accuracy",
 jogo_tempo: "Time",
 jogo_wpm_aprox: "Approx. WPM",
 jogo_pontuacao: "Score",
+jogo_correto_pontos: "Correct! +{pontos} points.",
+jogo_correto_mensagem_pontos: "Correct! Message copied. +{pontos} points.",
+jogo_erro_mensagem_vazia: "Type the received message before confirming.",
 painel_velocidade: "Speed",
 painel_entre_letras: "Between letters",
 painel_entre_palavras: "Between words",
@@ -7292,7 +7298,7 @@ function confirmarRecepcaoAvancada() {
 
   if (!respostaUsuario) {
     tocarErro();
-    feedback.textContent = "Digite a mensagem recebida antes de confirmar.";
+    feedback.textContent = t("jogo_erro_mensagem_vazia");
     feedback.className = "feedback erro";
     return;
   }
@@ -7305,7 +7311,7 @@ function confirmarRecepcaoAvancada() {
     pontuacao += pontosGanhos;
 
     tocarAcerto();
-    feedback.textContent = `Correto! Mensagem copiada. +${pontosGanhos} pontos.`;
+    feedback.textContent = t("jogo_correto_mensagem_pontos").replace("{pontos}", pontosGanhos);
     feedback.className = "feedback sucesso";
   } else {
     errosNivel += 1;
@@ -7431,7 +7437,7 @@ function confirmarEnvio() {
     pontuacao += pontosGanhos;
 
     tocarAcerto();
-    feedback.textContent = `Correto! +${pontosGanhos} pontos.`;
+    feedback.textContent = t("jogo_correto_pontos").replace("{pontos}", pontosGanhos);
     feedback.className = "feedback sucesso";
   } else {
     errosNivel += 1;
