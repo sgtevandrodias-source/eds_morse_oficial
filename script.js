@@ -41,8 +41,9 @@ const IDIOMAS = {
   
     operador_label: "OPERADOR",
     operador_formacao: "Operador em formação",
+    operador_registrado: "Operador registrado",
+    operador_aguardando: "Aguardando registro do operador",
     canal_restrito: "CANAL RESTRITO",
-  
     posicao: "🌍 Posição",
     wpm: "⚡ WPM",
     fases: "🎯 Fases",
@@ -346,7 +347,9 @@ desc_frase_curta: "Ouça a frase completa e digite o que recebeu.",
   
     operador_label: "OPERATOR",
     operador_formacao: "Operator in training",
-    canal_restrito: "RESTRICTED CHANNEL",
+operador_registrado: "Registered operator",
+operador_aguardando: "Waiting for operator registration",
+canal_restrito: "RESTRICTED CHANNEL",
   
     posicao: "🌍 Position",
     wpm: "⚡ WPM",
@@ -3022,8 +3025,30 @@ function aplicarIdiomaInterface() {
   if (canalOperador) canalOperador.textContent = t("canal_restrito");
 
   const homePatente = document.getElementById("homeOperadorPatente");
-  if (homePatente && homePatente.textContent.trim() === "Operador em formação") {
-    homePatente.textContent = t("operador_formacao");
+
+  if (homePatente) {
+    const textoPatenteAtual = homePatente.textContent.trim();
+  
+    if (
+      textoPatenteAtual === "Operador em formação" ||
+      textoPatenteAtual === "Operator in training"
+    ) {
+      homePatente.textContent = t("operador_formacao");
+    }
+  
+    if (
+      textoPatenteAtual === "Operador registrado" ||
+      textoPatenteAtual === "Registered operator"
+    ) {
+      homePatente.textContent = t("operador_registrado");
+    }
+  
+    if (
+      textoPatenteAtual === "Aguardando registro do operador" ||
+      textoPatenteAtual === "Waiting for operator registration"
+    ) {
+      homePatente.textContent = t("operador_aguardando");
+    }
   }
 
   const stats = document.querySelectorAll(".painel-operador-stats span");
@@ -9733,16 +9758,16 @@ function atualizarPainelInicialOperador() {
   const melhorWpm = Number(carreira?.melhorWpm || 0);
 
   const ultimoTitulo = titulos.length
-    ? titulos[titulos.length - 1].nome
-    : "Operador em formação";
+  ? titulos[titulos.length - 1].nome
+  : t("operador_formacao");
 
-    if (nome && nome !== "Operador") {
-      nomeEl.textContent = nome;
-      patenteEl.textContent = ultimoTitulo || "Operador registrado";
-    } else {
-      nomeEl.textContent = "—";
-      patenteEl.textContent = "Aguardando registro do operador";
-    }
+if (nome && nome !== "Operador") {
+  nomeEl.textContent = nome;
+  patenteEl.textContent = ultimoTitulo || t("operador_registrado");
+} else {
+  nomeEl.textContent = "—";
+  patenteEl.textContent = t("operador_aguardando");
+}
   fasesEl.textContent = fases;
   medalhasEl.textContent = medalhas;
   wpmEl.textContent = melhorWpm.toFixed(1);
