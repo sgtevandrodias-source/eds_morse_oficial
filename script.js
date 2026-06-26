@@ -2265,6 +2265,7 @@ const NIVEIS_INTERMEDIARIO_BASE = [
 
 function gerarNiveisIntermediarioDuplicados(niveisBase) {
   const niveis = [];
+  const ehIngles = idiomaAtual === "en";
 
   niveisBase.forEach((nivelBase, indice) => {
     const numeroNormal = indice * 2 + 1;
@@ -2273,7 +2274,7 @@ function gerarNiveisIntermediarioDuplicados(niveisBase) {
     niveis.push({
       ...nivelBase,
       numero: numeroNormal,
-      titulo: `${nivelBase.titulo}`,
+      titulo: nivelBase.titulo,
       descricao: nivelBase.descricao,
       tipoMissao: "intermediario_normal"
     });
@@ -2281,9 +2282,15 @@ function gerarNiveisIntermediarioDuplicados(niveisBase) {
     niveis.push({
       ...nivelBase,
       numero: numeroCodigo,
-      patente: `${nivelBase.patente} — Código`,
-      titulo: `${nivelBase.titulo} — Código para texto`,
-      descricao: "Tecle o código Morse apresentado. A tradução em português só aparecerá depois da sua transmissão.",
+      patente: ehIngles
+        ? `${nivelBase.patente} — Code`
+        : `${nivelBase.patente} — Código`,
+      titulo: ehIngles
+        ? `${nivelBase.titulo} — Code to Text`
+        : `${nivelBase.titulo} — Código para texto`,
+      descricao: ehIngles
+        ? "Type the displayed Morse code. The English translation will only appear after your transmission."
+        : "Tecle o código Morse apresentado. A tradução em português só aparecerá depois da sua transmissão.",
       tipoMissao: "intermediario_codigo_texto",
       faseDuplicadaDe: numeroNormal
     });
@@ -2291,8 +2298,81 @@ function gerarNiveisIntermediarioDuplicados(niveisBase) {
 
   return niveis;
 }
-
-const NIVEIS_INTERMEDIARIO = gerarNiveisIntermediarioDuplicados(NIVEIS_INTERMEDIARIO_BASE);
+const NIVEIS_INTERMEDIARIO_BASE_EN = [
+  {
+    numero: 1,
+    patente: "Operator in Training",
+    titulo: "Without Training Wheels",
+    descricao: "Simple letters without space buttons.",
+    missoes: ["E", "T", "A", "O", "I"]
+  },
+  {
+    numero: 2,
+    patente: "Apprentice Operator",
+    titulo: "Pause Between Letters",
+    descricao: "The medium pause automatically separates letters.",
+    missoes: ["ET", "AI", "NO", "TO", "ME"]
+  },
+  {
+    numero: 3,
+    patente: "Assistant Operator",
+    titulo: "Phonic Rhythm I",
+    descricao: "Short combinations with automatic spacing.",
+    missoes: ["SOS", "TEN", "ANT", "NET", "ONE"]
+  },
+  {
+    numero: 4,
+    patente: "Station Operator",
+    titulo: "Operational Words",
+    descricao: "Transmit short words with rhythm and pauses.",
+    missoes: ["SIGNAL", "RADIO", "TOWER", "BASE", "POST"]
+  },
+  {
+    numero: 5,
+    patente: "Tactical Operator",
+    titulo: "Operational Phrases",
+    descricao: "Transmit short operational phrases.",
+    missoes: ["SIGNAL OK", "RADIO 1", "POST 2", "BASE QRV", "QSL OK"]
+  },
+  {
+    numero: 6,
+    patente: "Intermediate Operator",
+    titulo: "Final Intermediate Mission",
+    descricao: "Complete transmission using rhythm and pause.",
+    missoes: ["OPERATOR QRV", "BASE SIGNAL", "RADIO POST QSL", "STRONG SIGNAL", "INTERMEDIATE MISSION"]
+  },
+  {
+    numero: 7,
+    patente: "Chief Operator",
+    titulo: "Operational Reinforcement",
+    descricao: "More rhythm, less visual support.",
+    missoes: ["QSL OK", "BASE QRV", "SIGNAL OK", "RADIO 1", "POST 2"]
+  },
+  {
+    numero: 8,
+    patente: "Senior Operator",
+    titulo: "Operational Sentences",
+    descricao: "Less visual support. More listening and rhythm.",
+    missoes: ["QTC BASE", "RADIO QRV", "POST QSL", "STRONG SIGNAL", "TOWER OK"]
+  },
+  {
+    numero: 9,
+    patente: "Morse Instructor",
+    titulo: "Operational Message",
+    descricao: "Longer messages without auxiliary buttons.",
+    missoes: ["RADIO BASE QRV", "QTC SIGNAL 3", "POST QSL 2", "BASE RADIO OK", "TOWER SIGNAL 9"]
+  },
+  {
+    numero: 10,
+    patente: "Morse Specialist",
+    titulo: "Final Intermediate Mission",
+    descricao: "Full transmission by rhythm and pause.",
+    missoes: ["OPERATOR QRV", "QTC BASE SIGNAL", "RADIO POST QSL", "STRONG SIGNAL OK", "INTERMEDIATE MISSION"]
+  }
+];
+const NIVEIS_INTERMEDIARIO = gerarNiveisIntermediarioDuplicados(
+  idiomaAtual === "en" ? NIVEIS_INTERMEDIARIO_BASE_EN : NIVEIS_INTERMEDIARIO_BASE
+);
 
 let nomeOperador = "Operador";
 let modoAtual = MODO_INICIANTE;
@@ -8064,6 +8144,55 @@ function montarCardsPremiosDaFase(premiosDaFase = []) {
     })
     .join("");
 }
+function traduzirPatenteOperacional(texto) {
+  const valor = String(texto || "").trim();
+
+  if (idiomaAtual !== "en") return valor;
+
+  const mapa = {
+    "Operador": "Operator",
+    "Operador em Treinamento": "Operator in Training",
+    "Operador em Treinamento — Código": "Operator in Training — Code",
+    "Operador Aprendiz": "Apprentice Operator",
+    "Operador Aprendiz — Código": "Apprentice Operator — Code",
+    "Operador Auxiliar": "Assistant Operator",
+    "Operador Auxiliar — Código": "Assistant Operator — Code",
+    "Operador de Posto": "Station Operator",
+    "Operador de Posto — Código": "Station Operator — Code",
+    "Operador Tático": "Tactical Operator",
+    "Operador Tático — Código": "Tactical Operator — Code",
+    "Operador Intermediário": "Intermediate Operator",
+    "Operador Intermediário — Código": "Intermediate Operator — Code",
+    "Mestre Morse": "Morse Master",
+    "Operador de Escuta Avançada": "Advanced Listening Operator"
+  };
+
+  return mapa[valor] || valor
+    .replaceAll("Operador", "Operator")
+    .replaceAll("em Treinamento", "in Training")
+    .replaceAll("Aprendiz", "Apprentice")
+    .replaceAll("Auxiliar", "Assistant")
+    .replaceAll("de Posto", "Station")
+    .replaceAll("Tático", "Tactical")
+    .replaceAll("Intermediário", "Intermediate")
+    .replaceAll("Avançado", "Advanced")
+    .replaceAll("Código", "Code");
+}
+
+function traduzirTextoOperacional(texto, fallback) {
+  const valor = String(texto || "").trim();
+
+  if (!valor) return fallback;
+  if (idiomaAtual !== "en") return valor;
+
+  const mapa = {
+    "📡 Rede atualizada": "📡 Network updated",
+    "Rede atualizada": "Network updated",
+    "A rede avançou para a próxima etapa.": "The network advanced to the next stage."
+  };
+
+  return mapa[valor] || valor;
+}
 function renderizarRelatorioOperacional(resultado, mensagemNarrativa, conquistasNovas, campanhaFinalizada) {
   const relatorio = document.getElementById("relatorioOperacionalResultado");
   if (!relatorio) return;
@@ -8072,12 +8201,25 @@ function renderizarRelatorioOperacional(resultado, mensagemNarrativa, conquistas
 
   const registroCarreira = resultado.registroCarreira || null;
 
-  const proximaPromocao = resultado.aprovado
-    ? (campanhaFinalizada ? resultado.patente : proximaPatenteTexto())
-    : resultado.patente;
+  const proximaPromocaoBruta = resultado.aprovado
+  ? (campanhaFinalizada ? resultado.patente : proximaPatenteTexto())
+  : resultado.patente;
 
-  const tituloRede = mensagemNarrativa?.titulo || "📡 Rede atualizada";
-  const textoRede = mensagemNarrativa?.texto || "A rede avançou para a próxima etapa.";
+const proximaPromocao = traduzirPatenteOperacional(proximaPromocaoBruta);
+
+const tituloRede =
+  traduzirTextoOperacional(
+    mensagemNarrativa?.titulo,
+    idiomaAtual === "en" ? "📡 Network updated" : "📡 Rede atualizada"
+  );
+
+const textoRede =
+  traduzirTextoOperacional(
+    mensagemNarrativa?.texto,
+    idiomaAtual === "en"
+      ? "The network advanced to the next stage."
+      : "A rede avançou para a próxima etapa."
+  );
 
   const pontosMissao = registroCarreira
     ? Number(registroCarreira.pontosDaFase || 0)
