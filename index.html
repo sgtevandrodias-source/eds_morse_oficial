@@ -454,42 +454,41 @@
         </div>
 
         <div id="feedback" class="feedback feedback-jogo"></div>
+<!-- PAINEL DE RITMO - APARECE NO MODO INTERMEDIÁRIO -->
+<div id="painelRitmo" class="painel-ritmo">
+  <div class="painel-wpm">
+    <span data-i18n="painel_velocidade">Velocidade</span>
+    <strong id="valorWpm">12 WPM</strong>
 
-        <!-- PAINEL DE RITMO - APARECE NO MODO INTERMEDIÁRIO -->
-        <div id="painelRitmo" class="painel-ritmo">
-          <div class="painel-wpm">
-            <span>Velocidade</span>
-            <strong id="valorWpm">12 WPM</strong>
+    <div class="controle-wpm">
+      <button class="btn secundario btn-wpm" data-wpm="8">8</button>
+      <button class="btn secundario btn-wpm" data-wpm="10">10</button>
+      <button class="btn secundario btn-wpm ativo" data-wpm="12">12</button>
+      <button class="btn secundario btn-wpm" data-wpm="15">15</button>
+      <button class="btn secundario btn-wpm" data-wpm="18">18</button>
+    </div>
+  </div>
 
-            <div class="controle-wpm">
-              <button class="btn secundario btn-wpm" data-wpm="8">8</button>
-              <button class="btn secundario btn-wpm" data-wpm="10">10</button>
-              <button class="btn secundario btn-wpm ativo" data-wpm="12">12</button>
-              <button class="btn secundario btn-wpm" data-wpm="15">15</button>
-              <button class="btn secundario btn-wpm" data-wpm="18">18</button>
-            </div>
-          </div>
+  <div>
+    <span data-i18n="painel_entre_letras">Entre letras</span>
+    <strong id="valorPausaLetra">300 ms</strong>
 
-          <div>
-            <span>Entre letras</span>
-            <strong id="valorPausaLetra">300 ms</strong>
+    <div class="controle-ritmo">
+      <button id="btnMenosLetra" class="btn secundario">−</button>
+      <button id="btnMaisLetra" class="btn secundario">+</button>
+    </div>
+  </div>
 
-            <div class="controle-ritmo">
-              <button id="btnMenosLetra" class="btn secundario">−</button>
-              <button id="btnMaisLetra" class="btn secundario">+</button>
-            </div>
-          </div>
+  <div>
+    <span data-i18n="painel_entre_palavras">Entre palavras</span>
+    <strong id="valorPausaPalavra">700 ms</strong>
 
-          <div>
-            <span>Entre palavras</span>
-            <strong id="valorPausaPalavra">700 ms</strong>
-
-            <div class="controle-ritmo">
-              <button id="btnMenosPalavra" class="btn secundario">−</button>
-              <button id="btnMaisPalavra" class="btn secundario">+</button>
-            </div>
-          </div>
-        </div>
+    <div class="controle-ritmo">
+      <button id="btnMenosPalavra" class="btn secundario">−</button>
+      <button id="btnMaisPalavra" class="btn secundario">+</button>
+    </div>
+  </div>
+</div>
       </section>
 
       <section class="card progresso">
