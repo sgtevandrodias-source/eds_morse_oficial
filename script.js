@@ -263,6 +263,9 @@ jogo_correto_pontos: "Correto! +{pontos} pontos.",
 jogo_correto_mensagem_pontos: "Correto! Mensagem copiada. +{pontos} pontos.",
 jogo_erro_mensagem_vazia: "Digite a mensagem recebida antes de confirmar.",
 jogo_instrucao_ritmo: "Transmita no ritmo correto, respeitando pausas entre letras e palavras.",
+jogo_letra_fechada: "✓ Letra fechada",
+jogo_palavra_fechada: "✓ Palavra fechada",
+
 painel_velocidade: "Velocidade",
 painel_entre_letras: "Entre letras",
 painel_entre_palavras: "Entre palavras",
@@ -657,6 +660,9 @@ jogo_correto_pontos: "Correct! +{pontos} points.",
 jogo_correto_mensagem_pontos: "Correct! Message copied. +{pontos} points.",
 jogo_erro_mensagem_vazia: "Type the received message before confirming.",
 jogo_instrucao_ritmo: "Transmit with the correct rhythm, respecting pauses between letters and words.",
+jogo_letra_fechada: "✓ Letter closed",
+jogo_palavra_fechada: "✓ Word closed",
+
 painel_velocidade: "Speed",
 painel_entre_letras: "Between letters",
 painel_entre_palavras: "Between words",
@@ -8532,13 +8538,13 @@ function fecharSeparacaoPeloAlvo() {
   if (proximoTokenEsperado === "/") {
     codigoAtual += " / ";
     atualizarCodigoNaTela();
-    mostrarFeedbackPausa("✓ Palavra fechada");
+    mostrarFeedbackPausa(t("jogo_palavra_fechada"));
     return;
   }
 
   codigoAtual += " ";
   atualizarCodigoNaTela();
-  mostrarFeedbackPausa("✓ Letra fechada");
+  mostrarFeedbackPausa(t("jogo_letra_fechada"));
 }
 function agendarSeparacaoAutomatica() {
   limparTemporizadoresPausa();
@@ -8557,7 +8563,7 @@ function agendarSeparacaoAutomatica() {
     if (!codigoAtual.endsWith(" ") && !codigoAtual.endsWith("/")) {
       codigoAtual += " ";
       atualizarCodigoNaTela();
-      mostrarFeedbackPausa("✓ Letra fechada");
+      mostrarFeedbackPausa(t("jogo_letra_fechada"));
     }
   }, pausaAutoLetraMs);
 
@@ -8583,7 +8589,7 @@ function agendarSeparacaoAutomatica() {
     if (!codigoAtual.endsWith("/")) {
       codigoAtual += " / ";
       atualizarCodigoNaTela();
-      mostrarFeedbackPausa("✓ Palavra fechada");
+      mostrarFeedbackPausa(t("jogo_palavra_fechada"));
     }
   }, pausaAutoPalavraMs);
 }
