@@ -265,6 +265,8 @@ jogo_erro_mensagem_vazia: "Digite a mensagem recebida antes de confirmar.",
 jogo_instrucao_ritmo: "Transmita no ritmo correto, respeitando pausas entre letras e palavras.",
 jogo_letra_fechada: "✓ Letra fechada",
 jogo_palavra_fechada: "✓ Palavra fechada",
+jogo_traducao_portugues: "TRADUÇÃO EM PORTUGUÊS",
+jogo_traducao_painel: "A tradução aparecerá no painel abaixo conforme você transmitir o código.",
 
 painel_velocidade: "Velocidade",
 painel_entre_letras: "Entre letras",
@@ -662,6 +664,8 @@ jogo_erro_mensagem_vazia: "Type the received message before confirming.",
 jogo_instrucao_ritmo: "Transmit with the correct rhythm, respecting pauses between letters and words.",
 jogo_letra_fechada: "✓ Letter closed",
 jogo_palavra_fechada: "✓ Word closed",
+jogo_traducao_portugues: "ENGLISH TRANSLATION",
+jogo_traducao_painel: "The translation will appear in the panel below as you transmit the code.",
 
 painel_velocidade: "Speed",
 painel_entre_letras: "Between letters",
@@ -1302,13 +1306,13 @@ function renderizarGuiaMorseMissao(missao, dicaFonico, nivel = null) {
 
   if (faseCodigoParaTexto) {
     dicaMissaoEl.innerHTML = `
-      <div class="morse-label-discreta">Tradução em português</div>
-
+      <div class="morse-label-discreta">${t("jogo_traducao_portugues")}</div>
+  
       <div class="morse-dica-operacional">
-        A tradução aparecerá no painel abaixo conforme você transmitir o código.
+        ${t("jogo_traducao_painel")}
       </div>
     `;
-
+  
     return;
   }
 
