@@ -262,6 +262,7 @@ jogo_pontuacao: "Pontuação",
 jogo_correto_pontos: "Correto! +{pontos} pontos.",
 jogo_correto_mensagem_pontos: "Correto! Mensagem copiada. +{pontos} pontos.",
 jogo_erro_mensagem_vazia: "Digite a mensagem recebida antes de confirmar.",
+jogo_instrucao_ritmo: "Transmita no ritmo correto, respeitando pausas entre letras e palavras.",
 painel_velocidade: "Velocidade",
 painel_entre_letras: "Entre letras",
 painel_entre_palavras: "Entre palavras",
@@ -655,6 +656,7 @@ jogo_pontuacao: "Score",
 jogo_correto_pontos: "Correct! +{pontos} points.",
 jogo_correto_mensagem_pontos: "Correct! Message copied. +{pontos} points.",
 jogo_erro_mensagem_vazia: "Type the received message before confirming.",
+jogo_instrucao_ritmo: "Transmit with the correct rhythm, respecting pauses between letters and words.",
 painel_velocidade: "Speed",
 painel_entre_letras: "Between letters",
 painel_entre_palavras: "Between words",
@@ -1280,11 +1282,14 @@ function renderizarGuiaMorseMissao(missao, dicaFonico, nivel = null) {
   const usarCodigoComoAlvo = missaoUsaCodigoComoAlvo(nivel);
   const faseCodigoParaTexto = nivelIntermediarioCodigoParaTexto(nivel);
   if (modoAtual === MODO_AVANCADO) {
-    dicaMissaoEl.innerHTML = `
-      <div class="morse-dica-operacional">
-        Transmita no ritmo correto, respeitando pausas entre letras e palavras.
-      </div>
-    `;
+    dicaMissao.innerHTML = `
+  <div class="morse-simbolos-grandes">
+    ${morseHtml}
+  </div>
+  <div class="morse-dica-fonica">
+    ${t("jogo_instrucao_ritmo")}
+  </div>
+`;
 
     return;
   }
