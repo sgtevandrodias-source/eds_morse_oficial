@@ -1331,18 +1331,17 @@ function renderizarGuiaMorseMissao(missao, dicaFonico, nivel = null) {
   
     return;
   }
-
   dicaMissaoEl.innerHTML = `
-    <div class="morse-label-discreta">Código Morse</div>
+  <div class="morse-label-discreta">${idiomaAtual === "en" ? "Morse Code" : "Código Morse"}</div>
 
-    <div class="morse-linha-texto">
-      ${escaparHtml(codigo)}
-    </div>
+  <div class="morse-linha-texto">
+    ${escaparHtml(codigo)}
+  </div>
 
-    <div class="morse-dica-operacional">
-      Transmita no ritmo correto, respeitando pausas entre letras e palavras.
-    </div>
-  `;
+  <div class="morse-dica-operacional">
+    ${t("jogo_instrucao_ritmo")}
+  </div>
+`;
 }
 const MODO_INICIANTE = "iniciante";
 const CONQUISTAS = {
