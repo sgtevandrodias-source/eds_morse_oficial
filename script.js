@@ -2734,14 +2734,17 @@ function obterPremiosDaFase(resultado) {
   const aproveitamento = Number(resultado.aproveitamento || 0);
   const tempoSegundos = Number(resultado.tempoSegundos || 0);
 
+  const modoTexto = formatarModoRanking(modo);
+  const ehIngles = idiomaAtual === "en";
+
   if (aproveitamento >= 80) {
     premios.push({
-      tipo: "medalha",
+      tipo: ehIngles ? "medal" : "medalha",
       id: `${modo}_${nivel}_conclusao`,
-      nome: idiomaAtual === "en"
-        ? `Completion Medal — ${resultado.modoExibicao || "Beginner"} ${nivel}`
-        : `Medalha de Conclusão — ${modo} ${nivel}`,
-      descricao: idiomaAtual === "en"
+      nome: ehIngles
+        ? `Completion Medal — ${modoTexto} ${nivel}`
+        : `Medalha de Conclusão — ${modoTexto} ${nivel}`,
+      descricao: ehIngles
         ? "Awarded for completing the stage with minimum operational accuracy."
         : "Concedida por concluir a fase com aproveitamento mínimo operacional."
     });
@@ -2749,12 +2752,12 @@ function obterPremiosDaFase(resultado) {
 
   if (aproveitamento >= 90) {
     premios.push({
-      tipo: "medalha",
+      tipo: ehIngles ? "medal" : "medalha",
       id: `${modo}_${nivel}_excelencia`,
-      nome: idiomaAtual === "en"
-        ? `Excellence Medal — ${resultado.modoExibicao || "Beginner"} ${nivel}`
-        : `Medalha de Excelência — ${modo} ${nivel}`,
-      descricao: idiomaAtual === "en"
+      nome: ehIngles
+        ? `Excellence Medal — ${modoTexto} ${nivel}`
+        : `Medalha de Excelência — ${modoTexto} ${nivel}`,
+      descricao: ehIngles
         ? "Awarded for completing the stage with performance above 90%."
         : "Concedida por concluir a fase com desempenho superior a 90%."
     });
@@ -2762,24 +2765,25 @@ function obterPremiosDaFase(resultado) {
 
   if (aproveitamento === 100) {
     premios.push({
-      tipo: "medalha",
+      tipo: ehIngles ? "medal" : "medalha",
       id: `${modo}_${nivel}_perfeita`,
-      nome: idiomaAtual === "en"
-        ? `Perfect Transmission — ${resultado.modoExibicao || "Beginner"} ${nivel}`
-        : `Transmissão Perfeita — ${modo} ${nivel}`,
-      descricao: idiomaAtual === "en"
+      nome: ehIngles
+        ? `Perfect Transmission — ${modoTexto} ${nivel}`
+        : `Transmissão Perfeita — ${modoTexto} ${nivel}`,
+      descricao: ehIngles
         ? "Awarded for completing the stage without errors."
         : "Concedida por concluir a fase sem erros."
     });
   }
+
   if (tempoSegundos > 0 && tempoSegundos <= 60) {
     premios.push({
-      tipo: "distintivo",
+      tipo: ehIngles ? "badge" : "distintivo",
       id: `${modo}_${nivel}_rapidez`,
-      nome: idiomaAtual === "en"
-        ? `Speed Badge — ${resultado.modoExibicao || "Beginner"} ${nivel}`
-        : `Distintivo de Rapidez — ${modo} ${nivel}`,
-      descricao: idiomaAtual === "en"
+      nome: ehIngles
+        ? `Speed Badge — ${modoTexto} ${nivel}`
+        : `Distintivo de Rapidez — ${modoTexto} ${nivel}`,
+      descricao: ehIngles
         ? "Awarded for completing the stage in up to 60 seconds."
         : "Concedido por concluir a fase em até 60 segundos."
     });
@@ -2787,70 +2791,65 @@ function obterPremiosDaFase(resultado) {
 
   if (modo === "Iniciante" && nivel === 20 && aproveitamento >= 80) {
     premios.push({
-      tipo: "titulo",
+      tipo: ehIngles ? "title" : "titulo",
       id: "titulo_operador_morse_inicial",
-      nome: "Operador Morse Inicial",
-      descricao: "Título concedido por concluir toda a formação inicial."
+      nome: ehIngles ? "Initial Morse Operator" : "Operador Morse Inicial",
+      descricao: ehIngles
+        ? "Title awarded for completing the entire beginner training."
+        : "Título concedido por concluir toda a formação inicial."
     });
   }
 
   if (modo === "Intermediário" && nivel === 20 && aproveitamento >= 80) {
     premios.push({
-      tipo: "titulo",
+      tipo: ehIngles ? "title" : "titulo",
       id: "titulo_operador_intermediario",
-      nome: "Operador Morse Intermediário",
-      descricao: "Título concedido por concluir a etapa intermediária."
+      nome: ehIngles ? "Intermediate Morse Operator" : "Operador Morse Intermediário",
+      descricao: ehIngles
+        ? "Title awarded for completing the intermediate stage."
+        : "Título concedido por concluir a etapa intermediária."
     });
   }
 
   if (modo === "Avançado" && aproveitamento >= 80) {
     premios.push({
-      tipo: "medalha",
+      tipo: ehIngles ? "medal" : "medalha",
       id: `${modo}_${nivel}_operacao_avancada`,
-      nome: `Medalha de Operação Avançada — Fase ${nivel}`,
-      descricao: "Concedida por concluir uma fase avançada com desempenho operacional."
+      nome: ehIngles
+        ? `Advanced Operation Medal — Stage ${nivel}`
+        : `Medalha de Operação Avançada — Fase ${nivel}`,
+      descricao: ehIngles
+        ? "Awarded for completing an advanced stage with operational performance."
+        : "Concedida por concluir uma fase avançada com desempenho operacional."
     });
   }
-  
+
   if (modo === "Avançado" && aproveitamento >= 90) {
     premios.push({
-      tipo: "distintivo",
+      tipo: ehIngles ? "badge" : "distintivo",
       id: `${modo}_${nivel}_elite_avancada`,
-      nome: `Distintivo de Elite Avançada — Fase ${nivel}`,
-      descricao: "Concedido por concluir uma fase avançada com aproveitamento superior a 90%."
+      nome: ehIngles
+        ? `Advanced Elite Badge — Stage ${nivel}`
+        : `Distintivo de Elite Avançada — Fase ${nivel}`,
+      descricao: ehIngles
+        ? "Awarded for completing an advanced stage with accuracy above 90%."
+        : "Concedido por concluir uma fase avançada com aproveitamento superior a 90%."
     });
   }
-  
+
   if (modo === "Avançado" && nivel === 12 && aproveitamento >= 80) {
     premios.push({
-      tipo: "titulo",
-      id: "titulo_operador_estacao",
-      nome: "Operador de Estação",
-      descricao: "Título concedido por concluir toda a fase avançada, incluindo a escuta operacional."
-    });
-  }
-  
-  if (modo === "Avançado" && nivel === 12 && aproveitamento >= 90) {
-    premios.push({
-      tipo: "titulo",
-      id: "titulo_comandante_estacao",
-      nome: "Comandante de Estação",
-      descricao: "Título concedido por concluir a fase avançada com desempenho superior."
-    });
-  }
-  
-  if (modo === "Avançado" && nivel === 12 && aproveitamento === 100) {
-    premios.push({
-      tipo: "titulo",
-      id: "titulo_mestre_telegrafista",
-      nome: "Mestre Telegrafista",
-      descricao: "Título máximo concedido por concluir toda a fase avançada sem erros."
+      tipo: ehIngles ? "title" : "titulo",
+      id: "titulo_operador_escuta_avancada",
+      nome: ehIngles ? "Advanced Listening Operator" : "Operador de Escuta Avançada",
+      descricao: ehIngles
+        ? "Title awarded for completing the advanced listening stage."
+        : "Título concedido por concluir a etapa de escuta avançada."
     });
   }
 
   return premios;
 }
-
 function calcularBonusTempoNivel(resultado) {
   const tempoSegundos = Number(resultado.tempoSegundos || 0);
   const aproveitamento = Number(resultado.aproveitamento || 0);
@@ -8349,8 +8348,12 @@ function montarCardsPremiosDaFase(premiosDaFase = []) {
     return `
       <div class="premios-vazio">
         <span>📡</span>
-        <strong>Nenhum novo prêmio nesta missão</strong>
-        <small>As recompensas desta fase já podem ter sido conquistadas anteriormente. Continue melhorando sua pontuação e seu tempo operacional.</small>
+        <strong>${idiomaAtual === "en" ? "No new reward in this mission" : "Nenhum novo prêmio nesta missão"}</strong>
+        <small>${
+          idiomaAtual === "en"
+            ? "The rewards for this stage may have already been earned. Keep improving your score and operational time."
+            : "As recompensas desta fase já podem ter sido conquistadas anteriormente. Continue melhorando sua pontuação e seu tempo operacional."
+        }</small>
       </div>
     `;
   }
@@ -8364,9 +8367,14 @@ function montarCardsPremiosDaFase(premiosDaFase = []) {
           <div class="icone-premio">${icone}</div>
 
           <div>
-            <span>${escaparHtml(premio.tipo || "prêmio")}</span>
-            <strong>${escaparHtml(premio.nome)}</strong>
-            <small>${escaparHtml(premio.descricao || "Recompensa adicionada ao progresso do operador.")}</small>
+          <span>${escaparHtml(premio.tipo || (idiomaAtual === "en" ? "reward" : "prêmio"))}</span>
+          <strong>${escaparHtml(premio.nome)}</strong>
+          <small>${escaparHtml(
+            premio.descricao ||
+              (idiomaAtual === "en"
+                ? "Reward added to the operator progress."
+                : "Recompensa adicionada ao progresso do operador.")
+          )}</small>
           </div>
         </article>
       `;
