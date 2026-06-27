@@ -1915,9 +1915,11 @@ const NIVEIS_AVANCADO_EN = [
   }
 ];
 
-const NIVEIS_AVANCADO = idiomaAtual === "en"
-  ? NIVEIS_AVANCADO_EN
-  : NIVEIS_AVANCADO_PT;
+function getNiveisAvancado() {
+  return idiomaAtual === "en"
+    ? NIVEIS_AVANCADO_EN
+    : NIVEIS_AVANCADO_PT;
+}
 
 const MENSAGENS_NARRATIVAS_AVANCADO = {
   1: {
@@ -2581,9 +2583,11 @@ const NIVEIS_INTERMEDIARIO_BASE_EN = [
     missoes: ["OPERATOR QRV", "QTC BASE SIGNAL", "RADIO POST QSL", "STRONG SIGNAL OK", "INTERMEDIATE MISSION"]
   }
 ];
-const NIVEIS_INTERMEDIARIO = gerarNiveisIntermediarioDuplicados(
-  idiomaAtual === "en" ? NIVEIS_INTERMEDIARIO_BASE_EN : NIVEIS_INTERMEDIARIO_BASE
-);
+function getNiveisIntermediario() {
+  return gerarNiveisIntermediarioDuplicados(
+    idiomaAtual === "en" ? NIVEIS_INTERMEDIARIO_BASE_EN : NIVEIS_INTERMEDIARIO_BASE
+  );
+}
 
 let nomeOperador = "Operador";
 let modoAtual = MODO_INICIANTE;
@@ -6900,11 +6904,11 @@ async function entrarCampanha() {
 }
 function getNiveisModo(modo = modoAtual) {
   if (modo === MODO_AVANCADO) {
-    return NIVEIS_AVANCADO;
+    return getNiveisAvancado();
   }
 
   if (modo === MODO_INTERMEDIARIO) {
-    return NIVEIS_INTERMEDIARIO;
+    return getNiveisIntermediario();
   }
 
   if (idiomaAtual === "en") {
@@ -8342,7 +8346,126 @@ function getClassePremio(tipo) {
 
   return "premio-generico";
 }
+function traduzirPremioPorIdioma(premio = {}) {
+  const id = String(premio.id || "");
+  const partes = id.split("_");
+  const nivel = partes.find((p) => /^\d+$/.test(p)) || "";
+  const ehIngles = idiomaAtual === "en";
 
+  let tipo = premio.tipo || (ehIngles ? "reward" : "prêmio");
+  let nome = premio.nome || "";
+  let descricao = premio.descricao || "";
+
+  if (id.includes("_conclusao")) {
+    tipo = ehIngles ? "medal" : "medalha";
+    nome = ehIngles
+      ? `Completion Medal${nivel ? ` — Stage ${nivel}` : ""}`
+      : `Medalha de Conclusão${nivel ? ` — Fase ${nivel}` : ""}`;
+    descricao = ehIngles
+      ? "Awarded for completing the stage with minimum operational accuracy."
+      : "Concedida por concluir a fase com aproveitamento mínimo operacional.";
+  }
+
+  if (id.includes("_excelencia")) {
+    tipo = ehIngles ? "medal" : "medalha";
+    nome = ehIngles
+      ? `Excellence Medal${nivel ? ` — Stage ${nivel}` : ""}`
+      : `Medalha de Excelência${nivel ? ` — Fase ${nivel}` : ""}`;
+    descricao = ehIngles
+      ? "Awarded for completing the stage with performance above 90%."
+      : "Concedida por concluir a fase com desempenho superior a 90%.";
+  }
+
+  if (id.includes("_perfeita")) {
+    tipo = ehIngles ? "medal" : "medalha";
+    nome = ehIngles
+      ? `Perfect Transmission${nivel ? ` — Stage ${nivel}` : ""}`
+      : `Transmissão Perfeita${nivel ? ` — Fase ${nivel}` : ""}`;
+    descricao = ehIngles
+      ? "Awarded for completing the stage without errors."
+      : "Concedida por concluir a fase sem erros.";
+  }
+
+  if (id.includes("_rapidez")) {
+    tipo = ehIngles ? "badge" : "distintivo";
+    nome = ehIngles
+      ? `Speed Badge${nivel ? ` — Stage ${nivel}` : ""}`
+      : `Distintivo de Rapidez${nivel ? ` — Fase ${nivel}` : ""}`;
+    descricao = ehIngles
+      ? "Awarded for completing the stage in up to 60 seconds."
+      : "Concedido por concluir a fase em até 60 segundos.";
+  }
+
+  if (id.includes("_operacao_avancada")) {
+    tipo = ehIngles ? "medal" : "medalha";
+    nome = ehIngles
+      ? `Advanced Operation Medal${nivel ? ` — Stage ${nivel}` : ""}`
+      : `Medalha de Operação Avançada${nivel ? ` — Fase ${nivel}` : ""}`;
+    descricao = ehIngles
+      ? "Awarded for completing an advanced stage with operational performance."
+      : "Concedida por concluir uma fase avançada com desempenho operacional.";
+  }
+
+  if (id.includes("_elite_avancada")) {
+    tipo = ehIngles ? "badge" : "distintivo";
+    nome = ehIngles
+      ? `Advanced Elite Badge${nivel ? ` — Stage ${nivel}` : ""}`
+      : `Distintivo de Elite Avançada${nivel ? ` — Fase ${nivel}` : ""}`;
+    descricao = ehIngles
+      ? "Awarded for completing an advanced stage with accuracy above 90%."
+      : "Concedido por concluir uma fase avançada com aproveitamento superior a 90%.";
+  }
+
+  if (id === "titulo_operador_morse_inicial") {
+    tipo = ehIngles ? "title" : "título";
+    nome = ehIngles ? "Initial Morse Operator" : "Operador Morse Inicial";
+    descricao = ehIngles
+      ? "Title awarded for completing the entire beginner training."
+      : "Título concedido por concluir toda a formação inicial.";
+  }
+
+  if (id === "titulo_operador_intermediario") {
+    tipo = ehIngles ? "title" : "título";
+    nome = ehIngles ? "Intermediate Morse Operator" : "Operador Morse Intermediário";
+    descricao = ehIngles
+      ? "Title awarded for completing the intermediate stage."
+      : "Título concedido por concluir a etapa intermediária.";
+  }
+
+  if (
+    id === "titulo_operador_escuta_avancada" ||
+    id === "titulo_operador_estacao"
+  ) {
+    tipo = ehIngles ? "title" : "título";
+    nome = ehIngles ? "Advanced Listening Operator" : "Operador de Escuta Avançada";
+    descricao = ehIngles
+      ? "Title awarded for completing the advanced listening stage."
+      : "Título concedido por concluir a etapa de escuta avançada.";
+  }
+
+  if (id === "titulo_comandante_estacao") {
+    tipo = ehIngles ? "title" : "título";
+    nome = ehIngles ? "Station Commander" : "Comandante de Estação";
+    descricao = ehIngles
+      ? "Title awarded for completing the advanced stage with superior performance."
+      : "Título concedido por concluir a fase avançada com desempenho superior.";
+  }
+
+  if (id === "titulo_mestre_telegrafista") {
+    tipo = ehIngles ? "title" : "título";
+    nome = ehIngles ? "Master Telegraphist" : "Mestre Telegrafista";
+    descricao = ehIngles
+      ? "Maximum title awarded for completing the entire advanced stage without errors."
+      : "Título máximo concedido por concluir toda a fase avançada sem erros.";
+  }
+
+  return {
+    ...premio,
+    tipo,
+    nome,
+    descricao
+  };
+}
 function montarCardsPremiosDaFase(premiosDaFase = []) {
   if (!premiosDaFase.length) {
     return `
@@ -8358,7 +8481,8 @@ function montarCardsPremiosDaFase(premiosDaFase = []) {
     `;
   }
   return premiosDaFase
-    .map((premio) => {
+  .map((premioOriginal) => {
+    const premio = traduzirPremioPorIdioma(premioOriginal);
       const icone = getIconePremio(premio.tipo);
       const classe = getClassePremio(premio.tipo);
 
