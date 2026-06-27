@@ -267,6 +267,15 @@ jogo_letra_fechada: "✓ Letra fechada",
 jogo_palavra_fechada: "✓ Palavra fechada",
 jogo_traducao_portugues: "TRADUÇÃO EM PORTUGUÊS",
 jogo_traducao_painel: "A tradução aparecerá no painel abaixo conforme você transmitir o código.",
+jogo_receba_transmissao: "RECEBA A TRANSMISSÃO",
+jogo_ouca_e_digite: "Ouça o Morse e digite exatamente a mensagem recebida.",
+jogo_escuta_operacional: "Escuta operacional",
+jogo_ouvir_transmissao: "Ouvir transmissão",
+jogo_digite_recebido: "Digite o que você recebeu",
+jogo_confirmar_recepcao: "Confirmar recepção",
+jogo_dica_espaco_pausa: "Dica: use espaço entre palavras quando houver pausa longa.",
+jogo_placeholder_recepcao: "Ex: THANK GOD",
+jogo_transmissao_andamento: "Transmissão em andamento. Copie com calma.",
 
 painel_velocidade: "Velocidade",
 painel_entre_letras: "Entre letras",
@@ -415,6 +424,22 @@ sala_final_titulo: "Transmissão final recebida",
 sala_final_mensagem_reconstruida: "Mensagem reconstruída",
 sala_final_codigo_morse: "Código Morse",
 sala_final_botao_ouvir: "Ouvir transmissão final",
+fim_badge: "TRANSMISSÃO FINAL RECEBIDA",
+fim_titulo: "Fim de jogo.",
+fim_subtitulo: "Você salvou o mundo do colapso!",
+fim_resumo: "A Rede ADR foi restabelecida. O sinal voltou a cruzar o silêncio. Sua última transmissão confirmou que ainda havia esperança.",
+fim_terminal_1: "> CANAL GLOBAL: RESTABELECIDO",
+fim_terminal_2: "> REDE DE OPERADORES: ATIVA",
+fim_terminal_3: "> ÚLTIMA MENSAGEM: QSL",
+fim_operador: "Operador",
+fim_patente_final: "Patente final",
+fim_pontuacao_final: "Pontuação final",
+fim_wpm_final: "WPM final",
+fim_mensagem_copiada: "Mensagem copiada",
+fim_sala_secreta: "🔓 Sala Secreta",
+fim_ver_ranking: "Ver ranking",
+fim_mapa_jogo: "Mapa do jogo",
+fim_inicio: "Início",
       },
   
   en: {
@@ -666,6 +691,15 @@ jogo_letra_fechada: "✓ Letter closed",
 jogo_palavra_fechada: "✓ Word closed",
 jogo_traducao_portugues: "ENGLISH TRANSLATION",
 jogo_traducao_painel: "The translation will appear in the panel below as you transmit the code.",
+jogo_receba_transmissao: "RECEIVE THE TRANSMISSION",
+jogo_ouca_e_digite: "Listen to the Morse and type exactly the received message.",
+jogo_escuta_operacional: "Operational listening",
+jogo_ouvir_transmissao: "Listen to transmission",
+jogo_digite_recebido: "Type what you received",
+jogo_confirmar_recepcao: "Confirm reception",
+jogo_dica_espaco_pausa: "Tip: use a space between words when there is a long pause.",
+jogo_placeholder_recepcao: "Ex: THANK GOD",
+jogo_transmissao_andamento: "Transmission in progress. Copy calmly.",
 
 painel_velocidade: "Speed",
 painel_entre_letras: "Between letters",
@@ -812,6 +846,23 @@ sala_final_titulo: "Final transmission received",
 sala_final_mensagem_reconstruida: "Rebuilt message",
 sala_final_codigo_morse: "Morse Code",
 sala_final_botao_ouvir: "Listen to final transmission",
+
+fim_badge: "FINAL TRANSMISSION RECEIVED",
+fim_titulo: "End of game.",
+fim_subtitulo: "You saved the world from collapse!",
+fim_resumo: "The ADR Network was restored. The signal crossed the silence again. Your final transmission confirmed that hope was still alive.",
+fim_terminal_1: "> GLOBAL CHANNEL: RESTORED",
+fim_terminal_2: "> OPERATOR NETWORK: ACTIVE",
+fim_terminal_3: "> LAST MESSAGE: QSL",
+fim_operador: "Operator",
+fim_patente_final: "Final rank",
+fim_pontuacao_final: "Final score",
+fim_wpm_final: "Final WPM",
+fim_mensagem_copiada: "Copied message",
+fim_sala_secreta: "🔓 Secret Room",
+fim_ver_ranking: "View ranking",
+fim_mapa_jogo: "Game map",
+fim_inicio: "Home",
   }
   };
 function t(chave) {
@@ -7423,38 +7474,45 @@ function configurarInterfaceRecepcaoAvancada(missao) {
   btnEspacoLetra.style.display = "none";
   btnEspacoPalavra.style.display = "none";
   btnLimpar.style.display = "none";
-  btnEnviar.textContent = "Confirmar recepção";
 
-  textoMissao.textContent = "Receba a transmissão";
-  dicaMissaoEl.textContent = "Ouça o Morse e digite exatamente a mensagem recebida.";
-  codigoDigitado.textContent = "Mensagem oculta";
+  btnEnviar.textContent = t("jogo_confirmar_recepcao");
+
+  textoMissao.innerHTML = `
+    <span class="recepcao-titulo">${t("jogo_receba_transmissao")}</span>
+    <small class="recepcao-subtitulo">${t("jogo_ouca_e_digite")}</small>
+  `;
+
+  dicaMissaoEl.textContent = "";
+  codigoDigitado.textContent = "—";
 
   painel.style.display = "grid";
   painel.innerHTML = `
     <div class="card-recepcao-avancada">
-      <span class="label">Escuta operacional</span>
+      <span class="label">${t("jogo_escuta_operacional")}</span>
 
       <button id="btnOuvirRecepcaoAvancada" class="btn principal">
-        🔊 Ouvir transmissão
+        🔊 ${t("jogo_ouvir_transmissao")}
       </button>
 
       <div class="campo-resposta-auditiva campo-recepcao-jogo">
-        <label for="inputRecepcaoAvancada">Digite o que você recebeu</label>
+        <label for="inputRecepcaoAvancada">${t("jogo_digite_recebido")}</label>
 
         <input
           id="inputRecepcaoAvancada"
           type="text"
           autocomplete="off"
-          placeholder="Ex: THANK GOD"
+          placeholder="${t("jogo_placeholder_recepcao")}"
         />
       </div>
 
       <div id="areaBotaoConfirmarRecepcao" class="area-confirmar-recepcao"></div>
+
       <small>
-        Dica: use espaço entre palavras quando houver pausa longa.
+        ${t("jogo_dica_espaco_pausa")}
       </small>
     </div>
   `;
+
   const areaBotaoConfirmar = document.getElementById("areaBotaoConfirmarRecepcao");
 
   if (areaBotaoConfirmar && btnEnviar) {
@@ -7462,16 +7520,18 @@ function configurarInterfaceRecepcaoAvancada(missao) {
       btnEnviarParentOriginal = btnEnviar.parentNode;
       btnEnviarNextOriginal = btnEnviar.nextSibling;
     }
-  
+
     areaBotaoConfirmar.appendChild(btnEnviar);
+    btnEnviar.style.display = "inline-flex";
   }
+
   const btnOuvir = document.getElementById("btnOuvirRecepcaoAvancada");
   const input = document.getElementById("inputRecepcaoAvancada");
 
   if (btnOuvir) {
     btnOuvir.addEventListener("click", () => {
       tocarSequenciaMorse(missao.codigo);
-      feedback.textContent = "Transmissão em andamento. Copie com calma.";
+      feedback.textContent = t("jogo_transmissao_andamento");
       feedback.className = "feedback alerta";
     });
   }
@@ -7487,7 +7547,6 @@ function configurarInterfaceRecepcaoAvancada(missao) {
     });
   }
 }
-
 function confirmarRecepcaoAvancada() {
   const missao = getMissaoAtual();
   const input = document.getElementById("inputRecepcaoAvancada");
@@ -7906,9 +7965,41 @@ function mostrarFimDoJogo(resultado) {
   const carreira = obterCarreiraOperador();
 
   const nomeOperadorFinal = getNomeOperadorAtual();
-  const patenteFinal = PATENTE_FINAL_AVANCADO;
+  const patenteFinal =
+    idiomaAtual === "en"
+      ? "Advanced Listening Operator"
+      : PATENTE_FINAL_AVANCADO;
+
   const pontosFinal = carreira?.pontosTotais || resultado?.pontos || 0;
   const wpmFinal = Number(resultado?.wpm || 0).toFixed(1);
+
+  const badge = telaFimJogo.querySelector(".fim-jogo-badge");
+  const titulo = telaFimJogo.querySelector(".fim-jogo-card h1");
+  const subtitulo = telaFimJogo.querySelector(".fim-jogo-card h2");
+  const terminalLinhas = telaFimJogo.querySelectorAll(".fim-jogo-terminal p");
+  const labelsEstatisticas = telaFimJogo.querySelectorAll(".fim-jogo-estatisticas .label");
+  const labelMensagemCopiada = telaFimJogo.querySelector(".fim-jogo-mensagem-final .label");
+
+  if (badge) badge.textContent = t("fim_badge");
+  if (titulo) titulo.textContent = t("fim_titulo");
+  if (subtitulo) subtitulo.textContent = t("fim_subtitulo");
+
+  if (textoFimJogoResumo) {
+    textoFimJogoResumo.textContent = t("fim_resumo");
+  }
+
+  if (terminalLinhas[0]) terminalLinhas[0].textContent = t("fim_terminal_1");
+  if (terminalLinhas[1]) terminalLinhas[1].textContent = t("fim_terminal_2");
+  if (terminalLinhas[2]) terminalLinhas[2].textContent = t("fim_terminal_3");
+
+  if (labelsEstatisticas[0]) labelsEstatisticas[0].textContent = t("fim_operador");
+  if (labelsEstatisticas[1]) labelsEstatisticas[1].textContent = t("fim_patente_final");
+  if (labelsEstatisticas[2]) labelsEstatisticas[2].textContent = t("fim_pontuacao_final");
+  if (labelsEstatisticas[3]) labelsEstatisticas[3].textContent = t("fim_wpm_final");
+
+  if (labelMensagemCopiada) {
+    labelMensagemCopiada.textContent = t("fim_mensagem_copiada");
+  }
 
   if (fimJogoOperador) {
     fimJogoOperador.textContent = nomeOperadorFinal;
@@ -7926,10 +8017,10 @@ function mostrarFimDoJogo(resultado) {
     fimJogoWpm.textContent = wpmFinal;
   }
 
-  if (textoFimJogoResumo) {
-    textoFimJogoResumo.textContent =
-      "A Rede ADR foi restabelecida. O sinal voltou a cruzar o silêncio. Sua última transmissão confirmou que ainda havia esperança.";
-  }
+  if (btnFimJogoSalaSecreta) btnFimJogoSalaSecreta.textContent = t("fim_sala_secreta");
+  if (btnFimJogoRanking) btnFimJogoRanking.textContent = t("fim_ver_ranking");
+  if (btnFimJogoMapa) btnFimJogoMapa.textContent = t("fim_mapa_jogo");
+  if (btnFimJogoInicio) btnFimJogoInicio.textContent = t("fim_inicio");
 
   mostrarTela(telaFimJogo, false);
   iniciarEfeitoFinalJogo();
