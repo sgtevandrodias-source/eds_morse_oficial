@@ -8395,3 +8395,11 @@ body.modo-arvore-morse .painel-arvore-morse {
   white-space: nowrap;
   margin: 0 0.35em;
 }
+/* =========================
+   AVANÇADO - SEM BOTÕES DE ESPAÇO
+========================= */
+
+body.modo-avancado #btnEspacoLetra,
+body.modo-avancado #btnEspacoPalavra {
+  display: none !important;
+}

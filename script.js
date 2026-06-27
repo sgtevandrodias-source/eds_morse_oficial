@@ -1292,15 +1292,7 @@ function renderizarGuiaMorseMissao(missao, dicaFonico, nivel = null) {
   const usarCodigoComoAlvo = missaoUsaCodigoComoAlvo(nivel);
   const faseCodigoParaTexto = nivelIntermediarioCodigoParaTexto(nivel);
   if (modoAtual === MODO_AVANCADO) {
-    dicaMissao.innerHTML = `
-  <div class="morse-simbolos-grandes">
-    ${morseHtml}
-  </div>
-  <div class="morse-dica-fonica">
-    ${t("jogo_instrucao_ritmo")}
-  </div>
-`;
-
+    dicaMissaoEl.innerHTML = "";
     return;
   }
 
@@ -7389,14 +7381,7 @@ function carregarMissao() {
     restaurarInterfaceTransmissao();
     renderizarGuiaMorseMissao(missao, dicaFonico, nivel);
   }
-  if (modoAtual === MODO_INICIANTE) {
-    if (btnEspacoLetra) btnEspacoLetra.style.display = "inline-flex";
-    if (btnEspacoPalavra) btnEspacoPalavra.style.display = "inline-flex";
-  } else {
-    if (btnEspacoLetra) btnEspacoLetra.style.display = "none";
-    if (btnEspacoPalavra) btnEspacoPalavra.style.display = "none";
-  }
-  const labelCodigoEnviado = document.querySelector("#telaJogo .codigo-enviado-card span");
+  labelCodigoEnviado = document.querySelector("#telaJogo .codigo-enviado-card span");
 
 if (labelCodigoEnviado) {
   labelCodigoEnviado.textContent = usarCodigoComoAlvo
@@ -7424,6 +7409,14 @@ if (labelCodigoEnviado) {
   }
 
   aplicarModoVisualJogo();
+
+  if (modoAtual === MODO_INICIANTE) {
+    if (btnEspacoLetra) btnEspacoLetra.style.display = "inline-flex";
+    if (btnEspacoPalavra) btnEspacoPalavra.style.display = "inline-flex";
+  } else {
+    if (btnEspacoLetra) btnEspacoLetra.style.display = "none";
+    if (btnEspacoPalavra) btnEspacoPalavra.style.display = "none";
+  }
 }
 
 function confirmarEnvio() {
