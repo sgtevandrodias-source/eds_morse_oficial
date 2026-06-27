@@ -7389,6 +7389,13 @@ function carregarMissao() {
     restaurarInterfaceTransmissao();
     renderizarGuiaMorseMissao(missao, dicaFonico, nivel);
   }
+  if (modoAtual === MODO_INICIANTE) {
+    if (btnEspacoLetra) btnEspacoLetra.style.display = "inline-flex";
+    if (btnEspacoPalavra) btnEspacoPalavra.style.display = "inline-flex";
+  } else {
+    if (btnEspacoLetra) btnEspacoLetra.style.display = "none";
+    if (btnEspacoPalavra) btnEspacoPalavra.style.display = "none";
+  }
   const labelCodigoEnviado = document.querySelector("#telaJogo .codigo-enviado-card span");
 
 if (labelCodigoEnviado) {
@@ -7468,6 +7475,16 @@ function confirmarEnvio() {
   }
 
   atualizarPlacar();
+
+const mensagemFeedbackPosEnvio = feedback.innerHTML;
+const classeFeedbackPosEnvio = feedback.className;
+
+codigoAtual = "";
+atualizarCodigoNaTela();
+limparTemporizadoresPausa();
+
+feedback.innerHTML = mensagemFeedbackPosEnvio;
+feedback.className = classeFeedbackPosEnvio;
 
 const nivelAtual = getNivelAtual();
 const ultimaMissaoDoNivel =
