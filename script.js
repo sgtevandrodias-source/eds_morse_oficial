@@ -4120,6 +4120,9 @@ function carregarPreferencias() {
 
 function mostrarTela(tela, registrarHistorico = true) {
   pararTodosOsSons();
+  if (tela !== telaFimJogo) {
+    pararMensagemFinalJogo();
+  }
   if (temporizadorFinalAutomatico) {
     clearTimeout(temporizadorFinalAutomatico);
     temporizadorFinalAutomatico = null;
@@ -8023,8 +8026,43 @@ function mostrarFimDoJogo(resultado) {
   if (btnFimJogoInicio) btnFimJogoInicio.textContent = t("fim_inicio");
 
   mostrarTela(telaFimJogo, false);
-  iniciarEfeitoFinalJogo();
-  tocarMusicaFinalJogo();
+iniciarEfeitoFinalJogo();
+tocarMusicaFinalJogo();
+
+timerMensagemFinalJogo = setTimeout(() => {
+  tocarMensagemFinalJogo();
+}, 5200);
+}
+let audioMensagemFinalJogo = null;
+let timerMensagemFinalJogo = null;
+
+function tocarMensagemFinalJogo() {
+  pararMensagemFinalJogo();
+
+  const arquivoAudio =
+    idiomaAtual === "en"
+      ? "audio/ing.mp4"
+      : "audio/port.mp4";
+
+  audioMensagemFinalJogo = new Audio(arquivoAudio);
+  audioMensagemFinalJogo.volume = 0.95;
+
+  audioMensagemFinalJogo.play().catch(() => {
+    console.log("Áudio da mensagem final aguardando interação do usuário.");
+  });
+}
+
+function pararMensagemFinalJogo() {
+  if (timerMensagemFinalJogo) {
+    clearTimeout(timerMensagemFinalJogo);
+    timerMensagemFinalJogo = null;
+  }
+
+  if (audioMensagemFinalJogo) {
+    audioMensagemFinalJogo.pause();
+    audioMensagemFinalJogo.currentTime = 0;
+    audioMensagemFinalJogo = null;
+  }
 }
 function tocarMusicaFinalJogo() {
   try {

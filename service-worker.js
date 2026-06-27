@@ -1,4 +1,4 @@
-const CACHE_NAME = "eds-morse-cache-v92";
+const CACHE_NAME = "eds-morse-cache-v94";
 const ARQUIVOS_CACHE = [
   "/",
   "/index.html",
@@ -6,7 +6,9 @@ const ARQUIVOS_CACHE = [
   "/script.js",
   "/manifest.json",
   "/icons/icon-192-v2.png",
-  "/icons/icon-512-v2.png"
+  "/icons/icon-512-v2.png",
+  "/audio/port.mp4",
+  "/audio/ing.mp4"
 ];
 
 self.addEventListener("install", (evento) => {
