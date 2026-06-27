@@ -1539,7 +1539,7 @@ const BANCO_GRUPOS_ESCUTA_AVANCADA = [
   "EYOUU",
   "SOONO"
 ];
-const NIVEIS_AVANCADO = [
+const NIVEIS_AVANCADO_PT = [
   {
     numero: 1,
     patente: "Operador Avançado I",
@@ -1726,6 +1726,198 @@ const NIVEIS_AVANCADO = [
     missoes: MENSAGENS_ESCUTA_AVANCADA
   }
 ];
+
+const NIVEIS_AVANCADO_EN = [
+  {
+    numero: 1,
+    patente: "Advanced Operator I",
+    titulo: "Advanced Mission 01 – Groups of 5",
+    descricao: "Transmit random groups of five letters and numbers using natural keying.",
+    missoes: BANCO_GRUPOS_AVANCADOS.slice(0, 10)
+  },
+  {
+    numero: 2,
+    patente: "Advanced Operator II",
+    titulo: "Advanced Mission 02 – Alphanumeric Groups",
+    descricao: "Transmit mixed groups with letters and numbers. Accuracy now matters even more.",
+    missoes: [
+      "A7K2M",
+      "Q9TR4",
+      "B5Z1P",
+      "M8D3X",
+      "C4L9N",
+      "R2V6Q",
+      "T7H1S",
+      "K3P8W",
+      "Z5N2A",
+      "G9F4J"
+    ]
+  },
+  {
+    numero: 3,
+    patente: "Callsign Operator",
+    titulo: "Advanced Mission 03 – Station Callsigns",
+    descricao: "Simulate radio calls using operational station callsigns.",
+    missoes: [
+      "PY1ABC",
+      "PT2EDS",
+      "ZZ9MOR",
+      "K7RAD",
+      "BR4QSL",
+      "PX3NET",
+      "PY2QTC",
+      "PT9QRV",
+      "RA1MOR",
+      "TX5EDS"
+    ]
+  },
+  {
+    numero: 4,
+    patente: "Q Code Operator",
+    titulo: "Advanced Mission 04 – Operational Q Code",
+    descricao: "Use Q codes in sequence, as in real radio operation.",
+    missoes: [
+      "QSL",
+      "QRV",
+      "QTH",
+      "QRM",
+      "QRN",
+      "QTC",
+      "QRA",
+      "QRT",
+      "QRX",
+      "QSY"
+    ]
+  },
+  {
+    numero: 5,
+    patente: "Traffic Operator",
+    titulo: "Advanced Mission 05 – Short Messages",
+    descricao: "Transmit short messages with pauses between words.",
+    missoes: [
+      "BASE QRV",
+      "QSL RECEIVED",
+      "STRONG SIGNAL",
+      "POST 2 OK",
+      "RADIO QRV",
+      "QTC BASE",
+      "TOWER QSL",
+      "POST QRV",
+      "CLEAR CHANNEL",
+      "OVER"
+    ]
+  },
+  {
+    numero: 6,
+    patente: "Operator Under Pressure",
+    titulo: "Advanced Mission 06 – Traffic with Numbers",
+    descricao: "Operational messages with post, route, base and confirmation numbers.",
+    missoes: [
+      "BASE 1 QRV",
+      "POST 2 QSL",
+      "ROUTE 3 OK",
+      "TOWER 4 QRV",
+      "QTC 5 BASE",
+      "RADIO 7 QSL",
+      "SIGNAL 9 STRONG",
+      "POST 8 OK",
+      "BASE 6 OVER",
+      "QRV SECTOR 2"
+    ]
+  },
+  {
+    numero: 7,
+    patente: "Emergency Operator",
+    titulo: "Advanced Mission 07 – Emergency Messages",
+    descricao: "Transmit critical messages. Errors reduce network efficiency.",
+    missoes: [
+      "SOS SUPPORT",
+      "URGENT QTC",
+      "BASE ON ALERT",
+      "POST NO SIGNAL",
+      "ROUTE BLOCKED",
+      "TEAM QRV",
+      "RADIO FAILURE",
+      "WEAK SIGNAL",
+      "SUPPORT ON WAY",
+      "KEEP LISTENING"
+    ]
+  },
+  {
+    numero: 8,
+    patente: "Network Operator",
+    titulo: "Advanced Mission 08 – Network Coordination",
+    descricao: "Coordinate posts and stations with longer messages.",
+    missoes: [
+      "BASE ALPHA QRV",
+      "POST BRAVO QSL",
+      "TOWER CHARLIE OK",
+      "TEAM DELTA QRV",
+      "QTC BASE ALPHA",
+      "SAFE ROUTE 3",
+      "CLEAR CHANNEL QSL",
+      "STRONG SIGNAL 9",
+      "OPERATOR WAIT",
+      "TRANSMISSION OK"
+    ]
+  },
+  {
+    numero: 9,
+    patente: "Station Commander",
+    titulo: "Advanced Mission 09 – Operational Messages",
+    descricao: "Transmit complete messages while keeping rhythm, accuracy and pause control.",
+    missoes: [
+      "QTC BASE STRONG SIGNAL",
+      "OPERATOR QRV POST 3",
+      "SAFE ROUTE CONFIRMED",
+      "BASE ALPHA WAIT",
+      "POST BRAVO NO SIGNAL",
+      "RADIO BASE QSL 9",
+      "TEAM DELTA ON ROUTE",
+      "CLEAR CHANNEL FOR QTC",
+      "TRANSMISSION FINISHED",
+      "NETWORK OPERATIONAL"
+    ]
+  },
+  {
+    numero: 10,
+    patente: "Station Operator",
+    titulo: "Advanced Mission 10 – Station Test",
+    descricao: "Advanced test. Mix groups, Q codes, numbers, callsigns and complete messages.",
+    missoes: [
+      "PY2EDS QRV",
+      "QTC BASE ALPHA 7",
+      "K7RAD QSL",
+      "A7K2M",
+      "POST 3 STRONG SIGNAL",
+      "QRV TO TRANSMIT",
+      "ROUTE 5 CONFIRMED",
+      "BASE QSL RECEIVED",
+      "TX5EDS URGENT QTC",
+      "NETWORK OPERATIONAL"
+    ]
+  },
+  {
+    numero: 11,
+    patente: "Group Copyist",
+    titulo: "Advanced Mission 11 – Listening to Groups of 5",
+    descricao: "Listen to groups of five letters formed from the final messages and type exactly what you received.",
+    tipoMissao: "recepcao",
+    missoes: BANCO_GRUPOS_ESCUTA_AVANCADA.slice(0, 10)
+  },
+  {
+    numero: 12,
+    patente: "Advanced Listening Operator",
+    titulo: "Advanced Mission 12 – Listening to Simple Messages",
+    descricao: "Listen to simple Morse messages and type the received message.",
+    tipoMissao: "recepcao",
+    missoes: MENSAGENS_ESCUTA_AVANCADA
+  }
+];
+
+const NIVEIS_AVANCADO = idiomaAtual === "en"
+  ? NIVEIS_AVANCADO_EN
+  : NIVEIS_AVANCADO_PT;
 
 const MENSAGENS_NARRATIVAS_AVANCADO = {
   1: {
@@ -8225,7 +8417,55 @@ function traduzirTextoOperacional(texto, fallback) {
   const mapa = {
     "📡 Rede atualizada": "📡 Network updated",
     "Rede atualizada": "Network updated",
-    "A rede avançou para a próxima etapa.": "The network advanced to the next stage."
+    "A rede avançou para a próxima etapa.": "The network advanced to the next stage.",
+  
+    "📡 Canal avançado estabelecido": "📡 Advanced channel established",
+    "A Rede ADR entrou em operação avançada. Grupos de cinco caracteres serão usados para autenticação, rotas e mensagens críticas.": 
+      "The ADR Network has entered advanced operation. Five-character groups will be used for authentication, routes and critical messages.",
+  
+    "🔢 Tráfego alfanumérico iniciado": "🔢 Alphanumeric traffic started",
+    "A rede passou a usar grupos mistos com letras e números. A precisão agora define a confiabilidade do operador.":
+      "The network started using mixed groups with letters and numbers. Accuracy now defines the operator's reliability.",
+  
+    "📻 Indicativos reconhecidos": "📻 Callsigns recognized",
+    "As estações começaram a se identificar. Você já consegue transmitir chamadas operacionais com mais segurança.":
+      "Stations have started identifying themselves. You can now transmit operational calls more safely.",
+  
+    "📡 Código Q em operação": "📡 Q Code in operation",
+    "A comunicação ficou mais rápida. Os códigos Q permitem transmitir informações importantes com poucas letras.":
+      "Communication became faster. Q Codes allow important information to be transmitted with just a few letters.",
+  
+    "✉️ Mensagens curtas transmitidas": "✉️ Short messages transmitted",
+    "Você já consegue enviar mensagens operacionais curtas mantendo pausas corretas entre palavras.":
+      "You can now send short operational messages while keeping correct pauses between words.",
+  
+    "🔐 Tráfego numerado confirmado": "🔐 Numbered traffic confirmed",
+    "Postos, rotas e bases começaram a usar identificação numérica. A rede depende da sua atenção aos detalhes.":
+      "Posts, routes and bases have started using numeric identification. The network depends on your attention to detail.",
+  
+    "🚨 Emergência controlada": "🚨 Emergency controlled",
+    "Mensagens críticas foram transmitidas sob pressão. O operador avançado precisa manter calma, ritmo e precisão.":
+      "Critical messages were transmitted under pressure. An advanced operator must keep calm, rhythm and accuracy.",
+  
+    "🌐 Rede coordenada": "🌐 Network coordinated",
+    "As estações passaram a operar em conjunto. Sua transmissão ajudou a coordenar postos, equipes e canais.":
+      "Stations have started operating together. Your transmission helped coordinate posts, teams and channels.",
+  
+    "🎯 Tráfego operacional completo": "🎯 Full operational traffic",
+    "Você transmitiu mensagens maiores com controle de ritmo, pausas e clareza. A rede já pode confiar no seu sinal.":
+      "You transmitted longer messages with rhythm, pauses and clarity. The network can now trust your signal.",
+  
+    "🏆 Prova de estação concluída": "🏆 Station test completed",
+    "Você concluiu a prova avançada. A Rede ADR reconhece sua capacidade como Operador de Estação.":
+      "You completed the advanced test. The ADR Network recognizes your ability as a Station Operator.",
+  
+    "🎧 Grupos copiados com sucesso": "🎧 Groups copied successfully",
+    "Você passou da transmissão para a recepção. Copiar grupos de cinco letras exige ouvido firme, memória curta e atenção total.":
+      "You moved from transmission to reception. Copying five-letter groups requires a steady ear, short memory and full attention.",
+  
+    "📡 Escuta avançada concluída": "📡 Advanced listening completed",
+    "Você recebeu mensagens simples em Morse e registrou o conteúdo corretamente. A Rede ADR reconhece sua capacidade de escuta operacional.":
+      "You received simple Morse messages and recorded the content correctly. The ADR Network recognizes your operational listening ability."
   };
 
   return mapa[valor] || valor;
