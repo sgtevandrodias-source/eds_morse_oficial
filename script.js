@@ -8048,26 +8048,26 @@ let timersMusicaSalaSecreta = [];
 let musicaSalaSecretaAtiva = false;
 
 function tocarNotaSalaSecreta(frequencia, inicioMs, duracaoMs, volume = 0.08, tipo = "sine") {
-  if (!audioCtx || !musicaSalaSecretaAtiva) return;
+  if (!audioContext || !musicaSalaSecretaAtiva) return;
 
   const timer = setTimeout(() => {
-    if (!audioCtx || !musicaSalaSecretaAtiva) return;
+    if (!audioContext || !musicaSalaSecretaAtiva) return;
 
-    const osc = audioCtx.createOscillator();
-    const ganho = audioCtx.createGain();
+    const osc = audioContext.createOscillator();
+    const ganho = audioContext.createGain();
 
     osc.type = tipo;
     osc.frequency.value = frequencia;
 
-    ganho.gain.setValueAtTime(0.0001, audioCtx.currentTime);
-    ganho.gain.exponentialRampToValueAtTime(volume, audioCtx.currentTime + 0.04);
-    ganho.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duracaoMs / 1000);
+    ganho.gain.setValueAtTime(0.0001, audioContext.currentTime);
+    ganho.gain.exponentialRampToValueAtTime(volume, audioContext.currentTime + 0.04);
+    ganho.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + duracaoMs / 1000);
 
     osc.connect(ganho);
-    ganho.connect(audioCtx.destination);
+    ganho.connect(audioContext.destination);
 
     osc.start();
-    osc.stop(audioCtx.currentTime + duracaoMs / 1000 + 0.05);
+    osc.stop(audioContext.currentTime + duracaoMs / 1000 + 0.05);
 
     osciladoresMusicaSalaSecreta.push(osc);
     ganhosMusicaSalaSecreta.push(ganho);
