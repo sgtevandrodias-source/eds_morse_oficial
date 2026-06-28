@@ -1,0 +1,8 @@
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.edsideasfactory.edsmorse",
+      "sha256_cert_fingerprints": ["5D:E7:E3:3C:CF:15:4D:1D:EB:78:6C:73:9B:29:FB:DB:7B:24:20:06:26:C8:DB:45:CC:5D:93:58:32:32:1B:C6"]
+    }
+  }]
