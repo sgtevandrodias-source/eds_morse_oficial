@@ -8403,3 +8403,31 @@ body.modo-avancado #btnEspacoLetra,
 body.modo-avancado #btnEspacoPalavra {
   display: none !important;
 }
+/* =========================
+   BOTÃO CONFIRMAR RECEPÇÃO - AVANÇADO 11/12
+========================= */
+
+.area-confirmar-recepcao {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.area-confirmar-recepcao #btnEnviar {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  width: min(420px, 100%);
+  min-height: 92px;
+
+  font-size: clamp(1.15rem, 4.8vw, 1.65rem);
+  font-weight: 1000;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+
+  padding: 18px 24px;
+}

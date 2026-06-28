@@ -3627,6 +3627,10 @@ function abrirTelaFinalSalaSecreta() {
   }
 
   mostrarTela(telaSalaSecretaFinal);
+
+  setTimeout(() => {
+    tocarMusicaSalaSecreta();
+  }, 600);
 }
 function tocarTransmissaoFinalSalaSecreta() {
   prepararAudio();
@@ -4122,6 +4126,9 @@ function mostrarTela(tela, registrarHistorico = true) {
   pararTodosOsSons();
   if (tela !== telaFimJogo) {
     pararMensagemFinalJogo();
+  }
+  if (tela !== telaSalaSecretaFinal) {
+    pararMusicaSalaSecreta();
   }
   if (temporizadorFinalAutomatico) {
     clearTimeout(temporizadorFinalAutomatico);
@@ -8035,6 +8042,106 @@ timerMensagemFinalJogo = setTimeout(() => {
 }
 let audioMensagemFinalJogo = null;
 let timerMensagemFinalJogo = null;
+let osciladoresMusicaSalaSecreta = [];
+let ganhosMusicaSalaSecreta = [];
+let timersMusicaSalaSecreta = [];
+let musicaSalaSecretaAtiva = false;
+
+function tocarNotaSalaSecreta(frequencia, inicioMs, duracaoMs, volume = 0.08, tipo = "sine") {
+  if (!audioCtx || !musicaSalaSecretaAtiva) return;
+
+  const timer = setTimeout(() => {
+    if (!audioCtx || !musicaSalaSecretaAtiva) return;
+
+    const osc = audioCtx.createOscillator();
+    const ganho = audioCtx.createGain();
+
+    osc.type = tipo;
+    osc.frequency.value = frequencia;
+
+    ganho.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+    ganho.gain.exponentialRampToValueAtTime(volume, audioCtx.currentTime + 0.04);
+    ganho.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duracaoMs / 1000);
+
+    osc.connect(ganho);
+    ganho.connect(audioCtx.destination);
+
+    osc.start();
+    osc.stop(audioCtx.currentTime + duracaoMs / 1000 + 0.05);
+
+    osciladoresMusicaSalaSecreta.push(osc);
+    ganhosMusicaSalaSecreta.push(ganho);
+  }, inicioMs);
+
+  timersMusicaSalaSecreta.push(timer);
+}
+
+function tocarMusicaSalaSecreta() {
+  pararMusicaSalaSecreta();
+  prepararAudio();
+
+  musicaSalaSecretaAtiva = true;
+
+  const melodia = [
+    { f: 261.63, t: 0, d: 320 },
+    { f: 329.63, t: 360, d: 320 },
+    { f: 392.00, t: 720, d: 420 },
+    { f: 523.25, t: 1180, d: 680 },
+
+    { f: 392.00, t: 1950, d: 320 },
+    { f: 493.88, t: 2310, d: 320 },
+    { f: 587.33, t: 2670, d: 420 },
+    { f: 783.99, t: 3130, d: 680 },
+
+    { f: 440.00, t: 3900, d: 320 },
+    { f: 523.25, t: 4260, d: 320 },
+    { f: 659.25, t: 4620, d: 420 },
+    { f: 880.00, t: 5080, d: 720 },
+
+    { f: 783.99, t: 5900, d: 340 },
+    { f: 659.25, t: 6260, d: 340 },
+    { f: 523.25, t: 6620, d: 760 }
+  ];
+
+  melodia.forEach((nota) => {
+    tocarNotaSalaSecreta(nota.f, nota.t, nota.d, 0.07, "sine");
+  });
+
+  const baixo = [
+    { f: 130.81, t: 0, d: 1500 },
+    { f: 196.00, t: 1800, d: 1500 },
+    { f: 220.00, t: 3600, d: 1500 },
+    { f: 196.00, t: 5400, d: 1500 }
+  ];
+
+  baixo.forEach((nota) => {
+    tocarNotaSalaSecreta(nota.f, nota.t, nota.d, 0.035, "triangle");
+  });
+
+  const timerLoop = setTimeout(() => {
+    if (musicaSalaSecretaAtiva) {
+      tocarMusicaSalaSecreta();
+    }
+  }, 7600);
+
+  timersMusicaSalaSecreta.push(timerLoop);
+}
+
+function pararMusicaSalaSecreta() {
+  musicaSalaSecretaAtiva = false;
+
+  timersMusicaSalaSecreta.forEach((timer) => clearTimeout(timer));
+  timersMusicaSalaSecreta = [];
+
+  osciladoresMusicaSalaSecreta.forEach((osc) => {
+    try {
+      osc.stop();
+    } catch (erro) {}
+  });
+
+  osciladoresMusicaSalaSecreta = [];
+  ganhosMusicaSalaSecreta = [];
+}
 
 function tocarMensagemFinalJogo() {
   pararMensagemFinalJogo();
