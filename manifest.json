@@ -1,7 +1,7 @@
 {
-  "name": "EDS Morse - Operador Morse",
-  "short_name": "EDS Morse",
-  "description": "Aprenda código Morse em uma campanha de missões operacionais.",
+  "name": "EDS MORSE - Aprenda Código Morse",
+  "short_name": "EDS MORSE",
+  "description": "Aprenda Código Morse jogando, com missões, treino auditivo, biblioteca, ranking global e prática progressiva.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -11,8 +11,7 @@
   "lang": "pt-BR",
   "categories": [
     "education",
-    "games",
-    "utilities"
+    "games"
   ],
   "icons": [
     {
