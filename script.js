@@ -1012,8 +1012,15 @@ const listaRanking = document.getElementById("listaRanking");
 if (listaRanking) {
   listaRanking.addEventListener("click", (evento) => {
     const botaoDenunciar = evento.target.closest(".ranking-denunciar-link");
-    if (!botaoDenunciar) return;
-    abrirDenunciaOperador(botaoDenunciar.dataset.operadorDenunciado || "");
+    if (botaoDenunciar) {
+      abrirDenunciaOperador(botaoDenunciar.dataset.operadorDenunciado || "");
+      return;
+    }
+
+    const botaoNotificacao = evento.target.closest(".ranking-ativar-notificacao");
+    if (botaoNotificacao) {
+      solicitarPermissaoNotificacaoRanking(botaoNotificacao);
+    }
   });
 }
 const gridBibliotecaMorse = document.getElementById("gridBibliotecaMorse");
@@ -10266,6 +10273,14 @@ function renderizarCardMinhaPosicao(minhaPosicao) {
             ${formatarNumeroRanking(minhaPosicao.melhor_aproveitamento)}% • ${formatarWpmRanking(minhaPosicao.melhor_wpm)} WPM
           </span>
         </div>
+
+        ${
+          typeof Notification !== "undefined" && Notification.permission === "default"
+            ? `<button type="button" class="ranking-ativar-notificacao" style="margin-top:8px;font-size:11px;opacity:.8;text-decoration:underline;background:none;border:none;cursor:pointer;color:inherit;padding:0;font:inherit;">🔔 ${
+                idiomaAtual === "en" ? "Notify me if I get overtaken" : "Avisar se eu for ultrapassado"
+              }</button>`
+            : ""
+        }
       </div>
     </section>
   `;
@@ -10462,6 +10477,61 @@ function montarHtmlRankingGlobal(dados, busca = "") {
     </div>
   `;
 }
+function solicitarPermissaoNotificacaoRanking(botao) {
+  if (typeof Notification === "undefined") return;
+
+  Notification.requestPermission().then((permissao) => {
+    if (permissao === "granted") {
+      mostrarAvisoRapido(
+        idiomaAtual === "en" ? "Notifications enabled" : "Notificações ativadas",
+        idiomaAtual === "en"
+          ? "We'll let you know if someone overtakes your position while the app is open."
+          : "Vamos te avisar se alguém ultrapassar sua posição enquanto o app estiver aberto."
+      );
+    }
+
+    if (botao) botao.remove();
+  });
+}
+
+function notificarSeUltrapassado(minhaPosicao) {
+  const CHAVE_ULTIMA_POSICAO = "edsMorseUltimaPosicaoRanking";
+
+  if (!minhaPosicao || !Number.isFinite(minhaPosicao.posicao) || minhaPosicao.posicao < 1) {
+    return;
+  }
+
+  const posicaoAtual = minhaPosicao.posicao;
+  const posicaoAnteriorBruta = Number(localStorage.getItem(CHAVE_ULTIMA_POSICAO));
+  const posicaoAnterior = Number.isFinite(posicaoAnteriorBruta) && posicaoAnteriorBruta > 0
+    ? posicaoAnteriorBruta
+    : null;
+
+  if (
+    posicaoAnterior &&
+    posicaoAtual > posicaoAnterior &&
+    typeof Notification !== "undefined" &&
+    Notification.permission === "granted"
+  ) {
+    try {
+      new Notification(
+        idiomaAtual === "en" ? "You dropped in the ranking" : "Você caiu no ranking",
+        {
+          body: idiomaAtual === "en"
+            ? `You are now #${posicaoAtual} in the Global Ranking (was #${posicaoAnterior}). Play a mission to climb back up!`
+            : `Agora você está na posição #${posicaoAtual} do Ranking Global (estava em #${posicaoAnterior}). Jogue uma missão para subir de novo!`,
+          icon: "/icons/icon-192-v2.png",
+          tag: "eds-morse-ranking"
+        }
+      );
+    } catch (erro) {
+      console.warn("Não foi possível exibir notificação:", erro);
+    }
+  }
+
+  localStorage.setItem(CHAVE_ULTIMA_POSICAO, String(posicaoAtual));
+}
+
 async function renderizarRankingGlobal(busca = "") {
   listaRanking.innerHTML = `
   <div class="ranking-carregando">
@@ -10470,6 +10540,8 @@ async function renderizarRankingGlobal(busca = "") {
 `;
   try {
     const dados = await buscarRankingGlobal(50, busca);
+
+    notificarSeUltrapassado(dados.minhaPosicao);
 
     listaRanking.innerHTML = montarHtmlRankingGlobal(dados, busca);
 
