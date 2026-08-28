@@ -2646,13 +2646,25 @@ function getNiveisIntermediario() {
 // denunciados pelo botão "Denunciar" também podem ser removidos manualmente
 // pelo suporte (edsideasfactory@gmail.com).
 const PALAVRAS_PROIBIDAS_OPERADOR = [
+  // xingamentos, discurso de ódio, conteúdo sexual (PT)
   "buceta", "piroca", "pinto", "caralho", "porra", "viado", "viadinho", "bicha",
   "puta", "puto", "vagabunda", "vagabundo", "corno", "cuzao", "arrombado",
   "arrombada", "desgracado", "desgracada", "fdp", "filhodaputa", "otario",
   "imbecil", "retardado", "retardada", "macaco", "favelado", "nazista",
   "hitler", "estuprador", "pedofilo", "pedofila",
+  // xingamentos, discurso de ódio, conteúdo sexual (EN)
   "fuck", "shit", "bitch", "asshole", "cunt", "nigger", "nigga", "faggot",
-  "retard", "whore", "slut", "rape", "rapist", "pedophile", "pedo"
+  "retard", "whore", "slut", "rape", "rapist", "pedophile", "pedo",
+  // violência, crime, terror, autolesão (PT)
+  "assassino", "assassina", "serialkiller", "matador", "matadora", "carrasco",
+  "carrasca", "terrorista", "genocida", "genocidio", "atirador", "atiradora",
+  "massacre", "suicida", "suicidio", "homicida", "homicidio", "estripador",
+  "degolador", "sequestrador", "sequestradora", "torturador",
+  "bombista", "pistoleiro", "isis", "alqaeda",
+  // violence, crime, terror, self-harm (EN)
+  "killer", "serialkiller", "murderer", "murder", "terrorist", "genocide",
+  "shooter", "massacre", "suicide", "homicidal", "bomber", "kidnapper",
+  "torturer", "isis", "alqaeda"
 ];
 
 function normalizarTextoParaFiltro(texto) {
