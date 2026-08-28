@@ -1978,6 +1978,73 @@ transform: translate(-50%, -140%);
   font-size: 0.82rem;
   font-weight: 800;
 }
+
+/* =========================
+   DENÚNCIA DE OPERADOR (Ranking Global)
+========================= */
+.denuncia-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(2, 6, 23, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.denuncia-card {
+  width: min(420px, 100%);
+  background: rgba(17, 24, 39, 0.98);
+  color: var(--texto);
+  border: 1px solid var(--linha-forte);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.4);
+}
+
+.denuncia-card h3 {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+}
+
+.denuncia-operador-nome {
+  margin: 0 0 14px;
+  font-weight: 900;
+  color: var(--eds-amarelo, #ffd42d);
+  word-break: break-word;
+}
+
+.denuncia-card label {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.denuncia-card textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 70px;
+  background: rgba(2, 6, 23, 0.6);
+  color: var(--texto);
+  border: 1px solid var(--linha);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+.denuncia-botoes {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.denuncia-botoes .btn {
+  flex: 1;
+}
+
 /* =========================
    RELATÓRIO OPERACIONAL
 ========================= */
@@ -7150,9 +7217,10 @@ body.fim-jogo-celebracao #telaFimJogo h2 {
 }
 
 .btn-entrada-operador {
+  display: block;
   width: min(420px, 100%);
   min-height: 58px;
-  margin-top: 8px;
+  margin: 8px auto 0;
 }
 
 .entrada-feedback {

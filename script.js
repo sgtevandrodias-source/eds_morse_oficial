@@ -148,6 +148,8 @@ faq_wpm_a: "WPM significa Words Per Minute, ou palavras por minuto. É uma medid
 regras_acompanhe_titulo: "📡 Acompanhe o projeto",
 regras_instagram: "Instagram oficial:",
 regras_email: "E-mail:",
+regras_privacidade: "Política de Privacidade:",
+regras_termos: "Termos de Uso:",
 regras_assinatura: "EDS MORSE — Quando o complexo falha, o simples prevalece.",
     campanha_progresso: "Progresso",
     campanha_titulo: "Formação do Operador Morse",
@@ -571,6 +573,8 @@ faq_wpm_a: "WPM means Words Per Minute. It is a speed measurement used in Morse 
 regras_acompanhe_titulo: "📡 Follow the project",
 regras_instagram: "Official Instagram:",
 regras_email: "E-mail:",
+regras_privacidade: "Privacy Policy:",
+regras_termos: "Terms of Use:",
 regras_assinatura: "EDS MORSE — When complex systems fail, simple ones prevail.",
     campanha_progresso: "Progress",
     campanha_titulo: "Morse Operator Training",
@@ -1005,6 +1009,13 @@ const resultadoWpm = document.getElementById("resultadoWpm");
 const resultadoPontos = document.getElementById("resultadoPontos");
 
 const listaRanking = document.getElementById("listaRanking");
+if (listaRanking) {
+  listaRanking.addEventListener("click", (evento) => {
+    const botaoDenunciar = evento.target.closest(".ranking-denunciar-link");
+    if (!botaoDenunciar) return;
+    abrirDenunciaOperador(botaoDenunciar.dataset.operadorDenunciado || "");
+  });
+}
 const gridBibliotecaMorse = document.getElementById("gridBibliotecaMorse");
 const menuBiblioteca = document.querySelector(".menu-biblioteca");
 const tituloBiblioteca = document.getElementById("tituloBiblioteca");
@@ -1375,13 +1386,13 @@ function renderizarGuiaMorseMissao(missao, dicaFonico, nivel = null) {
 
   if (usarCodigoComoAlvo) {
     dicaMissaoEl.innerHTML = `
-      <div class="morse-label-discreta">Código Morse</div>
-  
+      <div class="morse-label-discreta">${idiomaAtual === "en" ? "Morse Code" : "Código Morse"}</div>
+
       <div class="morse-simbolos-grandes morse-frase-simbolos">
         ${gerarHtmlMorseVisualAgrupadoPorLetra(codigo)}
       </div>
     `;
-  
+
     return;
   }
   dicaMissaoEl.innerHTML = `
@@ -2686,16 +2697,103 @@ function contemPalavraProibida(nome) {
 
 function linkDenunciarOperador(nomeOperadorItem) {
   const nomeSeguro = String(nomeOperadorItem || "").slice(0, 120);
-  const assunto = encodeURIComponent("Denúncia - Ranking Global EDS MORSE");
-  const corpo = encodeURIComponent(
-    "Nome de operador denunciado: " + nomeSeguro + "\nMotivo da denúncia: "
-  );
   const rotulo = idiomaAtual === "en" ? "Report" : "Denunciar";
   const titulo = idiomaAtual === "en"
     ? "Report this operator name"
     : "Denunciar este nome de operador";
 
-  return `<a class="ranking-denunciar-link" href="mailto:edsideasfactory@gmail.com?subject=${assunto}&body=${corpo}" target="_blank" rel="noopener" title="${titulo}" style="font-size:11px;opacity:.7;text-decoration:underline;white-space:nowrap;display:inline-block;margin-top:4px;">🚩 ${rotulo}</a>`;
+  return `<button type="button" class="ranking-denunciar-link" data-operador-denunciado="${escaparHtml(nomeSeguro)}" title="${titulo}" style="font-size:11px;opacity:.7;text-decoration:underline;white-space:nowrap;display:inline-block;margin-top:4px;background:none;border:none;cursor:pointer;color:inherit;padding:0;font:inherit;">🚩 ${rotulo}</button>`;
+}
+
+function fecharDenunciaOperador() {
+  const overlay = document.querySelector(".denuncia-overlay");
+  if (overlay) overlay.remove();
+}
+
+function abrirDenunciaOperador(nomeOperador) {
+  fecharDenunciaOperador();
+
+  if (!nomeOperador) return;
+
+  const nomeSeguro = escaparHtml(nomeOperador);
+
+  const overlay = document.createElement("div");
+  overlay.className = "denuncia-overlay";
+  overlay.innerHTML = `
+    <div class="denuncia-card">
+      <h3>${idiomaAtual === "en" ? "Report operator" : "Denunciar operador"}</h3>
+      <p class="denuncia-operador-nome">${nomeSeguro}</p>
+      <label for="denunciaMotivoInput">${
+        idiomaAtual === "en"
+          ? "Why are you reporting this name? (optional)"
+          : "Por que você está denunciando este nome? (opcional)"
+      }</label>
+      <textarea id="denunciaMotivoInput" maxlength="300" rows="3" placeholder="${
+        idiomaAtual === "en" ? "Describe the problem..." : "Descreva o problema..."
+      }"></textarea>
+      <div class="denuncia-botoes">
+        <button type="button" class="btn secundario" id="btnCancelarDenuncia">${
+          idiomaAtual === "en" ? "Cancel" : "Cancelar"
+        }</button>
+        <button type="button" class="btn principal" id="btnEnviarDenuncia">${
+          idiomaAtual === "en" ? "Send report" : "Enviar denúncia"
+        }</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  overlay.addEventListener("click", (evento) => {
+    if (evento.target === overlay) fecharDenunciaOperador();
+  });
+
+  document.getElementById("btnCancelarDenuncia").addEventListener("click", fecharDenunciaOperador);
+
+  document.getElementById("btnEnviarDenuncia").addEventListener("click", async () => {
+    const campoMotivo = document.getElementById("denunciaMotivoInput");
+    const motivo = (campoMotivo?.value || "").trim().slice(0, 300);
+    const botaoEnviar = document.getElementById("btnEnviarDenuncia");
+    if (botaoEnviar) botaoEnviar.disabled = true;
+
+    try {
+      const resposta = await fetch(`${getRankingApiBaseUrl()}/denuncia`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          operadorDenunciado: nomeOperador,
+          motivo,
+          operadorLocalId: obterIdOperadorLocal()
+        })
+      });
+
+      const retorno = await resposta.json().catch(() => null);
+
+      if (!resposta.ok || !retorno || !retorno.ok) {
+        throw new Error(retorno?.erro || "Falha ao enviar denúncia");
+      }
+
+      fecharDenunciaOperador();
+
+      mostrarAvisoRapido(
+        idiomaAtual === "en" ? "Report sent" : "Denúncia enviada",
+        idiomaAtual === "en"
+          ? "Thanks — our team will review this operator name."
+          : "Obrigado — nossa equipe vai analisar este nome de operador."
+      );
+    } catch (erro) {
+      console.warn("Falha ao enviar denúncia:", erro);
+
+      fecharDenunciaOperador();
+
+      mostrarAvisoRapido(
+        idiomaAtual === "en" ? "Couldn't send report" : "Não foi possível enviar",
+        idiomaAtual === "en"
+          ? "Check your connection and try again, or email edsideasfactory@gmail.com."
+          : "Confira sua conexão e tente novamente, ou envie um e-mail para edsideasfactory@gmail.com."
+      );
+    }
+  });
 }
 
 let nomeOperador = "Operador";
@@ -6845,10 +6943,18 @@ function finalizarDesafioAuditivo() {
   document.getElementById("btnVoltarBibliotecaTreinoFinal").addEventListener("click", abrirBiblioteca);
 }
 
+function lerProgressoAuditivoBruto() {
+  try {
+    return JSON.parse(localStorage.getItem("edsMorseProgressoAuditivo") || "{}");
+  } catch (erro) {
+    console.warn("Progresso de treino auditivo corrompido, reiniciando:", erro);
+    localStorage.removeItem("edsMorseProgressoAuditivo");
+    return {};
+  }
+}
+
 function obterProgressoAuditivo() {
-  const dados = JSON.parse(
-    localStorage.getItem("edsMorseProgressoAuditivo") || "{}"
-  );
+  const dados = lerProgressoAuditivoBruto();
 
   const categorias = Object.keys(dados);
 
@@ -6875,9 +6981,7 @@ function obterProgressoAuditivo() {
 }
 
 function salvarResultadoTreinoAuditivo(aproveitamento) {
-  const dados = JSON.parse(
-    localStorage.getItem("edsMorseProgressoAuditivo") || "{}"
-  );
+  const dados = lerProgressoAuditivoBruto();
 
   const categoria = treinoAuditivo.categoria;
 
@@ -6972,8 +7076,10 @@ async function verificarNomeOperadorAntesDeJogar() {
 
   if (!operador || operador.trim().length < 2) {
     mostrarAvisoRapido(
-      "Nome inválido",
-      "Digite um nome de operador com pelo menos 2 caracteres."
+      idiomaAtual === "en" ? "Invalid name" : "Nome inválido",
+      idiomaAtual === "en"
+        ? "Enter an operator name with at least 2 characters."
+        : "Digite um nome de operador com pelo menos 2 caracteres."
     );
 
     if (inputNomeOperador) {
@@ -7003,9 +7109,18 @@ async function verificarNomeOperadorAntesDeJogar() {
   parametros.set("operador", operador);
   parametros.set("operadorLocalId", obterIdOperadorLocal());
 
+  // A verificação online do nome não pode bloquear o jogo inteiro: sem
+  // rede (ou com a API lenta), o jogador deve poder jogar offline mesmo
+  // assim. A checagem de duplicidade real acontece de novo no envio do
+  // resultado (POST /ranking), então liberar aqui em caso de falha de
+  // rede não abre brecha nenhuma, só evita travar o modo Missão à toa.
+  const controlador = new AbortController();
+  const timeoutId = setTimeout(() => controlador.abort(), 6000);
+
   try {
     const resposta = await fetch(
-      `${getRankingApiBaseUrl()}/operador?${parametros.toString()}`
+      `${getRankingApiBaseUrl()}/operador?${parametros.toString()}`,
+      { signal: controlador.signal }
     );
 
     const retorno = await resposta.json();
@@ -7015,8 +7130,11 @@ async function verificarNomeOperadorAntesDeJogar() {
     }
 
     mostrarAvisoRapido(
-      "Nome indisponível",
-      retorno?.erro || "Este nome já está sendo usado por outro aparelho."
+      idiomaAtual === "en" ? "Name unavailable" : "Nome indisponível",
+      retorno?.erro ||
+        (idiomaAtual === "en"
+          ? "This name is already being used by another device."
+          : "Este nome já está sendo usado por outro aparelho.")
     );
 
     if (inputNomeOperador) {
@@ -7029,11 +7147,15 @@ async function verificarNomeOperadorAntesDeJogar() {
     console.warn("Falha ao verificar nome do operador:", erro);
 
     mostrarAvisoRapido(
-      "Ranking Global",
-      "Não foi possível verificar o nome agora. Confira sua conexão."
+      idiomaAtual === "en" ? "Offline mode" : "Modo offline",
+      idiomaAtual === "en"
+        ? "Couldn't reach the Global Ranking right now. You can keep playing offline — your result will be checked when it's sent."
+        : "Não foi possível falar com o Ranking Global agora. Você pode continuar jogando offline — seu resultado será conferido ao ser enviado."
     );
 
-    return false;
+    return true;
+  } finally {
+    clearTimeout(timeoutId);
   }
 }
 
@@ -10395,7 +10517,9 @@ function renderizarRanking() {
 }
 function limparRanking() {
   const confirmar = window.confirm(
-    "Deseja limpar o ranking local e os dados de progresso salvos neste aparelho?"
+    idiomaAtual === "en"
+      ? "Do you want to clear the local ranking and progress data saved on this device?"
+      : "Deseja limpar o ranking local e os dados de progresso salvos neste aparelho?"
   );
 
   if (!confirmar) return;
@@ -10411,8 +10535,10 @@ function limparRanking() {
   renderizarRanking();
 
   mostrarAvisoRapido(
-    "Ranking limpo",
-    "Ranking local e dados de progresso foram apagados deste aparelho."
+    idiomaAtual === "en" ? "Ranking cleared" : "Ranking limpo",
+    idiomaAtual === "en"
+      ? "Local ranking and progress data were erased from this device."
+      : "Ranking local e dados de progresso foram apagados deste aparelho."
   );
 }
 function escaparHtml(valor) {
