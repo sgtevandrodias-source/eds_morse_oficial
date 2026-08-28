@@ -2640,6 +2640,52 @@ function getNiveisIntermediario() {
   );
 }
 
+// --- Filtro básico de nomes ofensivos no Nome de Operador / Ranking Global ---
+// Lista não exaustiva de termos ofensivos (PT/EN). Objetivo: bloquear os casos
+// mais óbvios antes que um nome chegue ao Ranking Global público. Nomes
+// denunciados pelo botão "Denunciar" também podem ser removidos manualmente
+// pelo suporte (edsideasfactory@gmail.com).
+const PALAVRAS_PROIBIDAS_OPERADOR = [
+  "buceta", "piroca", "pinto", "caralho", "porra", "viado", "viadinho", "bicha",
+  "puta", "puto", "vagabunda", "vagabundo", "corno", "cuzao", "arrombado",
+  "arrombada", "desgracado", "desgracada", "fdp", "filhodaputa", "otario",
+  "imbecil", "retardado", "retardada", "macaco", "favelado", "nazista",
+  "hitler", "estuprador", "pedofilo", "pedofila",
+  "fuck", "shit", "bitch", "asshole", "cunt", "nigger", "nigga", "faggot",
+  "retard", "whore", "slut", "rape", "rapist", "pedophile", "pedo"
+];
+
+function normalizarTextoParaFiltro(texto) {
+  return String(texto)
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]/g, "");
+}
+
+function contemPalavraProibida(nome) {
+  const normalizado = normalizarTextoParaFiltro(nome);
+  if (!normalizado) return false;
+  return PALAVRAS_PROIBIDAS_OPERADOR.some((palavra) => {
+    const palavraNormalizada = normalizarTextoParaFiltro(palavra);
+    return palavraNormalizada && normalizado.includes(palavraNormalizada);
+  });
+}
+
+function linkDenunciarOperador(nomeOperadorItem) {
+  const nomeSeguro = String(nomeOperadorItem || "").slice(0, 120);
+  const assunto = encodeURIComponent("Denúncia - Ranking Global EDS MORSE");
+  const corpo = encodeURIComponent(
+    "Nome de operador denunciado: " + nomeSeguro + "\nMotivo da denúncia: "
+  );
+  const rotulo = idiomaAtual === "en" ? "Report" : "Denunciar";
+  const titulo = idiomaAtual === "en"
+    ? "Report this operator name"
+    : "Denunciar este nome de operador";
+
+  return `<a class="ranking-denunciar-link" href="mailto:edsideasfactory@gmail.com?subject=${assunto}&body=${corpo}" target="_blank" rel="noopener" title="${titulo}" style="font-size:11px;opacity:.7;text-decoration:underline;white-space:nowrap;display:inline-block;margin-top:4px;">🚩 ${rotulo}</a>`;
+}
+
 let nomeOperador = "Operador";
 let modoAtual = MODO_INICIANTE;
 let nivelAtualIndex = 0;
@@ -4054,6 +4100,18 @@ function confirmarEntradaOperador() {
   if (!nomeDigitado || nomeDigitado.length < 2) {
     if (feedbackEntradaOperador) {
       feedbackEntradaOperador.textContent = t("entrada_erro_nome");
+      feedbackEntradaOperador.className = "feedback entrada-feedback erro";
+    }
+
+    inputNomeOperador.focus();
+    return;
+  }
+
+  if (contemPalavraProibida(nomeDigitado)) {
+    if (feedbackEntradaOperador) {
+      feedbackEntradaOperador.textContent = idiomaAtual === "en"
+        ? "This name is not allowed. Please choose another operator name."
+        : "Este nome não é permitido. Escolha outro nome de operador.";
       feedbackEntradaOperador.className = "feedback entrada-feedback erro";
     }
 
@@ -6908,6 +6966,22 @@ async function verificarNomeOperadorAntesDeJogar() {
 
     if (inputNomeOperador) {
       inputNomeOperador.focus();
+    }
+
+    return false;
+  }
+
+  if (contemPalavraProibida(operador)) {
+    mostrarAvisoRapido(
+      idiomaAtual === "en" ? "Name not allowed" : "Nome não permitido",
+      idiomaAtual === "en"
+        ? "This operator name is not allowed. Please choose another one to appear in the Global Ranking."
+        : "Este nome de operador não é permitido. Escolha outro para aparecer no Ranking Global."
+    );
+
+    if (inputNomeOperador) {
+      inputNomeOperador.focus();
+      inputNomeOperador.select();
     }
 
     return false;
@@ -10097,6 +10171,8 @@ function renderizarLinhaRankingGlobal(item, indice = 0) {
       <div class="ranking-pontos">
         ${formatarNumeroRanking(item.pontos_carreira)}
         <small>${t("ranking_pontos")}</small>
+        <br/>
+        ${linkDenunciarOperador(item.operador)}
       </div>
     </article>
   `;
@@ -10144,6 +10220,7 @@ function renderizarPodioRankingGlobal(ranking = []) {
                   ${formatarNumeroRanking(item.pontos_carreira)}
                   <small>${t("ranking_pontos")}</small>
                 </div>
+                ${linkDenunciarOperador(item.operador)}
               </article>
             `;
           })
