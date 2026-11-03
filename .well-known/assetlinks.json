@@ -3,6 +3,9 @@
     "target": {
       "namespace": "android_app",
       "package_name": "com.edsideasfactory.edsmorse",
-      "sha256_cert_fingerprints": ["5D:E7:E3:3C:CF:15:4D:1D:EB:78:6C:73:9B:29:FB:DB:7B:24:20:06:26:C8:DB:45:CC:5D:93:58:32:32:1B:C6"]
+      "sha256_cert_fingerprints": [
+        "D3:16:07:62:06:93:13:52:84:D2:5F:09:F3:B6:69:C6:D3:8F:71:00:D7:FE:AB:B3:C2:6F:6A:63:1E:1F:15:0E",
+        "5D:E7:E3:3C:CF:15:4D:1D:EB:78:6C:73:9B:29:FB:DB:7B:24:20:06:26:C8:DB:45:CC:5D:93:58:32:32:1B:C6"
+      ]
     }
   }]
